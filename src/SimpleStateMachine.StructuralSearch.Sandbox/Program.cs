@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Pidgin;
 using Pidgin.Expression;
+using SimpleStateMachine.StructuralSearch.Sandbox.Extensions;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
 
@@ -9,46 +11,71 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 {
     internal static class Program
     {
-        public class Test
+        public class Placeholder
         {
+            public Placeholder(bool isCorrect, string value)
+            {
+                IsCorrect = isCorrect;
+                Value = value;
+            }
             
+            public bool IsCorrect { get; set; }
+            public string Value { get; set; }
         }
         static void Main(string[] args)
         {
-            Parser<char, double> r1 = Real;
-            Parser<char, double> r2 = Real;
-            Parser<char, IEnumerable<char>> r1r2 = Whitespaces.Then(Char('+')).Then(Whitespaces);
-            Parser<char, double> rParser = Map((foo, _, bar) => bar + foo, r1, r1r2, r2);
-            Parser<char, string> rParser2 = rParser.Select(x=>x.ToString());
             
-            
-            Parser<char, string> Var = Letter.Then(LetterOrDigit.ManyString(), (h, t) => h + t);
-            Parser<char, string> sParser = Map((foo, _, bar) => foo + bar, Var, r1r2, Var);
-            
-            
-            var js = String("js").ThenReturn(rParser2);
-            var other = Whitespaces.ThenReturn(sParser);
-
-            var result = js.Or(other).Then(CurrentPos);
-            var ds = r1r2.Select(x=>x);
-            var tds =  CurrentOffset;
-
-            var input = "   +   ";
-            // var t2 = result.ParseOrThrow("55 + 25").WithResult(x => x);
-            var dsdfsdf = ds.ParseOrThrow(input);
-            var t2 = r1r2.ParseOrThrow(input);
-            var t = result.ParseOrThrow("js foo + bar");
-
-            var t23 = PlaceholderParser.Placeholder().ParseOrThrow("$test$");
-
-            // Parser<char, IEnumerable<char>> parser3 = Whitespaces.Then(Char('+')).Then(Whitespaces);
-            // Parser<char, double> sequencedParser = Map((foo, _,bar) => bar + foo, parser1, parser3, parser2);
+            // var abv = Common.Symbol.ManyString();
+            // // AnyCharExcept(' ', '$')
+            // // var any =  Parser<TToken>.Token((Func<TToken, bool>) (_ => true)).Labelled("any character")
+            // var any = Common.Symbol.ManyString();
+            // var placeholder = PlaceholderParser.Identifier.Between(Char('$'));
+            // // var token = Char("$").Then(AnyCharExcept(' ', '$').Many())
+            // // var parser = placeholder.Separated(any).Many();
             //
-            // var or = String("")
+            // var parser = Common.Tok(placeholder).Or(Common.Tok(any));
+
+            var any = AnyCharExcept('$').ManyString();    
+            var token = Try(PlaceholderParser.Identifier.Between(Char('$')));
+            var testpar = token.Or(any).Many();
+            
+            
+        
+            // var str = Any.Many().Select(x => new string(x.ToArray()));
+            // var parser = placeholder.Or(str);
+                
+            var template =
+                "if($condition$)\n" +
+                "return $value1$;\n" +
+                "else\n" +
+                "return $value2$;";
+            
+         var test = testpar.Parse("abdsfdasf $ 2323");
+
+
+            // // var token = Try(PlaceholderParser.Identifier.Between(Char('$').Then(Digit));
+            //      // var testpar = token.Or(Any).Then.Many();
+            //      
+            //      var token = Try(PlaceholderParser.Identifier.Between(Char('$').Then(Digit)));
+            //      Parser<char, string> expr = null;
+            //      var parenthesised = Any
+            //          .Then(Rec(() => expr), (c, c1) =>c + c1 );  
             //
+            //      
+            //      expr = Real.Select(x=>x.ToString()).Or(parenthesised);
+            //      
+            //      // var any = Any.Select(x=> new string(x.ToArray()));
+            //      // var token = Try(PlaceholderParser.Identifier.Between(Char('$')).Then(Digit, (s, c) => s + c).Select(x=>  ));
+            //      // var testpar = token.Or(any).Select().Many();
             //
-            // var t = sequencedParser.ParseOrThrow("5+5");
-            // var g = t.Invoke();
+            //      var test = Any.Then(CurrentPos, (c, pos) => (c, pos.Col)).Many();
+            //
+            //      var teest2 =  PlaceholderParser.Identifier.Test(Char('$'), Char('$'));
+            //
+            //      
+            //      // var gh = Any.Many().Then(String("from")).ParseOrThrow("fsdkfdsfkJFLDKJFfrom");
+            //      
+            //      var gf = expr.Many().ParseOrThrow("$test$ 4 52");
         }
     }
 }

@@ -7,17 +7,16 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
   
     public static class PlaceholderParser
     {
-        static string  _placeholderSeparator = "$";
-        static char  _underScore = '_';
 
-        private static readonly Parser<char, string> Identifier
-            = Letter.Then(LetterOrDigit.Or(Char(_underScore)).ManyString(), (h, t) => h + t);
+
+        public static readonly Parser<char, string> Identifier
+            = Letter.Then(Symbol.ManyString(), (h, t) => h + t);
 
         private static Parser<char, T> PlaceholderSeparator<T>(Parser<char, T> parser)
-            => parser.Between(String(_placeholderSeparator), String(_placeholderSeparator));
-        
+            => parser.Between(String(Common._placeholderSeparator), String(Common._placeholderSeparator));
+
         public static Parser<char, string> Placeholder()
             => PlaceholderSeparator(Identifier);
-        
+
     }
 }
