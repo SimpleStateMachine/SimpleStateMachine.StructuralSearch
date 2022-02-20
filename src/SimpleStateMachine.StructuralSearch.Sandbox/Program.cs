@@ -24,7 +24,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
         }
         static void Main(string[] args)
         {
-            
+            //Test
             // var abv = Common.Symbol.ManyString();
             // // AnyCharExcept(' ', '$')
             // // var any =  Parser<TToken>.Token((Func<TToken, bool>) (_ => true)).Labelled("any character")
