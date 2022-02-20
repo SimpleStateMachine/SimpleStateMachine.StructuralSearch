@@ -6,11 +6,14 @@ using Pidgin.Expression;
 using SimpleStateMachine.StructuralSearch.Sandbox.Extensions;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
+using String = System.String;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
 {
     internal static class Program
     {
+        private static Parser<char, T> Parenthesised<T>(Parser<char, T> parser)
+            => parser.Between(String("("), String(")"));
         public class Placeholder
         {
             public Placeholder(bool isCorrect, string value)
@@ -24,58 +27,35 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
         }
         static void Main(string[] args)
         {
-            //Test
-            // var abv = Common.Symbol.ManyString();
-            // // AnyCharExcept(' ', '$')
-            // // var any =  Parser<TToken>.Token((Func<TToken, bool>) (_ => true)).Labelled("any character")
-            // var any = Common.Symbol.ManyString();
-            // var placeholder = PlaceholderParser.Identifier.Between(Char('$'));
-            // // var token = Char("$").Then(AnyCharExcept(' ', '$').Many())
-            // // var parser = placeholder.Separated(any).Many();
-            //
-            // var parser = Common.Tok(placeholder).Or(Common.Tok(any));
+            var placeholder = PlaceholderParser.Identifier.Between(Char('$'));
+            
+            //expressions parser
+            Parser<char, string> expr = null;
+            Parser<char, string> parenthesised = Rec(() => expr).Between(Char('('), Char(')'));
+            expr = AnyCharExcept('(', ')').ManyString().Or(parenthesised);
 
-            var any = AnyCharExcept('$').ManyString();    
-            var token = Try(PlaceholderParser.Identifier.Between(Char('$')));
-            var testpar = token.Or(any).Many();
             
+            var t = "((test > 25) && (test < 50))";
             
-        
-            // var str = Any.Many().Select(x => new string(x.ToArray()));
-            // var parser = placeholder.Or(str);
-                
+            //template parser
+            var separator = Whitespaces.AsString().Or(EndOfLine);
+            var any = AnyCharExcept('$', ' ', '\n').AtLeastOnceString();    
+            var token = PlaceholderParser.Identifier.Between(Char('$')).Try();
+            var templateParser = token.Or(any).Separated(separator);
+
+            //if with lookahead parser
+            var test341 = String("if")
+                .Then(Char('('))
+                .Then(Any.Until(Lookahead(Char(')').Then(End).Try())))
+                .AsString();
+            
             var template =
                 "if($condition$)\n" +
                 "return $value1$;\n" +
                 "else\n" +
                 "return $value2$;";
+            var test = templateParser.ParseOrThrow(template);
             
-         var test = testpar.Parse("abdsfdasf $ 2323");
-
-
-            // // var token = Try(PlaceholderParser.Identifier.Between(Char('$').Then(Digit));
-            //      // var testpar = token.Or(Any).Then.Many();
-            //      
-            //      var token = Try(PlaceholderParser.Identifier.Between(Char('$').Then(Digit)));
-            //      Parser<char, string> expr = null;
-            //      var parenthesised = Any
-            //          .Then(Rec(() => expr), (c, c1) =>c + c1 );  
-            //
-            //      
-            //      expr = Real.Select(x=>x.ToString()).Or(parenthesised);
-            //      
-            //      // var any = Any.Select(x=> new string(x.ToArray()));
-            //      // var token = Try(PlaceholderParser.Identifier.Between(Char('$')).Then(Digit, (s, c) => s + c).Select(x=>  ));
-            //      // var testpar = token.Or(any).Select().Many();
-            //
-            //      var test = Any.Then(CurrentPos, (c, pos) => (c, pos.Col)).Many();
-            //
-            //      var teest2 =  PlaceholderParser.Identifier.Test(Char('$'), Char('$'));
-            //
-            //      
-            //      // var gh = Any.Many().Then(String("from")).ParseOrThrow("fsdkfdsfkJFLDKJFfrom");
-            //      
-            //      var gf = expr.Many().ParseOrThrow("$test$ 4 52");
         }
     }
 }

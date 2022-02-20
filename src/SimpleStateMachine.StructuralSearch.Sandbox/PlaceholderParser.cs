@@ -10,7 +10,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 
 
         public static readonly Parser<char, string> Identifier
-            = Letter.Then(Symbol.ManyString(), (h, t) => h + t);
+            = Letter.Then(Common.Symbol.ManyString(), (h, t) => h + t);
 
         private static Parser<char, T> PlaceholderSeparator<T>(Parser<char, T> parser)
             => parser.Between(String(Common._placeholderSeparator), String(Common._placeholderSeparator));
