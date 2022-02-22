@@ -34,13 +34,13 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Extensions
                 parser1, parser, parser2);
         }
         
-        // public static Parser<TToken, IEnumerable<string>> ToMany<TToken>(this Parser<TToken, string> parser)
-        // {
-        //     return parser.Select(x => new List<string>() { x }).ToIEnumerable();
-        // }
-        public static Parser<TToken, List<string>> ToMany<TToken>(this Parser<TToken, string> parser)
+        public static Parser<TToken, IEnumerable<string>> ToMany<TToken>(this Parser<TToken, string> parser)
         {
-            return parser.Select(x => new List<string>{ x });
+            return parser.Select(x => new List<string>() { x }).ToIEnumerable();
         }
+        // public static Parser<TToken, List<string>> ToMany<TToken>(this Parser<TToken, string> parser)
+        // {
+        //     return parser.Select(x => new List<string>{ x });
+        // }
     }
 }

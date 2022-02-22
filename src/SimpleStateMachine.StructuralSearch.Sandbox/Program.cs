@@ -30,40 +30,41 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 
         static void Main(string[] args)
         {
-            var whitespaces = WhitespaceString;
-            var endOfLines = EndOfLine.ManyString();
+            var whitespaces = Char(' ').AtLeastOnceString();
+            var endOfLines = EndOfLine.AtLeastOnceString();
             var anyCharExcept = AnyCharExcept('(', ')', '[', ']', '{', '}', '$', ' ', '\n').AtLeastOnceString().Try()
                 .WithDebug("anyCharExcept");
             Parser<char, IEnumerable<string>> expr = null;
+           
+
             var placeholder = PlaceholderParser.Identifier.Between(Char('$')).Try()
                 .WithDebug("placeholder");
+            
+            // var parenthesised1 = Rec(() => expr).Between(Char('('), Char(')')).WithDebug("parenthesised1");
             var parenthesised1 = MapToMany(Stringc('('), Rec(() => expr), Stringc(')'))
                 .WithDebug("parenthesised1");
+            // var parenthesised2 = Rec(() => expr).Between(Char('['), Char(']')).WithDebug("parenthesised1");
             var parenthesised2 = MapToMany(Stringc('['), Rec(() => expr), Stringc(']'))
                 .WithDebug("parenthesised2");
+            // var parenthesised3 = Rec(() => expr).Between(Char('{'), Char('}')).WithDebug("parenthesised1");
             var parenthesised3 = MapToMany(Stringc('{'), Rec(() => expr), Stringc('}'))
                 .WithDebug("parenthesised3");
+
+            var parenthesised = OneOf(parenthesised1, parenthesised2, parenthesised3).ToIEnumerable();
             
-            // var parenthesised1 = Rec(() => expr)
-            //     .Between(Char('('), Char(')'))
-            //     .WithDebug("parenthesised1");
-            // var parenthesised2 = Rec(() => expr)
-            //     .Between(Char('['), Char(']'))
-            //     .WithDebug("parenthesised1");
-            // var parenthesised3 = Rec(() => expr)
-            //     .Between(Char('{'), Char('}'))
-            //     .WithDebug("parenthesised1");
             
-            var parenthesised = parenthesised1.Or(parenthesised2).Or(parenthesised3);
-
-            // var parser = anyCharExcept.Or(placeholder).Or(whitespaces).Or(endOfLines).Many();
-            var parser = anyCharExcept.Or(placeholder).Separated(Whitespaces);
-
-            expr = parser.Or(parenthesised.ToIEnumerable());
-
-
+            //don't work
+            var parser = OneOf(anyCharExcept, placeholder, whitespaces, endOfLines).AtLeastOnce();
+            expr = parser.Or(parenthesised).AtLeastOnce().MergerMany();
+            
+            //work
+            // var parser = OneOf(anyCharExcept, placeholder).AtLeastOnce();
+            // expr = parser.Or(parenthesised).Separated(Whitespaces).MergerMany();
+            
+            
             var t = "((test > 25) && (test < 50))";
             var t2 = "([test > 25] && {test < 50})";
+            
             //template parser
             var separator = Whitespaces.AsString().Or(EndOfLine);
             var any = AnyCharExcept('$', ' ', '\n').AtLeastOnceString();

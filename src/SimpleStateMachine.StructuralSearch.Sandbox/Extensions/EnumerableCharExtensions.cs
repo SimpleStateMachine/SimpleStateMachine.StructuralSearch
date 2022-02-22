@@ -13,5 +13,17 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Extensions
         {
             return parser.Select(x => new string(x.ToArray()));
         }
+
+        public static Parser<Ttoken, IEnumerable<T>> MergerMany<Ttoken, T>(
+            this Parser<Ttoken, IEnumerable<IEnumerable<T>>> parser)
+        {
+            return parser.Select(x => x.SelectMany(y => y));
+        }
+        
+        public static Parser<Ttoken, IEnumerable<T>> MergerMany<Ttoken, T>(
+            this Parser<Ttoken, IEnumerable<List<T>>> parser)
+        {
+            return parser.Select(x => x.SelectMany(y => y));
+        }
     }
 }
