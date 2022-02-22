@@ -22,7 +22,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             return Map((arg1, arg2, arg3) => new List<T>{arg1, arg2, arg3}, parser1, parser2, parser2);
         }
         
-        public static Parser<TToken, List<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1, Parser<TToken, IEnumerable<T>> parser2, Parser<TToken, T> parser3)
+        public static Parser<TToken, IEnumerable<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1, Parser<TToken, IEnumerable<T>> parser2, Parser<TToken, T> parser3)
         {
             if (parser1 == null)
                 throw new ArgumentNullException(nameof(parser1));
@@ -36,7 +36,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 var result = arg2.ToList();
                 result.Insert(0, arg1);
                 result.Add(arg3);
-                return result;
+                return result as IEnumerable<T>;
             }, parser1, parser2, parser3);
         }
         

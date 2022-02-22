@@ -50,7 +50,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             var parenthesised3 = MapToMany(Stringc('{'), Rec(() => expr), Stringc('}'))
                 .WithDebug("parenthesised3");
 
-            var parenthesised = OneOf(parenthesised1, parenthesised2, parenthesised3).ToIEnumerable();
+            var parenthesised = OneOf(parenthesised1, parenthesised2, parenthesised3);
             
             
             //don't work
