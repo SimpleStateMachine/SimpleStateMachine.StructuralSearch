@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
+using Pidgin.TokenStreams;
+using SimpleStateMachine.StructuralSearch.Sandbox.Custom;
 using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
@@ -39,6 +41,17 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 return result as IEnumerable<T>;
             }, parser1, parser2, parser3);
         }
-        
+
+
+        public static Parser<TToken, R> Series<TToken, T, R>(IEnumerable<Parser<TToken, T>> parsers, Func<IEnumerable<T>, R> func)
+        {
+            if (parsers == null)
+                throw new ArgumentNullException(nameof (parsers));
+            if (func == null)
+                throw new ArgumentNullException(nameof (func));
+
+            return new SeriesParser<TToken, T, R>(parsers, func);
+        }
+
     }
 }
