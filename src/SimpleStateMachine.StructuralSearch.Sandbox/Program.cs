@@ -30,8 +30,9 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 
         static void Main(string[] args)
         {
-            var whitespaces = Char(' ').AtLeastOnceString();
+            var spaces = Char(' ').AtLeastOnceString();
             var endOfLines = EndOfLine.AtLeastOnceString();
+            var whitespaces = OneOf(spaces, endOfLines);
             var anyCharExcept = AnyCharExcept('(', ')', '[', ']', '{', '}', '$', ' ', '\n').AtLeastOnceString().Try()
                 .WithDebug("anyCharExcept");
             Parser<char, IEnumerable<string>> expr = null;
@@ -54,8 +55,8 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             
             
             //don't work
-            var parser = OneOf(anyCharExcept, placeholder, whitespaces, endOfLines).AtLeastOnce();
-            expr = parser.Or(parenthesised).AtLeastOnce().MergerMany();
+            var tokens = OneOf(anyCharExcept, placeholder, whitespaces).AtLeastOnce();
+            expr = tokens.Or(parenthesised).AtLeastOnce().MergerMany();
             
             //work
             // var parser = OneOf(anyCharExcept, placeholder).AtLeastOnce();
@@ -77,15 +78,30 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 .Then(Any.Until(Lookahead(Char(')').Then(End).Try())))
                 .AsString();
 
-            var template =
+            var template1 =
                 "if(($condition$) = ($test$))\n" +
                 "return $value1$;\n" +
                 "else\n" +
                 "return $value2$;";
+            
+            var template2 =
+            "if($var$ $sign$ null)\n" +
+            "{\n" +
+               "$var$ = $value$;\n" +
+            "}";
 
-            var template2 = "((test)=(test2))";
-            var template3 = "$test1$ test test34";
-            var test = expr.ParseOrThrow(template);
+            var template3 = 
+            "if($value1$ $sign$ null)\n"+
+            "{\n" +
+                "$var$ = $value1$;\n" +
+            "}\n" +
+            "else\n" +
+            "{\n" +
+                "$var$ = $value2$;\n" +
+            "}";
+            // var template2 = "((test)=(test2))";
+            // var template3 = "$test1$ test test34";
+            var test = expr.ParseOrThrow(template3);
         }
     }
 }
