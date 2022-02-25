@@ -60,25 +60,22 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             var spaces = Char(' ').AtLeastOnceString();
             var endOfLines = EndOfLine.AtLeastOnceString();
             var _whitespaces = OneOf(spaces, endOfLines);
-            var _anyCharExcept = AnyCharExcept('(', ')', '[', ']', '{', '}', '$', ' ', '\n').AtLeastOnceString().Try()
-                .WithDebug("anyCharExcept");
+            var _anyCharExcept = AnyCharExcept('(', ')', '[', ']', '{', '}', '$', ' ', '\n').AtLeastOnceString().Try();
 
             Parser<char, IEnumerable<string>> _expr = null;
 
 
-            var _placeholder = PlaceholderParser.Identifier.Between(Char('$')).Try()
-                .WithDebug("placeholder");
+            var _placeholder = PlaceholderParser.Identifier.Between(Char('$')).Try();
 
             // var parenthesised1 = Rec(() => expr).Between(Char('('), Char(')')).WithDebug("parenthesised1");
-            var _parenthesised1 = MapToMany(Stringc('('), Rec(() => _expr), Stringc(')'))
-                .WithDebug("parenthesised1");
+            var _parenthesised1 = MapToMany(Stringc('('), Rec(() => _expr), Stringc(')'));
             // var parenthesised2 = Rec(() => expr).Between(Char('['), Char(']')).WithDebug("parenthesised1");
-            var _parenthesised2 = MapToMany(Stringc('['), Rec(() => _expr), Stringc(']'))
-                .WithDebug("parenthesised2");
+            var _parenthesised2 = MapToMany(Stringc('['), Rec(() => _expr), Stringc(']'));
             // var parenthesised3 = Rec(() => expr).Between(Char('{'), Char('}')).WithDebug("parenthesised1");
-            var _parenthesised3 = MapToMany(Stringc('{'), Rec(() => _expr), Stringc('}'))
-                .WithDebug("parenthesised3");
+            var _parenthesised3 = MapToMany(Stringc('{'), Rec(() => _expr), Stringc('}'));
 
+            
+            
             //don't work
             var _token = OneOf(_anyCharExcept, _placeholder, _whitespaces);
             var _tokens = _token.AtLeastOnce();
@@ -89,19 +86,36 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             Parser<char, IEnumerable<Parser<char, string>>> expr = null;
 
 
+            var _anyCharPlace = AnyCharExcept('(', ')', '[', ']', '{', '}', ' ', '\n').AtLeastOnceString().Try();
+            var placeTokens = OneOf(_anyCharPlace, _whitespaces).AtLeastOnce();
+            Parser<char, IEnumerable<string>> onPlace = null;
+            var placeParenthesised = MapToMany(Stringc('('), Rec(() => onPlace), Stringc(')'));
+            onPlace = placeTokens.Or(placeParenthesised).AtLeastOnce().Select(x=>
+                
+                
+                
+                x).MergerMany();
+            
+            
             var parenthesised1 = MapToMany(ParserToParser.Stringc('('), Rec(() => expr), ParserToParser.Stringc(')'));
             var parenthesised2 = MapToMany(ParserToParser.Stringc('['), Rec(() => expr), ParserToParser.Stringc(']'));
             var parenthesised3 = MapToMany(ParserToParser.Stringc('{'), Rec(() => expr), ParserToParser.Stringc('}'));
             var parenthesised = OneOf(parenthesised1, parenthesised2, parenthesised3);
-            var anyCharExcept = _anyCharExcept.Select(x => String(x));
+            var anyCharExcept = _anyCharExcept.Select(x =>
+            {
+                
+                Console.WriteLine($" Parse {x} => String(\"{x}\")");
+                return String(x);
+            });
             var whitespaces = _whitespaces.Select(_ => WhitespaceString);
-            var placeholder = _placeholder.Select(x => _expr.Select(x => string.Join("", x)));
+            var placeholder = _placeholder.Select(x => onPlace.Select(x => string.Join("", x)));
             var token = OneOf(anyCharExcept, placeholder, whitespaces);
             var tokens = token.AtLeastOnce();
 
             expr = OneOf(tokens, parenthesised).AtLeastOnce().MergerMany();
             var parser = expr.Select(x => Series(x, enumerable => string.Join("", enumerable)));
 
+            var test125 = Map((u, v)=> string.Join("", u) + v,onPlace, Stringc(';'));
             //
             // 
             //
@@ -124,14 +138,14 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             //     .AsString();
 
             var template1 =
-                "if(($condition$) = ($test$))\n" +
+                "if($condition$)\n" +
                 "return $value1$;\n" +
                 "else\n" +
                 "return $value2$;";
 
 
             var example1 =
-                "if(value == 5)\n" +
+                "if((value) = (5))\n" +
                 "return \"Result1\";\n" +
                 "else\n" +
                 "return \"Result2\";";
@@ -152,19 +166,27 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 "$var$ = $value2$;\n" +
                 "}";
 
-
+            // var g = test125.ParseOrThrow("\"Result1\";");
             
             var testTempalte = "if($test$)";
-            var testText = "if((value1) && (value2))";
+            var testText = "if((value1)&&(value2))";
 
-            var test = _expr.ParseOrThrow(testTempalte);
+            // var test = _expr.ParseOrThrow(template1);
             
             var resParser = parser.ParseOrThrow(testTempalte);
+            Console.WriteLine("___________________________________________________________");
             var res = resParser.ParseOrThrow(testText);
 
 
-
-            // var templateResult = test.ParseOrThrow("test");
+            // OneOf (
+            //         Try ( foo ),
+            //         Try ( bar ),
+            //         Any . ThenReturn ( " " )   // отбрасываем символ 
+            //     ) 
+            //     . Многие () 
+            //     . Select ( xs  =>  string . Join ( "  " , xs ));
+            
+            //var templateResult = test.ParseOrThrow("test");
         }
     }
 }

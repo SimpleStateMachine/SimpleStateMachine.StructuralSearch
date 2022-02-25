@@ -25,6 +25,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Custom
                     result = default (R);
                     return false;
                 }
+                Console.WriteLine($"R: {_result}");
                 results.Add(_result);
             }
             
