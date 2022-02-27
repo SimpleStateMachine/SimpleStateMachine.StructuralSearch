@@ -65,6 +65,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Extensions
                 return u;
             }, parser, Parser<TToken>.CurrentPos, Parser<TToken>.CurrentSourcePosDelta);
         }
+        
         public static Parser<TToken, T> BetweenAsThen<TToken, T, U, V>(this Parser<TToken, T> parser,
             Parser<TToken, U> parser1,
             Parser<TToken, V> parser2, Func<U, T, V, T> func)

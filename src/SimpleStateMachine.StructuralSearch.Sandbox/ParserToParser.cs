@@ -1,4 +1,5 @@
 ﻿using Pidgin;
+using SimpleStateMachine.StructuralSearch.Sandbox.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
 {
@@ -13,6 +14,12 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
         {
             var _token = token.ToString();
             return Parser.String(_token).Select(x => Parser.String(_token));
+        }
+        
+        public static Parser<char, Parser<char, SourceMatch>> StringcMatch(char token)
+        {
+            var _token = token.ToString();
+            return Parser.String(_token).Select(x => Parser.String(_token).AsMatch());
         }
     }
 }

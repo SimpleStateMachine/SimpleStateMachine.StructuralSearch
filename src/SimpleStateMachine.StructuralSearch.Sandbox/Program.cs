@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Pidgin;
 using Pidgin.Expression;
 using SimpleStateMachine.StructuralSearch.Sandbox.Extensions;
@@ -40,82 +41,79 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     // expr = tokens.Or(parenthesised).AtLeastOnce().MergerMany();
     internal static class Program
     {
-        private static Parser<char, T> Parenthesised<T>(Parser<char, T> parser)
-            => parser.Between(String("("), String(")"));
+        private static Parser<char, IEnumerable<T>> Parenthesised<T>(char left, char right,
+            Func<char, Parser<char, T>> leftRight,
+            Parser<char, IEnumerable<T>> expr)
+            => MapToMany(leftRight(left), expr, leftRight(right));
 
-        public class Placeholder
+
+        private static Parser<char, IEnumerable<T>> ManyParenthesised<T>(Func<char, Parser<char, T>> leftRight,
+            Parser<char, IEnumerable<T>> expr, params (char, char)[] values)
         {
-            public Placeholder(bool isCorrect, string value)
-            {
-                IsCorrect = isCorrect;
-                Value = value;
-            }
-
-            public bool IsCorrect { get; set; }
-            public string Value { get; set; }
+            return OneOf(values.Select(x =>
+                MapToMany(
+                    leftRight(x.Item1),
+                    expr,
+                    leftRight(x.Item2)))
+            );
         }
+
 
         static void Main(string[] args)
         {
-            var spaces = Char(' ').AtLeastOnceString();
+            var spaces = Char(Constant.Space).AtLeastOnceString();
             var endOfLines = EndOfLine.AtLeastOnceString();
             var _whitespaces = OneOf(spaces, endOfLines);
-            var _anyCharExcept = AnyCharExcept('(', ')', '[', ']', '{', '}', '$', ' ', '\n').AtLeastOnceString().Try();
+            var _anyCharExcept = AnyCharExcept(Constant.All()).AtLeastOnceString().Try();
 
-            Parser<char, IEnumerable<string>> _expr = null;
-
-
-            var _placeholder = PlaceholderParser.Identifier.Between(Char('$')).Try();
-
-            // var parenthesised1 = Rec(() => expr).Between(Char('('), Char(')')).WithDebug("parenthesised1");
-            var _parenthesised1 = MapToMany(Stringc('('), Rec(() => _expr), Stringc(')'));
-            // var parenthesised2 = Rec(() => expr).Between(Char('['), Char(']')).WithDebug("parenthesised1");
-            var _parenthesised2 = MapToMany(Stringc('['), Rec(() => _expr), Stringc(']'));
-            // var parenthesised3 = Rec(() => expr).Between(Char('{'), Char('}')).WithDebug("parenthesised1");
-            var _parenthesised3 = MapToMany(Stringc('{'), Rec(() => _expr), Stringc('}'));
-
-            
-            
-            //don't work
+            var _placeholder = PlaceholderParser.Identifier.Between(Char(Constant.PlaceholderSeparator)).Try();
             var _token = OneOf(_anyCharExcept, _placeholder, _whitespaces);
             var _tokens = _token.AtLeastOnce();
-            var _parenthesised = OneOf(_parenthesised1, _parenthesised2, _parenthesised3);
-
-            _expr = _tokens.Or(_parenthesised).AtLeastOnce().MergerMany();
-
-            Parser<char, IEnumerable<Parser<char, string>>> expr = null;
+            Parser<char, IEnumerable<string>> _expr = null;
+            _expr = _tokens.Or(ManyParenthesised(Stringc, Rec(() => _expr), Constant.AllParenthesised)).AtLeastOnce()
+                .MergerMany();
 
 
-            var _anyCharPlace = AnyCharExcept('(', ')', '[', ']', '{', '}', ' ', '\n').AtLeastOnceString().Try();
+            var _anyCharPlace = AnyCharExcept(Constant.AllExclude(Constant.PlaceholderSeparator)).AtLeastOnceString()
+                .Try();
             var placeTokens = OneOf(_anyCharPlace, _whitespaces).AtLeastOnce();
             Parser<char, IEnumerable<string>> onPlace = null;
-            var placeParenthesised = MapToMany(Stringc('('), Rec(() => onPlace), Stringc(')'));
-            onPlace = placeTokens.Or(placeParenthesised).AtLeastOnce().Select(x=>
-                
-                
-                
-                x).MergerMany();
-            
-            
-            var parenthesised1 = MapToMany(ParserToParser.Stringc('('), Rec(() => expr), ParserToParser.Stringc(')'));
-            var parenthesised2 = MapToMany(ParserToParser.Stringc('['), Rec(() => expr), ParserToParser.Stringc(']'));
-            var parenthesised3 = MapToMany(ParserToParser.Stringc('{'), Rec(() => expr), ParserToParser.Stringc('}'));
-            var parenthesised = OneOf(parenthesised1, parenthesised2, parenthesised3);
-            var anyCharExcept = _anyCharExcept.Select(x =>
-            {
-                
-                Console.WriteLine($" Parse {x} => String(\"{x}\")");
-                return String(x);
-            });
-            var whitespaces = _whitespaces.Select(_ => WhitespaceString);
-            var placeholder = _placeholder.Select(x => onPlace.Select(x => string.Join("", x)));
+            onPlace = placeTokens.Or(ManyParenthesised(Stringc, Rec(() => onPlace), Constant.AllParenthesised))
+                .AtLeastOnce().MergerMany();
+
+
+            // var anyCharExcept = _anyCharExcept.Select(x => String(x));
+            // var whitespaces = _whitespaces.Select(_ => WhitespaceString);
+            // var placeholder = _placeholder.Select(_ => onPlace.JoinToString());
+            // var token = OneOf(anyCharExcept, placeholder, whitespaces);
+            // var tokens = token.AtLeastOnce();
+            // Parser<char, IEnumerable<Parser<char, string>>> expr = null;
+            // expr = OneOf(tokens, ManyParenthesised(ParserToParser.Stringc, Rec(() => expr), Constant.AllParenthesised)).AtLeastOnce().MergerMany();
+            // var parser = expr.Select(x => Series(x, enumerable => enumerable.JoinToString()));
+
+
+            var anyCharExcept = _anyCharExcept
+                .Select(x => String(x).AsMatch());
+
+            var whitespaces = _whitespaces
+                .Select(_ => WhitespaceString.AsMatch());
+
+            var placeholder = _placeholder
+                .Select(name => new Custom.PlaceholderParser(name, onPlace.JoinToString().AsMatch()))
+                .Cast<Parser<char, SourceMatch>>();
+
             var token = OneOf(anyCharExcept, placeholder, whitespaces);
             var tokens = token.AtLeastOnce();
+            Parser<char, IEnumerable<Parser<char, SourceMatch>>> expr = null;
+            var parenthesised = ManyParenthesised(ParserToParser.StringcMatch, Rec(() => expr),
+                Constant.AllParenthesised);
 
-            expr = OneOf(tokens, parenthesised).AtLeastOnce().MergerMany();
-            var parser = expr.Select(x => Series(x, enumerable => string.Join("", enumerable)));
+            expr = OneOf(tokens, parenthesised)
+                .AtLeastOnce().MergerMany();
+            var templateParser = expr.Select(x => Series(x, enumerable => enumerable.Concatenate()));
 
-            var test125 = Map((u, v)=> string.Join("", u) + v,onPlace, Stringc(';'));
+
+            // var test125 = Map((u, v) => string.Join("", u) + v, onPlace, Stringc(';'));
             //
             // 
             //
@@ -156,6 +154,12 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 "$var$ = $value$;\n" +
                 "}";
 
+            var example2 =
+                "if(temp == null)\n" +
+                "{\n" +
+                "temp = new List<string>();\n" +
+                "}";
+
             var template3 =
                 "if($value1$ $sign$ null)\n" +
                 "{\n" +
@@ -167,26 +171,48 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 "}";
 
             // var g = test125.ParseOrThrow("\"Result1\";");
-            
+
             var testTempalte = "if($test$)";
             var testText = "if((value1)&&(value2))";
+            var testTextForMatch = "fdjkfnafdjankfjnafkajndaif((value1)&&(value2))";
+            var testTempalte2 = "return $value$;";
+            var testText2 = "return 125;;;;\n";
+
 
             // var test = _expr.ParseOrThrow(template1);
-            
-            var resParser = parser.ParseOrThrow(testTempalte);
-            Console.WriteLine("___________________________________________________________");
-            var res = resParser.ParseOrThrow(testText);
+            //var testr = String("return").Then(Whitespaces).Then(Any.AtLeastOnce()).Then(String(";"));
 
 
-            // OneOf (
-            //         Try ( foo ),
-            //         Try ( bar ),
-            //         Any . ThenReturn ( " " )   // отбрасываем символ 
-            //     ) 
-            //     . Многие () 
-            //     . Select ( xs  =>  string . Join ( "  " , xs ));
-            
-            //var templateResult = test.ParseOrThrow("test");
+            // var testr = String("return ")
+            //     .Then(Any.ManyString())
+            //     .Before(Char(';'));
+
+
+            // var nextParser = Char(';');
+            // Parser<char, Unit> nextNextParser = null;
+            //
+            // var parser = String("return ").Then(Any.AtLeastOnceUntil(
+            //     Lookahead(nextParser.Then(nextNextParser))
+            // ).AsString());
+
+
+            // var testr = String("return ").Then(Any.ManyString().AtLeastOnceUntil(Not(Char(';')))).Then(Char(';'));
+            // var testr = String("return ").Then(Any.ManyString().AtLeastOnceUntil(Not(Char(';')))).Then(Char(';'));
+            // var tg = parser.ParseOrThrow(testText2);
+
+
+            // var dsdsf = spaces.Map(s => s ,String("test"), spaces, CurrentSourcePosDelta, CurrentPos).ParseOrThrow("\n" +
+            //     "test    ");
+            // var str = "test\n\n\nt;";
+            // var match = String("test").Then(AnyCharExcept(';').AtLeastOnceString().AsMatch())
+            //     .ParseOrThrow(str);
+
+            var parser = templateParser.ParseOrThrow(testTempalte);
+            var skip = Any.ThenReturn(SourceMatch.Empty);
+            var result = OneOf(parser.Try(), skip)
+                .Many()
+                .Select(x => x.Where(match => !Equals(match, SourceMatch.Empty)))
+                .ParseOrThrow(testTextForMatch);
         }
     }
 }

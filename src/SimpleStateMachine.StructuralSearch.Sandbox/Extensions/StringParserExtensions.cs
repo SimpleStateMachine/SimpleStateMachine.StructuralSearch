@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pidgin;
+using static Pidgin.Parser<char>;
+using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox.Extensions
 {
@@ -38,9 +40,16 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Extensions
         {
             return parser.Select(x => new List<string>() { x }).ToIEnumerable();
         }
-        // public static Parser<TToken, List<string>> ToMany<TToken>(this Parser<TToken, string> parser)
-        // {
-        //     return parser.Select(x => new List<string>{ x });
-        // }
+        
+        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, IEnumerable<string>> parser, string separator = null)
+        {
+            separator ??= string.Empty;
+            return parser.Select(x => string.Join(separator, x));
+        }
+        
+        public static Parser<TToken, SourceMatch> AsMatch<TToken>(this Parser<TToken, string> parser)
+        {
+            return parser.Then(Parser<TToken>.CurrentOffset, (s, offset) => new SourceMatch(s, offset - s.Length, offset));
+        }
     }
 }

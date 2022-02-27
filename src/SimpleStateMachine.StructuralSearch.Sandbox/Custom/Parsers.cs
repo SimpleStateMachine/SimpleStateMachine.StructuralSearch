@@ -52,6 +52,5 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 
             return new SeriesParser<TToken, T, R>(parsers, func);
         }
-
     }
 }

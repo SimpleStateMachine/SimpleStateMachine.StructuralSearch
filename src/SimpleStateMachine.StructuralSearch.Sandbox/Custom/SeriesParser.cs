@@ -15,6 +15,25 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Custom
             this.parsers = parsers;
         }
         
+        // public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expecteds, out R result)
+        // {
+        //     var results = new List<T>();
+        //     foreach (var parser in parsers)
+        //     {
+        //         if (!parser.TryParse(ref state, ref expecteds, out var _result))
+        //         {
+        //             result = default (R);
+        //             return false;
+        //         }
+        //         Console.WriteLine($"R: {_result}");
+        //         results.Add(_result);
+        //     }
+        //     
+        //     result = _func(results);
+        //     return true;
+        // }
+        
+        
         public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expecteds, out R result)
         {
             var results = new List<T>();
