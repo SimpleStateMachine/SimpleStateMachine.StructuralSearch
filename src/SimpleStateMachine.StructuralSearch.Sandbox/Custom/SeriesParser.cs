@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Pidgin;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox.Custom
@@ -37,17 +38,31 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Custom
         public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expecteds, out R result)
         {
             var results = new List<T>();
-            foreach (var parser in parsers)
+            for (int i = 0; i < parsers.Count(); i++)
             {
+                var parser = parsers.ElementAt(i);
+                if (parser is PlaceholderParser placeholderParser)
+                {
+                    var next = parsers.ElementAt(i + 1) as Parser<char, SourceMatch>;
+                    var end = Parser<char>.End.ThenReturn(SourceMatch.Empty);
+                    var test1 = parsers.ElementAtOrDefault(i + 2);
+                    var test2 = test1 as Parser<char, SourceMatch>;
+                    var nextNext = test2 ?? end;
+                    var list = new List<Parser<char, SourceMatch>>{next, nextNext };
+                    placeholderParser.SetParsers(list);
+                    parser = placeholderParser as Parser<TToken, T>;
+                }
+                
                 if (!parser.TryParse(ref state, ref expecteds, out var _result))
                 {
                     result = default (R);
                     return false;
                 }
-                Console.WriteLine($"R: {_result}");
+                
+                Console.WriteLine($"R: {_result.ToString()}");
                 results.Add(_result);
+                
             }
-            
             result = _func(results);
             return true;
         }

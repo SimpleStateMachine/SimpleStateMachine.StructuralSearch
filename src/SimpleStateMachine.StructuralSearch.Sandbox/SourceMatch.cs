@@ -16,5 +16,10 @@
         public int End { get; }
         
         public int Lenght { get; }
+
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }

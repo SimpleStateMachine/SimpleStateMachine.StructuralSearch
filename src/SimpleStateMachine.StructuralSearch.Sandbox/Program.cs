@@ -96,10 +96,22 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 .Select(x => String(x).AsMatch());
 
             var whitespaces = _whitespaces
-                .Select(_ => WhitespaceString.AsMatch());
+                .Select(_ => _whitespaces.AsMatch());
 
             var placeholder = _placeholder
-                .Select(name => new Custom.PlaceholderParser(name, onPlace.JoinToString().AsMatch()))
+                .Select(name => 
+                    new Custom.PlaceholderParser(name, list =>
+                    {
+                        var next = list.First();
+                        var nextNext = list.Last();
+                        var _anyCharPlace2 = Any.AtLeastOnceUntil(Lookahead(next.Then(nextNext).Try())).AsString().Try();
+                        var placeTokens2 = OneOf(_anyCharPlace2, _whitespaces).AtLeastOnce();
+                        Parser<char, IEnumerable<string>> onPlace2 = null;
+                        onPlace2 = OneOf(placeTokens2, ManyParenthesised(Stringc, Rec(() => onPlace2), Constant.AllParenthesised))
+                            .AtLeastOnce().MergerMany();
+                        
+                        return onPlace2.JoinToString().AsMatch();
+                    }))
                 .Cast<Parser<char, SourceMatch>>();
 
             var token = OneOf(anyCharExcept, placeholder, whitespaces);
@@ -130,18 +142,17 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             // var templateParser = token.Or(any).Separated(separator);
 
             //if with lookahead parser
-            // var test341 = String("if")
-            //     .Then(Char('('))
-            //     .Then(Any.Until(Lookahead(Char(')').Then(End).Try())))
-            //     .AsString();
+            var test341 = String("if")
+                .Then(Char('('))
+                .Then(Any.Until(Lookahead(Char(')').Then(End).Try())))
+                .AsString();
 
             var template1 =
                 "if($condition$)\n" +
                 "return $value1$;\n" +
                 "else\n" +
                 "return $value2$;";
-
-
+            
             var example1 =
                 "if((value) = (5))\n" +
                 "return \"Result1\";\n" +
@@ -176,7 +187,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             var testText = "if((value1)&&(value2))";
             var testTextForMatch = "fdjkfnafdjankfjnafkajndaif((value1)&&(value2))";
             var testTempalte2 = "return $value$;";
-            var testText2 = "return 125;;;;\n";
+            var testText2 = "return 125;;;;";
 
 
             // var test = _expr.ParseOrThrow(template1);
@@ -207,12 +218,39 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             // var match = String("test").Then(AnyCharExcept(';').AtLeastOnceString().AsMatch())
             //     .ParseOrThrow(str);
 
-            var parser = templateParser.ParseOrThrow(testTempalte);
-            var skip = Any.ThenReturn(SourceMatch.Empty);
-            var result = OneOf(parser.Try(), skip)
-                .Many()
-                .Select(x => x.Where(match => !Equals(match, SourceMatch.Empty)))
-                .ParseOrThrow(testTextForMatch);
+            var _anyCharPlace2 = Any.Until(Lookahead(String(";").Then(End).Try())).AsString();
+            //
+            //
+            // var placeTokens2 = OneOf(_anyCharPlace2, _whitespaces).AtLeastOnce();
+            // Parser<char, IEnumerable<string>> onPlace2 = null;
+            // onPlace2 = placeTokens.Or(ManyParenthesised(Stringc, Rec(() => onPlace2), Constant.AllParenthesised))
+            //     .AtLeastOnce().MergerMany();
+                        
+            // return onPlace2.JoinToString().AsMatch(_anyCharPlace2.As);
+
+            
+            
+            // var hm = String("return").Then(_whitespaces).Then(_anyCharPlace2);
+            
+            // var next = String(";");
+            // var nextNext = End;
+            // var anyCharPlace2 = Any.AtLeastOnceUntil(Lookahead(next.Then(nextNext).Try())).AsString().Try();
+            // var placeTokens2 = OneOf(anyCharPlace2, _whitespaces).AtLeastOnce();
+            // Parser<char, IEnumerable<string>> onPlace2 = null;
+            // onPlace2 = OneOf(ManyParenthesised(Stringc, Rec(() => onPlace2),
+            //             Constant.AllParenthesised), placeTokens2)
+            //     .AtLeastOnce().MergerMany();
+            //             
+            // var hm =  onPlace2;
+            // var result = hm.ParseOrThrow("125;;;;");
+            
+            var parser = templateParser.ParseOrThrow(template1);
+            var result = parser.ParseOrThrow(example1);
+            //     var skip = Any.ThenReturn(SourceMatch.Empty);
+            //     var result = OneOf(parser.Try(), skip)
+            //         .Many()
+            //         .Select(x => x.Where(match => !Equals(match, SourceMatch.Empty)))
+            //         .ParseOrThrow(testTextForMatch);
         }
     }
 }
