@@ -40,20 +40,20 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Custom
             var results = new List<T>();
             for (int i = 0; i < parsers.Count(); i++)
             {
+                T _result;
                 var parser = parsers.ElementAt(i);
-                if (parser is PlaceholderParser placeholderParser)
-                {
-                    var next = parsers.ElementAt(i + 1) as Parser<char, SourceMatch>;
-                    var end = Parser<char>.End.ThenReturn(SourceMatch.Empty);
-                    var test1 = parsers.ElementAtOrDefault(i + 2);
-                    var test2 = test1 as Parser<char, SourceMatch>;
-                    var nextNext = test2 ?? end;
-                    var list = new List<Parser<char, SourceMatch>>{next, nextNext };
-                    placeholderParser.SetParsers(list);
-                    parser = placeholderParser as Parser<TToken, T>;
-                }
                 
-                if (!parser.TryParse(ref state, ref expecteds, out var _result))
+                if (parser is ILookaheadParser<TToken, T> lookaheadParser)
+                {
+                    var next = parsers.ElementAt(i + 1);
+                    var nextNext = parsers.ElementAtOrDefault(i + 2);
+                    if (!TryParseWithLookahead(lookaheadParser, next, nextNext, ref state, ref expecteds, out _result))
+                    {
+                        result = default (R);
+                        return false;
+                    }
+                }
+                else if (!parser.TryParse(ref state, ref expecteds, out _result))
                 {
                     result = default (R);
                     return false;
@@ -63,8 +63,25 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Custom
                 results.Add(_result);
                 
             }
+            
             result = _func(results);
             return true;
+        }
+
+        private bool TryParseWithLookahead(ILookaheadParser<TToken, T> lookaheadParser, 
+            Parser<TToken, T> next, 
+            Parser<TToken, T> nextNext, 
+            ref ParseState<TToken> state, 
+            ref PooledList<Expected<TToken>> expected,
+            out T result)
+        {
+            
+            if (nextNext is not null)
+            {
+                return lookaheadParser.TryParse(next, nextNext, ref state, ref expected, out result);
+            }
+           
+            return lookaheadParser.TryParse(next, Parser<TToken>.End, ref state, ref expected, out result);
         }
     }
 }

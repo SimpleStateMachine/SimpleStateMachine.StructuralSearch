@@ -1,29 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.Sandbox.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox.Custom
 {
-    public class PlaceholderParser: Parser<char, SourceMatch>
+    public class PlaceholderParser: Parser<char, SourceMatch>, ILookaheadParser<char, SourceMatch>
     {
-        private Func<IEnumerable<Parser<char, SourceMatch>>, Parser<char, SourceMatch>> _parser;
         public string Name { get; }
-        private IEnumerable<Parser<char, SourceMatch>> _parsers;
-        public PlaceholderParser(string name, Func<IEnumerable<Parser<char, SourceMatch>>, Parser<char, SourceMatch>>  parser)
+        
+        public PlaceholderParser(string name)
         {
             Name = name;
-            _parser = parser;
         }
 
-        public void SetParsers(IEnumerable<Parser<char, SourceMatch>> parsers)
-        {
-            _parsers = parsers;
-        }
         public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expecteds, out SourceMatch result)
-        { 
-            var isCorrect = _parser(_parsers).TryParse(ref state, ref expecteds, out result);
-            
-            return isCorrect;
+        {
+            throw new NotImplementedException();
         }
+        
+        public bool TryParse<Res1, Res2>(
+            Parser<char, Res1> next, 
+            Parser<char, Res2> nextNext, 
+            ref ParseState<char> state, 
+            ref PooledList<Expected<char>> expected,
+            out SourceMatch result)
+        {
+            var lookahead = Parser.Lookahead(next.Then(nextNext).Try());
+            var anyString= Parser<char>.Any.AtLeastOnceAsStringUntil(lookahead).Try();
+            var token = Parser.OneOf(anyString, CommonParser.WhiteSpaces).AtLeastOnce();
+            Parser<char, IEnumerable<string>> term = null;
+            
+            var parenthesised = Parsers.BetweenOneOfChars(Parsers.Stringc, 
+                Parser.Rec(() => term), 
+                Constant.AllParenthesised);
+            
+            term = Parser.OneOf(token, parenthesised).AtLeastOnce().MergerMany();
+                        
+            var parser = term.JoinToString().AsMatch();
+
+            return parser.TryParse(ref state, ref expected, out result);
+        }
+        
     }
 }

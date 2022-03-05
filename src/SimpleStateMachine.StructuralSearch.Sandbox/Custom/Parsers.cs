@@ -10,6 +10,8 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 {
     public static class Parsers
     {
+        
+
         public static Parser<char, string> Stringc(char character) => String(character.ToString());
         
         public static Parser<TToken, List<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1, Parser<TToken, T> parser2, Parser<TToken, T> parser3)
@@ -51,6 +53,20 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 throw new ArgumentNullException(nameof (func));
 
             return new SeriesParser<TToken, T, R>(parsers, func);
+        }
+        
+        public static Parser<char, IEnumerable<T>> BetweenChars<T>(char left, char right,
+            Func<char, Parser<char, T>> leftRight,
+            Parser<char, IEnumerable<T>> expr)
+            => MapToMany(leftRight(left), expr, leftRight(right));
+
+
+        public static Parser<char, IEnumerable<T>> BetweenOneOfChars<T>(Func<char, Parser<char, T>> leftRight,
+            Parser<char, IEnumerable<T>> expr, params (char, char)[] values)
+        {
+            return OneOf(values.Select(x =>
+                MapToMany(leftRight(x.Item1), expr, leftRight(x.Item2)))
+            );
         }
     }
 }

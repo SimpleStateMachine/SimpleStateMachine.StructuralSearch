@@ -16,6 +16,19 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Extensions
 {
     public static class ParserExtensions
     {
+        
+        public static Parser<TToken, T> Try<TToken, T>(this Parser<TToken, T> parser)
+        {
+            return Parser.Try(parser);
+        }
+        
+        public static Parser<TToken, IEnumerable<T>> AtLeastOnceUntilNot<TToken, T, U>(this Parser<TToken, T> parser, 
+            Parser<TToken, U> terminator)
+        {
+            return parser != null ? parser.AtLeastOnceUntil(Not(terminator)) : throw new ArgumentNullException(nameof (parser));
+        }
+        
+        
         // public static Parser<TToken, TOut> WithResult<TToken, TOut>(this Parser<TToken, TOut> parser, Func<TToken, SourcePos, TOut> transformResult)
         // {
         //     = Parser<TToken>.CurrentSourcePosDelta.Select<SourcePos>((Func<SourcePosDelta, SourcePos>) (d => new SourcePos(1, 1) + d));
@@ -32,11 +45,6 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox.Extensions
         //     
         //     return Parser.Map((Func<U, T, V, T>) ((_, t, _) => t), parser1, parser, parser2);
         // }
-
-        public static Parser<TToken, T> Try<TToken, T>(this Parser<TToken, T> parser)
-        {
-            return Parser.Try(parser);
-        }
 
         // public Parser<TToken, T> Between<U, V>(
         //     Parser<TToken, U> parser1,
