@@ -12,7 +12,11 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         public static readonly Parser<char, string> Placeholder
             = CommonParser.Identifier.Between(Char(Constant.PlaceholderSeparator));
-
+        
+        public static readonly Parser<char, string> StringWithoutParenthesisedAndWhiteSpaces
+            = AnyCharExcept(Constant.AllExclude(Constant.PlaceholderSeparator))
+                .AtLeastOnceString();
+        
         //can be contains one $
         public static readonly Parser<char, string> StringWithoutPlaceholder
             = Any.AtLeastOnceAsStringUntilNot(Placeholder);

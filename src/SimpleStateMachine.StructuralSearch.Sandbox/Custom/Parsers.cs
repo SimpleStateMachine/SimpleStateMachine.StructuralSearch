@@ -45,7 +45,8 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
         }
 
 
-        public static Parser<TToken, R> Series<TToken, T, R>(IEnumerable<Parser<TToken, T>> parsers, Func<IEnumerable<T>, R> func)
+        public static Parser<TToken, R> Series<TToken, T, R>(IEnumerable<Parser<TToken, T>> parsers, 
+            Func<IEnumerable<T>, R> func)
         {
             if (parsers == null)
                 throw new ArgumentNullException(nameof (parsers));
