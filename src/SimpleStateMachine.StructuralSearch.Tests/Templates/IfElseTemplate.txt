@@ -1,0 +1,8 @@
+﻿if($var1$ $sign$ $value1$)
+{
+    $var$ = $value1$;
+}
+else
+{
+    $var$ = $value2$;
+}
