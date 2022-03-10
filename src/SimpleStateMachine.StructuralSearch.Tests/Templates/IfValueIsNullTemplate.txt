@@ -1,4 +1,4 @@
-﻿if($var$ $sign$ null)
+﻿if($temp$ $sign$ null)
 {
     $var$ = $value$;
 }

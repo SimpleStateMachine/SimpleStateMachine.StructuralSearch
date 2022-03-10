@@ -20,13 +20,13 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         
         [Theory]
         [InlineData("Templates/IfElseTemplate.txt", "Sources/IfElseSource.txt")]
-        [InlineData("Templates/IfValueIsNullTemplate.txt", "Templates/IfValueIsNullSource.txt")]
-        [InlineData("Templates/NestedParenthesisedTemplate.txt", "Templates/NestedParenthesisedSource.txt")]
+        [InlineData("Templates/IfValueIsNullTemplate.txt", "Sources/IfValueIsNullSource.txt")]
+        [InlineData("Templates/NestedParenthesisedTemplate.txt", "Sources/NestedParenthesisedSource.txt")]
         public void SourceParsingBeTemplateShouldBeSuccess(string templatePath, string sourcePath)
         {
             var templateStr = File.ReadAllText(templatePath);
-            var sourceStr = File.ReadAllText(templatePath);
-            
+            var sourceStr = File.ReadAllText(sourcePath);
+
             var template = StructuralSearch.ParseTemplate(templateStr);
             var result = template.ParseOrThrow(sourceStr);
             

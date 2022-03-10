@@ -5,6 +5,9 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public static class CommonParser
     {
+        public static readonly Parser<char, string> Empty
+            = String(Constant.Empty);
+        
         public static readonly Parser<char, char> AnyChar
             = AnyCharExcept(Constant.All());
         

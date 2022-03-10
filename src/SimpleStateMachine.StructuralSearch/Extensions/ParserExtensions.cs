@@ -16,19 +16,26 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
 {
     public static class ParserExtensions
     {
-        
         public static Parser<TToken, T> Try<TToken, T>(this Parser<TToken, T> parser)
         {
             return Parser.Try(parser);
         }
-        
-        public static Parser<TToken, IEnumerable<T>> AtLeastOnceUntilNot<TToken, T, U>(this Parser<TToken, T> parser, 
+
+
+        public static Parser<TToken, IEnumerable<T>> AsMany<TToken, T>(this Parser<TToken, T> parser)
+        {
+            return parser.Select(x => (IEnumerable<T>)new List<T> { x });
+        }
+
+        public static Parser<TToken, IEnumerable<T>> AtLeastOnceUntilNot<TToken, T, U>(this Parser<TToken, T> parser,
             Parser<TToken, U> terminator)
         {
-            return parser != null ? parser.AtLeastOnceUntil(Not(terminator)) : throw new ArgumentNullException(nameof (parser));
+            return parser != null
+                ? parser.AtLeastOnceUntil(Not(terminator))
+                : throw new ArgumentNullException(nameof(parser));
         }
-        
-        
+
+
         // public static Parser<TToken, TOut> WithResult<TToken, TOut>(this Parser<TToken, TOut> parser, Func<TToken, SourcePos, TOut> transformResult)
         // {
         //     = Parser<TToken>.CurrentSourcePosDelta.Select<SourcePos>((Func<SourcePosDelta, SourcePos>) (d => new SourcePos(1, 1) + d));
@@ -64,7 +71,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
                 return u;
             }, parser, Parser<TToken>.CurrentPos, Parser<TToken>.CurrentSourcePosDelta);
         }
-        
+
         public static Parser<TToken, T> WithDebug<TToken, T>(this Parser<TToken, T> parser)
         {
             return Map((u, t, v) =>
@@ -73,7 +80,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
                 return u;
             }, parser, Parser<TToken>.CurrentPos, Parser<TToken>.CurrentSourcePosDelta);
         }
-        
+
         public static Parser<TToken, T> BetweenAsThen<TToken, T, U, V>(this Parser<TToken, T> parser,
             Parser<TToken, U> parser1,
             Parser<TToken, V> parser2, Func<U, T, V, T> func)

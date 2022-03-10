@@ -1,4 +1,4 @@
 ﻿if(temp == null)
 {
-    temp = new List<string>();
+    temp = 12;
 }

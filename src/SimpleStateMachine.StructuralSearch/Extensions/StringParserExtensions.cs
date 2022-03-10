@@ -47,6 +47,12 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
             return parser.Select(x => string.Join(separator, x));
         }
         
+        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, List<string>> parser, string separator = null)
+        {
+            separator ??= string.Empty;
+            return parser.Select(x => string.Join(separator, x));
+        }
+        
         public static Parser<TToken, SourceMatch> AsMatch<TToken>(this Parser<TToken, string> parser)
         {
             return parser.Then(Parser<TToken>.CurrentOffset, (s, offset) => new SourceMatch(s, offset - s.Length, offset));

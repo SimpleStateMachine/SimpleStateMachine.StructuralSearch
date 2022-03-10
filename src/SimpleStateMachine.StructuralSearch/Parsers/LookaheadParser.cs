@@ -18,7 +18,8 @@ namespace SimpleStateMachine.StructuralSearch
         public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected,
             out T result)
         {
-            return _parser.TryParse(ref state, ref expected, out result);
+            var res = _parser.TryParse(ref state, ref expected, out result);
+            return res;
         }
     }
 }
