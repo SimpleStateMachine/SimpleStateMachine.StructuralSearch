@@ -6,27 +6,35 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public static class FindTemplateParser
     {
+        //TODO return string for all parsers exclude  TemplateParser
         static FindTemplateParser()
         {
             Parenthesised = Parsers.BetweenOneOfChars(ParserToParser.StringcMatch,
-                Parser.Rec(() => Term.Or(Empty)),
+                Parser.Rec(() => Term),
                 Constant.AllParenthesised);
 
             Term = Parser.OneOf(Parenthesised, Token)
-                .AtLeastOnce().MergerMany();
-            
-            TemplateParser = Term.JoinResults();
+                .Many()
+                .MergerMany();
+
+            TemplateParser = Parser.OneOf(Parenthesised, Token)
+                .AtLeastOnce()
+                .MergerMany()
+                .JoinResults();
         }
         
         
         public static readonly Parser<char, IEnumerable<Parser<char, SourceMatch>>> Empty =
-            ParserToParser.ResultAsMatch(CommonParser.Empty).AsMany();  
+            ParserToParser.ResultAsMatch(CommonParser.Empty)
+                .AsMany();  
         
         public static readonly Parser<char, Parser<char, SourceMatch>> AnyString =
-            ParserToParser.ResultAsMatch(CommonParser.AnyString).Try();
+            ParserToParser.ResultAsMatch(CommonParser.AnyString)
+                .Try();
             
         public static readonly Parser<char, Parser<char, SourceMatch>> WhiteSpaces =
-            ParserToParser.ResultAsMatch(CommonParser.WhiteSpaces).Try();  
+            ParserToParser.ResultAsMatch(CommonParser.WhiteSpaces)
+                .Try();  
         
         public static readonly Parser<char, Parser<char, SourceMatch>> Placeholder = 
             CommonTemplateParser.Placeholder
@@ -34,7 +42,8 @@ namespace SimpleStateMachine.StructuralSearch
                 .Cast<Parser<char, SourceMatch>>(); 
         
         public static readonly Parser<char, IEnumerable<Parser<char, SourceMatch>>> Token =
-            Parser.OneOf(AnyString, Placeholder, WhiteSpaces).AsMany(); 
+            Parser.OneOf(AnyString, Placeholder, WhiteSpaces)
+                .AsMany(); 
         
         public static readonly Parser<char, IEnumerable<Parser<char, SourceMatch>>> Term;
         

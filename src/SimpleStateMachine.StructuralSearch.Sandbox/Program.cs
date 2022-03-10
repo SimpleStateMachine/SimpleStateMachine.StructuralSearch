@@ -10,6 +10,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
+            var template = StructuralSearch.ParseTemplate("");
             var test = Parser.OneOf(String("Test"), CommonParser.Empty);
             var res = test.ParseOrThrow("");
             // var lookahead = Parser.Lookahead(Char(';').Then(End).Try());

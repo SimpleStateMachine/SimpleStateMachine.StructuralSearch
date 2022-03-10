@@ -1,10 +1,18 @@
-﻿using Pidgin;
+﻿using System;
+using Pidgin;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
 {
     public class PlaceholderParserTests
     {
+        // [Fact]
+        // public void FindTemplateShouldBeNotEmpty()
+        // {
+        //     Assert.Throws<Exception>(() => StructuralSearch.ParseTemplate(string.Empty));
+        // }
+        
+        
         // [Theory]
         // [InlineData("($test$)", "(value )", "value ")]
         // [InlineData("($test$ )", "(value )", "value")]
