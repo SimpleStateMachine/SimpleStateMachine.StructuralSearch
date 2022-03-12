@@ -34,6 +34,15 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
                 ? parser.AtLeastOnceUntil(Not(terminator))
                 : throw new ArgumentNullException(nameof(parser));
         }
+        
+        
+        public static Parser<TToken, IEnumerable<T>> UntilNot<TToken, T, U>(this Parser<TToken, T> parser,
+            Parser<TToken, U> terminator)
+        {
+            return parser != null
+                ? parser.Until(Not(terminator))
+                : throw new ArgumentNullException(nameof(parser));
+        }
 
 
         // public static Parser<TToken, TOut> WithResult<TToken, TOut>(this Parser<TToken, TOut> parser, Func<TToken, SourcePos, TOut> transformResult)

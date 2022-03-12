@@ -9,7 +9,8 @@ namespace SimpleStateMachine.StructuralSearch
     public class PlaceholderParser : LookaheadParser<char, SourceMatch>
     {
         public string Name { get; }
-
+        
+        public string Value { get; }
         public PlaceholderParser(string name)
         {
             Name = name;
@@ -20,7 +21,8 @@ namespace SimpleStateMachine.StructuralSearch
         {
             var _next = next();
             var _nextNext = nextNext();
-            var lookahead = Parser.Lookahead(_next.Then(_nextNext).Try());
+            var _lookahead = Parser.Lookahead(_next.Then(_nextNext).Try());
+            var lookahead = new DebugParser<char, Res2>(_lookahead);
             var anyString = CommonTemplateParser.AnyCharWithPlshd
                 .AtLeastOnceAsStringUntil(lookahead);
             
@@ -43,6 +45,13 @@ namespace SimpleStateMachine.StructuralSearch
             var parser = prdsAndTokens.Or(anyString).AsMatch();
             return parser;
         }
+        
+        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected,
+            out SourceMatch result)
+        {
+            var res = base.TryParse(ref state, ref expected, out result);
+            return res;
+        } 
 
 
         // internal Parser<char, SourceMatch> GetParser()
