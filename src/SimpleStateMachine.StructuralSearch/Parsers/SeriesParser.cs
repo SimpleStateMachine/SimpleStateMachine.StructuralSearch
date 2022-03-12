@@ -26,18 +26,8 @@ namespace SimpleStateMachine.StructuralSearch
                 if (parsers.ElementAt(i) is LookaheadParser<TToken, T> lookaheadParser)
                 {
                     var number = i;
-                    if (number + 2 <= count - 1)
-                    {
-                        lookaheadParser.Lookahead(() => parsers.ElementAt(number + 1), () =>
-                            parsers.ElementAt(number + 2));
-                    }
-                    else
-                    {
-                        //TODO remove using End (not actual for source files)
-                        lookaheadParser.Lookahead(() => parsers.ElementAt(number + 1), () =>
-                            Parser<TToken>.End);
-                    }
-              
+                    lookaheadParser.Lookahead(() => parsers.ElementAtOrDefault(number + 1), () =>
+                        parsers.ElementAtOrDefault(number + 2));
                 }
             }
             

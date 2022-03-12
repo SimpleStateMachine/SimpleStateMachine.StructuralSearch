@@ -8,7 +8,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
     {
         public static Parser<TToken, IEnumerable<T>> ToIEnumerable<TToken, T>(this Parser<TToken, List<T>> parser)
         {
-            return parser.Cast<IEnumerable<T>>();
+            return parser.As<TToken, List<T>, IEnumerable<T>>();
         }
     }
 }

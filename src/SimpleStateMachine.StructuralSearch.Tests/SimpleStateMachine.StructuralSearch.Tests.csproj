@@ -35,9 +35,5 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="ReplaceTemplate" />
-    </ItemGroup>
     
 </Project>

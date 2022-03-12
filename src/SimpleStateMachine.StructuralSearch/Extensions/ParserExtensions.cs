@@ -100,6 +100,13 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
                 throw new ArgumentNullException(nameof(parser2));
             return Parser.Map<TToken, U, T, V, T>(func, parser1, parser, parser2);
         }
+        
+        public static Parser<TToken, R> As<TToken, T, R>(this Parser<TToken, T> parser)
+            where T: R
+        {
+            return parser.Select(x => (R)x);
+        }
+
         // public static Parser<TToken, T> BetweenAsThen<TToken, T, U, V>(this Parser<TToken, T> parser, Parser<TToken, U> parser1, Parser<TToken, V> parser2, Func<U, T, V, T> func)
         // {
         //     if (parser1 == null)

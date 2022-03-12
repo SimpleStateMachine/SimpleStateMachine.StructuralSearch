@@ -6,7 +6,7 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public class PlaceholderParser : LookaheadParser<char, SourceMatch>
+    public class PlaceholderParser : LookaheadParser<char, string>
     {
         public string Name { get; }
         
@@ -16,13 +16,14 @@ namespace SimpleStateMachine.StructuralSearch
             Name = name;
         }
         
-        public override Parser<char, SourceMatch> BuildParser<Res1, Res2>(Func<Parser<char, Res1>> next,
-            Func<Parser<char, Res2>> nextNext)
+        public override Parser<char, string> BuildParser(Func<Parser<char, string>> next,
+            Func<Parser<char, string>> nextNext)
         {
             var _next = next();
-            var _nextNext = nextNext();
+            var _nextNext = nextNext() ?? Parser<char>.End.ThenReturn(string.Empty);
             var _lookahead = Parser.Lookahead(_next.Then(_nextNext).Try());
-            var lookahead = new DebugParser<char, Res2>(_lookahead);
+            
+            Parser<char, string> lookahead = new DebugParser<char, string>(_lookahead);
             var anyString = CommonTemplateParser.AnyCharWithPlshd
                 .AtLeastOnceAsStringUntil(lookahead);
             
@@ -42,12 +43,12 @@ namespace SimpleStateMachine.StructuralSearch
                 .JoinToString()
                 .Try();
             
-            var parser = prdsAndTokens.Or(anyString).AsMatch();
+            var parser = prdsAndTokens.Or(anyString);
             return parser;
         }
         
         public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected,
-            out SourceMatch result)
+            out string result)
         {
             var res = base.TryParse(ref state, ref expected, out result);
             return res;
