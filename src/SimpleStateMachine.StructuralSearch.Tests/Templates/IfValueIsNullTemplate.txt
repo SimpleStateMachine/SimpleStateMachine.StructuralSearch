@@ -1,4 +1,0 @@
-﻿if($var$ $sign$ null)
-{
-    $var$ = $value$;
-}

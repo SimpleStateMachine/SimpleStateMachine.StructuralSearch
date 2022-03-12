@@ -5,6 +5,11 @@ namespace SimpleStateMachine.StructuralSearch
     public static class Constant
     {
         /// <summary>
+        /// Parenthesis empty string
+        /// </summary>
+        public static readonly string Empty = string.Empty;
+        
+        /// <summary>
         /// Parenthesis char: '('
         /// </summary>
         public static readonly char LeftParenthesis = '(';

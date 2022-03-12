@@ -21,22 +21,13 @@ namespace SimpleStateMachine.StructuralSearch
             var results = new List<T>();
             var count = parsers.Count();
             
-            for (var i = count - 1; i > 0 ; i--)
+            for (var i = count-1; i >= 0 ; i--)
             {
                 if (parsers.ElementAt(i) is LookaheadParser<TToken, T> lookaheadParser)
                 {
                     var number = i;
-                    if (number + 2 < count - 1)
-                    {
-                        lookaheadParser.Lookahead(() => parsers.ElementAt(number + 1), () =>
-                            parsers.ElementAt(number + 2));
-                    }
-                    else
-                    {
-                        lookaheadParser.Lookahead(() => parsers.ElementAt(number + 1), () =>
-                            Parser<TToken>.End);
-                    }
-              
+                    lookaheadParser.Lookahead(() => parsers.ElementAtOrDefault(number + 1), () =>
+                        parsers.ElementAtOrDefault(number + 2));
                 }
             }
             

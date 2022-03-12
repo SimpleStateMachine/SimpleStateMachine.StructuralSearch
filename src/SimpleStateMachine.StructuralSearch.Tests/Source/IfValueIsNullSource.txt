@@ -1,0 +1,4 @@
+﻿if(temp == null)
+{
+    temp = 12;
+}

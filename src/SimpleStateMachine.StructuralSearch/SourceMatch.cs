@@ -19,7 +19,14 @@
 
         public override string ToString()
         {
-            return Value;
+            var value =  Value switch
+            {
+                "\r\n" => "\\r\\n",
+                "\n" => "\\n",
+                _ => Value
+            };
+
+            return $"'{value}'";
         }
     }
 }

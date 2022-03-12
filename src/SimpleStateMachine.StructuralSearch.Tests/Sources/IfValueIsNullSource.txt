@@ -1,4 +1,0 @@
-﻿if(temp == null)
-{
-    temp = new List<string>();
-}

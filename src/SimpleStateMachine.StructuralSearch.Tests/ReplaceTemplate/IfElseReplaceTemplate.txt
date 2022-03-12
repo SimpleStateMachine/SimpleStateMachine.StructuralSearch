@@ -1,0 +1,1 @@
+﻿$var1$ $sign$ $value1$ ? $value1$ : $value2$;

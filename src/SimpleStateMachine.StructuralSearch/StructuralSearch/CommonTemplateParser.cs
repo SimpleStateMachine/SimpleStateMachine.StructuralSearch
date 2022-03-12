@@ -9,12 +9,14 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public static class CommonTemplateParser
     {
+        public static readonly Parser<char, char> AnyCharWithPlshd =
+            AnyCharExcept(Constant.AllExclude(Constant.PlaceholderSeparator));
+        
         public static readonly Parser<char, string> Placeholder
             = CommonParser.Identifier.Between(Char(Constant.PlaceholderSeparator));
         
-        public static readonly Parser<char, string> StringWithoutParenthesisedAndWhiteSpaces
-            = AnyCharExcept(Constant.AllExclude(Constant.PlaceholderSeparator))
-                .AtLeastOnceString();
+        public static readonly Parser<char, string> StringWithPlshd
+            = AnyCharWithPlshd.AtLeastOnceString();
         
         //can be contains one $
         public static readonly Parser<char, string> StringWithoutPlaceholder

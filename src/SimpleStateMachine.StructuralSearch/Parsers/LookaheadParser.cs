@@ -7,10 +7,10 @@ namespace SimpleStateMachine.StructuralSearch
     {
         private Parser<TToken, T> _parser { get; set; }
 
-        public abstract Parser<TToken, T> BuildParser<Res1, Res2>(Func<Parser<TToken, Res1>> next,
-            Func<Parser<TToken, Res2>> nextNext);
+        public abstract Parser<TToken, T> BuildParser(Func<Parser<TToken, T>?> next,
+            Func<Parser<TToken, T>?> nextNext);
         
-        public void Lookahead<Res1, Res2>(Func<Parser<TToken, Res1>> next, Func<Parser<TToken, Res2>> nextNext)
+        public void Lookahead(Func<Parser<TToken, T>?> next, Func<Parser<TToken, T>?> nextNext)
         {
             _parser = BuildParser(next, nextNext);
         }
@@ -18,7 +18,8 @@ namespace SimpleStateMachine.StructuralSearch
         public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected,
             out T result)
         {
-            return _parser.TryParse(ref state, ref expected, out result);
+            var res = _parser.TryParse(ref state, ref expected, out result);
+            return res;
         }
     }
 }
