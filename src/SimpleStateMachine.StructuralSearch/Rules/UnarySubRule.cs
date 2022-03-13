@@ -1,4 +1,7 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿using System;
+using System.Text.RegularExpressions;
+
+namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class UnarySubRule : IRule
     {
@@ -14,7 +17,17 @@
 
         public bool Execute(string value)
         {
-            throw new System.NotImplementedException();
+            var param = Parameter.GetValue();
+            
+            return Type switch
+            {
+                SubRuleType.Equals => value.Equals(param),
+                SubRuleType.Contains => value.Contains(param),
+                SubRuleType.StartsWith => value.StartsWith(param),
+                SubRuleType.EndsWith => value.EndsWith(param),
+                SubRuleType.Match => Regex.IsMatch(value, param),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 }

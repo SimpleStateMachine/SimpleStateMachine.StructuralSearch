@@ -1,4 +1,5 @@
-﻿using Pidgin;
+﻿using System.Text.RegularExpressions;
+using Pidgin;
 using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
@@ -7,11 +8,18 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-            var result = StructuralSearch.ParseFindRule("$var$ Is int or equals \"test\"");
-            var result1 = result.Execute("test");
             
             
-            var t = ExprParser.ParseOrThrow("( 2 + 2 ) * 2");
+            
+            var rule = StructuralSearch.ParseFindRule("$var$ Not (Is int or equals \"test\") and match \"^[0-9]+.[0-9]+$\"");
+            var result1 = rule.Execute("test");
+            var result2 = rule.Execute("125");
+            var result3 = rule.Execute("5.3");
+            
+            
+            
+            
+            var t = ExprParser.ParseOrThrow("2 + 2 + 2");
             var resw = t.Invoke();
             var test = String("return ")
                 .Then(AnyCharExcept(';').ManyString())

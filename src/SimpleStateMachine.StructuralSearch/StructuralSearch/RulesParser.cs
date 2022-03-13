@@ -17,25 +17,25 @@ namespace SimpleStateMachine.StructuralSearch
 
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> And
-            = Binary(Parsers.EnumValue(BinaryRuleType.And).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.And, true).Trim());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> Or
-            = Binary(Parsers.EnumValue(BinaryRuleType.Or).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.Or, true).Trim());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> NOR
-            = Binary(Parsers.EnumValue(BinaryRuleType.NOR).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.NOR, true).Trim());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> XOR
-            = Binary(Parsers.EnumValue(BinaryRuleType.XOR).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.XOR, true).Trim());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> NAND
-            = Binary(Parsers.EnumValue(BinaryRuleType.NAND).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.NAND, true).Trim());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> XNOR
-            = Binary(Parsers.EnumValue(BinaryRuleType.XNOR).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.XNOR, true).Trim());
 
         internal static readonly Parser<char, Func<IRule, IRule>> Not
-            = Unary(Parsers.EnumValue(UnaryRuleType.Not).Trim());
+            = Unary(Parsers.EnumValue(UnaryRuleType.Not, true).Trim());
 
         internal static readonly Parser<char, IRule> Expr = ExpressionParser.Build<char, IRule>(
             rule => (
