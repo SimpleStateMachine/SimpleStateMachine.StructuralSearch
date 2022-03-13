@@ -10,7 +10,7 @@ namespace SimpleStateMachine.StructuralSearch
     {
         static ReplaceTemplateParser()
         {
-            Parenthesised = Parsers.BetweenOneOfChars(ParserToReplace.Stringc,
+            Parenthesised = Parsers.BetweenOneOfChars(x=> ParserToReplace.Stringc(x),
                 Parser.Rec(() => Term),
                 Constant.AllParenthesised);
 

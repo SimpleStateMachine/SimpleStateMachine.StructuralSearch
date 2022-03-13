@@ -2,12 +2,17 @@
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public static class Constant
+    public static partial class Constant
     {
         /// <summary>
         /// Parenthesis empty string
         /// </summary>
         public static readonly string Empty = string.Empty;
+        
+        /// <summary>
+        /// String: "Not"
+        /// </summary>
+        public static readonly string Not ="Not";
         
         /// <summary>
         /// Parenthesis char: '('
@@ -60,6 +65,21 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly char Space = ' ';
         
         /// <summary>
+        /// Char: ','
+        /// </summary>
+        public static readonly char Comma = ',';
+
+        /// <summary>
+        /// Char: '\''
+        /// </summary>
+        public static readonly char SingleQuotes = '\'';
+        
+        /// <summary>
+        /// Char: '\"'
+        /// </summary>
+        public static readonly char DoubleQuotes = '\"';
+        
+        /// <summary>
         /// Parenthesis chars: '(' and ')'
         /// </summary>
         public static readonly (char, char) Parenthesis = (LeftParenthesis, RightParenthesis);
@@ -78,28 +98,5 @@ namespace SimpleStateMachine.StructuralSearch
         /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
         /// </summary>
         public static readonly (char, char)[] AllParenthesised = { Parenthesis, SquareParenthesis, CurlyParenthesis };
-        
-        public static char[] All()
-        {
-            var all = new char[]{
-                LeftParenthesis,
-                RightParenthesis,
-                LeftSquareParenthesis,
-                RightSquareParenthesis,
-                LeftCurlyParenthesis,
-                RightCurlyParenthesis,
-                PlaceholderSeparator,
-                CarriageReturn,
-                LineFeed,
-                Space
-            };
-
-            return all;
-        }
-        
-        public static char[] AllExclude(params char[] excluded)
-        {
-            return All().Where(x => !excluded.Contains(x)).ToArray();
-        }
     }
 }

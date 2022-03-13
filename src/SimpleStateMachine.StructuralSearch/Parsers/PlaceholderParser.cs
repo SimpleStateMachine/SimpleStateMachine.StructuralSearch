@@ -31,7 +31,7 @@ namespace SimpleStateMachine.StructuralSearch
             var token = Parser.OneOf(simpleString, CommonParser.WhiteSpaces).Try();
             Parser<char, string> term = null;
 
-            var parenthesised = Parsers.BetweenOneOfChars(Parsers.Stringc,
+            var parenthesised = Parsers.BetweenOneOfChars(x => Parsers.Stringc(x),
                 expr: Parser.Rec(() => term),
                 Constant.AllParenthesised).JoinToString();
             

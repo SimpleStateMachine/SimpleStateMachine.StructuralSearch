@@ -10,7 +10,7 @@ namespace SimpleStateMachine.StructuralSearch
     public static class CommonTemplateParser
     {
         public static readonly Parser<char, char> AnyCharWithPlshd =
-            AnyCharExcept(Constant.AllExclude(Constant.PlaceholderSeparator));
+            AnyCharExcept(Constant.FindTemplate.AllExclude(Constant.PlaceholderSeparator));
         
         public static readonly Parser<char, string> Placeholder
             = CommonParser.Identifier.Between(Char(Constant.PlaceholderSeparator));

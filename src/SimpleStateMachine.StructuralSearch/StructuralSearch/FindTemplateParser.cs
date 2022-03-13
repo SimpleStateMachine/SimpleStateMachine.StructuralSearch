@@ -8,7 +8,7 @@ namespace SimpleStateMachine.StructuralSearch
     {
         static FindTemplateParser()
         {
-            Parenthesised = Parsers.BetweenOneOfChars(ParserToParser.Stringc,
+            Parenthesised = Parsers.BetweenOneOfChars(x => ParserToParser.Stringc(x),
                 Parser.Rec(() => Term),
                 Constant.AllParenthesised);
 

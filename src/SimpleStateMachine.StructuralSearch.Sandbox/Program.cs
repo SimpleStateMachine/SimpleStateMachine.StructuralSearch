@@ -10,11 +10,18 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-
+            var result = FindRuleParser.ParseTemplate("$var$ Is int");
+            var result1 = result.Execute("125");
+            
+            
+            var t = ExprParser.ParseOrThrow("( 2 + 2 ) * 2");
+            var resw = t.Invoke();
             var test = String("return ")
                 .Then(AnyCharExcept(';').ManyString())
                 .Then(Char(';').AtLeastOnceString())
                 .Before(Char(';'));
+            
+            
             
             
             // var template = StructuralSearch.ParseTemplate("");
