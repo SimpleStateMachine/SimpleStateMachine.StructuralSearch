@@ -11,11 +11,11 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
                 .As<char, TokenReplace, IReplaceStep>();
         }
         
-        public static Parser<char, IReplaceStep> Stringc(char token)
+        public static Parser<char, IReplaceStep> Stringc(char token, bool ignoreCase = false)
         {
             var _token = token.ToString();
             
-            return ResultAsReplace(Parser.String(_token));
+            return ResultAsReplace(Parsers.String(_token, ignoreCase));
         }
     }
 }
