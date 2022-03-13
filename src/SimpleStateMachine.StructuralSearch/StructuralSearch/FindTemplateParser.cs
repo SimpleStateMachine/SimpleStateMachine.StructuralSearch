@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public static class FindTemplateParser
+    internal static class FindTemplateParser
     {
         static FindTemplateParser()
         {
@@ -22,30 +22,30 @@ namespace SimpleStateMachine.StructuralSearch
                 .JoinResults();
         }
         
-        public static readonly Parser<char, IEnumerable<Parser<char, string>>> Empty =
+        internal static readonly Parser<char, IEnumerable<Parser<char, string>>> Empty =
             ParserToParser.ResultAsParser(CommonParser.Empty)
                 .AsMany();  
         
-        public static readonly Parser<char, Parser<char, string>> AnyString =
+        internal static readonly Parser<char, Parser<char, string>> AnyString =
             ParserToParser.ResultAsParser(CommonParser.AnyString)
                 .Try();
             
-        public static readonly Parser<char, Parser<char, string>> WhiteSpaces =
+        internal static readonly Parser<char, Parser<char, string>> WhiteSpaces =
             ParserToParser.ResultAsParser(CommonParser.WhiteSpaces)
                 .Try();  
         
-        public static readonly Parser<char, Parser<char, string>> Placeholder = 
+        internal static readonly Parser<char, Parser<char, string>> Placeholder = 
             CommonTemplateParser.Placeholder
                 .Select(name => new PlaceholderParser(name))
                 .As<char, PlaceholderParser, Parser<char, string>>(); 
         
-        public static readonly Parser<char, IEnumerable<Parser<char, string>>> Token =
+        internal static readonly Parser<char, IEnumerable<Parser<char, string>>> Token =
             Parser.OneOf(AnyString, Placeholder, WhiteSpaces)
                 .AsMany(); 
         
-        public static readonly Parser<char, IEnumerable<Parser<char, string>>> Term;
+        internal static readonly Parser<char, IEnumerable<Parser<char, string>>> Term;
         
-        public static readonly Parser<char, IEnumerable<Parser<char, string>>> Parenthesised;
+        internal static readonly Parser<char, IEnumerable<Parser<char, string>>> Parenthesised;
         
         private static readonly Parser<char, Parser<char, string>> TemplateParser;
         
@@ -71,26 +71,26 @@ namespace SimpleStateMachine.StructuralSearch
         // }
         
         
-        // public static readonly Parser<char, Parser<char, SourceMatch>> Empty =
+        // internal static readonly Parser<char, Parser<char, SourceMatch>> Empty =
         //     ParserToParser.ResultAsMatch(CommonParser.Empty);  
         //
-        // public static readonly Parser<char, Parser<char, SourceMatch>> AnyString =
+        // internal static readonly Parser<char, Parser<char, SourceMatch>> AnyString =
         //     ParserToParser.ResultAsMatch(CommonParser.AnyString).Try();
         //     
-        // public static readonly Parser<char, Parser<char, SourceMatch>> WhiteSpaces =
+        // internal static readonly Parser<char, Parser<char, SourceMatch>> WhiteSpaces =
         //     ParserToParser.ResultAsMatch(CommonParser.WhiteSpaces).Try();  
         //
-        // public static readonly Parser<char, Parser<char, SourceMatch>> Placeholder = 
+        // internal static readonly Parser<char, Parser<char, SourceMatch>> Placeholder = 
         //     CommonTemplateParser.Placeholder
         //         .Select(name => new PlaceholderParser(name))
         //         .Cast<Parser<char, SourceMatch>>(); 
         //
-        // public static readonly Parser<char, Parser<char, SourceMatch>> Token =
+        // internal static readonly Parser<char, Parser<char, SourceMatch>> Token =
         //     Parser.OneOf(AnyString, Placeholder, WhiteSpaces); 
         //
-        // public static readonly Parser<char, Parser<char, SourceMatch>> Term;
+        // internal static readonly Parser<char, Parser<char, SourceMatch>> Term;
         //
-        // public static readonly Parser<char, Parser<char, SourceMatch>> Parenthesised;
+        // internal static readonly Parser<char, Parser<char, SourceMatch>> Parenthesised;
         //
         // private static readonly Parser<char, Parser<char, SourceMatch>> TemplateParser;
         //

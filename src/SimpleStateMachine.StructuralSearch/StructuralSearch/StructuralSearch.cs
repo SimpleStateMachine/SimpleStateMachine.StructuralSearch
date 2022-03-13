@@ -1,5 +1,6 @@
 ﻿using Pidgin;
 using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
+using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
 {
@@ -10,5 +11,8 @@ namespace SimpleStateMachine.StructuralSearch
         
         public static IReplaceBuilder ParseReplaceTemplate(string template) 
             => ReplaceTemplateParser.ParseTemplate(template);
+        
+        public static IRule ParseFindRule(string template) 
+            => FindRuleParser.ParseTemplate(template);
     }
 }

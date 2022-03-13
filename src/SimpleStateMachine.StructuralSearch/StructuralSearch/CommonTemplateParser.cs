@@ -5,22 +5,22 @@ using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public static class CommonTemplateParser
+    internal static class CommonTemplateParser
     {
-        public static readonly Parser<char, char> AnyCharWithPlshd =
+        internal static readonly Parser<char, char> AnyCharWithPlshd =
             AnyCharExcept(Constant.FindTemplate.AllExclude(Constant.PlaceholderSeparator));
         
-        public static readonly Parser<char, string> Placeholder
+        internal static readonly Parser<char, string> Placeholder
             = CommonParser.Identifier.Between(Char(Constant.PlaceholderSeparator));
         
-        public static readonly Parser<char, string> StringWithPlshd
+        internal static readonly Parser<char, string> StringWithPlshd
             = AnyCharWithPlshd.AtLeastOnceString();
         
         //can be contains one $
-        public static readonly Parser<char, string> StringWithoutPlaceholder
+        internal static readonly Parser<char, string> StringWithoutPlaceholder
             = Any.AtLeastOnceAsStringUntilNot(Placeholder);
 
-        public static readonly Parser<char, string> Token
+        internal static readonly Parser<char, string> Token
             = OneOf(Placeholder.Try(),
                 CommonParser.WhiteSpaces.Try(),
                 ParsingConfiguration.Comment.Try(),

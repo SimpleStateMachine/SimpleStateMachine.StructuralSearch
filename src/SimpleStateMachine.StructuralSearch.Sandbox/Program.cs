@@ -7,8 +7,8 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-            var result = FindRuleParser.ParseTemplate("$var$ Is int");
-            var result1 = result.Execute("125");
+            var result = StructuralSearch.ParseFindRule("$var$ Is int or equals \"test\"");
+            var result1 = result.Execute("test");
             
             
             var t = ExprParser.ParseOrThrow("( 2 + 2 ) * 2");
