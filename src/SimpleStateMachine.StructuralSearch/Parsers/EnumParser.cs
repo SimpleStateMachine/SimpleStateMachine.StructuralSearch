@@ -16,7 +16,7 @@ namespace SimpleStateMachine.StructuralSearch
             _parser = Parser.OneOf(EnumHelper.GetNamesExcept(excluded)
                 .Select(value => Parsers.String(value, ignoreCase))
                 .Select(Parser.Try))
-                .AsEnum<TEnum>();
+                .AsEnum<TEnum>(ignoreCase);
         }
 
         public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expecteds,

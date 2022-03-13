@@ -66,13 +66,15 @@ namespace SimpleStateMachine.StructuralSearch
 
         public static readonly Parser<char, IRule> IsSubRule =
             Parser.Map((type, param) => new IsRule(type, param),
-                    Parsers.EnumValue(Rules.SubRuleType.Is), PlaceholderType)
+                    Parsers.EnumValue(Rules.SubRuleType.Is, true)
+                        .Trim(), 
+                    PlaceholderType)
                 .As<char, IsRule, IRule>()
                 .Try();
 
         public static readonly Parser<char, IRule> InSubRule =
             Parser.Map((type, param) => new InRule(type, param),
-                    Parsers.EnumValue(Rules.SubRuleType.In), Parameters)
+                    Parsers.EnumValue(Rules.SubRuleType.In, true), Parameters)
                 .As<char, InRule, IRule>()
                 .Try();
 

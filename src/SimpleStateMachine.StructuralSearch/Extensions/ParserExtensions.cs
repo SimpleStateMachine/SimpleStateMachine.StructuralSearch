@@ -43,7 +43,22 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
                 ? parser.Until(Not(terminator))
                 : throw new ArgumentNullException(nameof(parser));
         }
+        
+        public static bool TryParse(this Parser<char, string> parser, string value, out string? result)
+        {
+            if(parser is null)
+                throw new ArgumentNullException(nameof(parser));
 
+            var res = parser.Try().Optional().ParseOrThrow(value, null);
+            result = res.HasValue ? res.Value : default;
+            return res.HasValue;
+        }
+        public static Parser<TToken, bool> Contains<TToken, T>(this Parser<TToken, T> parser)
+        {
+            return parser != null
+                ? parser.Optional().Select(x => x.HasValue)
+                : throw new ArgumentNullException(nameof(parser));
+        }
 
         // public static Parser<TToken, TOut> WithResult<TToken, TOut>(this Parser<TToken, TOut> parser, Func<TToken, SourcePos, TOut> transformResult)
         // {

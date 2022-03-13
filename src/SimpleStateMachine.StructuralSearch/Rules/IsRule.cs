@@ -1,4 +1,8 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿using System;
+using Pidgin;
+using SimpleStateMachine.StructuralSearch.Extensions;
+
+namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class IsRule : IRule
     {
@@ -14,7 +18,15 @@
 
         public bool Execute(string value)
         {
-            throw new System.NotImplementedException();
+            return PlaceholderType switch
+            {
+                PlaceholderType.Var => CommonParser.Identifier.TryParse(value, out _),
+                PlaceholderType.Int => int.TryParse(value, out _),
+                PlaceholderType.Double => double.TryParse(value, out _),
+                PlaceholderType.DateTime => DateTime.TryParse(value, out _),
+                PlaceholderType.Guid => Guid.TryParse(value, out _),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 }
