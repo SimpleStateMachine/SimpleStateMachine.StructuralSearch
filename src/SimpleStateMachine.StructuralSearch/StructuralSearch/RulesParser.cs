@@ -39,9 +39,9 @@ namespace SimpleStateMachine.StructuralSearch
             Parser.AnyCharExcept(Constant.DoubleQuotes)
                 .AtLeastOnceString()
                 .Between(CommonParser.DoubleQuotes)
-                .Trim()
                 .Select(x => new StringParameter(x))
                 .As<char, StringParameter, IRuleParameter>()
+                .Trim()
                 .Try();
 
         public static readonly Parser<char, IRuleParameter> Parameter =
@@ -54,7 +54,7 @@ namespace SimpleStateMachine.StructuralSearch
             Parsers.EnumExcept(true, Rules.SubRuleType.Is, Rules.SubRuleType.In)
                 .Trim();
 
-        public static readonly Parser<char, IRule> UnaryRule =
+        public static readonly Parser<char, IRule> UnarySubRule =
             Parser.Map((type, param) => new UnarySubRule(type, param),
                     SubRuleType, Parameter)
                 .As<char, UnarySubRule, IRule>()
@@ -64,13 +64,13 @@ namespace SimpleStateMachine.StructuralSearch
             Parsers.Enum<PlaceholderType>(true)
                 .Trim();
 
-        public static readonly Parser<char, IRule> IsRule =
+        public static readonly Parser<char, IRule> IsSubRule =
             Parser.Map((type, param) => new IsRule(type, param),
                     Parsers.EnumValue(Rules.SubRuleType.Is), PlaceholderType)
                 .As<char, IsRule, IRule>()
                 .Try();
 
-        public static readonly Parser<char, IRule> InRule =
+        public static readonly Parser<char, IRule> InSubRule =
             Parser.Map((type, param) => new InRule(type, param),
                     Parsers.EnumValue(Rules.SubRuleType.In), Parameters)
                 .As<char, InRule, IRule>()
@@ -108,9 +108,9 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, IRule> Expr = ExpressionParser.Build<char, IRule>(
             rule => (
                 Parser.OneOf(
-                    UnaryRule,
-                    IsRule,
-                    InRule,
+                    UnarySubRule,
+                    IsSubRule,
+                    InSubRule,
                     CommonParser.Parenthesised(rule, x => x.Trim())
                 ),
                 new[]
@@ -128,9 +128,14 @@ namespace SimpleStateMachine.StructuralSearch
 
         public static readonly Parser<char, IRule> Rule =
             Parser.Map((name, rule) => new Rule(name, rule),
-                    CommonTemplateParser.Placeholder,
+                    CommonTemplateParser.Placeholder.Trim(),
                     Expr)
                 .As<char, Rule, IRule>();
+        
+        public static IRule ParseTemplate(string str)
+        {
+            return Rule.ParseOrThrow(str);
+        }
 
 
         // public static readonly Parser<char, IRule> Rule =

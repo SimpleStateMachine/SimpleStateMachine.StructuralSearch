@@ -10,6 +10,8 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
+            var result = FindRuleParser.ParseTemplate("$var$ Equals \"125\"");
+            
             var t = ExprParser.ParseOrThrow("( 2 + 2 ) * 2");
             var resw = t.Invoke();
             var test = String("return ")
