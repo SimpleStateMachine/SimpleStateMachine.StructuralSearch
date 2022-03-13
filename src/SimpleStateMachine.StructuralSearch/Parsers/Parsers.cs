@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
-using Pidgin.TokenStreams;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Helper;
 using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch

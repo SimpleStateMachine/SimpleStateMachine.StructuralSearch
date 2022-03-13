@@ -1,7 +1,4 @@
-﻿using Pidgin;
-using Pidgin.TokenStreams;
-
-namespace SimpleStateMachine.StructuralSearch.Extensions
+﻿namespace SimpleStateMachine.StructuralSearch.Extensions
 {
     public static class CharExtensions
     {

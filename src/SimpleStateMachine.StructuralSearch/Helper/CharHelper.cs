@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace SimpleStateMachine.StructuralSearch.Helper
+﻿namespace SimpleStateMachine.StructuralSearch.Helper
 {
     public static class CharHelper
     {

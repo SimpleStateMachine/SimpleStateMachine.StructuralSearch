@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Immutable;
-using Pidgin;
-using Pidgin.Expression;
-
-using System;
-using System.Collections.Immutable;
 using Pidgin;
 using Pidgin.Expression;
 using static Pidgin.Parser;
-using static Pidgin.Parser<char>;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
 {

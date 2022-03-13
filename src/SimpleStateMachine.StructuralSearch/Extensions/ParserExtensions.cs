@@ -1,16 +1,7 @@
 ﻿using System;
 using Pidgin;
-using Pidgin.Configuration;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Pidgin;
-using Pidgin.Expression;
-using SimpleStateMachine.StructuralSearch.Extensions;
 using static Pidgin.Parser;
-using static Pidgin.Parser<char>;
-using String = System.String;
 
 namespace SimpleStateMachine.StructuralSearch.Extensions
 {

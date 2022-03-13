@@ -1,8 +1,5 @@
-﻿using System;
-using Pidgin;
-using SimpleStateMachine.StructuralSearch.Extensions;
+﻿using Pidgin;
 using static Pidgin.Parser;
-using static Pidgin.Parser<char>;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
 {

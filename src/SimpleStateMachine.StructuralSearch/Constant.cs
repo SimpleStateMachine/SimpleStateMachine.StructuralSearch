@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace SimpleStateMachine.StructuralSearch
+﻿namespace SimpleStateMachine.StructuralSearch
 {
     public static partial class Constant
     {
