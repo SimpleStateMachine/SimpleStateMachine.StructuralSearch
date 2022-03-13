@@ -1,7 +1,7 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public enum UnarySubRuleType
+    public interface IRuleParameter
     {
-        Not = 0,
+        string GetValue();
     }
 }

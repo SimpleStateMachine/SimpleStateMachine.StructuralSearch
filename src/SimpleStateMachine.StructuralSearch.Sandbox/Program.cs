@@ -10,10 +10,8 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-            var str = Console.ReadLine();
-            var parser = (Parser.String("test").Trim().Then(Parser.Num.Between(Char('"')))).Between(Char('"'));
-            var res1 = parser.ParseOrThrow(str);
-            var t = ExprParser.ParseOrThrow("10 + -5");
+            var t = ExprParser.ParseOrThrow("( 2 + 2 ) * 2");
+            var resw = t.Invoke();
             var test = String("return ")
                 .Then(AnyCharExcept(';').ManyString())
                 .Then(Char(';').AtLeastOnceString())

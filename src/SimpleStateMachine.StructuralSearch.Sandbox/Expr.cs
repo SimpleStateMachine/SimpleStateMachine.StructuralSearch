@@ -4,8 +4,9 @@ using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
 {
-  public interface IExpr : IEquatable<IExpr>
+   public interface IExpr
     {
+        public double Invoke();
     }
 
     public class Identifier : IExpr
@@ -19,19 +20,29 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 
         public bool Equals(IExpr? other)
             => other is Identifier i && this.Name == i.Name;
+
+        public double Invoke()
+        {
+            return 0;
+        }
     }
 
     public class Literal : IExpr
     {
-        public int Value { get; }
+        public double Value { get; }
 
-        public Literal(int value)
+        public Literal(double value)
         {
             Value = value;
         }
 
         public bool Equals(IExpr? other)
             => other is Literal l && this.Value == l.Value;
+
+        public double Invoke()
+        {
+            return Value;
+        }
     }
 
     public class Call : IExpr
@@ -49,12 +60,19 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             => other is Call c
             && ((Object)this.Expr).Equals(c.Expr)
             && this.Arguments.SequenceEqual(c.Arguments);
+
+        public double Invoke()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public enum UnaryOperatorType
     {
-        Neg,
-        Complement
+        Increment,
+        Decrement,
+        Plus,
+        Minus
     }
     public class UnaryOp : IExpr
     {
@@ -71,12 +89,26 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             => other is UnaryOp u
             && this.Type == u.Type
             && ((Object)this.Expr).Equals(u.Expr);
+
+        public double Invoke()
+        {
+            return Type switch
+            {
+                UnaryOperatorType.Increment => Expr.Invoke() + 1,
+                UnaryOperatorType.Decrement => Expr.Invoke() - 1,
+                UnaryOperatorType.Plus => - Expr.Invoke(),
+                UnaryOperatorType.Minus => + Expr.Invoke(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
     }
 
     public enum BinaryOperatorType
     {
-        Add,
-        Mul
+        Add, // +
+        Sub, // -
+        Mul, // *
+        Div, // /
     }
     public class BinaryOp : IExpr
     {
@@ -96,5 +128,16 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
             && this.Type == b.Type
             && ((Object)this.Left).Equals(b.Left)
             && ((Object)this.Right).Equals(b.Right);
+
+        public double Invoke()
+        {
+            return Type switch
+            {
+                BinaryOperatorType.Add => Left.Invoke() + Right.Invoke(),
+                BinaryOperatorType.Mul => Left.Invoke() * Right.Invoke(),
+                BinaryOperatorType.Div => Left.Invoke() / Right.Invoke(),
+                BinaryOperatorType.Sub => Left.Invoke() - Right.Invoke(),
+            };
+        }
     }
 }

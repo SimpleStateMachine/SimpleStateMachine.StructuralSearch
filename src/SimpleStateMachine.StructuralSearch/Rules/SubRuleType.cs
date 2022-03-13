@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public enum RuleOperatorType
+    public enum SubRuleType
     {
         Equals = 0,
         Contains,
