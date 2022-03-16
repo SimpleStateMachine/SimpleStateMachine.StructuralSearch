@@ -1,6 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Rules;
 using static Pidgin.Parser;
+using String = System.String;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
 {
@@ -8,16 +11,11 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-            
-            
-            
-            var rule = StructuralSearch.ParseFindRule("$var$ Not (Is int or equals \"test\") and match \"^[0-9]+.[0-9]+$\"");
+            var tr = SubRuleParser.UnarySubRule.ParseOrThrow("equals $var$.Lenght");
+            var rule = StructuralSearch.ParseFindRule("$var$ equals $var$ .Lenght");
             var result1 = rule.Execute("test");
-            var result2 = rule.Execute("125");
+            var result2 = rule.Execute("10");
             var result3 = rule.Execute("5.3");
-            
-            
-            
             
             var t = ExprParser.ParseOrThrow("2 + 2 + 2");
             var resw = t.Invoke();
@@ -25,9 +23,6 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 .Then(AnyCharExcept(';').ManyString())
                 .Then(Char(';').AtLeastOnceString())
                 .Before(Char(';'));
-            
-            
-            
             
             // var template = StructuralSearch.ParseTemplate("");
             // var test = Parser.OneOf(String("Test"), CommonParser.Empty);

@@ -2,6 +2,7 @@
 {
     public enum UnaryRuleType
     {
-        Not = 0,
+        NotCorrect = 0,
+        Not,
     }
 }

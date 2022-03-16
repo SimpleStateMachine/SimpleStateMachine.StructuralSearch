@@ -17,6 +17,12 @@ namespace SimpleStateMachine.StructuralSearch
             return ignoreCase ? Parser.CIString(value): Parser.String(value);
         }
 
+        public static Parser<char, TEnum> After<TEnum>(TEnum value, bool ignoreCase = false)
+            where TEnum : struct, Enum
+        {
+            return Parsers.String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
+        }
+
         // public static Parser<char, string> EnumValue<TEnum>(TEnum value, bool ignoreCase = false)
         //     where TEnum : struct, Enum
         // {

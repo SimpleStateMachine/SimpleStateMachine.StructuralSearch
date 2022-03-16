@@ -57,9 +57,19 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
             return parser.Then(Parser<TToken>.CurrentOffset, (s, offset) => new SourceMatch(s, offset - s.Length, offset));
         }
         
-        public static Parser<char, T> Trim<T>(this Parser<char, T> parser)
+        public static Parser<char, T> TrimEnd<T>(this Parser<char, T> parser)
         {
             return parser.Before(SkipWhitespaces);
+        }
+        
+        public static Parser<char, T> TrimStart<T>(this Parser<char, T> parser)
+        {
+            return parser.After(SkipWhitespaces);
+        }
+        
+        public static Parser<char, T> Trim<T>(this Parser<char, T> parser)
+        {
+            return parser.Between(SkipWhitespaces);
         }
         
         public static Parser<char, TEnum> AsEnum<TEnum>(this Parser<char, string> parser, bool ignoreCase)

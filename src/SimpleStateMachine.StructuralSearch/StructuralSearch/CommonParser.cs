@@ -37,6 +37,9 @@ namespace SimpleStateMachine.StructuralSearch
         
         internal static readonly Parser<char, char> SingleQuotes
             = Char(Constant.SingleQuotes);
+        
+        internal static readonly Parser<char, char> Dote
+            = Char(Constant.Dote);
 
         internal static Parser<char, T> Parenthesised<T>(Parser<char, T> parser, Func<Parser<char, string>, Parser<char, string>> custom)
         {

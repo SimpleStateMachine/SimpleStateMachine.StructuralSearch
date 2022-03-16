@@ -11,8 +11,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
         {
             return Parser.Try(parser);
         }
-
-
+        
         public static Parser<TToken, IEnumerable<T>> AsMany<TToken, T>(this Parser<TToken, T> parser)
         {
             return parser.Select(x => (IEnumerable<T>)new List<T> { x });
@@ -26,7 +25,6 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
                 : throw new ArgumentNullException(nameof(parser));
         }
         
-        
         public static Parser<TToken, IEnumerable<T>> UntilNot<TToken, T, U>(this Parser<TToken, T> parser,
             Parser<TToken, U> terminator)
         {
@@ -39,10 +37,10 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
         {
             if(parser is null)
                 throw new ArgumentNullException(nameof(parser));
-
-            var res = parser.Try().Optional().ParseOrThrow(value, null);
-            result = res.HasValue ? res.Value : default;
-            return res.HasValue;
+            
+            var res = parser.Parse(value);
+            result = res.Success ? res.Value : default;
+            return res.Success;
         }
         public static Parser<TToken, bool> Contains<TToken, T>(this Parser<TToken, T> parser)
         {
@@ -111,6 +109,11 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
             where T: R
         {
             return parser.Select(x => (R)x);
+        }
+        
+        public static Parser<TToken, T> After<TToken, T, U>(this Parser<TToken, T> parser, Parser<TToken, U> parserAfter)
+        {
+            return parserAfter.Then(parser, (u, t) => t);
         }
 
         // public static Parser<TToken, T> BetweenAsThen<TToken, T, U, V>(this Parser<TToken, T> parser, Parser<TToken, U> parser1, Parser<TToken, V> parser2, Func<U, T, V, T> func)

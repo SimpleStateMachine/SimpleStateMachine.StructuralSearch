@@ -14,28 +14,27 @@ namespace SimpleStateMachine.StructuralSearch
 
         internal static Parser<char, Func<IRule, IRule>> Unary(Parser<char, UnaryRuleType> op)
             => op.Select<Func<IRule, IRule>>(type => param => new UnaryRule(type, param));
-
-
+        
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> And
-            = Binary(Parsers.EnumValue(BinaryRuleType.And, true).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.And, true).TrimStart());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> Or
-            = Binary(Parsers.EnumValue(BinaryRuleType.Or, true).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.Or, true).TrimStart());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> NOR
-            = Binary(Parsers.EnumValue(BinaryRuleType.NOR, true).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.NOR, true).TrimStart());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> XOR
-            = Binary(Parsers.EnumValue(BinaryRuleType.XOR, true).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.XOR, true).TrimStart());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> NAND
-            = Binary(Parsers.EnumValue(BinaryRuleType.NAND, true).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.NAND, true).TrimStart());
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> XNOR
-            = Binary(Parsers.EnumValue(BinaryRuleType.XNOR, true).Trim());
+            = Binary(Parsers.EnumValue(BinaryRuleType.XNOR, true).TrimStart());
 
         internal static readonly Parser<char, Func<IRule, IRule>> Not
-            = Unary(Parsers.EnumValue(UnaryRuleType.Not, true).Trim());
+            = Unary(Parsers.EnumValue(UnaryRuleType.Not, true).TrimStart());
 
         internal static readonly Parser<char, IRule> Expr = ExpressionParser.Build<char, IRule>(
             rule => (
@@ -43,7 +42,7 @@ namespace SimpleStateMachine.StructuralSearch
                     SubRuleParser.UnarySubRule,
                     SubRuleParser.IsSubRule,
                     SubRuleParser.InSubRule,
-                    CommonParser.Parenthesised(rule, x => x.Trim())
+                    CommonParser.Parenthesised(rule, x => x.TrimStart())
                 ),
                 new[]
                 {
@@ -60,7 +59,7 @@ namespace SimpleStateMachine.StructuralSearch
 
         internal static readonly Parser<char, IRule> Rule =
             Parser.Map((name, rule) => new Rule(name, rule),
-                    CommonTemplateParser.Placeholder.Trim(),
+                    CommonTemplateParser.Placeholder.TrimStart(),
                     Expr)
                 .As<char, Rule, IRule>();
 
