@@ -1,8 +1,9 @@
-﻿using System;
+﻿using System.Text.RegularExpressions;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Rules;
 using static Pidgin.Parser;
-using static Pidgin.Parser<char>;
+using String = System.String;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
 {
@@ -10,19 +11,18 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-            var result = FindRuleParser.ParseTemplate("$var$ Is int");
-            var result1 = result.Execute("125");
+            var tr = SubRuleParser.UnarySubRule.ParseOrThrow("equals $var$.Lenght");
+            var rule = StructuralSearch.ParseFindRule("$var$ equals $var$ .Lenght");
+            var result1 = rule.Execute("test");
+            var result2 = rule.Execute("10");
+            var result3 = rule.Execute("5.3");
             
-            
-            var t = ExprParser.ParseOrThrow("( 2 + 2 ) * 2");
+            var t = ExprParser.ParseOrThrow("2 + 2 + 2");
             var resw = t.Invoke();
             var test = String("return ")
                 .Then(AnyCharExcept(';').ManyString())
                 .Then(Char(';').AtLeastOnceString())
                 .Before(Char(';'));
-            
-            
-            
             
             // var template = StructuralSearch.ParseTemplate("");
             // var test = Parser.OneOf(String("Test"), CommonParser.Empty);

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public class ReplaceTemplateParser
+    internal class ReplaceTemplateParser
     {
         static ReplaceTemplateParser()
         {
@@ -23,29 +22,29 @@ namespace SimpleStateMachine.StructuralSearch
                 .MergerMany();
         }
 
-        public static readonly Parser<char, IReplaceStep> Empty = 
+        internal static readonly Parser<char, IReplaceStep> Empty = 
             ParserToReplace.ResultAsReplace(CommonParser.Empty);
 
-        public static readonly Parser<char, IReplaceStep> AnyString = 
+        internal static readonly Parser<char, IReplaceStep> AnyString = 
             ParserToReplace.ResultAsReplace(CommonParser.AnyString)
                 .Try();
 
-        public static readonly Parser<char, IReplaceStep> WhiteSpaces =
+        internal static readonly Parser<char, IReplaceStep> WhiteSpaces =
             ParserToReplace.ResultAsReplace(CommonParser.WhiteSpaces)
                 .Try();
 
-        public static readonly Parser<char, IReplaceStep> Placeholder =
+        internal static readonly Parser<char, IReplaceStep> Placeholder =
             CommonTemplateParser.Placeholder.Select(name=> new PlaceholderReplace(name))
                 .As<char, PlaceholderReplace, IReplaceStep>()
                 .Try();
 
-        public static readonly Parser<char, IEnumerable<IReplaceStep>> Token =
+        internal static readonly Parser<char, IEnumerable<IReplaceStep>> Token =
             Parser.OneOf(AnyString, Placeholder, WhiteSpaces)
                 .AsMany();
 
-        public static readonly Parser<char, IEnumerable<IReplaceStep>> Term;
+        internal static readonly Parser<char, IEnumerable<IReplaceStep>> Term;
 
-        public static readonly Parser<char, IEnumerable<IReplaceStep>> Parenthesised;
+        internal static readonly Parser<char, IEnumerable<IReplaceStep>> Parenthesised;
 
         private static readonly Parser<char, IEnumerable<IReplaceStep>> TemplateParser;
 

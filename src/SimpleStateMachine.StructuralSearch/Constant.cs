@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace SimpleStateMachine.StructuralSearch
+﻿namespace SimpleStateMachine.StructuralSearch
 {
     public static partial class Constant
     {
@@ -78,6 +76,11 @@ namespace SimpleStateMachine.StructuralSearch
         /// Char: '\"'
         /// </summary>
         public static readonly char DoubleQuotes = '\"';
+        
+        /// <summary>
+        /// Char: '.'
+        /// </summary>
+        public static readonly char Dote = '.';
         
         /// <summary>
         /// Parenthesis chars: '(' and ')'

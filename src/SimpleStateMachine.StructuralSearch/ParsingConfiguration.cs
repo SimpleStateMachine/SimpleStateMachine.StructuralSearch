@@ -1,5 +1,4 @@
-﻿using System;
-using Pidgin;
+﻿using Pidgin;
 
 namespace SimpleStateMachine.StructuralSearch
 {

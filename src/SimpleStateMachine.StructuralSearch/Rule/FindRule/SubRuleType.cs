@@ -2,7 +2,8 @@
 {
     public enum SubRuleType
     {
-        Equals = 0,
+        NotCorrect = 0,
+        Equals,
         Contains,
         StartsWith,
         EndsWith,

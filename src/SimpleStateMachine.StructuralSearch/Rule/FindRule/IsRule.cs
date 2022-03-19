@@ -1,5 +1,4 @@
 ﻿using System;
-using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch.Rules

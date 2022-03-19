@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
-using Pidgin.TokenStreams;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Helper;
 using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch
@@ -17,6 +15,12 @@ namespace SimpleStateMachine.StructuralSearch
         public static Parser<char, string> String(string value, bool ignoreCase)
         {
             return ignoreCase ? Parser.CIString(value): Parser.String(value);
+        }
+
+        public static Parser<char, TEnum> After<TEnum>(TEnum value, bool ignoreCase = false)
+            where TEnum : struct, Enum
+        {
+            return Parsers.String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
         }
 
         // public static Parser<char, string> EnumValue<TEnum>(TEnum value, bool ignoreCase = false)

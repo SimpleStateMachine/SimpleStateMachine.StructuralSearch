@@ -1,5 +1,4 @@
-﻿using System;
-using Pidgin;
+﻿using Pidgin;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
