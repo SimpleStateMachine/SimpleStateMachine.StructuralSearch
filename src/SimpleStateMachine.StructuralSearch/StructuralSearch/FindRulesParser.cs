@@ -60,7 +60,7 @@ namespace SimpleStateMachine.StructuralSearch
         internal static readonly Parser<char, IRule> Rule =
             Parser.Map((name, rule) => new Rule(name, rule),
                     CommonTemplateParser.Placeholder.TrimStart(),
-                    Expr)
+                    Expr.TrimStart())
                 .As<char, Rule, IRule>();
 
         internal static IRule ParseTemplate(string str)
