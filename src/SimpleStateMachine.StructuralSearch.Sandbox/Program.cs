@@ -11,8 +11,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-            var tr = SubRuleParser.UnarySubRule.ParseOrThrow("equals $var$.Lenght");
-            var rule = StructuralSearch.ParseFindRule("$var$ equals $var$ .Lenght");
+            var rule = StructuralSearch.ParseFindRule("$var$ equals $var$.Lenght and ");
             var result1 = rule.Execute("test");
             var result2 = rule.Execute("10");
             var result3 = rule.Execute("5.3");

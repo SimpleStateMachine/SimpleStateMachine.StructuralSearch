@@ -2,8 +2,7 @@
 {
     public enum BinaryRuleType
     {
-        NotCorrect = 0,
-        And,
+        And = 0,
         Or,
         NAND,
         NOR,

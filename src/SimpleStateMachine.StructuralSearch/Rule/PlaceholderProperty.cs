@@ -2,8 +2,7 @@
 {
     public enum PlaceholderProperty
     {
-        NotCorrect = 0,
-        Lenght,
+        Lenght = 0,
         File,
         Position,
         Line,

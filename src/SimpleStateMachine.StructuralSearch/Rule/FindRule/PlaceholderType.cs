@@ -2,8 +2,7 @@
 {
     public enum PlaceholderType
     {
-        NotCorrect = 0,
-        Var,
+        Var = 0,
         Int,
         Double,
         DateTime,
