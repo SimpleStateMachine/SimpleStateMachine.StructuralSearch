@@ -4,7 +4,7 @@
     {
         Lenght = 0,
         File,
-        Position,
+        Offset,
         Line,
         Column,
     }
