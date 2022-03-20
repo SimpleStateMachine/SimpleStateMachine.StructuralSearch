@@ -78,6 +78,11 @@
         public static readonly char DoubleQuotes = '\"';
         
         /// <summary>
+        /// Char: '\"'
+        /// </summary>
+        public static readonly char BackSlash = '\\';
+        
+        /// <summary>
         /// Char: '.'
         /// </summary>
         public static readonly char Dote = '.';

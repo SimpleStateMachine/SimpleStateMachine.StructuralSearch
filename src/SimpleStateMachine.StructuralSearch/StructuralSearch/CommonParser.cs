@@ -46,5 +46,10 @@ namespace SimpleStateMachine.StructuralSearch
             return parser.Between(custom(Parsers.Stringc(Constant.LeftParenthesis)),
                 custom(Parsers.Stringc(Constant.RightParenthesis)));
         }
+        
+        internal static Parser<char, char> Escaped(params char [] chars)
+        {
+            return Char(Constant.BackSlash).Then(OneOf(chars));
+        }
     }
 }
