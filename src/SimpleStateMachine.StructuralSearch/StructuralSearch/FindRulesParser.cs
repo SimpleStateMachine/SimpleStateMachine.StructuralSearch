@@ -7,7 +7,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    internal static class FindRuleParser
+    public static class FindRuleParser
     {
         internal static Parser<char, Func<IRule, IRule, IRule>> Binary(Parser<char, BinaryRuleType> op)
             => op.Select<Func<IRule, IRule, IRule>>(type => (l, r) => new BinaryRule(type, l, r));
@@ -36,7 +36,7 @@ namespace SimpleStateMachine.StructuralSearch
         internal static readonly Parser<char, Func<IRule, IRule>> Not
             = Unary(Parsers.EnumValue(UnaryRuleType.Not, true).TrimStart());
 
-        internal static readonly Parser<char, IRule> Expr = ExpressionParser.Build<char, IRule>(
+        public static readonly Parser<char, IRule> Expr = ExpressionParser.Build<char, IRule>(
             rule => (
                 Parser.OneOf(
                     SubRuleParser.UnarySubRule,

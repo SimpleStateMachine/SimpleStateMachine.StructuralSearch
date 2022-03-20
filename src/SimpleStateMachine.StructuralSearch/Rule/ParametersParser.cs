@@ -14,18 +14,13 @@ namespace SimpleStateMachine.StructuralSearch
                 .TrimStart()
                 .Try();
         
-        public static readonly Parser<char, IRuleParameter> Parameter =
-            Parser.OneOf(PlaceholderPropertyParser.PlaceholderPropertyParameter, PlaceholderParameter);
-
-        public static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters =
-            Parameter.AtLeastOnce();
-
         public static readonly Parser<char, IRuleParameter> StringParameter =
             CommonParser.Escaped(Constant.DoubleQuotes, Constant.PlaceholderSeparator)
                 .Or(Parser.AnyCharExcept(Constant.DoubleQuotes, Constant.PlaceholderSeparator))
                 .AtLeastOnceString()
                 .Select(x => new StringParameter(x))
                 .As<char, StringParameter, IRuleParameter>()
+                .TrimStart()
                 .Try();
         
         public static readonly Parser<char, IRuleParameter> StringFormatParameter =
@@ -36,5 +31,14 @@ namespace SimpleStateMachine.StructuralSearch
                 .As<char, StringFormatParameter, IRuleParameter>()
                 .TrimStart()
                 .Try();
+        
+        public static readonly Parser<char, IRuleParameter> Parameter =
+            Parser.OneOf(PlaceholderPropertyParser.PlaceholderPropertyParameter, PlaceholderParameter, StringFormatParameter)
+                .TrimStart()
+                .Try();
+
+        public static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters =
+            Parameter.AtLeastOnce();
+
     }
 }
