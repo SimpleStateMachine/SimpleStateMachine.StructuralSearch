@@ -17,5 +17,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         {
             throw new System.NotImplementedException();
         }
+        
+        public override string ToString()
+        {
+            return $"{PlaceholderParameter}.{Property}";
+        } 
     }
 }

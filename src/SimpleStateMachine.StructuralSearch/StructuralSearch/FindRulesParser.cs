@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Pidgin;
 using Pidgin.Expression;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Rules;
-
 
 namespace SimpleStateMachine.StructuralSearch
 {

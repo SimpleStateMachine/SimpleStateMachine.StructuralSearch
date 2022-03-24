@@ -16,5 +16,10 @@
         {
             return _rule.Execute(value);
         }
+        
+        public override string ToString()
+        {
+            return $"{Placeholder} {_rule}";
+        } 
     }
 }
