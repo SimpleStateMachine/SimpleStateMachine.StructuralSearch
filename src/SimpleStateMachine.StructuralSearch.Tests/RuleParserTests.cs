@@ -12,7 +12,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("Not equals $var$.offset.Start")]
         [InlineData("equals $var$.Lenght and Not StartsWith \"123\"")]
         [InlineData("equals $var$.Lenght and Not StartsWith \"\\\"Test\"")]
-        public void TemplateParsingShouldBeSuccess(string ruleStr)
+        public void FindRuleParsingShouldBeSuccess(string ruleStr)
         {
             var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);
             var _ruleStr = rule.ToString()?.ToLower();

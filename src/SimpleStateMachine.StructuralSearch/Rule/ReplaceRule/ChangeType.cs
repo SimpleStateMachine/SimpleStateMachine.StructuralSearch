@@ -2,8 +2,7 @@
 {
     public enum ChangeType
     {
-        NotCorrect = 0,
-        Trim,
+        Trim = 0,
         TrimEnd,
         TrimStart,
         ToUpper,

@@ -57,13 +57,12 @@ namespace SimpleStateMachine.StructuralSearch
             )
         );
 
-        internal static readonly Parser<char, IRule> Rule =
-            Parser.Map((name, rule) => new Rule(name, rule),
+        internal static readonly Parser<char, FindRule> Rule =
+            Parser.Map((name, rule) => new FindRule(name, rule),
                     CommonTemplateParser.Placeholder.TrimStart(),
-                    Expr.TrimStart())
-                .As<char, Rule, IRule>();
+                    Expr.TrimStart());
 
-        internal static IRule ParseTemplate(string str)
+        internal static FindRule ParseTemplate(string str)
         {
             return Rule.ParseOrThrow(str);
         }

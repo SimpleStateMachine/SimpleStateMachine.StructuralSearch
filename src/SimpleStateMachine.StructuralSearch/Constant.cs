@@ -88,6 +88,16 @@
         public static readonly char Dote = '.';
         
         /// <summary>
+        /// Char: '='
+        /// </summary>
+        public static readonly char Equals = '=';
+        
+        /// <summary>
+        /// Char: '>'
+        /// </summary>
+        public static readonly char More = '>';
+        
+        /// <summary>
         /// Parenthesis chars: '(' and ')'
         /// </summary>
         public static readonly (char, char) Parenthesis = (LeftParenthesis, RightParenthesis);
