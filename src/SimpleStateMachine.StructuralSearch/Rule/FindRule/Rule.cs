@@ -19,7 +19,7 @@
         
         public override string ToString()
         {
-            return $"{Placeholder} {_rule}";
+            return $"{Placeholder}{Constant.Space}{_rule}";
         } 
     }
 }

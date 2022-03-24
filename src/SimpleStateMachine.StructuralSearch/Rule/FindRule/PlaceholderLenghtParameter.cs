@@ -20,7 +20,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{PlaceholderParameter}.{Property}";
+            return $"{PlaceholderParameter}{Constant.Dote}{Property}";
         } 
     }
 }

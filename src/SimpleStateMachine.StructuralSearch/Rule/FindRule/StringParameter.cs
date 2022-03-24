@@ -14,7 +14,8 @@
         
         public override string ToString()
         {
-            return $"\"{Value.Replace("\"", "\\\"")}\"";
+            var value = Value.Replace($"{Constant.DoubleQuotes}", $"{Constant.BackSlash}{Constant.DoubleQuotes}");
+            return $"{Constant.DoubleQuotes}{value}{Constant.DoubleQuotes}";
         } 
     }
 }

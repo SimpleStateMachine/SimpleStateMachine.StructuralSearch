@@ -18,7 +18,7 @@
         
         public override string ToString()
         {
-            return $"{PlaceholderParameter}.{PlaceholderProperty.Column}.{Property}";
+            return $"{PlaceholderParameter}{Constant.Dote}{PlaceholderProperty.Column}{Constant.Dote}{Property}";
         } 
     }
 }

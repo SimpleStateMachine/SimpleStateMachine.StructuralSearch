@@ -16,7 +16,7 @@
         
         public override string ToString()
         {
-            return $"${Name}$";
+            return $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
         } 
     }
 }

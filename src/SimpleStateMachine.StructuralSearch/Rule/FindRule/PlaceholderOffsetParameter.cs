@@ -17,7 +17,7 @@
         
         public override string ToString()
         {
-            return $"{PlaceholderParameter}.{PlaceholderProperty.Offset}.{Property}";
+            return $"{PlaceholderParameter}{Constant.Dote}{PlaceholderProperty.Offset}{Constant.Dote}{Property}";
         } 
     }
 }

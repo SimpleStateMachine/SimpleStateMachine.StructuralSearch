@@ -18,7 +18,7 @@
         
         public override string ToString()
         {
-            return $"{PlaceholderParameter}.{PlaceholderProperty.Line}.{Property}";
+            return $"{PlaceholderParameter}{Constant.Dote}{PlaceholderProperty.Line}{Constant.Dote}{Property}";
         } 
     }
 }

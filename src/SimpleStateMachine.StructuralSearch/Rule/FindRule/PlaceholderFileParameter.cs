@@ -18,7 +18,7 @@
         
         public override string ToString()
         {
-            return $"{PlaceholderParameter}.{PlaceholderProperty.File}.{Property}";
+            return $"{PlaceholderParameter}{Constant.Dote}{PlaceholderProperty.File}{Constant.Dote}{Property}";
         } 
     }
 }

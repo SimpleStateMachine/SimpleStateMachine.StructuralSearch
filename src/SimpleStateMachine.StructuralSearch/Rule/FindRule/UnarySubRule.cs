@@ -32,7 +32,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{Type} {Parameter}";
+            return $"{Type}{Constant.Space}{Parameter}";
         } 
     }
 }
