@@ -13,8 +13,8 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-            var tesds = ParametersParser.StringFormatParameter.ParseOrThrow("\"tfasdfa\\\"sd$var$.Lenght\"");
-            var replaceRule = StructuralSearch.ParseReplaceRule("$var$ equals $var$ => $var$");
+            //var tesds = ParametersParser.StringFormatParameter.ParseOrThrow("\"tfasdfa\\\"sd$var$.Lenght\"");
+            var replaceRule = StructuralSearch.ParseReplaceRule("$var$ equals $var$ => $var$.Trim");
             
             var rule = StructuralSearch.ParseFindRule("$var$ equals $var$.Lenght and Not StartsWith \"123\\\" $var$ \\\"\"");
             var rule2 = StructuralSearch.ParseFindRule("$var$ equals $var$.Offset.Start and Not StartsWith \"123\"");

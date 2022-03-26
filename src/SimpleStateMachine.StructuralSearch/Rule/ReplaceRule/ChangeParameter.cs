@@ -1,4 +1,5 @@
-﻿using SimpleStateMachine.StructuralSearch.Rules;
+﻿using System;
+using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
 {
@@ -15,7 +16,21 @@ namespace SimpleStateMachine.StructuralSearch
 
         public string GetValue()
         {
-            throw new System.NotImplementedException();
+            var value = Parameter.GetValue();
+            return Type switch
+            {
+                ChangeType.Trim => value.Trim(),
+                ChangeType.TrimEnd => value.TrimEnd(),
+                ChangeType.TrimStart => value.TrimStart(),
+                ChangeType.ToUpper => value.ToUpper(),
+                ChangeType.ToLower => value.ToLower(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
+        
+        public override string ToString()
+        {
+            return $"{Parameter}{Constant.Dote}{Type}";
+        } 
     }
 }
