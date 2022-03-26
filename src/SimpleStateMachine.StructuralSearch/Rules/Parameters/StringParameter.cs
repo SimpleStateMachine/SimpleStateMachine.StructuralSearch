@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿using SimpleStateMachine.StructuralSearch.Helper;
+
+namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class StringParameter : IRuleParameter
     {
@@ -14,7 +16,9 @@
         
         public override string ToString()
         {
-            var value = Value.Replace($"{Constant.DoubleQuotes}", $"{Constant.BackSlash}{Constant.DoubleQuotes}");
+            var value = EscapeHelper.EscapeChars(Value, c => $"{Constant.BackSlash}{c}", Constant.PlaceholderSeparator,
+                Constant.DoubleQuotes);
+            
             return $"{Constant.DoubleQuotes}{value}{Constant.DoubleQuotes}";
         } 
     }

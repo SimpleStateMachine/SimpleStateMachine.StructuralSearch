@@ -8,6 +8,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     {
         [Theory]
         [InlineData("equals $var$")]
+        [InlineData("equals \"\\$\"")]
         [InlineData("Not equals $var$.Lenght")]
         [InlineData("Not equals $var$.offset.Start")]
         [InlineData("equals $var$.Lenght and Not StartsWith \"123\"")]
