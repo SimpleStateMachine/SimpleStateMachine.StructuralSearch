@@ -98,6 +98,11 @@
         public static readonly char More = '>';
         
         /// <summary>
+        /// String: "=>"
+        /// </summary>
+        public static readonly string Should = $"{Equals}{More}";
+        
+        /// <summary>
         /// Parenthesis chars: '(' and ')'
         /// </summary>
         public static readonly (char, char) Parenthesis = (LeftParenthesis, RightParenthesis);

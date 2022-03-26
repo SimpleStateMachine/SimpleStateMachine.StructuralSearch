@@ -72,8 +72,8 @@ namespace SimpleStateMachine.StructuralSearch
         );
 
         internal static readonly Parser<char, FindRule> Rule =
-            Parser.Map((name, rule) => new FindRule(name, rule),
-                    CommonTemplateParser.Placeholder.TrimStart(),
+            Parser.Map((parameter, rule) => new FindRule(parameter, rule),
+                ParametersParser.PlaceholderParameter,
                     Expr.TrimStart());
 
         internal static FindRule ParseTemplate(string str)

@@ -17,8 +17,7 @@ namespace SimpleStateMachine.StructuralSearch
             = AnyCharWithPlshd.AtLeastOnceString();
         
         internal static readonly Parser<char, string> Should
-            = Parsers.Stringc(Constant.Equals).Then(Parsers.Stringc(Constant.More), 
-                (c1, c2) => c1 + c2);
+            = String(Constant.Should);
         
         //can be contains one $
         internal static readonly Parser<char, string> StringWithoutPlaceholder

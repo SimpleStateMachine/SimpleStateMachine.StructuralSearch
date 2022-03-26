@@ -4,7 +4,7 @@ using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
 {
-    public class RuleParserTests
+    public class FindRuleParserTests
     {
         [Theory]
         [InlineData("equals $var$")]

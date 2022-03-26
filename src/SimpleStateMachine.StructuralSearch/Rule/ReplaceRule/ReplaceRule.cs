@@ -18,7 +18,7 @@ namespace SimpleStateMachine.StructuralSearch
         
         public override string ToString()
         {
-            return $"{FindRule}{Constant.Space}{Parameter}";
+            return $"{FindRule}{Constant.Space}{Constant.Should}{Constant.Space}{Parameter}";
         } 
     }
 }
