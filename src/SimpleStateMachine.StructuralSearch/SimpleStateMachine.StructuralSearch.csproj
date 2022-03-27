@@ -10,4 +10,9 @@
     <PackageReference Include="Pidgin" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>SimpleStateMachine.StructuralSearch.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>

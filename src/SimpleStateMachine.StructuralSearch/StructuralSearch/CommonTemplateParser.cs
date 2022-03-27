@@ -16,6 +16,9 @@ namespace SimpleStateMachine.StructuralSearch
         internal static readonly Parser<char, string> StringWithPlshd
             = AnyCharWithPlshd.AtLeastOnceString();
         
+        internal static readonly Parser<char, string> Should
+            = String(Constant.Should);
+        
         //can be contains one $
         internal static readonly Parser<char, string> StringWithoutPlaceholder
             = Any.AtLeastOnceAsStringUntilNot(Placeholder);

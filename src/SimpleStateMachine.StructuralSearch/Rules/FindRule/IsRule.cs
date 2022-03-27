@@ -27,5 +27,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
+        
+        public override string ToString()
+        {
+            return $"{Type}{Constant.Space}{PlaceholderType}";
+        }  
     }
 }

@@ -15,5 +15,10 @@
         {
             throw new System.NotImplementedException();
         }
+        
+        public override string ToString()
+        {
+            return $"{PlaceholderParameter}{Constant.Dote}{PlaceholderProperty.File}{Constant.Dote}{Property}";
+        } 
     }
 }

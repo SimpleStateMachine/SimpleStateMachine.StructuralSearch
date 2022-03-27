@@ -20,5 +20,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         {
             return Parameters.Any(parameter => Equals(value, parameter.GetValue()));
         }
+        
+        public override string ToString()
+        {
+            return $"{Type}{Constant.Space}{string.Join(Constant.Space, Parameters.Select(x=>x.ToString()))}";
+        }  
     }
 }

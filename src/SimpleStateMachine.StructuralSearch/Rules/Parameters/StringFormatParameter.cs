@@ -16,5 +16,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         {
             return string.Join(string.Empty, Parameters.Select(x => x.GetValue()));
         }
+        
+        public override string ToString()
+        {
+            return $"{string.Join(Constant.Space, Parameters.Select(x=> x.ToString()))}";
+        } 
     }
 }
