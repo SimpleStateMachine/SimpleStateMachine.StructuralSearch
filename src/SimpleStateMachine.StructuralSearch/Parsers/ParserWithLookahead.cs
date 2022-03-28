@@ -6,7 +6,7 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
     {
-        private Parser<TToken, T> _parser { get; set; }
+        private Func<Parser<TToken, T>> _parser { get; set; }
 
         public Func<IEnumerable<LookaheadResult<TToken, T>>> OnLookahead { get; set; }
 
@@ -15,13 +15,14 @@ namespace SimpleStateMachine.StructuralSearch
 
         public void Lookahead(Func<Parser<TToken, T>?> next, Func<Parser<TToken, T>?> nextNext)
         {
-            _parser = BuildParser(next, nextNext);
+            // lazy initialization
+            _parser = () => BuildParser(next, nextNext);
         }
 
         public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected,
             out T result)
         {
-            var res = _parser.TryParse(ref state, ref expected, out result);
+            var res = _parser().TryParse(ref state, ref expected, out result);
             return res;
         }
     }

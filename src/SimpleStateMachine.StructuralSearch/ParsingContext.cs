@@ -6,14 +6,14 @@ namespace SimpleStateMachine.StructuralSearch
     {
         public Dictionary<string, string> Placeholders { get; } = new();
 
-        public bool TryAdd(string name, string value)
+        public bool TryGet(string name, out string value)
         {
-            if (Placeholders.ContainsKey(name))
-                return Placeholders[name] == value;
-
-            Placeholders.Add(name, value);
-            
-            return true;
+            return Placeholders.TryGetValue(name, out value);
+        }
+        
+        public void AddPlaceholder(string name, string value)
+        {
+           Placeholders[name] = value;
         }
         
         public string GetPlaceholder(string name)

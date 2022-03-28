@@ -34,7 +34,7 @@ namespace SimpleStateMachine.StructuralSearch
             var anyString = CommonTemplateParser.AnyCharWithPlshd
                 .AtLeastOnceAsStringUntil(lookahead);
 
-            var simpleString = CommonTemplateParser.StringWithPlshd.Labelled("simpleString");
+            var simpleString = CommonTemplateParser.StringWithPlshd;
             var token = Parser.OneOf(simpleString, CommonParser.WhiteSpaces).Try();
             Parser<char, string> term = null;
 
@@ -57,11 +57,20 @@ namespace SimpleStateMachine.StructuralSearch
         public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected,
             out string result)
         {
-            var res = base.TryParse(ref state, ref expected, out result);
-
-            if (res)
-                res &= _context.TryAdd(Name, result);
-
+            bool res;
+            
+            // No use look-ahead if placeholder is already defined
+            if (_context.TryGet(Name, out var value))
+            {
+                res = Parser.String(value).TryParse(ref state, ref expected, out result);
+            }
+            else
+            {
+                res = base.TryParse(ref state, ref expected, out result);
+                if (res)
+                    _context.AddPlaceholder(Name, result);
+            }
+            
             return res;
         }
 

@@ -38,9 +38,9 @@ namespace SimpleStateMachine.StructuralSearch
 
                 void SkipLookedParsers(Parser<TToken, T> parser, ref ParseState<TToken> state)
                 {
-                    if (parser is not ParserWithLookahead<TToken, T> lookaheadParser) 
+                    if (parser is not ParserWithLookahead<TToken, T> lookaheadParser || lookaheadParser is { OnLookahead: null }) 
                         return;
-            
+                    
                     var lookaheadResults = lookaheadParser.OnLookahead.Invoke();
             
                     foreach (var result in lookaheadResults)
@@ -49,7 +49,8 @@ namespace SimpleStateMachine.StructuralSearch
                         state.Advance(result.TokensCount);
                         i++;
                     }
-            
+                    
+                    //recursion
                     foreach (var result in lookaheadResults)
                     {
                         SkipLookedParsers(result.Parser, ref state);
