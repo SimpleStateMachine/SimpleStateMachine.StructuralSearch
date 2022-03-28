@@ -1,13 +1,15 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class PlaceholderParameter : IRuleParameter
+    public class PlaceholderParameter : IRuleParameter, IContextDependent
     {
-        public string Name { get; }
+        private ParsingContext _context;
         
         public PlaceholderParameter(string name)
         {
             Name = name;
         }
+        
+        public string Name { get; }
         
         public string GetValue()
         {
@@ -17,6 +19,11 @@
         public override string ToString()
         {
             return $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
-        } 
+        }
+
+        public void SetContext(ParsingContext context)
+        {
+            _context = context;
+        }
     }
 }

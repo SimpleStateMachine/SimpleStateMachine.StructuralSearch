@@ -1,4 +1,4 @@
-﻿if($var1$ $sign$ $value1$)
+﻿if($var1$ $sign$ $some1$)
 {
     $var$ = $value1$;
 }

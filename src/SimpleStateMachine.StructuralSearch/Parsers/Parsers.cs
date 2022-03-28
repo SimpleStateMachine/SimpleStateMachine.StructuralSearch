@@ -78,7 +78,7 @@ namespace SimpleStateMachine.StructuralSearch
         }
 
 
-        public static Parser<TToken, R> Series<TToken, T, R>(IEnumerable<Parser<TToken, T>> parsers,
+        public static Parser<TToken, R> Series<TToken, T, R>(ParsingContext context, IEnumerable<Parser<TToken, T>> parsers,
             Func<IEnumerable<T>, R> func)
         {
             if (parsers == null)
@@ -86,7 +86,7 @@ namespace SimpleStateMachine.StructuralSearch
             if (func == null)
                 throw new ArgumentNullException(nameof(func));
 
-            return new SeriesParser<TToken, T, R>(parsers, func);
+            return new SeriesParser<TToken, T, R>(context, parsers, func);
         }
 
         public static Parser<char, IEnumerable<T>> BetweenChars<T>(char left, char right,
@@ -134,5 +134,10 @@ namespace SimpleStateMachine.StructuralSearch
         {
             return Parsers.String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
         }
+        
+        public static Parser<TToken, T> Lookahead<TToken, T>(Parser<TToken, T> parser) => 
+            parser != null ? (Parser<TToken, T>) 
+            new LookaheadParser<TToken, T>(parser) 
+            : throw new ArgumentNullException(nameof (parser));
     }
 }

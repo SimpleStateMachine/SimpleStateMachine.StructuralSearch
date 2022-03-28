@@ -13,7 +13,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         public void TemplateParsingShouldBeSuccess(string templatePath)
         {
            var findTemplate = File.ReadAllText(templatePath);
-           var template = StructuralSearch.ParseFindTemplate(findTemplate);
+           var template = StructuralSearch.ParseFindTemplate(findTemplate, new ParsingContext());
            
            Assert.NotNull(template);
         }
@@ -27,7 +27,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             var findTemplate = File.ReadAllText(templatePath);
             var source = File.ReadAllText(sourcePath);
 
-            var template = StructuralSearch.ParseFindTemplate(findTemplate);
+            var context = new ParsingContext();
+            var template = StructuralSearch.ParseFindTemplate(findTemplate, context);
             var result = template.ParseOrThrow(source);
             
             Assert.NotNull(template);

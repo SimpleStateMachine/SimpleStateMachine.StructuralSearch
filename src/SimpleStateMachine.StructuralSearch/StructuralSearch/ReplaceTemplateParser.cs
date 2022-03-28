@@ -48,10 +48,10 @@ namespace SimpleStateMachine.StructuralSearch
 
         private static readonly Parser<char, IEnumerable<IReplaceStep>> TemplateParser;
 
-        internal static IReplaceBuilder ParseTemplate(string str)
+        internal static IReplaceBuilder ParseTemplate(string str, ParsingContext context)
         {
             return TemplateParser
-                .Select(steps => new ReplaceBuilder(steps))
+                .Select(steps => new ReplaceBuilder(context, steps))
                 .ParseOrThrow(str);
         }
     }

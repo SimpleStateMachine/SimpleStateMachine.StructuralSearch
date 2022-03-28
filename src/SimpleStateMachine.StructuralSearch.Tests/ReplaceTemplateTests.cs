@@ -12,7 +12,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         public void TemplateParsingShouldBeSuccess(string templatePath, int stepsCount)
         {
             var replaceTemplate = File.ReadAllText(templatePath);
-            var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
+            var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate, new ParsingContext());
             var result = replaceBuilder.Build();
             
             Assert.NotNull(replaceTemplate);

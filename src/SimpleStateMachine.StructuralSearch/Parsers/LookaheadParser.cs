@@ -1,25 +1,24 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using Pidgin;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public abstract class LookaheadParser<TToken, T> : Parser<TToken, T>
+    internal sealed class LookaheadParser<TToken, T> : Parser<TToken, T>
     {
-        private Parser<TToken, T> _parser { get; set; }
+        private readonly Parser<TToken, T> _parser;
 
-        public abstract Parser<TToken, T> BuildParser(Func<Parser<TToken, T>?> next,
-            Func<Parser<TToken, T>?> nextNext);
-        
-        public void Lookahead(Func<Parser<TToken, T>?> next, Func<Parser<TToken, T>?> nextNext)
+        public LookaheadParser(Parser<TToken, T> parser) => this._parser = parser;
+
+        public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expecteds, out T result)
         {
-            _parser = BuildParser(next, nextNext);
-        }
-        
-        public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected,
-            out T result)
-        {
-            var res = _parser.TryParse(ref state, ref expected, out result);
-            return res;
+            state.PushBookmark();
+            if (this._parser.TryParse(ref state, ref expecteds, out result))
+            {
+                state.Rewind();
+                return true;
+            }
+            state.PopBookmark();
+            return false;
         }
     }
 }
