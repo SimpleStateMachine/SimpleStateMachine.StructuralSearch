@@ -26,6 +26,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
 
         // private ConfigurationsFile Mock()
         // {
+        //     var ifElseFindTemplate = "FindTemplate/IfElse.txt";
+        //     var ifValueIsNullFindTemplate = "FindTemplate/IfValueIsNull.txt";
+        //     var ternaryOperatorFindTemplate = "FindTemplate/TernaryOperator.txt";
+        //     
         //     var configurationFile = new ConfigurationsFile();
         //     
         // }

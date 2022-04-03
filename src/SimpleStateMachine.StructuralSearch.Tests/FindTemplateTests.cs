@@ -7,10 +7,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class FindTemplateTests
     {
         [Theory]
-        [InlineData("FindTemplate/IfElseFindTemplate.txt")]
-        [InlineData("FindTemplate/IfValueIsNullFindTemplate.txt")]
-        [InlineData("FindTemplate/NestedParenthesisedFindTemplate.txt")]
-        [InlineData("FindTemplate/TernaryOperatorFindTemplate.txt")]
+        [InlineData("FindTemplate/IfElse.txt")]
+        [InlineData("FindTemplate/IfValueIsNull.txt")]
+        [InlineData("FindTemplate/NestedParenthesised.txt")]
+        [InlineData("FindTemplate/TernaryOperator.txt")]
         public void TemplateParsingShouldBeSuccess(string templatePath)
         {
            var findTemplate = File.ReadAllText(templatePath);
@@ -20,10 +20,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         }
         
         [Theory]
-        [InlineData("FindTemplate/IfElseFindTemplate.txt", "Source/IfElseSource.txt")]
-        [InlineData("FindTemplate/IfValueIsNullFindTemplate.txt", "Source/IfValueIsNullSource.txt")]
-        [InlineData("FindTemplate/NestedParenthesisedFindTemplate.txt", "Source/NestedParenthesisedSource.txt")]
-        [InlineData("FindTemplate/TernaryOperatorFindTemplate.txt", "Source/TernaryOperatorSource.txt")]
+        [InlineData("FindTemplate/IfElse.txt", "Source/IfElse.txt")]
+        [InlineData("FindTemplate/IfValueIsNull.txt", "Source/IfValueIsNull.txt")]
+        [InlineData("FindTemplate/NestedParenthesised.txt", "Source/NestedParenthesised.txt")]
+        [InlineData("FindTemplate/TernaryOperator.txt", "Source/TernaryOperator.txt")]
         public void SourceParsingBeFindTemplateShouldBeSuccess(string templatePath, string sourcePath)
         {
             var findTemplate = File.ReadAllText(templatePath);

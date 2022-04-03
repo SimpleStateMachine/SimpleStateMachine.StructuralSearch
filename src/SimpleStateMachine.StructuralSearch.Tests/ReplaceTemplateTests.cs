@@ -9,9 +9,9 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class ReplaceTemplateTests
     {
         [Theory]
-        [InlineData("ReplaceTemplate/IfElseReplaceTemplate.txt", 14)]
-        [InlineData("ReplaceTemplate/IfValueIsNullReplaceTemplate.txt", 6)]
-        [InlineData("ReplaceTemplate/TernaryOperatorReplaceTemplate.txt", 11)]
+        [InlineData("ReplaceTemplate/IfElse.txt", 14)]
+        [InlineData("ReplaceTemplate/IfValueIsNull.txt", 6)]
+        [InlineData("ReplaceTemplate/TernaryOperator.txt", 11)]
         public void TemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
         {
             var replaceTemplate = File.ReadAllText(templatePath);
@@ -23,13 +23,13 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         }
 
         [Theory]
-        [InlineData("ReplaceTemplate/IfElseReplaceTemplate.txt", "ReplaceResult/IfElseReplaceResult.txt", 
+        [InlineData("ReplaceTemplate/IfElse.txt", "ReplaceResult/IfElse.txt", 
             new[] { "var1", "sign", "value1", "value2", "value3" }, 
             new[] { "temp", "==", "125", "12", "15" })]
-        [InlineData("ReplaceTemplate/IfValueIsNullReplaceTemplate.txt", "ReplaceResult/IfValueIsNullReplaceResult.txt", 
+        [InlineData("ReplaceTemplate/IfValueIsNull.txt", "ReplaceResult/IfValueIsNull.txt", 
             new[] { "var", "value"  }, 
             new[] { "temp", "12" })]
-        [InlineData("ReplaceTemplate/TernaryOperatorReplaceTemplate.txt", "ReplaceResult/TernaryOperatorReplaceResult.txt", 
+        [InlineData("ReplaceTemplate/TernaryOperator.txt", "ReplaceResult/TernaryOperator.txt", 
             new[] { "condition", "value1", "value2" }, 
             new[] { "temp == 125", "12", "15" })]
         public void ReplaceBuildShouldBeSuccess(string templatePath, string resultPath, string[] keys, string[] values)
