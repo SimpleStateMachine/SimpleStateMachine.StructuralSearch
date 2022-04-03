@@ -1,0 +1,40 @@
+﻿Configurations:
+  - FindTemplate: |-
+      if($var$ $sign$ null)
+      {
+          $var$ = $value$;
+      }
+    FindRules:
+      - $sign$ In ("Is", "==")
+    ReplaceTemplate: |-
+      $var$ ??= $value$;
+    ReplaceRules:
+  
+  
+  
+  - FindTemplate: |-
+      if($condition$)
+          return $value1$;
+      else
+          return $value2$;
+    FindRules:
+    ReplaceTemplate: |-
+        return $condition$? $value1$ : $value2$;
+    ReplaceRules:
+    
+    
+    
+  - FindTemplate: |-
+      if($value1$ $sign$ null)
+      {
+          $var$ = $value1$;
+      }
+      else
+      {
+          $var$ = $value2$;
+      }
+    FindRules:
+      - $sign$ In ("Is", "==")
+    ReplaceTemplate: |-
+        $var$ = $value1$ ?? $value2$;
+    ReplaceRules:

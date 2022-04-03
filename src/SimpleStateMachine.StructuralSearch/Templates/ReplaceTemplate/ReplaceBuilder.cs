@@ -12,12 +12,17 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
             Steps = steps;
         }
 
-        public string Build()
+        public string Build(IParsingContext context)
         {
             StringBuilder stringBuilder = new StringBuilder();
-
+            
             foreach (var step in Steps)
             {
+                if (step is IContextDependent contextDependentStep)
+                {
+                    contextDependentStep.SetContext(context);
+                }
+                
                 stringBuilder.Append(step.GetValue());
             }
 

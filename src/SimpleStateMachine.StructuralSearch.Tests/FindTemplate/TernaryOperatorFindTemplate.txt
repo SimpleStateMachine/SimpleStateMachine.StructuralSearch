@@ -1,0 +1,4 @@
+﻿if($condition$)
+    return $value1$;
+else
+    return $value2$;
