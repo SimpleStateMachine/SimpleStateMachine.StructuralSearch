@@ -1,8 +1,0 @@
-﻿if($var1$ $sign$ $some1$)
-{
-    $var$ = $value1$;
-}
-else
-{
-    $var$ = $value2$;
-}

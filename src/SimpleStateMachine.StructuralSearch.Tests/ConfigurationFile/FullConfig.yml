@@ -1,16 +1,34 @@
 ﻿Configurations:
+#  AssignmentNullUnionOperator
   - FindTemplate: |-
       if($var$ $sign$ null)
       {
           $var$ = $value$;
       }
     FindRules:
-      - $sign$ In ("Is", "==")
+      - $sign$ In ("Is", "==", "!=", "is not")
     ReplaceTemplate: |-
       $var$ ??= $value$;
     ReplaceRules:
-  
-  
+    
+#  NullUnionOperator    
+
+  - FindTemplate: |-
+      if($value1$ $sign$ null)
+      {
+          $var$ = $value2$;
+      }
+      else
+      {
+          $var$ = $value1$;
+      }
+    FindRules:
+      - $sign$ In ("Is", "==", "!=", "is not")
+    ReplaceTemplate: |-
+      $var$ = $value1$ ?? $value2$;
+    ReplaceRules:  
+
+#  TernaryOperator 
   
   - FindTemplate: |-
       if($condition$)
@@ -20,21 +38,4 @@
     FindRules:
     ReplaceTemplate: |-
         return $condition$? $value1$ : $value2$;
-    ReplaceRules:
-    
-    
-    
-  - FindTemplate: |-
-      if($value1$ $sign$ null)
-      {
-          $var$ = $value1$;
-      }
-      else
-      {
-          $var$ = $value2$;
-      }
-    FindRules:
-      - $sign$ In ("Is", "==")
-    ReplaceTemplate: |-
-        $var$ = $value1$ ?? $value2$;
     ReplaceRules:

@@ -7,8 +7,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class FindTemplateTests
     {
         [Theory]
-        [InlineData("FindTemplate/IfElse.txt")]
-        [InlineData("FindTemplate/IfValueIsNull.txt")]
+        [InlineData("FindTemplate/NullUnionOperator.txt")]
+        [InlineData("FindTemplate/AssignmentNullUnionOperator.txt")]
         [InlineData("FindTemplate/NestedParenthesised.txt")]
         [InlineData("FindTemplate/TernaryOperator.txt")]
         public void TemplateParsingShouldBeSuccess(string templatePath)
@@ -20,8 +20,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         }
         
         [Theory]
-        [InlineData("FindTemplate/IfElse.txt", "Source/IfElse.txt")]
-        [InlineData("FindTemplate/IfValueIsNull.txt", "Source/IfValueIsNull.txt")]
+        [InlineData("FindTemplate/NullUnionOperator.txt", "Source/NullUnionOperator.txt")]
+        [InlineData("FindTemplate/AssignmentNullUnionOperator.txt", "Source/AssignmentNullUnionOperator.txt")]
         [InlineData("FindTemplate/NestedParenthesised.txt", "Source/NestedParenthesised.txt")]
         [InlineData("FindTemplate/TernaryOperator.txt", "Source/TernaryOperator.txt")]
         public void SourceParsingBeFindTemplateShouldBeSuccess(string templatePath, string sourcePath)

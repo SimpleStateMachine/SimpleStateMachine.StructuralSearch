@@ -9,8 +9,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class ReplaceTemplateTests
     {
         [Theory]
-        [InlineData("ReplaceTemplate/IfElse.txt", 14)]
-        [InlineData("ReplaceTemplate/IfValueIsNull.txt", 6)]
+        [InlineData("ReplaceTemplate/NullUnionOperator.txt", 10)]
+        [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", 6)]
         [InlineData("ReplaceTemplate/TernaryOperator.txt", 11)]
         public void TemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
         {
@@ -23,10 +23,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         }
 
         [Theory]
-        [InlineData("ReplaceTemplate/IfElse.txt", "ReplaceResult/IfElse.txt", 
-            new[] { "var1", "sign", "value1", "value2", "value3" }, 
-            new[] { "temp", "==", "125", "12", "15" })]
-        [InlineData("ReplaceTemplate/IfValueIsNull.txt", "ReplaceResult/IfValueIsNull.txt", 
+        [InlineData("ReplaceTemplate/NullUnionOperator.txt", "ReplaceResult/NullUnionOperator.txt", 
+            new[] { "var", "sign", "value1", "value2"}, 
+            new[] { "temp", "is", "var1", "var2"})]
+        [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", "ReplaceResult/AssignmentNullUnionOperator.txt", 
             new[] { "var", "value"  }, 
             new[] { "temp", "12" })]
         [InlineData("ReplaceTemplate/TernaryOperator.txt", "ReplaceResult/TernaryOperator.txt", 

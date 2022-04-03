@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -17,6 +18,10 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
+            var t1 = new List<string> { "test" };
+            var t2 = new List<string> { "test" };
+
+            var tr = Equals(t1, t2);
             //var tesds = ParametersParser.StringFormatParameter.ParseOrThrow("\"tfasdfa\\\"sd$var$.Lenght\"");
             var replaceRule = StructuralSearch.ParseReplaceRule("$var$ equals $var$ => $var$.Trim");
             

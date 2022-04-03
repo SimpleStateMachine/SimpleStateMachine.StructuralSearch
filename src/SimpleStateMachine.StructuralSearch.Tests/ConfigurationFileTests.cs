@@ -18,20 +18,55 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         {
             var yml = File.ReadAllText(filePath);
             var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(PascalCaseNamingConvention.Instance) 
+                .WithNamingConvention(PascalCaseNamingConvention.Instance)
                 .Build();
             
             var cfg = deserializer.Deserialize<ConfigurationsFile>(yml);
+            var mock = Mock();
+            Assert.Equal(mock, cfg);
         }
 
-        // private ConfigurationsFile Mock()
-        // {
-        //     var ifElseFindTemplate = "FindTemplate/IfElse.txt";
-        //     var ifValueIsNullFindTemplate = "FindTemplate/IfValueIsNull.txt";
-        //     var ternaryOperatorFindTemplate = "FindTemplate/TernaryOperator.txt";
-        //     
-        //     var configurationFile = new ConfigurationsFile();
-        //     
-        // }
+        private ConfigurationsFile Mock()
+        {
+            var names = new[] { "AssignmentNullUnionOperator", "NullUnionOperator", "TernaryOperator"};
+            
+            var configurationFile = new ConfigurationsFile
+            {
+                Configurations = new List<Configuration>()
+            };
+            
+            foreach (var name in names)
+            {
+                var fileName = $"{name}.txt";
+                var findTemplate = FileOrNull("FindTemplate", fileName);
+                var fileRule = FileOrNull("FindRule", fileName) ;
+                var replaceTemplate = FileOrNull("ReplaceTemplate", fileName);
+                var replaceRule = FileOrNull("ReplaceRule", fileName);
+
+                var fileRules = fileRule is null ? null : new List<string>{ fileRule };
+                var replaceRules = replaceRule is null ? null : new List<string>{ replaceRule };
+                var config = new Configuration
+                {
+                    FindTemplate = findTemplate,
+                    FindRules = fileRules,
+                    ReplaceTemplate = replaceTemplate,
+                    ReplaceRules = replaceRules
+                };
+
+                configurationFile.Configurations.Add(config);
+            }
+            
+            string? FileOrNull(string folder, string name)
+            {
+                var path = Path.Combine(folder, name);
+                if (!File.Exists(path))
+                    return null;
+
+                var file = File.ReadAllText(path);
+                return file.Replace("\r\n", "\n");
+            }
+
+            return configurationFile;
+        }
     }
 }
