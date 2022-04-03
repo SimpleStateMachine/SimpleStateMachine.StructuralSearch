@@ -1,0 +1,4 @@
+﻿if(temp == 125)
+    return 12;
+else
+    return 15;

@@ -9,7 +9,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [Theory]
         [InlineData("ReplaceTemplate/IfElseReplaceTemplate.txt", 14)]
         [InlineData("ReplaceTemplate/IfValueIsNullReplaceTemplate.txt", 6)]
-        public void TemplateParsingShouldBeSuccess(string templatePath, int stepsCount)
+        [InlineData("ReplaceTemplate/TernaryOperatorReplaceTemplate.txt", 11)]
+        public void TemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
         {
             var replaceTemplate = File.ReadAllText(templatePath);
             var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate, new ParsingContext());
@@ -18,5 +19,17 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             Assert.NotNull(replaceTemplate);
             Assert.Equal(replaceBuilder.Steps.Count(), stepsCount);
         }
+        
+        // [Theory]
+        // [InlineData("Source/IfElseSource.txt", "ReplaceTemplate/IfElseReplaceTemplate.txt")]
+        // public void ReplaceByTemplateShouldBeSuccess(string sourcePath, string templatePath)
+        // {
+        //     var replaceTemplate = File.ReadAllText(templatePath);
+        //     var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate, new ParsingContext());
+        //     var result = replaceBuilder.Build();
+        //     
+        //     Assert.NotNull(replaceTemplate);
+        //     Assert.Equal(replaceBuilder.Steps.Count(), stepsCount);
+        // }
     }
 }

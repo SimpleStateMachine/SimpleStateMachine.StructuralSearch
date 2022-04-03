@@ -7,9 +7,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class FindTemplateTests
     {
         [Theory]
-        [InlineData("FindTemplate/IfElseTemplate.txt")]
-        [InlineData("FindTemplate/IfValueIsNullTemplate.txt")]
-        [InlineData("FindTemplate/NestedParenthesisedTemplate.txt")]
+        [InlineData("FindTemplate/IfElseFindTemplate.txt")]
+        [InlineData("FindTemplate/IfValueIsNullFindTemplate.txt")]
+        [InlineData("FindTemplate/NestedParenthesisedFindTemplate.txt")]
+        [InlineData("FindTemplate/TernaryOperatorFindTemplate.txt")]
         public void TemplateParsingShouldBeSuccess(string templatePath)
         {
            var findTemplate = File.ReadAllText(templatePath);
@@ -19,9 +20,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         }
         
         [Theory]
-        [InlineData("FindTemplate/IfElseTemplate.txt", "Source/IfElseSource.txt")]
-        [InlineData("FindTemplate/IfValueIsNullTemplate.txt", "Source/IfValueIsNullSource.txt")]
-        [InlineData("FindTemplate/NestedParenthesisedTemplate.txt", "Source/NestedParenthesisedSource.txt")]
+        [InlineData("FindTemplate/IfElseFindTemplate.txt", "Source/IfElseSource.txt")]
+        [InlineData("FindTemplate/IfValueIsNullFindTemplate.txt", "Source/IfValueIsNullSource.txt")]
+        [InlineData("FindTemplate/NestedParenthesisedFindTemplate.txt", "Source/NestedParenthesisedSource.txt")]
+        [InlineData("FindTemplate/TernaryOperatorFindTemplate.txt", "Source/TernaryOperatorSource.txt")]
         public void SourceParsingBeFindTemplateShouldBeSuccess(string templatePath, string sourcePath)
         {
             var findTemplate = File.ReadAllText(templatePath);
