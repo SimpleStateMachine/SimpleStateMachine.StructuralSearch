@@ -78,7 +78,7 @@ namespace SimpleStateMachine.StructuralSearch
         }
 
 
-        public static Parser<TToken, R> Series<TToken, T, R>(ParsingContext context, IEnumerable<Parser<TToken, T>> parsers,
+        public static Parser<TToken, R> Series<TToken, T, R>(IParsingContext context, IEnumerable<Parser<TToken, T>> parsers,
             Func<IEnumerable<T>, R> func)
         {
             if (parsers == null)

@@ -5,6 +5,6 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
     public interface IReplaceBuilder
     {
         IEnumerable<IReplaceStep> Steps { get; }
-        string Build();
+        string Build(IParsingContext context);
     }
 }

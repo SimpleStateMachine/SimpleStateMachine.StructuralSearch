@@ -5,16 +5,14 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
 {
     public class ReplaceBuilder : IReplaceBuilder
     {
-        private ParsingContext _context;
         public IEnumerable<IReplaceStep> Steps { get; }
 
-        public ReplaceBuilder(ParsingContext context, IEnumerable<IReplaceStep> steps)
+        public ReplaceBuilder(IEnumerable<IReplaceStep> steps)
         {
             Steps = steps;
-            _context = context;
         }
 
-        public string Build()
+        public string Build(IParsingContext context)
         {
             StringBuilder stringBuilder = new StringBuilder();
             
@@ -22,7 +20,7 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
             {
                 if (step is IContextDependent contextDependentStep)
                 {
-                    contextDependentStep.SetContext(_context);
+                    contextDependentStep.SetContext(context);
                 }
                 
                 stringBuilder.Append(step.GetValue());

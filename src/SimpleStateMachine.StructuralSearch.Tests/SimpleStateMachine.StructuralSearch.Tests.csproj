@@ -35,6 +35,9 @@
         <Content Include="ReplaceTemplate\*.txt">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="ReplaceResult\*.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="ConfigurationFile\*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>

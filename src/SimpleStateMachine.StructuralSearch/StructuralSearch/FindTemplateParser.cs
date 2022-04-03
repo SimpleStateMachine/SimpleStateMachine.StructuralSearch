@@ -48,7 +48,7 @@ namespace SimpleStateMachine.StructuralSearch
         
         private static readonly Parser<char, IEnumerable<Parser<char, string>>> TemplateParser;
         
-        internal static Parser<char, SourceMatch> ParseTemplate(string str, ParsingContext context)
+        internal static Parser<char, SourceMatch> ParseTemplate(string str, IParsingContext context)
         {
             return TemplateParser.JoinResults(context).ParseOrThrow(str).AsMatch();
         }

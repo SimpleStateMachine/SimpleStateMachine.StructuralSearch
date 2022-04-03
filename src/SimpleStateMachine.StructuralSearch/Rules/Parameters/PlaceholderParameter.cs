@@ -2,7 +2,7 @@
 {
     public class PlaceholderParameter : IRuleParameter, IContextDependent
     {
-        private ParsingContext _context;
+        private IParsingContext _context;
         
         public PlaceholderParameter(string name)
         {
@@ -13,7 +13,7 @@
         
         public string GetValue()
         {
-            throw new System.NotImplementedException();
+            return _context.GetPlaceholder(Name);
         }
         
         public override string ToString()
@@ -21,7 +21,7 @@
             return $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
         }
 
-        public void SetContext(ParsingContext context)
+        public void SetContext(IParsingContext context)
         {
             _context = context;
         }

@@ -9,9 +9,9 @@ namespace SimpleStateMachine.StructuralSearch
     {
         private readonly Func<IEnumerable<T>, R> _getResult;
         private readonly IEnumerable<Parser<TToken, T>> _parsers;
-        private readonly ParsingContext _context;
+        private readonly IParsingContext _context;
         private bool _initialized = false;
-        public SeriesParser(ParsingContext context, IEnumerable<Parser<TToken, T>> parsers, Func<IEnumerable<T>, R> getResult)
+        public SeriesParser(IParsingContext context, IEnumerable<Parser<TToken, T>> parsers, Func<IEnumerable<T>, R> getResult)
         {
             _getResult = getResult;
             _parsers = parsers;
