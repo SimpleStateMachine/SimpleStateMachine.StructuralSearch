@@ -21,16 +21,16 @@ namespace SimpleStateMachine.StructuralSearch.Tests
                 .WithNamingConvention(PascalCaseNamingConvention.Instance)
                 .Build();
             
-            var cfg = deserializer.Deserialize<ConfigurationsFile>(yml);
+            var cfg = deserializer.Deserialize<ConfigurationFile>(yml);
             var mock = Mock();
             Assert.Equal(mock, cfg);
         }
 
-        private ConfigurationsFile Mock()
+        private ConfigurationFile Mock()
         {
             var names = new[] { "AssignmentNullUnionOperator", "NullUnionOperator", "TernaryOperator"};
             
-            var configurationFile = new ConfigurationsFile
+            var configurationFile = new ConfigurationFile
             {
                 Configurations = new List<Configuration>()
             };

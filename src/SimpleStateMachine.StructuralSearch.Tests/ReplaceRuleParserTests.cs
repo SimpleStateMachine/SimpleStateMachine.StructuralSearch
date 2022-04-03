@@ -13,7 +13,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("Not equals $var$.offset.Start", "$var$.offset.Start")]
         [InlineData("equals $var$.Lenght and Not StartsWith \"123\"", "$var$.offset.Start.Trim")]
         [InlineData("equals $var$.Lenght and Not StartsWith \"\\\"Test\"", "$var$.offset.Start.ToUpper")]
-        public void FindRuleParsingShouldBeSuccess(string findRule, string replaceRule)
+        public void ReplaceRuleParsingShouldBeSuccess(string findRule, string replaceRule)
         {
             var placeholder = "$var$";
             var replaceRuleStr = $"{placeholder} {findRule} => {replaceRule}";

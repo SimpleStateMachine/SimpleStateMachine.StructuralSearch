@@ -19,6 +19,8 @@ namespace SimpleStateMachine.StructuralSearch
             TemplateParser = Parser.OneOf(Parenthesised, Token)
                 .AtLeastOnce()
                 .MergerMany();
+
+            SeriesParser = TemplateParser.Select(parsers => new SeriesParser(parsers));
         }
         
         internal static readonly Parser<char, IEnumerable<Parser<char, string>>> Empty =
@@ -48,9 +50,11 @@ namespace SimpleStateMachine.StructuralSearch
         
         private static readonly Parser<char, IEnumerable<Parser<char, string>>> TemplateParser;
         
-        internal static Parser<char, SourceMatch> ParseTemplate(string str, IParsingContext context)
+        private static readonly Parser<char, SeriesParser> SeriesParser;
+        
+        internal static IFindParser ParseTemplate(string str)
         {
-            return TemplateParser.JoinResults(context).ParseOrThrow(str).AsMatch();
+            return SeriesParser.Select(parser => new FindParser(parser)).ParseOrThrow(str);
         }
         
         

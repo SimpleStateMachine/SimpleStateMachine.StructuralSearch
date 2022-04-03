@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch.Configurations
 {
-    public class ConfigurationsFile: IEquatable<ConfigurationsFile>
+    public class ConfigurationFile: IEquatable<ConfigurationFile>
     {
         public List<Configuration> Configurations { get; set; }
 
-        public bool Equals(ConfigurationsFile? other)
+        public bool Equals(ConfigurationFile? other)
         {
             return Configurations.SequenceEqual(other.Configurations);
         }
@@ -16,7 +16,7 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
         public override bool Equals(object? obj)
         {
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((ConfigurationsFile)obj);
+            return Equals((ConfigurationFile)obj);
         }
 
         public override int GetHashCode()

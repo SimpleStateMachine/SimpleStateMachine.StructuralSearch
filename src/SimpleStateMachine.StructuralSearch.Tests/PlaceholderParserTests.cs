@@ -8,7 +8,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [Fact]
         public void FindTemplateShouldBeNotEmpty()
         {
-            Assert.Throws<ParseException>(() => StructuralSearch.ParseFindTemplate(string.Empty, new ParsingContext()));
+            Assert.Throws<ParseException>(() => StructuralSearch.ParseFindTemplate(string.Empty));
         }
         
         [Theory]
@@ -18,10 +18,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("($test$)", "(value (test) )", "value (test) ")]
         public void TemplateParsingShouldBeSuccess(string template, string source, string result)
         {
-            var context = new ParsingContext();
-            var templateParser = StructuralSearch.ParseFindTemplate(template, context);
-            var res = templateParser.ParseOrThrow(source);
-            var value = context.GetPlaceholder("test");
+            var parsingContext = new ParsingContext();
+            var templateParser = StructuralSearch.ParseFindTemplate(template);
+            var res = templateParser.Parse(parsingContext, source);
+            var value = parsingContext.GetPlaceholder("test");
             
             Assert.Equal(value, result);
         }
@@ -30,9 +30,9 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("$var$;$var2$;", "test;;;test;;;",  "value ")]
         public void TemplateParsingShouldBeSuccess2(string template, string source, string result)
         {
-            var context = new ParsingContext();
-            var templateParser = StructuralSearch.ParseFindTemplate(template, context);
-            var res = templateParser.ParseOrThrow(source);
+            var parsingContext = new ParsingContext();
+            var templateParser = StructuralSearch.ParseFindTemplate(template);
+            var res = templateParser.Parse(parsingContext, source);
              
             
             // var templateStr = File.ReadAllText(templatePath);

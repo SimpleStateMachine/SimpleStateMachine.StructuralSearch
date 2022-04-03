@@ -6,8 +6,8 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public static class StructuralSearch
     {
-        public static Parser<char, SourceMatch> ParseFindTemplate(string template, IParsingContext context) 
-            => FindTemplateParser.ParseTemplate(template, context);
+        public static IFindParser ParseFindTemplate(string template) 
+            => FindTemplateParser.ParseTemplate(template);
         
         public static IReplaceBuilder ParseReplaceTemplate(string template) 
             => ReplaceTemplateParser.ParseTemplate(template);
