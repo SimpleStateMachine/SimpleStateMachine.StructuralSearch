@@ -66,9 +66,24 @@ namespace SimpleStateMachine.StructuralSearch
             }
             else
             {
+                Parser<char>.CurrentPos.TryParse(ref state, ref expected, out var oldPos);
+                Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var oldOffset);
                 res = base.TryParse(ref state, ref expected, out result);
+
                 if (res)
-                    _context.AddPlaceholder(Name, result);
+                {
+                    Parser<char>.CurrentSourcePosDelta.TryParse(ref state, ref expected, out var posDelta);
+                    Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var newOffset);
+            
+                    _context.AddPlaceholder(new Placeholder(
+                        context: _context,
+                        name: Name,
+                        value: result,
+                        file: null,
+                        line: new LineProperty(oldPos.Line, oldPos.Line + posDelta.Lines),
+                        column: new ColumnProperty(oldPos.Col, oldPos.Col + posDelta.Cols),
+                        offset: new OffsetProperty(oldOffset, newOffset)));
+                }
             }
             
             return res;

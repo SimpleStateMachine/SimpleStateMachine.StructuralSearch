@@ -7,14 +7,14 @@
             throw new System.NotImplementedException();
         }
 
-        public void AddPlaceholder(string name, string value)
+        public void AddPlaceholder(Placeholder placeholder)
         {
             throw new System.NotImplementedException();
         }
 
         public Placeholder GetPlaceholder(string name)
         {
-            return new Placeholder(this, name, string.Empty);
+            return Placeholder.CreateEmpty(this, name, string.Empty);
         }
     }
 }

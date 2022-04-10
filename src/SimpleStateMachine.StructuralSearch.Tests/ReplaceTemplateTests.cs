@@ -41,7 +41,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             var parsingContext = new ParsingContext();
             for (int i = 0; i < keys.Length; i++)
             {
-                parsingContext.AddPlaceholder(keys[i], values[i]);
+                parsingContext.AddPlaceholder(Placeholder.CreateEmpty(parsingContext, keys[i], values[i]));
             }
             
             var result = replaceBuilder.Build(parsingContext);

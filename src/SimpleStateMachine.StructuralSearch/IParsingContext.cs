@@ -4,7 +4,7 @@
     {
         bool TryGetPlaceholder(string name, out Placeholder value);
 
-        void AddPlaceholder(string name, string value);
+        void AddPlaceholder(Placeholder placeholder);
 
         Placeholder GetPlaceholder(string name);
     }

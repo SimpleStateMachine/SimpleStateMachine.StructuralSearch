@@ -11,9 +11,9 @@ namespace SimpleStateMachine.StructuralSearch
             return Placeholders.TryGetValue(name, out value);
         }
 
-        public void AddPlaceholder(string name, string value)
+        public void AddPlaceholder(Placeholder placeholder)
         {
-            Placeholders[name] = new Placeholder(this, name, value);
+            Placeholders[placeholder.Name] = placeholder;
         }
 
         public Placeholder GetPlaceholder(string name)

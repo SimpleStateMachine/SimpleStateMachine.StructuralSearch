@@ -19,7 +19,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> Column =
             Parsers.EnumValue(PlaceholderProperty.Column, true)
                 .Then(CommonParser.Dote)
-                .Then(Parsers.Enum<ColumnProperty>(true))
+                .Then(Parsers.Enum<Rules.ColumnProperty>(true))
                 .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
                     new PlaceholderColumnParameter(placeholder, property)))
                 .Try();
