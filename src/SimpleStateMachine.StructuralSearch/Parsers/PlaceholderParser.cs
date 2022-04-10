@@ -16,8 +16,8 @@ namespace SimpleStateMachine.StructuralSearch
 
         public string Name { get; }
 
-        public override Parser<char, string> BuildParser(Func<Parser<char, string>> next,
-            Func<Parser<char, string>> nextNext)
+        public override Parser<char, string> BuildParser(Func<Parser<char, string>?> next,
+            Func<Parser<char, string>?> nextNext)
         {
             var _next = next();
             var _nextNext = nextNext() ?? Parser<char>.End.ThenReturn(string.Empty);
@@ -60,9 +60,9 @@ namespace SimpleStateMachine.StructuralSearch
             bool res;
             
             // No use look-ahead if placeholder is already defined
-            if (_context.TryGetPlaceholder(Name, out var value))
+            if (_context.TryGetPlaceholder(Name, out var placeholder))
             {
-                res = Parser.String(value).TryParse(ref state, ref expected, out result);
+                res = Parser.String(placeholder.Value).TryParse(ref state, ref expected, out result);
             }
             else
             {

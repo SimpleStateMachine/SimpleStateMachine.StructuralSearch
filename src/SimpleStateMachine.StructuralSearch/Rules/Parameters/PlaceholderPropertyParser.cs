@@ -11,7 +11,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> File =
             Parsers.EnumValue(PlaceholderProperty.File, true)
                 .Then(CommonParser.Dote)
-                .Then(Parsers.Enum<FileProperty>(true))
+                .Then(Parsers.Enum<Rules.FileProperty>(true))
                 .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
                         new PlaceholderFileParameter(placeholder, property)))
                 .Try();
@@ -27,7 +27,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> Line =
             Parsers.EnumValue(PlaceholderProperty.Line, true)
                 .Then(CommonParser.Dote)
-                .Then(Parsers.Enum<LineProperty>(true))
+                .Then(Parsers.Enum<Rules.LineProperty>(true))
                 .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
                     new PlaceholderLineParameter(placeholder, property)))
                 .Try();
@@ -35,7 +35,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> Offset =
             Parsers.EnumValue(PlaceholderProperty.Offset, true)
                 .Then(CommonParser.Dote)
-                .Then(Parsers.Enum<OffsetProperty>(true))
+                .Then(Parsers.Enum<Rules.OffsetProperty>(true))
                 .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
                     new PlaceholderOffsetParameter(placeholder, property)))
                 .Try();

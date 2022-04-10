@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿using System;
+
+namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class PlaceholderLineParameter : IRuleParameter
     {
@@ -13,7 +15,16 @@
         
         public string GetValue()
         {
-            throw new System.NotImplementedException();
+            var line = PlaceholderParameter.GetPlaceholder().Line;
+            
+            var value = Property switch
+            {
+                LineProperty.Start => line.Start,
+                LineProperty.End => line.End,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            return value.ToString();
         }
         
         public override string ToString()

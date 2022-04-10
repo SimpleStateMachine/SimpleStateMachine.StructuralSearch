@@ -13,6 +13,11 @@
         
         public string GetValue()
         {
+            return _context.GetPlaceholder(Name).Value;
+        }
+        
+        public Placeholder GetPlaceholder()
+        {
             return _context.GetPlaceholder(Name);
         }
         

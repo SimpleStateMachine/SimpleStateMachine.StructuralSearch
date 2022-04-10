@@ -21,9 +21,9 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             var parsingContext = new ParsingContext();
             var templateParser = StructuralSearch.ParseFindTemplate(template);
             var res = templateParser.Parse(parsingContext, source);
-            var value = parsingContext.GetPlaceholder("test");
+            var placeholder = parsingContext.GetPlaceholder("test");
             
-            Assert.Equal(value, result);
+            Assert.Equal(placeholder.Value, result);
         }
         
         [Theory]

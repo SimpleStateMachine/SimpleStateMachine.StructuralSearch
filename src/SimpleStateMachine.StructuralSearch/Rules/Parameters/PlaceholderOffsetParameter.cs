@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿using System;
+
+namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class PlaceholderOffsetParameter : IRuleParameter
     {
@@ -12,7 +14,16 @@
         }
         public string GetValue()
         {
-            throw new System.NotImplementedException();
+            var offset = PlaceholderParameter.GetPlaceholder().Offset;
+            
+            var value = Property switch
+            {
+                OffsetProperty.Start => offset.Start,
+                OffsetProperty.End => offset.End,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            return value.ToString();
         }
         
         public override string ToString()

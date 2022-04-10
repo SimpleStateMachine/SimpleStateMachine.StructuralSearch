@@ -2,7 +2,7 @@
 {
     public class EmptyParsingContext : IParsingContext
     {
-        public bool TryGetPlaceholder(string name, out string value)
+        public bool TryGetPlaceholder(string name, out Placeholder value)
         {
             throw new System.NotImplementedException();
         }
@@ -12,9 +12,9 @@
             throw new System.NotImplementedException();
         }
 
-        public string GetPlaceholder(string name)
+        public Placeholder GetPlaceholder(string name)
         {
-            return name;
+            return new Placeholder(this, name, string.Empty);
         }
     }
 }

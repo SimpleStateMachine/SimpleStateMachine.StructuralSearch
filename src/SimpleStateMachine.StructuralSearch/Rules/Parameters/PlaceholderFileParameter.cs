@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿using System;
+
+namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class PlaceholderFileParameter : IRuleParameter
     {
@@ -13,7 +15,16 @@
 
         public string GetValue()
         {
-            throw new System.NotImplementedException();
+            var file = PlaceholderParameter.GetPlaceholder().File;
+            return Property switch
+            {
+                FileProperty.Path => file.Path,
+                FileProperty.Data => file.Data,
+                FileProperty.Name => file.Name,
+                FileProperty.Directory => file.Directory,
+                FileProperty.Lenght => file.Lenght.ToString(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
         
         public override string ToString()
