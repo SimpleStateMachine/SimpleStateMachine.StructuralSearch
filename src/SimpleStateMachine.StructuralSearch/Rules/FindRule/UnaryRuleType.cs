@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules.FindRule
+﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public enum UnaryRuleType
     {

@@ -1,6 +1,4 @@
-﻿using SimpleStateMachine.StructuralSearch.Parsers;
-
-namespace SimpleStateMachine.StructuralSearch.Rules.Parameters
+﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class PlaceholderParameter : IRuleParameter, IContextDependent
     {
@@ -18,7 +16,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules.Parameters
             return _context.GetPlaceholder(Name).Value;
         }
         
-        public Placeholder.Placeholder GetPlaceholder()
+        public Placeholder GetPlaceholder()
         {
             return _context.GetPlaceholder(Name);
         }
@@ -28,7 +26,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules.Parameters
             return $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
         }
 
-        public void SetContext(IParsingContext? context)
+        public void SetContext(IParsingContext context)
         {
             _context = context;
         }

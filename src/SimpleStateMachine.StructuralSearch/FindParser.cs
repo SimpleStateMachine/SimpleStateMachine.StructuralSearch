@@ -1,4 +1,5 @@
-﻿using Pidgin;
+﻿using System.Collections.Generic;
+using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch

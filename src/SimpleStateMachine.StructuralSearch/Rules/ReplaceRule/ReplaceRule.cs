@@ -1,14 +1,16 @@
-﻿using SimpleStateMachine.StructuralSearch.Rules.Parameters;
+﻿using Pidgin;
+using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Rules;
 
-namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRule
+namespace SimpleStateMachine.StructuralSearch
 {
     public class ReplaceRule
     {
-        public FindRule.FindRule FindRule { get; }
+        public FindRule FindRule { get; }
 
         public IRuleParameter Parameter { get; }
 
-        public ReplaceRule(FindRule.FindRule findRule, IRuleParameter parameter)
+        public ReplaceRule(FindRule findRule, IRuleParameter parameter)
         {
             FindRule = findRule;
             Parameter = parameter;

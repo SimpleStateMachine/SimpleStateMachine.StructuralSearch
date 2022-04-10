@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Placeholder
+﻿namespace SimpleStateMachine.StructuralSearch
 {
     public class OffsetProperty
     {

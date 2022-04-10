@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate
+namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
 {
     public interface IReplaceBuilder
     {

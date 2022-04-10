@@ -6,19 +6,19 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
 {
     public static class EnumerableCharExtensions
     {
-        public static Parser<TToken, string> AsString<TToken>(this Parser<TToken, IEnumerable<char>> parser)
+        public static Parser<Ttoken, string> AsString<Ttoken>(this Parser<Ttoken, IEnumerable<char>> parser)
         {
             return parser.Select(x => new string(x.ToArray()));
         }
 
-        public static Parser<TToken, IEnumerable<T>> MergerMany<TToken, T>(
-            this Parser<TToken, IEnumerable<IEnumerable<T>>> parser)
+        public static Parser<Ttoken, IEnumerable<T>> MergerMany<Ttoken, T>(
+            this Parser<Ttoken, IEnumerable<IEnumerable<T>>> parser)
         {
             return parser.Select(x => x.SelectMany(y => y));
         }
         
-        public static Parser<TToken, IEnumerable<T>> MergerMany<TToken, T>(
-            this Parser<TToken, IEnumerable<List<T>>> parser)
+        public static Parser<Ttoken, IEnumerable<T>> MergerMany<Ttoken, T>(
+            this Parser<Ttoken, IEnumerable<List<T>>> parser)
         {
             return parser.Select(x => x.SelectMany(y => y));
         }

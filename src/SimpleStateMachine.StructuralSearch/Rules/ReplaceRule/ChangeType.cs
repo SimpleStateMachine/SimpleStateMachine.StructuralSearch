@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRule
+﻿namespace SimpleStateMachine.StructuralSearch
 {
     public enum ChangeType
     {

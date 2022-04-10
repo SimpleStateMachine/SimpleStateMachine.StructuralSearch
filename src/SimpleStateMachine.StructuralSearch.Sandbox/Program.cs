@@ -1,6 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.Configurations;
+using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Rules;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 using static Pidgin.Parser;
+using String = System.String;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
 {
@@ -13,10 +23,10 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 
             var tr = Equals(t1, t2);
             //var tesds = ParametersParser.StringFormatParameter.ParseOrThrow("\"tfasdfa\\\"sd$var$.Lenght\"");
-            var replaceRule = StructuralSearch.StructuralSearch.ParseReplaceRule("$var$ equals $var$ => $var$.Trim");
+            var replaceRule = StructuralSearch.ParseReplaceRule("$var$ equals $var$ => $var$.Trim");
             
-            var rule = StructuralSearch.StructuralSearch.ParseFindRule("$var$ equals $var$.Lenght and Not StartsWith \"123\\\" $var$ \\\"\"");
-            var rule2 = StructuralSearch.StructuralSearch.ParseFindRule("$var$ equals $var$.Offset.Start and Not StartsWith \"123\"");
+            var rule = StructuralSearch.ParseFindRule("$var$ equals $var$.Lenght and Not StartsWith \"123\\\" $var$ \\\"\"");
+            var rule2 = StructuralSearch.ParseFindRule("$var$ equals $var$.Offset.Start and Not StartsWith \"123\"");
             // var result1 = rule.Execute("test");
             // var result2 = rule.Execute("10");
             // var result3 = rule.Execute("5.3");

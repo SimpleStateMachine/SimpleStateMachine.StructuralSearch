@@ -1,4 +1,5 @@
 using System.IO;
+using Pidgin;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
@@ -13,7 +14,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         public void TemplateParsingShouldBeSuccess(string templatePath)
         {
            var findTemplate = File.ReadAllText(templatePath);
-           var template = StructuralSearch.StructuralSearch.ParseFindTemplate(findTemplate);
+           var template = StructuralSearch.ParseFindTemplate(findTemplate);
            
            Assert.NotNull(template);
         }
@@ -27,11 +28,12 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         {
             var findTemplate = File.ReadAllText(templatePath);
             var source = File.ReadAllText(sourcePath);
-            var findParser = StructuralSearch.StructuralSearch.ParseFindTemplate(findTemplate);
+            var findParser = StructuralSearch.ParseFindTemplate(findTemplate);
             var parsingContext = new ParsingContext();
             var result = findParser.Parse(parsingContext, source);
             
             Assert.NotNull(findParser);
+            Assert.NotNull(result);
             Assert.NotNull(result.Value);
             Assert.Equal(result.Lenght, source.Length);
         }

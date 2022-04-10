@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.StructuralSearch;
 
-namespace SimpleStateMachine.StructuralSearch.Parsers
+namespace SimpleStateMachine.StructuralSearch
 {
     public class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
     {

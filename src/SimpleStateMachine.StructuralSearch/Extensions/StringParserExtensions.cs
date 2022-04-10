@@ -16,7 +16,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
             if (parser2 == null)
                 throw new ArgumentNullException(nameof(parser2));
 
-            return Map<TToken, char, string, char, string>(
+            return Parser.Map<TToken, char, string, char, string>(
                 (before, str, after) => before + str + after,
                 parser1, parser, parser2);
         }
@@ -30,7 +30,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
             if (parser2 == null)
                 throw new ArgumentNullException(nameof(parser2));
 
-            return Map<TToken, string, string, string, string>(
+            return Parser.Map<TToken, string, string, string, string>(
                 (before, str, after) => before + str + after,
                 parser1, parser, parser2);
         }
@@ -40,13 +40,13 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
             return parser.Select(x => new List<string>() { x }).ToIEnumerable();
         }
         
-        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, IEnumerable<string>> parser, string? separator = null)
+        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, IEnumerable<string>> parser, string separator = null)
         {
             separator ??= string.Empty;
             return parser.Select(x => string.Join(separator, x));
         }
         
-        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, List<string>> parser, string? separator = null)
+        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, List<string>> parser, string separator = null)
         {
             separator ??= string.Empty;
             return parser.Select(x => string.Join(separator, x));

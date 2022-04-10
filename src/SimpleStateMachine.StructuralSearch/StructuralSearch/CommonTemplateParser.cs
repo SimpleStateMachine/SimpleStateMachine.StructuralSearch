@@ -3,12 +3,12 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 using static Pidgin.Parser<char>;
 using static Pidgin.Parser;
 
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch
 {
     internal static class CommonTemplateParser
     {
         internal static readonly Parser<char, char> AnyCharWithPlshd =
-            AnyCharExcept(Templates.FindTemplate.Constant.FindTemplate.AllExclude(Constant.PlaceholderSeparator));
+            AnyCharExcept(Constant.FindTemplate.AllExclude(Constant.PlaceholderSeparator));
         
         internal static readonly Parser<char, string> Placeholder
             = CommonParser.Identifier.Between(Char(Constant.PlaceholderSeparator));

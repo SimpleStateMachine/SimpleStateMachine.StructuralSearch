@@ -4,7 +4,7 @@ using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
 
-namespace SimpleStateMachine.StructuralSearch.Parsers
+namespace SimpleStateMachine.StructuralSearch
 {
     public class EnumParser<TEnum> : Parser<char, TEnum>
         where TEnum : struct, Enum

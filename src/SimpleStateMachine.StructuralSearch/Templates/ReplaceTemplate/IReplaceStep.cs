@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate
+﻿namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
 {
     public interface IReplaceStep
     {

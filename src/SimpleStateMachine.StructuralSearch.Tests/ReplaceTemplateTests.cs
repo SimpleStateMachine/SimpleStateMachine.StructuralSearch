@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
@@ -14,7 +15,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         public void TemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
         {
             var replaceTemplate = File.ReadAllText(templatePath);
-            var replaceBuilder = StructuralSearch.StructuralSearch.ParseReplaceTemplate(replaceTemplate);
+            var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
             var result = replaceBuilder.Build(new EmptyParsingContext());
 
             Assert.NotNull(replaceTemplate);
@@ -35,7 +36,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         {
             var replaceTemplate = File.ReadAllText(templatePath);
             var replaceResult = File.ReadAllText(resultPath);
-            var replaceBuilder = StructuralSearch.StructuralSearch.ParseReplaceTemplate(replaceTemplate);
+            var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
             
             var parsingContext = new ParsingContext();
             for (int i = 0; i < keys.Length; i++)

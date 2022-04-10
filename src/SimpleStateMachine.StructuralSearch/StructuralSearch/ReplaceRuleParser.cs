@@ -1,16 +1,15 @@
 ﻿using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Rules.Parameters;
-using SimpleStateMachine.StructuralSearch.Rules.ReplaceRule;
+using SimpleStateMachine.StructuralSearch.Rules;
 
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch
 {
     public static class ReplaceRuleParser
     {
         internal static readonly Parser<char, IRuleParameter> ChangeParameter =
             Parser.Map((parameter, changeType) => new ChangeParameter(parameter, changeType),
                 ParametersParser.Parameter.Before(CommonParser.Dote),
-                Parsers.Parsers.Enum<ChangeType>(true))
+                Parsers.Enum<ChangeType>(true))
                 .As<char, ChangeParameter, IRuleParameter>()
                 .Try()
                 .TrimStart();

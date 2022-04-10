@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules.Parameters
+﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public enum FileProperty
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-using SimpleStateMachine.StructuralSearch.Rules.FindRule;
+using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch.Helper
 {

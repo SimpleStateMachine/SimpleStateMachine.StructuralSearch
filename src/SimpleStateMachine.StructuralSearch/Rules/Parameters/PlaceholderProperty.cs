@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules.Parameters
+﻿namespace SimpleStateMachine.StructuralSearch
 {
     public enum PlaceholderProperty
     {

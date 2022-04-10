@@ -1,14 +1,14 @@
-﻿using Pidgin;
+﻿using System;
+using System.Collections.Generic;
+using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Rules.FindRule;
-using SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public static class SubRuleParser
     {
         public static readonly Parser<char, SubRuleType> SubRuleType =
-            Parsers.Parsers.EnumExcept(true, Rules.FindRule.SubRuleType.Is, Rules.FindRule.SubRuleType.In)
+            Parsers.EnumExcept(true, Rules.SubRuleType.Is, Rules.SubRuleType.In)
                 .TrimStart();
 
         public static readonly Parser<char, IRule> UnarySubRule =
@@ -18,11 +18,11 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch
                 .Try();
 
         public static readonly Parser<char, PlaceholderType> PlaceholderType =
-            Parsers.Parsers.Enum<PlaceholderType>(true);
+            Parsers.Enum<PlaceholderType>(true);
 
         public static readonly Parser<char, IRule> IsSubRule =
             Parser.Map((type, param) => new IsRule(type, param),
-                    Parsers.Parsers.EnumValue(Rules.FindRule.SubRuleType.Is, true)
+                    Parsers.EnumValue(Rules.SubRuleType.Is, true)
                         .TrimStart(),
                     PlaceholderType)
                 .As<char, IsRule, IRule>()
@@ -30,7 +30,7 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch
 
         public static readonly Parser<char, IRule> InSubRule =
             Parser.Map((type, param) => new InRule(type, param),
-                    Parsers.Parsers.EnumValue(Rules.FindRule.SubRuleType.In, true)
+                    Parsers.EnumValue(Rules.SubRuleType.In, true)
                         .TrimStart(), ParametersParser.Parameters)
                 .As<char, InRule, IRule>()
                 .Try();

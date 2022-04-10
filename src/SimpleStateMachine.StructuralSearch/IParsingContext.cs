@@ -2,10 +2,10 @@
 {
     public interface IParsingContext
     {
-        bool TryGetPlaceholder(string name, out Placeholder.Placeholder? value);
+        bool TryGetPlaceholder(string name, out Placeholder value);
 
         void AddPlaceholder(string name, string value);
 
-        Placeholder.Placeholder GetPlaceholder(string name);
+        Placeholder GetPlaceholder(string name);
     }
 }

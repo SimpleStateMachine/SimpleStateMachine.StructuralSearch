@@ -1,6 +1,6 @@
 ﻿using SimpleStateMachine.StructuralSearch.Helper;
 
-namespace SimpleStateMachine.StructuralSearch.Rules.Parameters
+namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class StringParameter : IRuleParameter
     {

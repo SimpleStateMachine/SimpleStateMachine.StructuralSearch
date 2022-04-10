@@ -1,6 +1,6 @@
 ﻿using SimpleStateMachine.StructuralSearch.Helper;
 
-namespace SimpleStateMachine.StructuralSearch.Rules.FindRule
+namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class BinaryRule : IRule
     {

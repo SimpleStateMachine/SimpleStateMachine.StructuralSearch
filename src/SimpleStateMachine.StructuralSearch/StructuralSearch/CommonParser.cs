@@ -1,15 +1,15 @@
 ﻿using System;
 using Pidgin;
 using static Pidgin.Parser;
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch
 {
     internal static class CommonParser
     {
         internal static readonly Parser<char, string> Empty
-            = Parsers.Parsers.String(Constant.Empty, false);
+            = Parsers.String(Constant.Empty, false);
         
         internal static readonly Parser<char, char> AnyChar
-            = AnyCharExcept(Templates.FindTemplate.Constant.FindTemplate.All());
+            = AnyCharExcept(Constant.FindTemplate.All());
         
         internal static readonly Parser<char, char> Space
             = Char(Constant.Space);
@@ -43,8 +43,8 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch
 
         internal static Parser<char, T> Parenthesised<T>(Parser<char, T> parser, Func<Parser<char, string>, Parser<char, string>> custom)
         {
-            return parser.Between(custom(Parsers.Parsers.Stringc(Constant.LeftParenthesis)),
-                custom(Parsers.Parsers.Stringc(Constant.RightParenthesis)));
+            return parser.Between(custom(Parsers.Stringc(Constant.LeftParenthesis)),
+                custom(Parsers.Stringc(Constant.RightParenthesis)));
         }
         
         internal static Parser<char, char> Escaped(params char [] chars)
