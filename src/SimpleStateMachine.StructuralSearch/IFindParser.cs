@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Pidgin;
-using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
-
-namespace SimpleStateMachine.StructuralSearch
+﻿namespace SimpleStateMachine.StructuralSearch
 {
     public interface IFindParser
     {

@@ -1,8 +1,8 @@
-﻿using Pidgin;
-using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
-using SimpleStateMachine.StructuralSearch.Rules;
+﻿using SimpleStateMachine.StructuralSearch.Rules.FindRule;
+using SimpleStateMachine.StructuralSearch.Rules.ReplaceRule;
+using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch
 {
     public static class StructuralSearch
     {

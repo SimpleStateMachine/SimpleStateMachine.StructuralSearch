@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
-using Pidgin;
+using System.Linq;
 using SimpleStateMachine.StructuralSearch.Configurations;
 using Xunit;
 using YamlDotNet.Serialization;
@@ -30,10 +29,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         {
             var names = new[] { "AssignmentNullUnionOperator", "NullUnionOperator", "TernaryOperator"};
             
-            var configurationFile = new ConfigurationFile
-            {
-                Configurations = new List<Configuration>()
-            };
+            var configurations = new List<Configuration>();
             
             foreach (var name in names)
             {
@@ -43,17 +39,17 @@ namespace SimpleStateMachine.StructuralSearch.Tests
                 var replaceTemplate = FileOrNull("ReplaceTemplate", fileName);
                 var replaceRule = FileOrNull("ReplaceRule", fileName);
 
-                var fileRules = fileRule is null ? null : new List<string>{ fileRule };
-                var replaceRules = replaceRule is null ? null : new List<string>{ replaceRule };
+                var fileRules = fileRule is null ? Enumerable.Empty<string>() : new List<string>{ fileRule };
+                var replaceRules = replaceRule is null ? Enumerable.Empty<string>() : new List<string>{ replaceRule };
                 var config = new Configuration
-                {
-                    FindTemplate = findTemplate,
-                    FindRules = fileRules,
-                    ReplaceTemplate = replaceTemplate,
-                    ReplaceRules = replaceRules
-                };
+                (
+                    findTemplate : findTemplate ?? string.Empty,
+                    findRules : fileRules,
+                    replaceTemplate : replaceTemplate ?? string.Empty,
+                    replaceRules : replaceRules
+                );
 
-                configurationFile.Configurations.Add(config);
+                configurations.Add(config);
             }
             
             string? FileOrNull(string folder, string name)
@@ -66,7 +62,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
                 return file.Replace("\r\n", "\n");
             }
 
-            return configurationFile;
+            return new ConfigurationFile(configurations);
         }
     }
 }

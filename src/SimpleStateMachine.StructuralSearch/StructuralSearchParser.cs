@@ -1,24 +1,30 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using SimpleStateMachine.StructuralSearch.Configurations;
-using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
-using SimpleStateMachine.StructuralSearch.Rules;
+using SimpleStateMachine.StructuralSearch.Rules.FindRule;
+using SimpleStateMachine.StructuralSearch.Rules.ReplaceRule;
+using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 
 namespace SimpleStateMachine.StructuralSearch
 {
     public class StructuralSearchParser
     {
-        public IFindParser FindParser { get; set; }
+        public readonly IFindParser FindTemlate;
 
-        public List<FindRule> FindRules { get; set; }
+        public readonly IEnumerable<FindRule> FindRules;
 
-        public IReplaceBuilder ReplaceBuilder { get; set; }
+        public readonly IReplaceBuilder ReplaceTemplate;
 
-        public List<ReplaceRule> ReplaceRules { get; set; }
+        public readonly IEnumerable<ReplaceRule> ReplaceRules;
         
         public StructuralSearchParser(Configuration configuration)
         {
-            
+            FindTemlate = FindTemplateParser.ParseTemplate(configuration.FindTemplate);
+            FindRules = configuration.FindRules.Select(FindRuleParser.ParseTemplate);
+            ReplaceTemplate = ReplaceTemplateParser.ParseTemplate(configuration.ReplaceTemplate);
+            ReplaceRules = configuration.ReplaceRules.Select(ReplaceRuleParser.ParseTemplate);
         }
     }
 }

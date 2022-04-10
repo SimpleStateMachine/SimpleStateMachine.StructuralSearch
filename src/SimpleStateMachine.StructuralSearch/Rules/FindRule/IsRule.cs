@@ -1,7 +1,8 @@
 ﻿using System;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.StructuralSearch;
 
-namespace SimpleStateMachine.StructuralSearch.Rules
+namespace SimpleStateMachine.StructuralSearch.Rules.FindRule
 {
     public class IsRule : IRule
     {

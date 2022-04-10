@@ -19,7 +19,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
         }
 
         public bool Equals(IExpr? other)
-            => other is Identifier i && this.Name == i.Name;
+            => other is Identifier i && Name == i.Name;
 
         public double Invoke()
         {
@@ -37,7 +37,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
         }
 
         public bool Equals(IExpr? other)
-            => other is Literal l && this.Value == l.Value;
+            => other is Literal l && Value == l.Value;
 
         public double Invoke()
         {
@@ -58,8 +58,8 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 
         public bool Equals(IExpr? other)
             => other is Call c
-            && ((Object)this.Expr).Equals(c.Expr)
-            && this.Arguments.SequenceEqual(c.Arguments);
+            && ((Object)Expr).Equals(c.Expr)
+            && Arguments.SequenceEqual(c.Arguments);
 
         public double Invoke()
         {
@@ -87,8 +87,8 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 
         public bool Equals(IExpr? other)
             => other is UnaryOp u
-            && this.Type == u.Type
-            && ((Object)this.Expr).Equals(u.Expr);
+            && Type == u.Type
+            && ((Object)Expr).Equals(u.Expr);
 
         public double Invoke()
         {
@@ -125,9 +125,9 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
 
         public bool Equals(IExpr? other)
             => other is BinaryOp b
-            && this.Type == b.Type
-            && ((Object)this.Left).Equals(b.Left)
-            && ((Object)this.Right).Equals(b.Right);
+            && Type == b.Type
+            && ((Object)Left).Equals(b.Left)
+            && ((Object)Right).Equals(b.Right);
 
         public double Invoke()
         {

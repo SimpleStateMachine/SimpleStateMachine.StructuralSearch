@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SimpleStateMachine.StructuralSearch.Rules
+namespace SimpleStateMachine.StructuralSearch.Rules.FindRule
 {
     public class UnaryRule : IRule
     {

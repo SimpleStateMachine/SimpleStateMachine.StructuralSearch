@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿using SimpleStateMachine.StructuralSearch.Rules.Parameters;
+
+namespace SimpleStateMachine.StructuralSearch.Rules.FindRule
 {
     public class FindRule
     {

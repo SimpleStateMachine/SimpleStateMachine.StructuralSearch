@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Pidgin;
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch.Parsers
 {
     public abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
     {

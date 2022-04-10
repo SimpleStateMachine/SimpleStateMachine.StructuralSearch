@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Pidgin;
+﻿using Pidgin;
+using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
@@ -16,9 +16,9 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         public void FindRuleParsingShouldBeSuccess(string ruleStr)
         {
             var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);
-            var _ruleStr = rule.ToString()?.ToLower();
+            var str = rule.ToString()?.ToLower();
             Assert.NotNull(rule);
-            Assert.Equal(_ruleStr, ruleStr.ToLower());
+            Assert.Equal(str, ruleStr.ToLower());
         }
     }
 }

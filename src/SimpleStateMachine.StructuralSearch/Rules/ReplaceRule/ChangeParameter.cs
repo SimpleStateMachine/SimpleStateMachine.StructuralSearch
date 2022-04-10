@@ -1,7 +1,7 @@
 ﻿using System;
-using SimpleStateMachine.StructuralSearch.Rules;
+using SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRule
 {
     public class ChangeParameter : IRuleParameter
     {

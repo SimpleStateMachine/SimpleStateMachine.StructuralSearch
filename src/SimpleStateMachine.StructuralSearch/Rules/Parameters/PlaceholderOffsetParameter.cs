@@ -1,6 +1,7 @@
 ﻿using System;
+using SimpleStateMachine.StructuralSearch.Rules.FindRule;
 
-namespace SimpleStateMachine.StructuralSearch.Rules
+namespace SimpleStateMachine.StructuralSearch.Rules.Parameters
 {
     public class PlaceholderOffsetParameter : IRuleParameter
     {

@@ -1,7 +1,7 @@
 ﻿using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 
-namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
+namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate
 {
     public static class ParserToReplace
     {
@@ -13,9 +13,9 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
         
         public static Parser<char, IReplaceStep> Stringc(char token, bool ignoreCase = false)
         {
-            var _token = token.ToString();
+            var value = token.ToString();
             
-            return ResultAsReplace(Parsers.String(_token, ignoreCase));
+            return ResultAsReplace(Parsers.Parsers.String(value, ignoreCase));
         }
     }
 }

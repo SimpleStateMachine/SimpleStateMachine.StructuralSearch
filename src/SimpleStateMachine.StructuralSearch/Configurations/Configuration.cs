@@ -1,33 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Configurations
 {
     public class Configuration : IEquatable<Configuration>
     {
-        public string FindTemplate { get; set; }
+        public Configuration(string findTemplate, IEnumerable<string> findRules, string replaceTemplate, IEnumerable<string> replaceRules)
+        {
+            FindTemplate = findTemplate;
+            FindRules = findRules;
+            ReplaceTemplate = replaceTemplate;
+            ReplaceRules = replaceRules;
+        }
 
-        public List<string>? FindRules { get; set; }
+        public string FindTemplate { get; init; }
 
-        public string ReplaceTemplate { get; set; }
+        public IEnumerable<string> FindRules { get; init; }
 
-        public List<string>? ReplaceRules { get; set; }
+        public string ReplaceTemplate { get; init; }
+
+        public IEnumerable<string> ReplaceRules { get; init; }
 
         public bool Equals(Configuration? other)
         {
-            var findTemplateEquals = FindTemplate == other.FindTemplate;
-            var findRulesEquals = EnumerableHelper.SequenceNullableEqual(FindRules, other.FindRules);
-            var replaceTemplateEquals = ReplaceTemplate == other.ReplaceTemplate;
-            var replaceRulesEquals = EnumerableHelper.SequenceNullableEqual(ReplaceRules, other.ReplaceRules);
+            var findTemplateEquals = FindTemplate == other?.FindTemplate;
+            var findRulesEquals = EnumerableHelper.SequenceNullableEqual(FindRules, other?.FindRules);
+            var replaceTemplateEquals = ReplaceTemplate == other?.ReplaceTemplate;
+            var replaceRulesEquals = EnumerableHelper.SequenceNullableEqual(ReplaceRules, other?.ReplaceRules);
             return findTemplateEquals && findRulesEquals && replaceTemplateEquals && replaceRulesEquals;
         }
 
         public override bool Equals(object? obj)
         {
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Configuration)obj);
+            return obj?.GetType() == GetType() && Equals((Configuration)obj);
         }
 
         public override int GetHashCode()

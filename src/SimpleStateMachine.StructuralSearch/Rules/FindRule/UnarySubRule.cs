@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-namespace SimpleStateMachine.StructuralSearch.Rules
+namespace SimpleStateMachine.StructuralSearch.Rules.FindRule
 {
     public class UnarySubRule : IRule
     {

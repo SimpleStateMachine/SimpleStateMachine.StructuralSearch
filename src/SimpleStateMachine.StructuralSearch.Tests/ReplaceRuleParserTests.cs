@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Pidgin;
-using Xunit;
+﻿using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
 {
@@ -17,10 +15,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         {
             var placeholder = "$var$";
             var replaceRuleStr = $"{placeholder} {findRule} => {replaceRule}";
-            var rule = StructuralSearch.ParseReplaceRule(replaceRuleStr);
-            var _ruleStr = rule.ToString().ToLower();
+            var rule = StructuralSearch.StructuralSearch.ParseReplaceRule(replaceRuleStr);
+            var ruleStr = rule.ToString().ToLower();
             Assert.NotNull(rule);
-            Assert.Equal(_ruleStr, replaceRuleStr.ToLower());
+            Assert.Equal(ruleStr, replaceRuleStr.ToLower());
         }
     }
 }

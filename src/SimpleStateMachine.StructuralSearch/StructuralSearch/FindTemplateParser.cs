@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Parsers;
+using SimpleStateMachine.StructuralSearch.Templates.FindTemplate;
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch
 {
     internal static class FindTemplateParser
     {
         static FindTemplateParser()
         {
-            Parenthesised = Parsers.BetweenOneOfChars(x => ParserToParser.Stringc(x),
+            Parenthesised = Parsers.Parsers.BetweenOneOfChars(x => ParserToParser.Stringc(x),
                 Parser.Rec(() => Term),
                 Constant.AllParenthesised);
 

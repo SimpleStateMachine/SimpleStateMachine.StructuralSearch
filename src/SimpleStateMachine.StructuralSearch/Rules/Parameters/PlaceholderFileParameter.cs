@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SimpleStateMachine.StructuralSearch.Rules
+namespace SimpleStateMachine.StructuralSearch.Rules.Parameters
 {
     public class PlaceholderFileParameter : IRuleParameter
     {

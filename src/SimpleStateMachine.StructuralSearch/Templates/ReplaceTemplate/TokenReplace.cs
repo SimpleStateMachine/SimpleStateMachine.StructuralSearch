@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
+﻿namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate
 {
     public class TokenReplace : IReplaceStep
     {

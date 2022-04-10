@@ -102,7 +102,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
                 throw new ArgumentNullException(nameof(parser1));
             if (parser2 == null)
                 throw new ArgumentNullException(nameof(parser2));
-            return Parser.Map<TToken, U, T, V, T>(func, parser1, parser, parser2);
+            return Map<TToken, U, T, V, T>(func, parser1, parser, parser2);
         }
         
         public static Parser<TToken, R> As<TToken, T, R>(this Parser<TToken, T> parser)

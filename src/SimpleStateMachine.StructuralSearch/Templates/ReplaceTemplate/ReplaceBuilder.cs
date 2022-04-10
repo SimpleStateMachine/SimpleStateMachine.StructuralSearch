@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using SimpleStateMachine.StructuralSearch.Parsers;
 
-namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
+namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate
 {
     public class ReplaceBuilder : IReplaceBuilder
     {

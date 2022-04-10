@@ -90,7 +90,7 @@
         /// <summary>
         /// Char: '='
         /// </summary>
-        public static readonly char Equals = '=';
+        public static readonly char Equal = '=';
         
         /// <summary>
         /// Char: '>'
@@ -100,7 +100,7 @@
         /// <summary>
         /// String: "=>"
         /// </summary>
-        public static readonly string Should = $"{Equals}{More}";
+        public static readonly string Should = $"{Equal}{More}";
         
         /// <summary>
         /// Parenthesis chars: '(' and ')'

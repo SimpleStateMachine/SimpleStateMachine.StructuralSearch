@@ -1,6 +1,6 @@
 ﻿using Pidgin;
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch.Parsers
 {
     public class DebugParser<TToken, T>: Parser<TToken, T>
     {

@@ -1,5 +1,4 @@
 ﻿using YamlDotNet.Serialization;
-using System.Text.RegularExpressions;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
 {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Rules;
+using SimpleStateMachine.StructuralSearch.StructuralSearch;
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch.Rules.Parameters
 {
     public static class ParametersParser
     {

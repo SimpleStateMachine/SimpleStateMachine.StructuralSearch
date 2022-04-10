@@ -5,7 +5,7 @@ using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using static Pidgin.Parser;
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch.Parsers
 {
     public static class Parsers
     {
@@ -14,13 +14,13 @@ namespace SimpleStateMachine.StructuralSearch
 
         public static Parser<char, string> String(string value, bool ignoreCase)
         {
-            return ignoreCase ? Parser.CIString(value): Parser.String(value);
+            return ignoreCase ? CIString(value): Parser.String(value);
         }
 
         public static Parser<char, TEnum> After<TEnum>(TEnum value, bool ignoreCase = false)
             where TEnum : struct, Enum
         {
-            return Parsers.String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
+            return String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
         }
 
         // public static Parser<char, string> EnumValue<TEnum>(TEnum value, bool ignoreCase = false)
@@ -120,7 +120,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static Parser<char, TEnum> EnumValue<TEnum>(TEnum value, bool ignoreCase = false)
             where TEnum : struct, Enum
         {
-            return Parsers.String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
+            return String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
         }
         
         public static Parser<TToken, T> Lookahead<TToken, T>(Parser<TToken, T> parser) => 

@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
+﻿using SimpleStateMachine.StructuralSearch.Parsers;
+
+namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate
 {
     public class PlaceholderReplace : IReplaceStep, IContextDependent
     {
