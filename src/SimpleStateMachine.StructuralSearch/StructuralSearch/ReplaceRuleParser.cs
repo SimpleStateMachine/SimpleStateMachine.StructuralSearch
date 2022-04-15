@@ -9,7 +9,7 @@ namespace SimpleStateMachine.StructuralSearch
         internal static readonly Parser<char, IRuleParameter> ChangeParameter =
             Parser.Map((parameter, changeType) => new ChangeParameter(parameter, changeType),
                 ParametersParser.Parameter.Before(CommonParser.Dote),
-                Parsers.Enum<ChangeType>(true))
+                Parser.CIEnum<ChangeType>())
                 .As<char, ChangeParameter, IRuleParameter>()
                 .Try()
                 .TrimStart();

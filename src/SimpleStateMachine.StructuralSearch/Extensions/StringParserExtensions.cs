@@ -75,7 +75,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
         public static Parser<char, TEnum> AsEnum<TEnum>(this Parser<char, string> parser, bool ignoreCase)
             where TEnum: struct, Enum
         {
-            return parser.Select(value => Enum.Parse<TEnum>(value, ignoreCase));
+            return parser.Select(value => System.Enum.Parse<TEnum>(value, ignoreCase));
         }
     }
 }

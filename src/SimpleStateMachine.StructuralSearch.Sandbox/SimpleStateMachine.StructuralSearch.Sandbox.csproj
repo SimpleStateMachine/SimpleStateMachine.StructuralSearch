@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Pidgin" Version="3.0.0" />
+      <PackageReference Include="Pidgin" Version="3.0.1" />
       <PackageReference Include="YamlDotNet" Version="11.2.1" />
     </ItemGroup>
 

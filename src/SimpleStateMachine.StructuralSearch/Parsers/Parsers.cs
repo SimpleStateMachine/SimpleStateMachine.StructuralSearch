@@ -105,12 +105,6 @@ namespace SimpleStateMachine.StructuralSearch
             );
         }
 
-        public static Parser<char, TEnum> Enum<TEnum>(bool ignoreCase = false)
-            where TEnum : struct, Enum
-        {
-            return new EnumParser<TEnum>(ignoreCase);
-        }
-        
         public static Parser<char, TEnum> EnumExcept<TEnum>(bool ignoreCase = false, params TEnum[] excluded)
             where TEnum : struct, Enum
         {
