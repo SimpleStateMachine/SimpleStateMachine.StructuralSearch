@@ -2,10 +2,11 @@
 {
     public interface IParsingContext
     {
-        bool TryGetPlaceholder(string name, out string value);
+        FileProperty File { get; }
+        bool TryGetPlaceholder(string name, out Placeholder value);
 
-        void AddPlaceholder(string name, string value);
+        void AddPlaceholder(Placeholder placeholder);
 
-        string GetPlaceholder(string name);
+        Placeholder GetPlaceholder(string name);
     }
 }

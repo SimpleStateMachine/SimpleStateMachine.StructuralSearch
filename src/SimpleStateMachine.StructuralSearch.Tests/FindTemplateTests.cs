@@ -7,34 +7,32 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class FindTemplateTests
     {
         [Theory]
-        [InlineData("FindTemplate/IfElseFindTemplate.txt")]
-        [InlineData("FindTemplate/IfValueIsNullFindTemplate.txt")]
-        [InlineData("FindTemplate/NestedParenthesisedFindTemplate.txt")]
-        [InlineData("FindTemplate/TernaryOperatorFindTemplate.txt")]
+        [InlineData("FindTemplate/NullUnionOperator.txt")]
+        [InlineData("FindTemplate/AssignmentNullUnionOperator.txt")]
+        [InlineData("FindTemplate/NestedParenthesised.txt")]
+        [InlineData("FindTemplate/TernaryOperator.txt")]
         public void TemplateParsingShouldBeSuccess(string templatePath)
         {
            var findTemplate = File.ReadAllText(templatePath);
-           var template = StructuralSearch.ParseFindTemplate(findTemplate, new ParsingContext());
+           var template = StructuralSearch.ParseFindTemplate(findTemplate);
            
            Assert.NotNull(template);
         }
         
         [Theory]
-        [InlineData("FindTemplate/IfElseFindTemplate.txt", "Source/IfElseSource.txt")]
-        [InlineData("FindTemplate/IfValueIsNullFindTemplate.txt", "Source/IfValueIsNullSource.txt")]
-        [InlineData("FindTemplate/NestedParenthesisedFindTemplate.txt", "Source/NestedParenthesisedSource.txt")]
-        [InlineData("FindTemplate/TernaryOperatorFindTemplate.txt", "Source/TernaryOperatorSource.txt")]
+        [InlineData("FindTemplate/NullUnionOperator.txt", "Source/NullUnionOperator.txt")]
+        [InlineData("FindTemplate/AssignmentNullUnionOperator.txt", "Source/AssignmentNullUnionOperator.txt")]
+        [InlineData("FindTemplate/NestedParenthesised.txt", "Source/NestedParenthesised.txt")]
+        [InlineData("FindTemplate/TernaryOperator.txt", "Source/TernaryOperator.txt")]
         public void SourceParsingBeFindTemplateShouldBeSuccess(string templatePath, string sourcePath)
         {
             var findTemplate = File.ReadAllText(templatePath);
             var source = File.ReadAllText(sourcePath);
-
-            var context = new ParsingContext();
-            var template = StructuralSearch.ParseFindTemplate(findTemplate, context);
-            var result = template.ParseOrThrow(source);
+            var findParser = StructuralSearch.ParseFindTemplate(findTemplate);
+            IParsingContext parsingContext = new ParsingContext();
+            var result = findParser.Parse(ref parsingContext, source);
             
-            Assert.NotNull(template);
-            Assert.NotNull(result);
+            Assert.NotNull(findParser);
             Assert.NotNull(result.Value);
             Assert.Equal(result.Lenght, source.Length);
         }

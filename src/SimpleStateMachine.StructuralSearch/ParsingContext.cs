@@ -4,19 +4,21 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class ParsingContext : IParsingContext
     {
-        public Dictionary<string, string> Placeholders { get; } = new();
+        public Dictionary<string, Placeholder> Placeholders { get; } = new();
 
-        public bool TryGetPlaceholder(string name, out string value)
+        public FileProperty File { get; }
+
+        public bool TryGetPlaceholder(string name, out Placeholder value)
         {
             return Placeholders.TryGetValue(name, out value);
         }
 
-        public void AddPlaceholder(string name, string value)
+        public void AddPlaceholder(Placeholder placeholder)
         {
-            Placeholders[name] = value;
+            Placeholders[placeholder.Name] = placeholder;
         }
 
-        public string GetPlaceholder(string name)
+        public Placeholder GetPlaceholder(string name)
         {
             return Placeholders[name];
         }

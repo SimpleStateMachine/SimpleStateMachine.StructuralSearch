@@ -2,19 +2,21 @@
 {
     public class EmptyParsingContext : IParsingContext
     {
-        public bool TryGetPlaceholder(string name, out string value)
+        public FileProperty File { get; } = new FileProperty();
+
+        public bool TryGetPlaceholder(string name, out Placeholder value)
         {
             throw new System.NotImplementedException();
         }
 
-        public void AddPlaceholder(string name, string value)
+        public void AddPlaceholder(Placeholder placeholder)
         {
             throw new System.NotImplementedException();
         }
 
-        public string GetPlaceholder(string name)
+        public Placeholder GetPlaceholder(string name)
         {
-            return name;
+            return Placeholder.CreateEmpty(this, name, string.Empty);
         }
     }
 }

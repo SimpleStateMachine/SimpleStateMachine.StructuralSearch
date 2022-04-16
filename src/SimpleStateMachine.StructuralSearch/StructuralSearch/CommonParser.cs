@@ -1,5 +1,6 @@
 ﻿using System;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.Extensions;
 using static Pidgin.Parser;
 namespace SimpleStateMachine.StructuralSearch
 {
@@ -46,6 +47,7 @@ namespace SimpleStateMachine.StructuralSearch
             return parser.Between(custom(Parsers.Stringc(Constant.LeftParenthesis)),
                 custom(Parsers.Stringc(Constant.RightParenthesis)));
         }
+        
         
         internal static Parser<char, char> Escaped(params char [] chars)
         {

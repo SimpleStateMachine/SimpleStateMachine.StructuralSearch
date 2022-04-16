@@ -23,7 +23,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{Type}{Constant.Space}{string.Join(Constant.Space, Parameters.Select(x=>x.ToString()))}";
+            return $"{Type}{Constant.Space}{string.Join(Constant.Comma, Parameters.Select(x=>x.ToString()))}";
         }  
     }
 }

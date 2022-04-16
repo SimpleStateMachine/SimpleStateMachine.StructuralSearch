@@ -15,7 +15,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public string GetValue()
         {
-            throw new System.NotImplementedException();
+            return PlaceholderParameter.GetPlaceholder().Lenght.ToString();
         }
         
         public override string ToString()

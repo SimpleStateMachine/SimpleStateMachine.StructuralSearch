@@ -77,18 +77,6 @@ namespace SimpleStateMachine.StructuralSearch
             }, parser1, parser2);
         }
 
-
-        public static Parser<TToken, R> Series<TToken, T, R>(IParsingContext context, IEnumerable<Parser<TToken, T>> parsers,
-            Func<IEnumerable<T>, R> func)
-        {
-            if (parsers == null)
-                throw new ArgumentNullException(nameof(parsers));
-            if (func == null)
-                throw new ArgumentNullException(nameof(func));
-
-            return new SeriesParser<TToken, T, R>(context, parsers, func);
-        }
-
         public static Parser<char, IEnumerable<T>> BetweenChars<T>(char left, char right,
             Func<char, Parser<char, T>> leftRight,
             Parser<char, IEnumerable<T>> expr)
@@ -117,12 +105,6 @@ namespace SimpleStateMachine.StructuralSearch
             );
         }
 
-        public static Parser<char, TEnum> Enum<TEnum>(bool ignoreCase = false)
-            where TEnum : struct, Enum
-        {
-            return new EnumParser<TEnum>(ignoreCase);
-        }
-        
         public static Parser<char, TEnum> EnumExcept<TEnum>(bool ignoreCase = false, params TEnum[] excluded)
             where TEnum : struct, Enum
         {

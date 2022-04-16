@@ -11,7 +11,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> File =
             Parsers.EnumValue(PlaceholderProperty.File, true)
                 .Then(CommonParser.Dote)
-                .Then(Parsers.Enum<FileProperty>(true))
+                .Then(Parser.CIEnum<Rules.FileProperty>())
                 .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
                         new PlaceholderFileParameter(placeholder, property)))
                 .Try();
@@ -19,7 +19,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> Column =
             Parsers.EnumValue(PlaceholderProperty.Column, true)
                 .Then(CommonParser.Dote)
-                .Then(Parsers.Enum<ColumnProperty>(true))
+                .Then(Parser.CIEnum<Rules.ColumnProperty>())
                 .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
                     new PlaceholderColumnParameter(placeholder, property)))
                 .Try();
@@ -27,7 +27,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> Line =
             Parsers.EnumValue(PlaceholderProperty.Line, true)
                 .Then(CommonParser.Dote)
-                .Then(Parsers.Enum<LineProperty>(true))
+                .Then(Parser.CIEnum<Rules.LineProperty>())
                 .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
                     new PlaceholderLineParameter(placeholder, property)))
                 .Try();
@@ -35,7 +35,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> Offset =
             Parsers.EnumValue(PlaceholderProperty.Offset, true)
                 .Then(CommonParser.Dote)
-                .Then(Parsers.Enum<OffsetProperty>(true))
+                .Then(Parser.CIEnum<Rules.OffsetProperty>())
                 .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
                     new PlaceholderOffsetParameter(placeholder, property)))
                 .Try();

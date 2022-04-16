@@ -9,9 +9,9 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class ReplaceTemplateTests
     {
         [Theory]
-        [InlineData("ReplaceTemplate/IfElseReplaceTemplate.txt", 14)]
-        [InlineData("ReplaceTemplate/IfValueIsNullReplaceTemplate.txt", 6)]
-        [InlineData("ReplaceTemplate/TernaryOperatorReplaceTemplate.txt", 11)]
+        [InlineData("ReplaceTemplate/NullUnionOperator.txt", 10)]
+        [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", 6)]
+        [InlineData("ReplaceTemplate/TernaryOperator.txt", 11)]
         public void TemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
         {
             var replaceTemplate = File.ReadAllText(templatePath);
@@ -23,13 +23,13 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         }
 
         [Theory]
-        [InlineData("ReplaceTemplate/IfElseReplaceTemplate.txt", "ReplaceResult/IfElseReplaceResult.txt", 
-            new[] { "var1", "sign", "value1", "value2", "value3" }, 
-            new[] { "temp", "==", "125", "12", "15" })]
-        [InlineData("ReplaceTemplate/IfValueIsNullReplaceTemplate.txt", "ReplaceResult/IfValueIsNullReplaceResult.txt", 
+        [InlineData("ReplaceTemplate/NullUnionOperator.txt", "ReplaceResult/NullUnionOperator.txt", 
+            new[] { "var", "sign", "value1", "value2"}, 
+            new[] { "temp", "is", "var1", "var2"})]
+        [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", "ReplaceResult/AssignmentNullUnionOperator.txt", 
             new[] { "var", "value"  }, 
             new[] { "temp", "12" })]
-        [InlineData("ReplaceTemplate/TernaryOperatorReplaceTemplate.txt", "ReplaceResult/TernaryOperatorReplaceResult.txt", 
+        [InlineData("ReplaceTemplate/TernaryOperator.txt", "ReplaceResult/TernaryOperator.txt", 
             new[] { "condition", "value1", "value2" }, 
             new[] { "temp == 125", "12", "15" })]
         public void ReplaceBuildShouldBeSuccess(string templatePath, string resultPath, string[] keys, string[] values)
@@ -41,7 +41,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             var parsingContext = new ParsingContext();
             for (int i = 0; i < keys.Length; i++)
             {
-                parsingContext.AddPlaceholder(keys[i], values[i]);
+                parsingContext.AddPlaceholder(Placeholder.CreateEmpty(parsingContext, keys[i], values[i]));
             }
             
             var result = replaceBuilder.Build(parsingContext);

@@ -16,8 +16,8 @@ namespace SimpleStateMachine.StructuralSearch
 
         public string Name { get; }
 
-        public override Parser<char, string> BuildParser(Func<Parser<char, string>> next,
-            Func<Parser<char, string>> nextNext)
+        public override Parser<char, string> BuildParser(Func<Parser<char, string>?> next,
+            Func<Parser<char, string>?> nextNext)
         {
             var _next = next();
             var _nextNext = nextNext() ?? Parser<char>.End.ThenReturn(string.Empty);
@@ -60,15 +60,29 @@ namespace SimpleStateMachine.StructuralSearch
             bool res;
             
             // No use look-ahead if placeholder is already defined
-            if (_context.TryGetPlaceholder(Name, out var value))
+            if (_context.TryGetPlaceholder(Name, out var placeholder))
             {
-                res = Parser.String(value).TryParse(ref state, ref expected, out result);
+                res = Parser.String(placeholder.Value).TryParse(ref state, ref expected, out result);
             }
             else
             {
+                Parser<char>.CurrentPos.TryParse(ref state, ref expected, out var oldPos);
+                Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var oldOffset);
                 res = base.TryParse(ref state, ref expected, out result);
+
                 if (res)
-                    _context.AddPlaceholder(Name, result);
+                {
+                    Parser<char>.CurrentSourcePosDelta.TryParse(ref state, ref expected, out var posDelta);
+                    Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var newOffset);
+            
+                    _context.AddPlaceholder(new Placeholder(
+                        context: _context,
+                        name: Name,
+                        value: result,
+                        line: new LineProperty(oldPos.Line, oldPos.Line + posDelta.Lines),
+                        column: new ColumnProperty(oldPos.Col, oldPos.Col + posDelta.Cols),
+                        offset: new OffsetProperty(oldOffset, newOffset)));
+                }
             }
             
             return res;
@@ -102,7 +116,7 @@ namespace SimpleStateMachine.StructuralSearch
         //     var parser = term.JoinToString().AsMatch();
         //     return parser;
         // }
-        public void SetContext(IParsingContext context)
+        public void SetContext(ref IParsingContext context)
         {
             _context = context;
         }
