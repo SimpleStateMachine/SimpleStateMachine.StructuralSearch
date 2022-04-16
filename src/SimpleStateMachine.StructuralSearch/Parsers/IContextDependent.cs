@@ -2,6 +2,6 @@
 {
     public interface IContextDependent
     {
-        void SetContext(IParsingContext context);
+        void SetContext(ref IParsingContext context);
     }
 }

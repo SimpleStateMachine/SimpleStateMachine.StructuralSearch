@@ -12,9 +12,9 @@ namespace SimpleStateMachine.StructuralSearch
             Parser = parser;
         }
 
-        public SourceMatch Parse(IParsingContext context, string input)
+        public SourceMatch Parse(ref IParsingContext context, string input)
         {
-            Parser.SetContext(context);
+            Parser.SetContext(ref context);
             var result = Parser.Select(x => string.Join(string.Empty, x)).AsMatch().Parse(input);
             
             return result.Success ? result.Value : SourceMatch.Empty;

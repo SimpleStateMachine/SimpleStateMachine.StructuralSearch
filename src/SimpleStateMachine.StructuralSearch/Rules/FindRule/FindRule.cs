@@ -2,11 +2,11 @@
 {
     public class FindRule
     {
-        public IRuleParameter Placeholder { get; }
+        public PlaceholderParameter Placeholder { get; }
         
         private IRule _rule { get; }
 
-        public FindRule(IRuleParameter placeholder, IRule rule)
+        public FindRule(PlaceholderParameter placeholder, IRule rule)
         {
             Placeholder = placeholder;
             _rule = rule;

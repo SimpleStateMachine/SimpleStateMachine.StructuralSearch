@@ -7,13 +7,16 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public static class ParametersParser
     {
-        public static readonly Parser<char, IRuleParameter> PlaceholderParameter =
+        public static readonly Parser<char, PlaceholderParameter> PlaceholderParameter =
             CommonTemplateParser.Placeholder
                 .Select(x => new PlaceholderParameter(x))
-                .As<char, PlaceholderParameter, IRuleParameter>()
                 .TrimStart()
                 .Try();
-        
+
+        public static readonly Parser<char, IRuleParameter> PlaceholderRuleParameter =
+            PlaceholderParameter
+                .As<char, PlaceholderParameter, IRuleParameter>();
+
         public static readonly Parser<char, IRuleParameter> StringParameter =
             CommonParser.Escaped(Constant.DoubleQuotes, Constant.PlaceholderSeparator)
                 .Or(Parser.AnyCharExcept(Constant.DoubleQuotes, Constant.PlaceholderSeparator))
@@ -24,7 +27,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try();
         
         public static readonly Parser<char, IRuleParameter> StringFormatParameter =
-            Parser.OneOf(StringParameter, PlaceholderPropertyParser.PlaceholderPropertyParameter, PlaceholderParameter)
+            Parser.OneOf(StringParameter, PlaceholderPropertyParser.PlaceholderPropertyParameter, PlaceholderRuleParameter)
                 .AtLeastOnce()
                 .Between(CommonParser.DoubleQuotes)
                 .Select(parameters => new StringFormatParameter(parameters))
@@ -33,7 +36,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try();
         
         public static readonly Parser<char, IRuleParameter> Parameter =
-            Parser.OneOf(PlaceholderPropertyParser.PlaceholderPropertyParameter, PlaceholderParameter, StringFormatParameter)
+            Parser.OneOf(PlaceholderPropertyParser.PlaceholderPropertyParameter, PlaceholderRuleParameter, StringFormatParameter)
                 .TrimStart()
                 .Try();
 

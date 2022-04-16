@@ -26,7 +26,7 @@
             return $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
         }
 
-        public void SetContext(IParsingContext context)
+        public void SetContext(ref IParsingContext context)
         {
             _context = context;
         }

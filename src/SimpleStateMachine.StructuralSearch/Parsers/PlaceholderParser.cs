@@ -79,7 +79,6 @@ namespace SimpleStateMachine.StructuralSearch
                         context: _context,
                         name: Name,
                         value: result,
-                        file: null,
                         line: new LineProperty(oldPos.Line, oldPos.Line + posDelta.Lines),
                         column: new ColumnProperty(oldPos.Col, oldPos.Col + posDelta.Cols),
                         offset: new OffsetProperty(oldOffset, newOffset)));
@@ -117,7 +116,7 @@ namespace SimpleStateMachine.StructuralSearch
         //     var parser = term.JoinToString().AsMatch();
         //     return parser;
         // }
-        public void SetContext(IParsingContext context)
+        public void SetContext(ref IParsingContext context)
         {
             _context = context;
         }

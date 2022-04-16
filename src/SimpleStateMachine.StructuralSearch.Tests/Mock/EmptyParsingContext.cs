@@ -2,6 +2,8 @@
 {
     public class EmptyParsingContext : IParsingContext
     {
+        public FileProperty File { get; } = new FileProperty();
+
         public bool TryGetPlaceholder(string name, out Placeholder value)
         {
             throw new System.NotImplementedException();
