@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.Rules;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -18,42 +19,13 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-            var t1 = new List<string> { "test" };
-            var t2 = new List<string> { "test" };
-
-            var tr = Equals(t1, t2);
-            //var tesds = ParametersParser.StringFormatParameter.ParseOrThrow("\"tfasdfa\\\"sd$var$.Lenght\"");
-            var replaceRule = StructuralSearch.ParseReplaceRule("$var$ equals $var$ => $var$.Trim");
-            
-            var rule = StructuralSearch.ParseFindRule("$var$ equals $var$.Lenght and Not StartsWith \"123\\\" $var$ \\\"\"");
-            var rule2 = StructuralSearch.ParseFindRule("$var$ equals $var$.Offset.Start and Not StartsWith \"123\"");
-            // var result1 = rule.Execute("test");
-            // var result2 = rule.Execute("10");
-            // var result3 = rule.Execute("5.3");
-            
-            var t = ExprParser.ParseOrThrow("2 + 2 + 2");
-            var resw = t.Invoke();
-            var test = String("return ")
-                .Then(AnyCharExcept(';').ManyString())
-                .Then(Char(';').AtLeastOnceString())
-                .Before(Char(';'));
-            
-            // var template = StructuralSearch.ParseTemplate("");
-            // var test = Parser.OneOf(String("Test"), CommonParser.Empty);
-            var res = test.ParseOrThrow("return 125;;;;");
-            
-            
-            // var lookahead = Parser.Lookahead(Char(';').Then(End).Try());
-            // var t = Parser.String("return ").Then(Any.AtLeastOnceAsStringUntilNot(lookahead));
-            // var res = t.ParseOrThrow("return 124;;");
-            // var testTempalte = "if($test$)";
-            // var testText = "if((value1)&&(value2))";
-            // var testTextForMatch = "fdjkfnafdjankfjnafkajndaif((value1)&&(value2))";
-            // var testTempalte2 = "return $value$;";
-            // var testText2 = "return 125;;;;";
+            // var config = YmlHelper.Parse(
+            //     @"C:\Users\roman\GitHub\SimpleStateMachine.StructuralSearch\src\SimpleStateMachine.StructuralSearch.Tests\ConfigurationFile\FullConfig.yml");
             //
-            // var parser = StructuralSearch.ParseTemplate(template3);
-            // var result = parser.ParseOrThrow(example3);
+            // var parsers = config.Configurations
+            //     .Select(x => new StructuralSearchParser(x));
+            //
+            // parsers.
         }
     }
 }

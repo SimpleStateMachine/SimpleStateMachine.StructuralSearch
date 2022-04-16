@@ -18,7 +18,8 @@ namespace SimpleStateMachine.StructuralSearch.Rules
                 .Try();
 
         public static readonly Parser<char, PlaceholderType> PlaceholderType =
-            Parser.CIEnum<PlaceholderType>();
+            Parser.CIEnum<PlaceholderType>()
+                .TrimStart();
 
         public static readonly Parser<char, IRule> IsSubRule =
             Parser.Map((type, param) => new IsRule(type, param),
@@ -31,7 +32,8 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public static readonly Parser<char, IRule> InSubRule =
             Parser.Map((type, param) => new InRule(type, param),
                     Parsers.EnumValue(Rules.SubRuleType.In, true)
-                        .TrimStart(), ParametersParser.Parameters)
+                        .TrimStart(), Parser.OneOf(ParametersParser.Parameters, 
+                        CommonParser.Parenthesised(ParametersParser.Parameters, x=> x.Trim())))
                 .As<char, InRule, IRule>()
                 .Try();
     }

@@ -41,7 +41,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try();
 
         public static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters =
-            Parameter.AtLeastOnce();
+            Parameter.SeparatedAtLeastOnce(CommonParser.Comma);
 
     }
 }
