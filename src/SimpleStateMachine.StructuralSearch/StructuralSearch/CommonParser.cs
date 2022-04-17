@@ -25,7 +25,8 @@ namespace SimpleStateMachine.StructuralSearch
             = EndOfLine.AtLeastOnceString();
         
         internal static readonly Parser<char, string> WhiteSpaces
-            = OneOf(Spaces, LineEnds);
+            = OneOf(Spaces, LineEnds, LineEnds)
+                .AtLeastOnceString();
 
         internal static readonly Parser<char, string> Identifier
             = Letter.Then(AnyString, (h, t) => h + t);

@@ -27,7 +27,7 @@ namespace SimpleStateMachine.StructuralSearch
                 var parser = Parsers.ElementAt(i);
                 if (!parser.TryParse(ref state, ref expecteds, out var _result))
                 {
-                    result = Enumerable.Empty<string>();
+                    result = results;
                     return false;
                 }
 

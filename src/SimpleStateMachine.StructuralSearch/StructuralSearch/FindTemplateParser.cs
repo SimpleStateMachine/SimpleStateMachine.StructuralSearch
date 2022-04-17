@@ -32,7 +32,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try();
             
         internal static readonly Parser<char, Parser<char, string>> WhiteSpaces =
-            ParserToParser.ResultAsParser(CommonParser.WhiteSpaces)
+            ParserToParser.ParserAsParser(CommonParser.WhiteSpaces)
                 .Try();  
         
         internal static readonly Parser<char, Parser<char, string>> Placeholder = 

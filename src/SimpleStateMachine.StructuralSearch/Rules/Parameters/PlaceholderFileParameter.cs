@@ -25,8 +25,6 @@ namespace SimpleStateMachine.StructuralSearch.Rules
                 FileProperty.Lenght => input.Lenght.ToString(),
                 _ => throw new ArgumentOutOfRangeException()
             };
-
-            return null;
         }
         
         public override string ToString()
