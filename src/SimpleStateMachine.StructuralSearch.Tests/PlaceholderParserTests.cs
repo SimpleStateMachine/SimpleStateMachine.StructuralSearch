@@ -18,9 +18,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("($test$)", "(value (test) )", "value (test) ")]
         public void TemplateParsingShouldBeSuccess(string template, string source, string result)
         {
-            IParsingContext parsingContext = new ParsingContext();
+            var input = Input.String(source);
+            IParsingContext parsingContext = new ParsingContext(input);
             var templateParser = StructuralSearch.ParseFindTemplate(template);
-            var res = templateParser.Parse(ref parsingContext, source);
+            var res = templateParser.Parse(ref parsingContext, input);
             var placeholder = parsingContext.GetPlaceholder("test");
             
             Assert.Equal(placeholder.Value, result);
@@ -30,9 +31,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("$var$;$var2$;", "test;;;test;;;",  "value ")]
         public void TemplateParsingShouldBeSuccess2(string template, string source, string result)
         {
-            IParsingContext parsingContext = new ParsingContext();
+            var input = Input.String(source);
+            IParsingContext parsingContext = new ParsingContext(input);
             var templateParser = StructuralSearch.ParseFindTemplate(template);
-            templateParser.Parse(ref parsingContext, source);
+            templateParser.Parse(ref parsingContext, input);
              
             
             // var templateStr = File.ReadAllText(templatePath);

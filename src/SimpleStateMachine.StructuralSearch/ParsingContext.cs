@@ -4,9 +4,15 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class ParsingContext : IParsingContext
     {
+        public ParsingContext(IInput input)
+        {
+            Input = input;
+        }
         public Dictionary<string, Placeholder> Placeholders { get; } = new();
 
         public FileProperty File { get; }
+
+        public IInput Input { get; }
 
         public bool TryGetPlaceholder(string name, out Placeholder value)
         {

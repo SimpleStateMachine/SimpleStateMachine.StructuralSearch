@@ -2,7 +2,7 @@
 {
     public class EmptyParsingContext : IParsingContext
     {
-        public FileProperty File { get; } = new FileProperty();
+        public IInput Input { get; }
 
         public bool TryGetPlaceholder(string name, out Placeholder value)
         {

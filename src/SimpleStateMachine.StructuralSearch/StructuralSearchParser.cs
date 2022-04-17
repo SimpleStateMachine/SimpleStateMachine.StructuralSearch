@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Extensions;
@@ -37,7 +38,7 @@ namespace SimpleStateMachine.StructuralSearch
 
         public void Parse(ref IParsingContext context)
         {
-            FindParser.Parse(ref context, context.File.Data);
+            var result = FindParser.Parse(ref context, context.Input);
         }
         
         public void Replace(ref IParsingContext context)

@@ -2,7 +2,8 @@
 {
     public interface IParsingContext
     {
-        FileProperty File { get; }
+        IInput Input { get; }
+        
         bool TryGetPlaceholder(string name, out Placeholder value);
 
         void AddPlaceholder(Placeholder placeholder);

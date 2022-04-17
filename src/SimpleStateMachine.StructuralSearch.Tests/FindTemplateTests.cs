@@ -28,9 +28,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         {
             var findTemplate = File.ReadAllText(templatePath);
             var source = File.ReadAllText(sourcePath);
+            var input = Input.String(source);
             var findParser = StructuralSearch.ParseFindTemplate(findTemplate);
-            IParsingContext parsingContext = new ParsingContext();
-            var result = findParser.Parse(ref parsingContext, source);
+            IParsingContext parsingContext = new ParsingContext(input);
+            var result = findParser.Parse(ref parsingContext, input);
             
             Assert.NotNull(findParser);
             Assert.NotNull(result.Value);

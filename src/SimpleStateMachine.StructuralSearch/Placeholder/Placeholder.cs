@@ -17,7 +17,6 @@
         public readonly string Name;
         public readonly string Value;
         public readonly int Lenght;
-        public FileProperty File => _context.File;
         public readonly LineProperty Line;
         public readonly ColumnProperty Column;
         public readonly OffsetProperty Offset;
