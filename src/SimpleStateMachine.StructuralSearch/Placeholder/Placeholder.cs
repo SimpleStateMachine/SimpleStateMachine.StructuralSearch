@@ -20,7 +20,7 @@
         public readonly LineProperty Line;
         public readonly ColumnProperty Column;
         public readonly OffsetProperty Offset;
-
+        public IInput Input => _context.Input;
 
         public static Placeholder CreateEmpty(IParsingContext context, string name, string value)
         {

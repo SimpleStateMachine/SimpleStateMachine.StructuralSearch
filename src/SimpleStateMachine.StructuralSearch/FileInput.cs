@@ -16,5 +16,11 @@ namespace SimpleStateMachine.StructuralSearch
         {
             return parser.Parse(FileInfo.OpenText());
         }
+
+        public string Extension => FileInfo.Extension;
+        public string Path => System.IO.Path.GetFullPath(FileInfo.FullName);
+        public string Name => System.IO.Path.GetFileNameWithoutExtension(FileInfo.Name);
+        public string Data => FileInfo.OpenText().ReadToEnd();
+        public long Lenght => FileInfo.Length;
     }
 }
