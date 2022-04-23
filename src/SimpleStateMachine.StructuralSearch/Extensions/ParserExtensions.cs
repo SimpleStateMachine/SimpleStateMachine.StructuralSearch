@@ -49,6 +49,44 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
                 : throw new ArgumentNullException(nameof(parser));
         }
 
+        // public static Parser<char, T> Match<T>(this Parser<char, T> parser, ref ParseState<char> state,
+        //     ref PooledList<Expected<char>> expected, out T result)
+        // {
+        //     Parser<char>.CurrentPos.TryParse(ref state, ref expected, out var oldPos);
+        //     Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var oldOffset);
+        //     var res = parser.TryParse(ref state, ref expected, out result);
+        //
+        //     if (res)
+        //     {
+        //         Parser<char>.CurrentPos.TryParse(ref state, ref expected, out var newPos);
+        //         Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var newOffset);
+        //
+        //         var line = new LinePosition(oldPos.Line, newPos.Line);
+        //         var column = new ColumnPosition(oldPos.Col, newPos.Col);
+        //         var offset = new OffsetPosition(oldOffset, newOffset);
+        //         
+        //         return null;
+        //     }
+        // }
+        
+        public static Parser<char, Match<T>> Match<T>(this Parser<char, T> parser)
+        {
+            return Map((oldPos, oldOffset, result, newPos, newOffset) =>
+                {
+                    var line = new LinePosition(oldPos.Line, newPos.Line);
+                    var column = new ColumnPosition(oldPos.Col, newPos.Col);
+                    var offset = new OffsetPosition(oldOffset, newOffset);
+                    var lenght = newOffset - oldOffset;
+                    return new Match<T>(result, lenght, column, line, offset);
+                },
+                Parser<char>.CurrentPos, Parser<char>.CurrentOffset,
+                parser,
+                Parser<char>.CurrentPos, Parser<char>.CurrentOffset);
+        }
+        
+        
+        
+        
         // public static Parser<TToken, TOut> WithResult<TToken, TOut>(this Parser<TToken, TOut> parser, Func<TToken, SourcePos, TOut> transformResult)
         // {
         //     = Parser<TToken>.CurrentSourcePosDelta.Select<SourcePos>((Func<SourcePosDelta, SourcePos>) (d => new SourcePos(1, 1) + d));

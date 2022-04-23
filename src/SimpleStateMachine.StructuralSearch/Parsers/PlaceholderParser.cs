@@ -20,7 +20,7 @@ namespace SimpleStateMachine.StructuralSearch
             Func<Parser<char, string>?> nextNext)
         {
             var _next = next();
-            var _nextNext = nextNext() ?? Parser.OneOf(CommonParser.WhiteSpaces, Parser<char>.End.ThenReturn(string.Empty));
+            var _nextNext = nextNext() ?? Parser.OneOf(Parser<char>.Any.AsString(), Parser<char>.End.ThenReturn(string.Empty));
             var lookahead = Parsers.Lookahead(_next.Then(_nextNext, (s1, s2) =>
             {
                 OnLookahead = () => new List<LookaheadResult<char, string>>
@@ -66,22 +66,14 @@ namespace SimpleStateMachine.StructuralSearch
             }
             else
             {
-                Parser<char>.CurrentPos.TryParse(ref state, ref expected, out var oldPos);
-                Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var oldOffset);
-                res = base.TryParse(ref state, ref expected, out result);
-
+                res = parser.Value.Match().TryParse(ref state, ref expected, out var match);
+                result = match.Value;
                 if (res)
                 {
-                    Parser<char>.CurrentSourcePosDelta.TryParse(ref state, ref expected, out var posDelta);
-                    Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var newOffset);
-            
                     _context.AddPlaceholder(new Placeholder(
                         context: _context,
                         name: Name,
-                        value: result,
-                        line: new LineProperty(oldPos.Line, oldPos.Line + posDelta.Lines),
-                        column: new ColumnProperty(oldPos.Col, oldPos.Col + posDelta.Cols),
-                        offset: new OffsetProperty(oldOffset, newOffset)));
+                        match: match));
                 }
             }
             
