@@ -11,7 +11,7 @@ namespace SimpleStateMachine.StructuralSearch
         
         public readonly string Input;
         
-        public Result<char, T> Parse<T>(Parser<char, T> parser)
+        public Result<char, T> ParseBy<T>(Parser<char, T> parser)
         {
             return parser.Parse(Input);
         }

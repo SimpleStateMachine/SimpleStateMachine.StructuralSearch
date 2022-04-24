@@ -20,7 +20,10 @@ namespace SimpleStateMachine.StructuralSearch
             Func<Parser<char, string>?> nextNext)
         {
             var _next = next();
-            var _nextNext = nextNext() ?? Parser.OneOf(Parser<char>.Any.AsString(), Parser<char>.End.ThenReturn(string.Empty));
+            var _nextNext = nextNext() ?? Parser<char>.End.ThenReturn(string.Empty);
+                            
+            // Parser.OneOf(Parser<char>.End.ThenReturn(string.Empty), Parser<char>.Any.ThenReturn(string.Empty));
+            
             var lookahead = Parsers.Lookahead(_next.Then(_nextNext, (s1, s2) =>
             {
                 OnLookahead = () => new List<LookaheadResult<char, string>>

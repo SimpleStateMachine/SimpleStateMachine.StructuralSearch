@@ -12,28 +12,39 @@ namespace SimpleStateMachine.StructuralSearch
     public class FindParser : IFindParser
     {
         private SeriesParser Parser { get; }
-        public FindParser(SeriesParser parser)
+        public FindParser(SeriesParser parser)    
         {
             Parser = parser;
         }
 
-        public string Parse(ref IParsingContext context, IInput input)
+        public IEnumerable<FindParserMatch> Parse(ref IParsingContext context)
         {
-            StringBuilder res = new StringBuilder();
+            List<FindParserMatch> matches = new();
+            StringBuilder res = new();
             Parser.SetContext(ref context);
-            var parser = Parser.Select(x => string.Join(string.Empty, x)).Match().Try();
-            var empty = Pidgin.Parser<char>.Any.Select(x=>
-            {
-                res.Append(x);
-                return string.Empty;
-            }).ThenReturn(Match.EmptyMatchString);
-            var parse = Pidgin.Parser.OneOf(parser, empty)
-                .Many();
-                
-            var result = input.Parse(parse);
-            var t = result.Value.Where(x => !x.IsEmpty());
-            // return result.Success ? result.Value.JoinToString() : string.Empty;
-            return string.Empty;
+            
+            var parsingContext = context;
+            var parser = Parser.Select(x => string.Join(string.Empty, x))
+                .Match()
+                .ThenInvoke(match =>
+                {
+                    var placeholders= parsingContext.Switch();
+                    matches.Add(new FindParserMatch(match, placeholders));
+                })
+                .ThenReturn(Unit.Value)
+                .Try();
+            
+            var empty = Parser<char>.Any
+                .ThenInvoke(x =>
+                {
+                    res.Append(x);
+                    parsingContext.Switch();
+                })
+                .ThenReturn(Unit.Value);
+            
+            context.Input.ParseBy(Pidgin.Parser.OneOf(parser, empty).Many());
+            
+            return matches.OrderBy(x=> x.Match.Offset.Start);
         }
     }
 }

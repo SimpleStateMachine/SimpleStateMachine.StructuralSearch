@@ -17,7 +17,6 @@ namespace SimpleStateMachine.StructuralSearch
 
         public void Lookahead(Func<Parser<TToken, T>?> next, Func<Parser<TToken, T>?> nextNext)
         {
-            // lazy initialization
             parser = new Lazy<Parser<TToken, T>>(() => BuildParser(next, nextNext));
         }
 

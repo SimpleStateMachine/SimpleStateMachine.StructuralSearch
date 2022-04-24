@@ -4,7 +4,7 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public interface IInput
     {
-        Result<char, T> Parse<T>(Parser<char, T> parser);
+        Result<char, T> ParseBy<T>(Parser<char, T> parser);
         
         string Extension { get; }
         string Path { get; }

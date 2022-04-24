@@ -38,7 +38,7 @@ namespace SimpleStateMachine.StructuralSearch
 
         public void Parse(ref IParsingContext context)
         {
-            var result = FindParser.Parse(ref context, context.Input);
+            var result = FindParser.Parse(ref context);
         }
         
         public void Replace(ref IParsingContext context)

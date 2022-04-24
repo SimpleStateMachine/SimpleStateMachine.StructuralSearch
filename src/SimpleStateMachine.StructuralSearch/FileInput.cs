@@ -12,7 +12,7 @@ namespace SimpleStateMachine.StructuralSearch
         
         public readonly FileInfo FileInfo;
         
-        public Result<char, T> Parse<T>(Parser<char, T> parser)
+        public Result<char, T> ParseBy<T>(Parser<char, T> parser)
         {
             return parser.Parse(FileInfo.OpenText());
         }

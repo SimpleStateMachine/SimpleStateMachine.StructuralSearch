@@ -7,6 +7,6 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public interface IFindParser
     {
-        string Parse(ref IParsingContext context, IInput input);
+        IEnumerable<FindParserMatch> Parse(ref IParsingContext context);
     }
 }

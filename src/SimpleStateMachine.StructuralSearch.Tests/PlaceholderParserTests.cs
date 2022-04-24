@@ -1,4 +1,7 @@
-﻿using Pidgin;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.VisualBasic;
+using Pidgin;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
@@ -21,22 +24,32 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             var input = Input.String(source);
             IParsingContext parsingContext = new ParsingContext(input);
             var templateParser = StructuralSearch.ParseFindTemplate(template);
-            var res = templateParser.Parse(ref parsingContext, input);
-            var placeholder = parsingContext.GetPlaceholder("test");
+            var matches = templateParser.Parse(ref parsingContext);
+
+            Assert.Single(matches);
+            var match = matches.First();
+            Assert.Single(match.Placeholders);
+            var placeholder = match.Placeholders.First();
             
-            Assert.Equal(placeholder.Value, result);
+            Assert.Equal(placeholder.Value.Value, result);
         }
         
         [Theory]
-        [InlineData("$var$;$var2$;", "test;;;test;;;",  "value ")]
-        public void TemplateParsingShouldBeSuccess2(string template, string source, string result)
+        [InlineData("$var$;", "test;;;",  "test;;")]
+        [InlineData("$var$;.", "test;;;.", "test;;")]
+        [InlineData("$var$;$var2$;", "test;;;test;;;", "test",";;test;;")]
+        public void TemplateParsingShouldBeSuccess2(string template, string source, params string[] values)
         {
             var input = Input.String(source);
             IParsingContext parsingContext = new ParsingContext(input);
             var templateParser = StructuralSearch.ParseFindTemplate(template);
-            templateParser.Parse(ref parsingContext, input);
-             
+            var matches = templateParser.Parse(ref parsingContext);
+            Assert.Single(matches);
+            var match = matches.First();
+            Assert.Equal(match.Placeholders.Count, values.Length);
             
+            Assert.Equal(match.Placeholders.Select(x=> x.Value.Value), values);
+        
             // var templateStr = File.ReadAllText(templatePath);
             // var template = StructuralSearch.ParseTemplate(templateStr);
             //

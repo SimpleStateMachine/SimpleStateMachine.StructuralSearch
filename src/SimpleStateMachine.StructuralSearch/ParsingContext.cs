@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch
 {
@@ -8,7 +9,7 @@ namespace SimpleStateMachine.StructuralSearch
         {
             Input = input;
         }
-        public Dictionary<string, Placeholder> Placeholders { get; } = new();
+        public readonly Dictionary<string, Placeholder> Placeholders = new();
 
         public IInput Input { get; }
 
@@ -25,6 +26,15 @@ namespace SimpleStateMachine.StructuralSearch
         public Placeholder GetPlaceholder(string name)
         {
             return Placeholders[name];
+        }
+
+        public IReadOnlyDictionary<string, Placeholder> Switch()
+        {
+            var placeholders = Placeholders
+                .OrderBy(x=> x.Value.Offset.Start)
+                .ToDictionary(x=> x.Key, x=> x.Value);
+            Placeholders.Clear();
+            return placeholders;
         }
     }
 }

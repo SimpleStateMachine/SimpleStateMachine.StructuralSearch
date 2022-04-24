@@ -3,11 +3,8 @@
 namespace SimpleStateMachine.StructuralSearch
 {
     public readonly record struct Match<T>(T Value, int Lenght, ColumnPosition Column, LinePosition Line,
-        OffsetPosition Offset)
-    {
-        
-    }
-    
+        OffsetPosition Offset);
+
     public static class Match
     {
         public static readonly Match<string> EmptyMatchString = new(
