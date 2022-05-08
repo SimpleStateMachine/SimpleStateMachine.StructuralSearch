@@ -6,11 +6,11 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class ReplaceRule
     {
-        public FindRule FindRule { get; }
+        public PlaceholderLogicalRule FindRule { get; }
 
         public IRuleParameter Parameter { get; }
 
-        public ReplaceRule(FindRule findRule, IRuleParameter parameter)
+        public ReplaceRule(PlaceholderLogicalRule findRule, IRuleParameter parameter)
         {
             FindRule = findRule;
             Parameter = parameter;

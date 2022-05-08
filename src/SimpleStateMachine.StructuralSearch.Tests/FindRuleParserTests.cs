@@ -28,7 +28,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
 
         public void FindRuleExprParsingShouldBeSuccess(string ruleStr)
         {
-            var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);
+            var rule = RuleParser.Expr.ParseOrThrow(ruleStr);
             var _ruleStr = rule.ToString()?.ToLower();
             Assert.NotNull(rule);
             Assert.Equal(_ruleStr, ruleStr.ToLower());
@@ -39,7 +39,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("In (\"Is\", \"==\", \"!=\", \"is not\")", "In \"Is\",\"==\",\"!=\",\"is not\"")]
         public void FindRuleExprParsingShouldBeEqualsCustomResult(string ruleStr, string customResult)
         {
-            var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);
+            var rule = RuleParser.Expr.ParseOrThrow(ruleStr);
             var _ruleStr = rule.ToString()?.ToLower();
             Assert.NotNull(rule);
             Assert.Equal(_ruleStr, customResult.ToLower());

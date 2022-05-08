@@ -50,9 +50,5 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="ReplaceRule" />
-    </ItemGroup>
     
 </Project>

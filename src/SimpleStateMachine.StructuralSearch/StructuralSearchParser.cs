@@ -13,7 +13,7 @@ namespace SimpleStateMachine.StructuralSearch
     {
         public IFindParser FindParser { get; set; }
 
-        public Dictionary<string, FindRule> FindRules { get; set; }
+        public Dictionary<string, PlaceholderLogicalRule> FindRules { get; set; }
 
         public IReplaceBuilder ReplaceBuilder { get; set; }
 

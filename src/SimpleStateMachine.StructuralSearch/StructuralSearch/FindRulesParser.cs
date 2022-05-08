@@ -7,7 +7,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public static class FindRuleParser
+    public static class RuleParser
     {
         internal static Parser<char, Func<IRule, IRule, IRule>> Binary(Parser<char, BinaryRuleType> op)
             => op.Select<Func<IRule, IRule, IRule>>(type => (l, r) => new BinaryRule(type, l, r));
@@ -71,14 +71,10 @@ namespace SimpleStateMachine.StructuralSearch
             )
         );
 
-        internal static readonly Parser<char, FindRule> Rule =
-            Parser.Map((parameter, rule) => new FindRule(parameter, rule),
+        internal static readonly Parser<char, ILogicalRule> PlaceholderLogicalRule =
+            Parser.Map((parameter, rule) => new PlaceholderLogicalRule(parameter, rule),
                 ParametersParser.PlaceholderParameter,
-                    Expr.TrimStart());
-
-        internal static FindRule ParseTemplate(string str)
-        {
-            return Rule.ParseOrThrow(str);
-        }
+                    Expr.TrimStart())    
+                .As<char, PlaceholderLogicalRule, ILogicalRule>();
     }
 }

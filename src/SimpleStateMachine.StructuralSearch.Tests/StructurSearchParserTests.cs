@@ -22,11 +22,6 @@ namespace SimpleStateMachine.StructuralSearch.Tests
            
             var matches = parser.Parse(ref context);
             Assert.Equal(matches.Count(), matchesCount);
-            // foreach (var match in matches)
-            // {
-            //     input.Replace(match.Match);
-            // }
-            
         }
     }
 }

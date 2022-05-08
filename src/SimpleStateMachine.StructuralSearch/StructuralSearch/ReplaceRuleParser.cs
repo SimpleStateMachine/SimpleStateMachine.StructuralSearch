@@ -16,7 +16,7 @@ namespace SimpleStateMachine.StructuralSearch
         
         internal static readonly Parser<char, ReplaceRule> ReplaceRule =
             Parser.Map((rule, parameter) => new ReplaceRule(rule, parameter),
-                    FindRuleParser.Rule.Before(CommonTemplateParser.Should.TrimStart()),
+                    RuleParser.PlaceholderLogicalRule.Before(CommonTemplateParser.Should.TrimStart()),
                     Parser.OneOf(ChangeParameter.Try(), ParametersParser.Parameter.Try()))
                 .Try()
                 .TrimStart();

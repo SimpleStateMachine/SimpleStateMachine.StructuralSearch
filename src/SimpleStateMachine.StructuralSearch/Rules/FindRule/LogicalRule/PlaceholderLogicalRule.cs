@@ -1,12 +1,12 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class FindRule
+    public class PlaceholderLogicalRule : ILogicalRule
     {
         public PlaceholderParameter Placeholder { get; }
         
         private IRule _rule { get; }
 
-        public FindRule(PlaceholderParameter placeholder, IRule rule)
+        public PlaceholderLogicalRule(PlaceholderParameter placeholder, IRule rule)
         {
             Placeholder = placeholder;
             _rule = rule;
@@ -16,7 +16,7 @@
         {
             return $"{Placeholder}{Constant.Space}{_rule}";
         }
-
+        
         public bool Execute()
         {
             var value = Placeholder.GetValue();
