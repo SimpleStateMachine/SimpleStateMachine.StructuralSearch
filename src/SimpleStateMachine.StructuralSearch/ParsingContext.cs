@@ -28,13 +28,28 @@ namespace SimpleStateMachine.StructuralSearch
             return Placeholders[name];
         }
 
-        public IReadOnlyDictionary<string, Placeholder> Switch()
+        public IReadOnlyDictionary<string, Placeholder> SwitchOnNew()
         {
             var placeholders = Placeholders
                 .OrderBy(x=> x.Value.Offset.Start)
                 .ToDictionary(x=> x.Key, x=> x.Value);
-            Placeholders.Clear();
+            Clear();
             return placeholders;
+        }
+
+        public void Set(IReadOnlyDictionary<string, Placeholder> placeholders)
+        {
+            Clear();
+            
+            foreach (var placeholder in placeholders)
+            {
+                Placeholders.Add(placeholder.Key, placeholder.Value);
+            }
+        }
+
+        public void Clear()
+        {
+            Placeholders.Clear();
         }
     }
 }

@@ -35,9 +35,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         }
         
         [Theory]
-        [InlineData("$var$;", "test;;;",  "test;;")]
+        [InlineData("$var$;", "test;;",  "test")]
         [InlineData("$var$;.", "test;;;.", "test;;")]
-        [InlineData("$var$;$var2$;", "test;;;test;;;", "test",";;test;;")]
         public void TemplateParsingShouldBeSuccess2(string template, string source, params string[] values)
         {
             var input = Input.String(source);

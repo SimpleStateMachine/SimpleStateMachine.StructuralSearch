@@ -36,15 +36,33 @@ namespace SimpleStateMachine.StructuralSearch
                 .ToDictionary(x => x.FindRule.Placeholder.Name, x => x);
         }
 
-        public void Parse(ref IParsingContext context)
+        public IEnumerable<FindParserMatch> Parse(ref IParsingContext context)
         {
-            var result = FindParser.Parse(ref context);
+            var matches = FindParser.Parse(ref context);
+            var result = new List<FindParserMatch>();
+            
+            foreach (var match in matches)
+            {
+               context.Set(match.Placeholders);
+               if (AllRulesCompleted(ref context))
+               {
+                    result.Add(match);   
+               }
+            }
+            
+            return result;
         }
         
-        public void Replace(ref IParsingContext context)
+        public void Replace(FindParserMatch context)
         {
-            ReplaceBuilder.Build(context);
+            //ReplaceBuilder.Build(context);
+            // context.
             //FindParser.Parse(context, context.File.Data);
+        }
+        
+        public bool AllRulesCompleted(ref IParsingContext context)
+        {
+            return FindRules.Values.All(x => x.Execute());
         }
     }
 }

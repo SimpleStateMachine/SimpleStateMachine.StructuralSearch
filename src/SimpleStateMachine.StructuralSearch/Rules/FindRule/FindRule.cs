@@ -15,6 +15,12 @@
         public override string ToString()
         {
             return $"{Placeholder}{Constant.Space}{_rule}";
-        } 
+        }
+
+        public bool Execute()
+        {
+            var value = Placeholder.GetValue();
+            return _rule.Execute(value);
+        }
     }
 }

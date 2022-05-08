@@ -21,7 +21,17 @@ namespace SimpleStateMachine.StructuralSearch.Tests.Mock
             return Placeholder.CreateEmpty(this, name, string.Empty);
         }
 
-        public IReadOnlyDictionary<string, Placeholder> Switch()
+        public IReadOnlyDictionary<string, Placeholder> SwitchOnNew()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Set(IReadOnlyDictionary<string, Placeholder> placeholders)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Clear()
         {
             throw new System.NotImplementedException();
         }

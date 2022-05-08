@@ -1,20 +1,33 @@
 ﻿using System.IO;
+using System.Threading;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch
 {
     public class FileInput : IInput
     {
+        public readonly FileInfo FileInfo;
+        
         public FileInput(FileInfo fileInfo)
         {
             FileInfo = fileInfo;
         }
-        
-        public readonly FileInfo FileInfo;
-        
+
         public Result<char, T> ParseBy<T>(Parser<char, T> parser)
         {
             return parser.Parse(FileInfo.OpenText());
+        }
+
+        public void Replace(Match<string> match, string value)
+        {
+            using var valueReader = new StringReader(value);
+            using var streamWriter = new StreamWriter(FileInfo.FullName);
+            var emptyStart = match.Offset.Start + match.Lenght;
+            var emptyEnd = match.Offset.End;
+            valueReader.CopyPartTo(streamWriter, match.Offset.Start, match.Lenght);
+            
+            //return (emptyStart, emptyEnd);
         }
 
         public string Extension => FileInfo.Extension;

@@ -7,13 +7,13 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
 {
     public class Configuration : IEquatable<Configuration>
     {
-        public string FindTemplate { get; set; }
+        public string FindTemplate { get; init; }
 
-        public List<string>? FindRules { get; set; }
+        public List<string>? FindRules { get; init; }
 
-        public string ReplaceTemplate { get; set; }
+        public string ReplaceTemplate { get; init; }
 
-        public List<string>? ReplaceRules { get; set; }
+        public List<string>? ReplaceRules { get; init; }
 
         public bool Equals(Configuration? other)
         {

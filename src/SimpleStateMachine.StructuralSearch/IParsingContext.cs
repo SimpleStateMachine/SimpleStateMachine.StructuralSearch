@@ -12,6 +12,8 @@ namespace SimpleStateMachine.StructuralSearch
 
         Placeholder GetPlaceholder(string name);
         
-        IReadOnlyDictionary<string, Placeholder> Switch();
+        IReadOnlyDictionary<string, Placeholder> SwitchOnNew();
+        void Set(IReadOnlyDictionary<string, Placeholder>placeholders);
+        void Clear();
     }
 }

@@ -16,6 +16,11 @@ namespace SimpleStateMachine.StructuralSearch
             return parser.Parse(Input);
         }
 
+        public void Replace(Match<string> match, string value)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string Extension => string.Empty;
         public string Path => string.Empty;
         public string Name => string.Empty;
