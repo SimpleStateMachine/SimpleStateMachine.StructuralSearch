@@ -17,10 +17,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             Right = right;
         }
 
-        public bool Execute(string value)
+        public bool Execute()
         {
-            var left = Left.Execute(value);
-            var right = Right.Execute(value);
+            var left = Left.Execute();
+            var right = Right.Execute();
             
             return LogicalHelper.Calculate(Type, left, right);
         }

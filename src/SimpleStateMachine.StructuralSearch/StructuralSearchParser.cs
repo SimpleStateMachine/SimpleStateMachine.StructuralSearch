@@ -13,7 +13,7 @@ namespace SimpleStateMachine.StructuralSearch
     {
         public IFindParser FindParser { get; set; }
 
-        public Dictionary<string, PlaceholderLogicalRule> FindRules { get; set; }
+        public IEnumerable<IRule> FindRules { get; set; }
 
         public IReplaceBuilder ReplaceBuilder { get; set; }
 
@@ -25,15 +25,14 @@ namespace SimpleStateMachine.StructuralSearch
             
             FindRules = configuration.FindRules
                 .EmptyIfNull()
-                .Select(StructuralSearch.ParseFindRule)
-                .ToDictionary(x => x.Placeholder.Name, x => x);
+                .Select(StructuralSearch.ParseFindRule);
             
             ReplaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
             
-            ReplaceRules = configuration.ReplaceRules
-                .EmptyIfNull()
-                .Select(StructuralSearch.ParseReplaceRule)
-                .ToDictionary(x => x.FindRule.Placeholder.Name, x => x);
+            // ReplaceRules = configuration.ReplaceRules
+            //     .EmptyIfNull()
+            //     .Select(StructuralSearch.ParseReplaceRule)
+            //     .ToDictionary(x => x.FindRule.Placeholder.Name, x => x);
         }
 
         public IEnumerable<FindParserMatch> Parse(ref IParsingContext context)
@@ -62,7 +61,9 @@ namespace SimpleStateMachine.StructuralSearch
         
         public bool AllRulesCompleted(ref IParsingContext context)
         {
-            return FindRules.Values.All(x => x.Execute());
+            //return FindRules.Values.All(x => x.Execute());
+
+            return true;
         }
     }
 }

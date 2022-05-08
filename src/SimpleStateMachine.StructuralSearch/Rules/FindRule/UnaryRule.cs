@@ -14,9 +14,9 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             Parameter = parameter;
         }
 
-        public bool Execute(string value)
+        public bool Execute()
         {
-            var result = Parameter.Execute(value);
+            var result = Parameter.Execute();
             
             return Type switch
             {

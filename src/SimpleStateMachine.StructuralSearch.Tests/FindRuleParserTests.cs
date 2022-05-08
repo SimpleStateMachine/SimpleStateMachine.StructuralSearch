@@ -10,36 +10,41 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class FindRuleParserTests
     {
         [Theory]
-        [InlineData("equals $var$")]
-        [InlineData("equals \"\\$\"")]
-        [InlineData("Not equals $var$.Lenght")]
-        [InlineData("Not equals $var$.offset.Start")]
-        [InlineData("equals $var$.Lenght and Not StartsWith \"123\"")]
-        [InlineData("equals $var$.Lenght and Not StartsWith \"\\\"Test\"")]
-        [InlineData("Contains $var$.Lenght")]
-        [InlineData("Contains \"123\"")]
-        [InlineData("StartsWith $var$.Lenght")]
-        [InlineData("StartsWith \"123\"")]
-        [InlineData("EndsWith $var$.Lenght")]
-        [InlineData("EndsWith \"123\"")]
-        [InlineData("Match $var$.Lenght")]
-        [InlineData("Is Int")]
-        [InlineData("Is DateTime")]
+        [InlineData("$var$ equals $var$")]
+        [InlineData("$var$ equals \"\\$\"")]
+        [InlineData("Not $var$ equals $var$.Lenght")]
+        [InlineData("Not $var$ equals $var$.offset.Start")]
+        [InlineData("$var$ equals $var$.Lenght and Not $var$ StartsWith \"123\"")]
+        [InlineData("Not $var$ equals $var$.Lenght and $var$ StartsWith \"123\"")]
+        [InlineData("$var$ equals $var$.Lenght and Not $var$ StartsWith \"\\\"Test\"")]
+        [InlineData("$var$ Contains $var$.Lenght")]
+        [InlineData("$var1$.Lenght Contains $var2$.Lenght")]
+        [InlineData("$var$ Contains \"123\"")]
+        [InlineData("$var$ StartsWith $var$.Lenght")]
+        [InlineData("$var$.Lenght Equals $var$.Lenght")]
+        [InlineData("$var$ StartsWith \"123\"")]
+        [InlineData("$var$ EndsWith $var$.Lenght")]
+        [InlineData("$var$ EndsWith \"123\"")]
+        [InlineData("$var$ Match $var$.Lenght")]
+        [InlineData("$var$ Is Int")]
+        [InlineData("$var$ Is DateTime")]
 
         public void FindRuleExprParsingShouldBeSuccess(string ruleStr)
         {
-            var rule = RuleParser.Expr.ParseOrThrow(ruleStr);
+            var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);
             var _ruleStr = rule.ToString()?.ToLower();
             Assert.NotNull(rule);
             Assert.Equal(_ruleStr, ruleStr.ToLower());
         }
         
         [Theory]
-        [InlineData("In \"Is\", \"==\", \"!=\", \"is not\"", "In \"Is\",\"==\",\"!=\",\"is not\"")]
-        [InlineData("In (\"Is\", \"==\", \"!=\", \"is not\")", "In \"Is\",\"==\",\"!=\",\"is not\"")]
+        [InlineData("$var$ In \"Is\", \"==\", \"!=\", \"is not\"", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+        [InlineData("$var$ In (\"Is\", \"==\", \"!=\", \"is not\")", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+        [InlineData("Not ($var$ equals $var$.Lenght and $var$ StartsWith \"123\")", "Not $var$ equals $var$.Lenght and $var$ StartsWith \"123\"")]
+        [InlineData("Not ($var$ equals $var$.Lenght)", "Not $var$ equals $var$.Lenght")]
         public void FindRuleExprParsingShouldBeEqualsCustomResult(string ruleStr, string customResult)
         {
-            var rule = RuleParser.Expr.ParseOrThrow(ruleStr);
+            var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);
             var _ruleStr = rule.ToString()?.ToLower();
             Assert.NotNull(rule);
             Assert.Equal(_ruleStr, customResult.ToLower());
