@@ -13,9 +13,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests.Mock
             var fileRule = FileOrNull("FindRule", fileName) ;
             var replaceTemplate = FileOrNull("ReplaceTemplate", fileName);
             var replaceRule = FileOrNull("ReplaceRule", fileName);
-
-            var fileRules = fileRule is null ? null : new List<string>{ fileRule };
-            var replaceRules = replaceRule is null ? null : new List<string>{ replaceRule };
+            var fileRules = fileRule is null ? null : new List<string>(fileRule.Split(Constant.LineFeed.ToString()));
+            var replaceRules = replaceRule is null ? null : new List<string>(replaceRule.Split(Constant.LineFeed.ToString()));
             var config = new Configuration
             {
                 FindTemplate = findTemplate,

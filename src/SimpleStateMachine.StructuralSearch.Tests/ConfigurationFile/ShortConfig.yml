@@ -25,7 +25,8 @@
       - $sign$ In ("Is", "==", "!=", "is not")
     ReplaceTemplate: |-
       $var$ = $value1$ ?? $value2$;
-      
+    ReplaceRules:  
+     - $sign$ In ("!=", "is not") then $var2$ => $var1$, $var1$ => $var2$
 #  TernaryOperator   
   
   - FindTemplate: |-

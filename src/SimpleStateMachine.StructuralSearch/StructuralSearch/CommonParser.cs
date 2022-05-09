@@ -34,6 +34,9 @@ namespace SimpleStateMachine.StructuralSearch
         internal static readonly Parser<char, char> Comma
             = Char(Constant.Comma);
         
+        internal static readonly Parser<char, char> Colon
+            = Char(Constant.Colon);
+        
         internal static readonly Parser<char, char> DoubleQuotes
             = Char(Constant.DoubleQuotes);
         
