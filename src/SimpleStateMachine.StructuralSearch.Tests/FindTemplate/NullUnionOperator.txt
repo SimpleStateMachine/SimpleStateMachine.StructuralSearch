@@ -1,8 +1,4 @@
-﻿if($value1$ $sign$ null)
-{
+﻿if($value$ $sign$ null)
     $var$ = $value2$;
-}
 else
-{
     $var$ = $value1$;
-}

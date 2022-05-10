@@ -9,7 +9,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     {
         [Theory]
         // [InlineData("AssignmentNullUnionOperator")]
-        // [InlineData("NullUnionOperator")]
+        [InlineData("NullUnionOperator", "Examples/NullUnionOperator.cs", 2)]
         [InlineData("TernaryOperator", "Examples/TernaryOperator.cs", 3)]
         public static void StructuralSearchShouldBeSuccess(string exampleName, string exampleFilePath, int matchesCount)
         {

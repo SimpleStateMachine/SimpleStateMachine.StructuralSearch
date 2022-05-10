@@ -12,24 +12,26 @@ public class NullUnionOperator
             return 4;
     }
         
-    public int Test2()
+    public void Test2()
     {
-        int? temp = 5;
-            
-        if(temp is null)
-            return 7;
+        int? result;
+        int? temp1 = 5;
+        int? temp2 = 5; 
+        if(temp1 is null)
+            result = temp2;
         else
-            return 8;
+            result =  temp1;
     }
         
-    public int Test3()
+    public void Test3()
     {
-        int? temp2 = 1;
-            
-        if(temp2 is null)
-            return 3;
+        int result;
+        int? temp1 = 5;
+        int? temp2 = 5; 
+        if(temp1 is null)
+            result = temp2.Value;
         else
-            return 4; 
+            result =  temp1.Value;
     }
         
     public int Test4()
