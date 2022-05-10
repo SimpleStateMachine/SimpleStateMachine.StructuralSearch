@@ -19,7 +19,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{string.Join(Constant.Space, Parameters.Select(x=> x.ToString()))}";
+            return $"{Constant.DoubleQuotes}{string.Join(string.Empty, Parameters.Select(x=> x.ToString()))}{Constant.DoubleQuotes}";
         } 
     }
 }
