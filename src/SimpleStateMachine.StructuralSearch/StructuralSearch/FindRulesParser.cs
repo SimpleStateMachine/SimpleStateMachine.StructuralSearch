@@ -53,9 +53,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, IRule> Expr = ExpressionParser.Build<char, IRule>(
             rule => (
                 Parser.OneOf(
-                    SubRuleParser.UnarySubRule,
-                    SubRuleParser.IsSubRule,
-                    SubRuleParser.InSubRule,
+                    SubRuleParser.OneOfSubRule,
                     CommonParser.Parenthesised(rule, x => x.TrimStart())
                 ),
                 new[]
@@ -71,14 +69,9 @@ namespace SimpleStateMachine.StructuralSearch
             )
         );
 
-        internal static readonly Parser<char, FindRule> Rule =
-            Parser.Map((parameter, rule) => new FindRule(parameter, rule),
-                ParametersParser.PlaceholderParameter,
-                    Expr.TrimStart());
-
-        internal static FindRule ParseTemplate(string str)
+        internal static IRule ParseTemplate(string str)
         {
-            return Rule.ParseOrThrow(str);
+            return Expr.ParseOrThrow(str);
         }
     }
 }

@@ -13,19 +13,17 @@
 #  NullUnionOperator    
 
   - FindTemplate: |-
-      if($value1$ $sign$ null)
-      {
+      if($value$ $sign$ null)
           $var$ = $value2$;
-      }
       else
-      {
           $var$ = $value1$;
-      }
     FindRules:
       - $sign$ In ("Is", "==", "!=", "is not")
+      - $value$ In ($value1$, "$value1$.Value",  $value2$, "$value2$.Value")
     ReplaceTemplate: |-
       $var$ = $value1$ ?? $value2$;
-      
+    ReplaceRules:  
+     - $sign$ In ("!=", "is not") then $var2$ => $var1$, $var1$ => $var2$
 #  TernaryOperator   
   
   - FindTemplate: |-

@@ -4,8 +4,8 @@
     {
         Path = 0,
         Data,
+        Extension,
         Name,
-        Directory,
         Lenght
     }
 }

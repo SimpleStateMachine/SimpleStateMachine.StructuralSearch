@@ -1,12 +1,19 @@
-﻿namespace SimpleStateMachine.StructuralSearch
+﻿using System.Collections.Generic;
+
+namespace SimpleStateMachine.StructuralSearch
 {
     public interface IParsingContext
     {
-        FileProperty File { get; }
+        IInput Input { get; }
+        
         bool TryGetPlaceholder(string name, out Placeholder value);
 
         void AddPlaceholder(Placeholder placeholder);
 
         Placeholder GetPlaceholder(string name);
+        
+        IReadOnlyDictionary<string, Placeholder> SwitchOnNew();
+        void Set(IReadOnlyDictionary<string, Placeholder>placeholders);
+        void Clear();
     }
 }

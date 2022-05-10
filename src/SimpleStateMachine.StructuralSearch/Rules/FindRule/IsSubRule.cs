@@ -3,21 +3,23 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class IsRule : IRule
+    public class IsSubRule : IRule
     {
-        public SubRuleType Type { get; }
+        public PlaceholderType Argument { get; }
         
-        public PlaceholderType PlaceholderType { get; }
+        public IRuleParameter Parameter { get; }
         
-        public IsRule(SubRuleType type, PlaceholderType placeholderType)
+        public IsSubRule(IRuleParameter parameter, PlaceholderType argument)
         {
-            Type = type;
-            PlaceholderType = placeholderType;
+            Parameter = parameter;
+            Argument = argument;
         }
 
-        public bool Execute(string value)
+        public bool Execute()
         {
-            return PlaceholderType switch
+            var value = Parameter.GetValue();
+            
+            return Argument switch
             {
                 PlaceholderType.Var => CommonParser.Identifier.TryParse(value, out _),
                 PlaceholderType.Int => int.TryParse(value, out _),
@@ -30,7 +32,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{Type}{Constant.Space}{PlaceholderType}";
+            return $"{Parameter}{Constant.Space}{SubRuleType.Is}{Constant.Space}{Argument}";
         }  
     }
 }

@@ -15,14 +15,14 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 
         public string GetValue()
         {
-            var file = PlaceholderParameter.GetPlaceholder().File;
+            var input = PlaceholderParameter.GetPlaceholder().Input;
             return Property switch
             {
-                FileProperty.Path => file.Path,
-                FileProperty.Data => file.Data,
-                FileProperty.Name => file.Name,
-                FileProperty.Directory => file.Directory,
-                FileProperty.Lenght => file.Lenght.ToString(),
+                FileProperty.Path => input.Path,
+                FileProperty.Data => input.Data,
+                FileProperty.Extension => input.Extension,
+                FileProperty.Name => input.Name,
+                FileProperty.Lenght => input.Lenght.ToString(),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

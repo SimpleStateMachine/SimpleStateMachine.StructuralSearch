@@ -27,6 +27,11 @@ namespace SimpleStateMachine.StructuralSearch
             return parser.Select(value => Parsers.String(value, ignoreCase));
         }
         
+        public static Parser<char, Parser<char, string>> ParserAsParser(Parser<char, string> parser)
+        {
+            return parser.Select(value => parser);
+        }
+        
         public static Parser<char, Parser<char, SourceMatch>> ResultAsMatch(Parser<char, string> parser, bool ignoreCase = false)
         {
             return parser.Select(x=> Parsers.String(x, ignoreCase).AsMatch());

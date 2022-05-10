@@ -38,7 +38,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             var replaceResult = File.ReadAllText(resultPath);
             var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
             
-            var parsingContext = new ParsingContext();
+            var parsingContext = new ParsingContext(Input.Empty);
             for (int i = 0; i < keys.Length; i++)
             {
                 parsingContext.AddPlaceholder(Placeholder.CreateEmpty(parsingContext, keys[i], values[i]));

@@ -12,7 +12,7 @@ namespace SimpleStateMachine.StructuralSearch
         public static IReplaceBuilder ParseReplaceTemplate(string template) 
             => ReplaceTemplateParser.ParseTemplate(template);
         
-        public static FindRule ParseFindRule(string template) 
+        public static IRule ParseFindRule(string template) 
             => FindRuleParser.ParseTemplate(template);
         
         public static ReplaceRule ParseReplaceRule(string template) 

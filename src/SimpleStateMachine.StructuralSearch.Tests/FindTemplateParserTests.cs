@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using Pidgin;
 using Xunit;
 
@@ -28,13 +29,16 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         {
             var findTemplate = File.ReadAllText(templatePath);
             var source = File.ReadAllText(sourcePath);
+            var input = Input.String(source);
             var findParser = StructuralSearch.ParseFindTemplate(findTemplate);
-            IParsingContext parsingContext = new ParsingContext();
-            var result = findParser.Parse(ref parsingContext, source);
+            IParsingContext parsingContext = new ParsingContext(input);
+            var matches = findParser.Parse(ref parsingContext);
+            Assert.Single(matches);
+            
+            var match = matches.First();
             
             Assert.NotNull(findParser);
-            Assert.NotNull(result.Value);
-            Assert.Equal(result.Lenght, source.Length);
+            Assert.Equal(match.Match.Lenght, source.Length);
         }
     }
 }

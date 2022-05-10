@@ -23,7 +23,6 @@ namespace SimpleStateMachine.StructuralSearch
                 .AtLeastOnceString()
                 .Select(x => new StringParameter(x))
                 .As<char, StringParameter, IRuleParameter>()
-                .TrimStart()
                 .Try();
         
         public static readonly Parser<char, IRuleParameter> StringFormatParameter =

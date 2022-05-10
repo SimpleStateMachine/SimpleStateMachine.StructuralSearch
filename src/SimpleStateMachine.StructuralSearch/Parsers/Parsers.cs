@@ -121,5 +121,44 @@ namespace SimpleStateMachine.StructuralSearch
             parser != null ? (Parser<TToken, T>) 
             new LookaheadParser<TToken, T>(parser) 
             : throw new ArgumentNullException(nameof (parser));
+        
+        public static Parser<char, Match<T>> Match<T>(Parser<char, T> parser)
+        {
+            return Map((oldPos, oldOffset, result, newPos, newOffset) =>
+                {
+                    var line = new LinePosition(oldPos.Line, newPos.Line);
+                    var column = new ColumnPosition(oldPos.Col, newPos.Col);
+                    var offset = new OffsetPosition(oldOffset, newOffset);
+                    var lenght = newOffset - oldOffset;
+                    return new Match<T>(result, lenght, column, line, offset);
+                },
+                Parser<char>.CurrentPos, Parser<char>.CurrentOffset,
+                parser,
+                Parser<char>.CurrentPos, Parser<char>.CurrentOffset);
+        }
+        
+        
+        // public static string Match(Parser<char, string> parser, ref ParseState<char> state,
+        //     ref PooledList<Expected<char>> expected, out string result)
+        // {
+        //     Parser<char>.CurrentPos.Then(Parser<char>.CurrentOffset, (pos, i) => (oldPos, oldOffset))
+        //         .Then()
+        //     .TryParse(ref state, ref expected, out var oldPos);
+        //    .TryParse(ref state, ref expected, out var oldOffset);
+        //     var res = parser.TryParse(ref state, ref expected, out result);
+        //
+        //     if (res)
+        //     {
+        //         Parser<char>.CurrentPos.TryParse(ref state, ref expected, out var newPos);
+        //         Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var newOffset);
+        //
+        //         var line = new LinePosition(oldPos.Line, newPos.Line);
+        //         var column = new ColumnPosition(oldPos.Col, newPos.Col);
+        //         var offset = new OffsetPosition(oldOffset, newOffset);
+        //         
+        //     }
+        //
+        //     return null;
+        // }
     }
 }

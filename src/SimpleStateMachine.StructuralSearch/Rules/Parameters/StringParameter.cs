@@ -19,7 +19,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             var value = EscapeHelper.EscapeChars(Value, c => $"{Constant.BackSlash}{c}", Constant.PlaceholderSeparator,
                 Constant.DoubleQuotes);
             
-            return $"{Constant.DoubleQuotes}{value}{Constant.DoubleQuotes}";
+            return $"{value}";
         } 
     }
 }

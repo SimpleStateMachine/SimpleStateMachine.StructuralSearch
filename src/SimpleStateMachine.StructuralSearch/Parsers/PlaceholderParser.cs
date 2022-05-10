@@ -20,16 +20,35 @@ namespace SimpleStateMachine.StructuralSearch
             Func<Parser<char, string>?> nextNext)
         {
             var _next = next();
-            var _nextNext = nextNext() ?? Parser<char>.End.ThenReturn(string.Empty);
-            var lookahead = Parsers.Lookahead(_next.Then(_nextNext, (s1, s2) =>
+            var _nextNext = nextNext();
+                // ?? Parser.OneOf(Parser<char>.End.ThenReturn(string.Empty), Parser<char>.Any.ThenReturn(string.Empty));
+                //  Parser<char>.End.ThenReturn(string.Empty)
+            
+            Parser<char, Unit> lookahead;
+            if (_nextNext is not null)
             {
-                OnLookahead = () => new List<LookaheadResult<char, string>>
+                lookahead = Parsers.Lookahead(_next.Then(_nextNext, (s1, s2) =>
                 {
-                    new(_next, s1, s1.Length),
-                    new(_nextNext, s2, s2.Length),
-                };
-                return Unit.Value;
-            }).Try());
+                    OnLookahead = () => new List<LookaheadResult<char, string>>
+                    {
+                        new(_next, s1, s1.Length),
+                        new(_nextNext, s2, s2.Length),
+                    };
+                    return Unit.Value;
+                }).Try());
+            }
+            else
+            {
+                lookahead = Parsers.Lookahead(_next.Select(s =>
+                {
+                    OnLookahead = () => new List<LookaheadResult<char, string>>
+                    {
+                        new(_next, s, s.Length)
+                    };
+                    return Unit.Value;
+                }).Try());  
+            }
+
 
             var anyString = CommonTemplateParser.AnyCharWithPlshd
                 .AtLeastOnceAsStringUntil(lookahead);
@@ -46,7 +65,7 @@ namespace SimpleStateMachine.StructuralSearch
 
             //parenthesised and tokens and whiteSpaces
             var prdsAndTokens = Parser.OneOf(parenthesised, token)
-                .Until(lookahead)
+                .AtLeastOnceUntil(lookahead)
                 .JoinToString()
                 .Try();
 
@@ -66,22 +85,14 @@ namespace SimpleStateMachine.StructuralSearch
             }
             else
             {
-                Parser<char>.CurrentPos.TryParse(ref state, ref expected, out var oldPos);
-                Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var oldOffset);
-                res = base.TryParse(ref state, ref expected, out result);
-
+                res = parser.Value.Match().TryParse(ref state, ref expected, out var match);
+                result = match.Value;
                 if (res)
                 {
-                    Parser<char>.CurrentSourcePosDelta.TryParse(ref state, ref expected, out var posDelta);
-                    Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var newOffset);
-            
                     _context.AddPlaceholder(new Placeholder(
                         context: _context,
                         name: Name,
-                        value: result,
-                        line: new LineProperty(oldPos.Line, oldPos.Line + posDelta.Lines),
-                        column: new ColumnProperty(oldPos.Col, oldPos.Col + posDelta.Cols),
-                        offset: new OffsetProperty(oldOffset, newOffset)));
+                        match: match));
                 }
             }
             

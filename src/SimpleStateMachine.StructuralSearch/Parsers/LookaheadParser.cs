@@ -7,7 +7,10 @@ namespace SimpleStateMachine.StructuralSearch
     {
         private readonly Parser<TToken, T> _parser;
 
-        public LookaheadParser(Parser<TToken, T> parser) => this._parser = parser;
+        public LookaheadParser(Parser<TToken, T> parser)
+        {
+            this._parser = parser;
+        }
 
         public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expecteds, out T result)
         {

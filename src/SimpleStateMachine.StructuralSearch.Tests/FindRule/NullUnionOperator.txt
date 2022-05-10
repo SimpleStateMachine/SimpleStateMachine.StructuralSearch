@@ -1,1 +1,2 @@
 ﻿$sign$ In ("Is", "==", "!=", "is not")
+$value$ In ($value1$, "$value1$.Value",  $value2$, "$value2$.Value")

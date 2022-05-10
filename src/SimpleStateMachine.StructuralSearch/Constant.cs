@@ -13,6 +13,11 @@
         public static readonly string Not ="Not";
         
         /// <summary>
+        /// String: "Then"
+        /// </summary>
+        public static readonly string Then ="Then";
+        
+        /// <summary>
         /// Parenthesis char: '('
         /// </summary>
         public static readonly char LeftParenthesis = '(';
@@ -96,6 +101,11 @@
         /// Char: '>'
         /// </summary>
         public static readonly char More = '>';
+        
+        /// <summary>
+        /// Char: ':'
+        /// </summary>
+        public static readonly char Colon = ':';
         
         /// <summary>
         /// String: "=>"

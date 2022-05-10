@@ -1,8 +1,10 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Tests.Mock
+﻿using System.Collections.Generic;
+
+namespace SimpleStateMachine.StructuralSearch.Tests.Mock
 {
     public class EmptyParsingContext : IParsingContext
     {
-        public FileProperty File { get; } = new FileProperty();
+        public IInput Input { get; }
 
         public bool TryGetPlaceholder(string name, out Placeholder value)
         {
@@ -17,6 +19,21 @@
         public Placeholder GetPlaceholder(string name)
         {
             return Placeholder.CreateEmpty(this, name, string.Empty);
+        }
+
+        public IReadOnlyDictionary<string, Placeholder> SwitchOnNew()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Set(IReadOnlyDictionary<string, Placeholder> placeholders)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
