@@ -12,7 +12,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("ReplaceTemplate/NullUnionOperator.txt", 10)]
         [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", 6)]
         [InlineData("ReplaceTemplate/TernaryOperator.txt", 11)]
-        public void TemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
+        public void ReplaceTemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
         {
             var replaceTemplate = File.ReadAllText(templatePath);
             var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
@@ -49,6 +49,18 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             Assert.NotNull(replaceTemplate);
             Assert.NotNull(replaceResult);
             Assert.Equal(replaceResult, result);
+        }
+        
+        [Theory]
+        [InlineData("test $var1$.Lenght")]
+        public void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
+        {
+            var replaceBuilder = StructuralSearch.ParseReplaceTemplate(templateStr);
+            var t = replaceBuilder.ToString();
+            var result = replaceBuilder.Build(new EmptyParsingContext());
+        
+            // Assert.NotNull(replaceTemplate);
+            // Assert.Equal(replaceBuilder.Steps.Count(), stepsCount);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace SimpleStateMachine.StructuralSearch
 
         internal static readonly Parser<char, IEnumerable<IReplaceStep>> Parenthesised;
 
-        private static readonly Parser<char, IEnumerable<IReplaceStep>> TemplateParser;
+        internal static readonly Parser<char, IEnumerable<IReplaceStep>> TemplateParser;
 
         internal static IReplaceBuilder ParseTemplate(string str)
         {

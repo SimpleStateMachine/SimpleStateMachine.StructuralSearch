@@ -9,6 +9,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [Theory]
         [InlineData("$var1$ equals $var2$ then $var1$ => \"test $var3$\"")]
         [InlineData("$var1$ equals \"\\$\" then $var1$ => \"\\$\",$var2$ => \"132\"")]
+        [InlineData("_ then $var1$ => \"test $var3$.Lenght\"")]
+        [InlineData("_ then $var1$ => \"\\$\",$var2$ => \"132\"")]
         [InlineData("Not $var1$ equals $var$.Lenght then $var1$ => $var$.Lenght")]
         [InlineData("Not $var1$ equals $var$.offset.Start then $var1$ => $var$.offset.Start")]
         [InlineData("$var1$ equals $var$.Lenght and Not $var1$ StartsWith \"123\" then $var1$ => $var$.offset.Start.Trim")]

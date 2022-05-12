@@ -30,8 +30,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
                 .Select(args => new InSubRule(left, args))
                 .As<char, InSubRule, IRule>()
                 .Try();
-        
-        
+
         public static readonly Parser<char, IRule> OneOfSubRule =
             Parser.Map((left, ruleType) => (left, ruleType), 
                     ParametersParser.Parameter, SubRuleType)
