@@ -29,5 +29,10 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
             var result = stringBuilder.ToString();
             return result;
         }
+        
+        public override string ToString()
+        {
+            return $"{string.Join(string.Empty, Steps)}";
+        } 
     }
 }

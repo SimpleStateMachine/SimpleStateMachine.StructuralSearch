@@ -56,11 +56,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         public void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
         {
             var replaceBuilder = StructuralSearch.ParseReplaceTemplate(templateStr);
-            var t = replaceBuilder.ToString();
-            var result = replaceBuilder.Build(new EmptyParsingContext());
-        
-            // Assert.NotNull(replaceTemplate);
-            // Assert.Equal(replaceBuilder.Steps.Count(), stepsCount);
+            var replaceStr = replaceBuilder.ToString().ToLower();
+            Assert.Equal(replaceStr, templateStr.ToLower());
         }
     }
 }
