@@ -24,5 +24,24 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             Assert.Equal(ruleStr, replaceRule.ToLower());
         }
         
+        [Theory]
+        [InlineData("($var1$ equals $var2$) then $var1$ => \"test $var3$\"", "$var1$ equals $var2$ then $var1$ => \"test $var3$\"")]
+        public void ReplaceRuleShouldBeEqualsString(string replaceRule, string customResult)
+        {
+            var rule = StructuralSearch.ParseReplaceRule(replaceRule);
+            var ruleStr = rule.ToString().ToLower();
+             Assert.NotNull(rule);
+            Assert.Equal(ruleStr, customResult.ToLower());
+        }
+        
+        [Theory]
+        [InlineData("$var1$ equals $var2$ then $var1$ => (\"test $var3$\"")]
+        [InlineData("($var1$ equals $var2$ then $var1$ => \"test $var3$\"")]
+        [InlineData("$var1$ equals $var2$ then ($var1$) => \"test $var3$\"")]
+        public void ReplaceRuleParsingShouldBeFail(string replaceRuleStr)
+        {
+            Assert.Throws<ParseException>(() => StructuralSearch.ParseReplaceRule(replaceRuleStr));
+        }
+        
     }
 }

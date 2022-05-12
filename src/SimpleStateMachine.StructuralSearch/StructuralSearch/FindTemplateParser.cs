@@ -17,7 +17,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .MergerMany();
 
             TemplateParser = Parser.OneOf(Parenthesised, Token)
-                .AtLeastOnce()
+                .AtLeastOnceUntil(CommonParser.EOF)
                 .MergerMany();
 
             SeriesParser = TemplateParser.Select(parsers => new SeriesParser(parsers));

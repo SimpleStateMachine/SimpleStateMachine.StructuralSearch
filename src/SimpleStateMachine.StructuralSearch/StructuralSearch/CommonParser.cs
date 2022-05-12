@@ -15,6 +15,9 @@ namespace SimpleStateMachine.StructuralSearch
         internal static readonly Parser<char, char> Space
             = Char(Constant.Space);
         
+        internal static readonly Parser<char, Unit> EOF
+            = Parser<char>.End;
+        
         internal static readonly Parser<char, string> AnyString
             = AnyChar.AtLeastOnceString();
         

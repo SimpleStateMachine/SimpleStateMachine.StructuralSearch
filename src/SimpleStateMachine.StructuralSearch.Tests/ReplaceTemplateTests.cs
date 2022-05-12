@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Pidgin;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
@@ -53,11 +54,22 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         
         [Theory]
         [InlineData("test $var1$.Lenght")]
+        [InlineData("(test $var1$.Lenght)")]
+        [InlineData("test ($var1$.Lenght)")]
         public void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
         {
             var replaceBuilder = StructuralSearch.ParseReplaceTemplate(templateStr);
             var replaceStr = replaceBuilder.ToString().ToLower();
             Assert.Equal(replaceStr, templateStr.ToLower());
+        }
+        
+        [Theory]
+        [InlineData("(test $var1$.Lenght")]
+        [InlineData("test ($var1$.Lenght")]
+        [InlineData("test $var1$.Lenght)")]
+        public void ReplaceTemplateParsingShouldBeFail(string templateStr)
+        {
+            Assert.Throws<ParseException>(() => StructuralSearch.ParseReplaceTemplate(templateStr));
         }
     }
 }

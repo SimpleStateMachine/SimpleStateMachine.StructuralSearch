@@ -42,7 +42,7 @@ namespace SimpleStateMachine.StructuralSearch
 
         internal static ReplaceRule ParseTemplate(string str)
         {
-            return ReplaceRule.ParseOrThrow(str);
+            return ReplaceRule.Before(CommonParser.EOF).ParseOrThrow(str);
         }
     }
 }
