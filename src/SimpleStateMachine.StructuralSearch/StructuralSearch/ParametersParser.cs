@@ -18,9 +18,18 @@ namespace SimpleStateMachine.StructuralSearch
         //     PlaceholderParameter
         //         .As<char, PlaceholderParameter, IRuleParameter>();
 
+        
+        public static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeParameter =
+            CommonParser.Dote.Then(Parser.CIEnum<ChangeType>())
+                .Optional()
+                .Select(changeType => new Func<IRuleParameter, IRuleParameter>(placeholder =>
+                    changeType.HasValue ? new ChangeParameter(placeholder, changeType.Value) : placeholder))
+                .Try();
+        
         public static readonly Parser<char, IRuleParameter> PlaceholderOrPropertyRuleParameter =
             PlaceholderParameter.Then(PlaceholderPropertyParser.PlaceholderPropertyParameter,
                     (placeholder, func) => func(placeholder))
+                .Then(ChangeParameter, (parameter, func) => func(parameter))
                 .Try();
 
         public static readonly Parser<char, IRuleParameter> StringParameter =
@@ -48,11 +57,5 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters =
             Parameter.SeparatedAtLeastOnce(CommonParser.Comma);
 
-        public static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeTypeParameter =
-            CommonParser.Dote.Then(Parser.CIEnum<ChangeType>())
-                .Optional()
-                .Select(changeType => new Func<IRuleParameter, IRuleParameter>(placeholder =>
-                    changeType.HasValue ? new ChangeParameter(placeholder, changeType.Value) : placeholder))
-                .Try();
     }
 }
