@@ -1,4 +1,6 @@
-﻿using Pidgin;
+﻿using System;
+using System.Collections.Generic;
+using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Rules;
 
@@ -10,20 +12,13 @@ namespace SimpleStateMachine.StructuralSearch
             Parser.CIString(Constant.Then)
                 .Try()
                 .TrimStart();
-
-        internal static readonly Parser<char, IRuleParameter> ReplaceSubRuleParameter =
-            Parser.Map((parameter, changeType) =>
-                        changeType.HasValue ? new ChangeParameter(parameter, changeType.Value) : parameter,
-                    ParametersParser.Parameter,
-                    CommonParser.Dote.Then(Parser.CIEnum<ChangeType>()).Optional())
-                .Try()
-                .TrimStart();
-
+        
         internal static readonly Parser<char, ReplaceSubRule> ReplaceSubRule =
             Parser.Map((placeholder, _, parameter) => new ReplaceSubRule(placeholder, parameter),
                     ParametersParser.PlaceholderParameter.TrimStart(),
                     CommonTemplateParser.Should.TrimStart(),
-                    ReplaceSubRuleParameter)
+                    ParametersParser.Parameter
+                        .Then(ParametersParser.ChangeTypeParameter, (parameter, func) => func(parameter)))
                 .Try()
                 .TrimStart();
 

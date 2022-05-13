@@ -10,9 +10,9 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class ReplaceTemplateTests
     {
         [Theory]
-        [InlineData("ReplaceTemplate/NullUnionOperator.txt", 10)]
-        [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", 6)]
-        [InlineData("ReplaceTemplate/TernaryOperator.txt", 11)]
+        [InlineData("ReplaceTemplate/NullUnionOperator.txt", 6)]
+        [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", 4)]
+        [InlineData("ReplaceTemplate/TernaryOperator.txt", 7)]
         public void ReplaceTemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
         {
             var replaceTemplate = File.ReadAllText(templatePath);

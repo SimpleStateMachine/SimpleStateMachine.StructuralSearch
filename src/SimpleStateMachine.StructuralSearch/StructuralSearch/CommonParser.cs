@@ -10,7 +10,7 @@ namespace SimpleStateMachine.StructuralSearch
             = Parsers.String(Constant.Empty, false);
         
         internal static readonly Parser<char, char> AnyChar
-            = AnyCharExcept(Constant.FindTemplate.All());
+            = AnyCharExcept(Constant.FindTemplate.All);
         
         internal static readonly Parser<char, char> Space
             = Char(Constant.Space);

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch
 {
@@ -6,28 +7,31 @@ namespace SimpleStateMachine.StructuralSearch
     {
         public static class FindTemplate
         {
-            public static char[] All()
-            {
-                var all = new char[]{
-                    LeftParenthesis,
-                    RightParenthesis,
-                    LeftSquareParenthesis,
-                    RightSquareParenthesis,
-                    LeftCurlyParenthesis,
-                    RightCurlyParenthesis,
-                    PlaceholderSeparator,
-                    CarriageReturn,
-                    LineFeed,
-                    Space
-                };
+            public static readonly char[] All = AllParenthesisArray.Add
+            (
+                PlaceholderSeparator,
+                CarriageReturn,
+                LineFeed,
+                Space
+            );
 
-                return all;
-            }
-        
             public static char[] AllExclude(params char[] excluded)
             {
-                return All().Where(x => !excluded.Contains(x)).ToArray();
+                return All.Where(x => !excluded.Contains(x)).ToArray();
             }
+        }
+        
+        public static class Parameter
+        {
+            public static readonly char[] Escape = 
+            {
+                DoubleQuotes,
+                PlaceholderSeparator,
+                Dote,
+            };
+
+            public static readonly char[] Excluded = AllParenthesisArray
+                .Add(Escape);
         }
     }
 }

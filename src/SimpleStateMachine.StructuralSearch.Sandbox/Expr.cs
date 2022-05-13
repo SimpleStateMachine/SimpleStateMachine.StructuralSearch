@@ -137,6 +137,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 BinaryOperatorType.Mul => Left.Invoke() * Right.Invoke(),
                 BinaryOperatorType.Div => Left.Invoke() / Right.Invoke(),
                 BinaryOperatorType.Sub => Left.Invoke() - Right.Invoke(),
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
     }

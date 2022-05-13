@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch
+﻿using System.Linq;
+
+namespace SimpleStateMachine.StructuralSearch
 {
     public static partial class Constant
     {
@@ -136,5 +138,18 @@
         /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
         /// </summary>
         public static readonly (char, char)[] AllParenthesised = { Parenthesis, SquareParenthesis, CurlyParenthesis };
+        
+        /// <summary>
+        /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
+        /// </summary>
+        public static readonly char[] AllParenthesisArray = 
+        {
+            LeftParenthesis,
+            RightParenthesis,
+            LeftSquareParenthesis,
+            RightSquareParenthesis,
+            LeftCurlyParenthesis,
+            RightCurlyParenthesis
+        };
     }
 }

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class SubRule : IRule
+    public class BinarySubRule : IRule
     {
         public SubRuleType Type { get; }
         
@@ -11,7 +11,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public IRuleParameter Right { get; }
         
-        public SubRule(SubRuleType type, IRuleParameter left, IRuleParameter right)
+        public BinarySubRule(SubRuleType type, IRuleParameter left, IRuleParameter right)
         {
             Type = type;
             Left = left;

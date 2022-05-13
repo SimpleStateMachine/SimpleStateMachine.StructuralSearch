@@ -50,7 +50,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             Assert.Equal(_ruleStr, customResult.ToLower());
         }
         [Theory]
-        [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"Is\",\"==\",\"!=\",\"is not\"",  "$value$ In $value1$,\"$value1$.Value\",$value2$,\"$value2$.Value\"")]
+        [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"Is\",\"==\",\"!=\",\"is not\"",  "$value$ In $value1$,\"$value1$\\.Value\",$value2$,\"$value2$\\.Value\"")]
         [InlineData("FindRule/AssignmentNullUnionOperator.txt", "$sign$ In \"Is\",\"==\",\"!=\",\"is not\"")]
         public void FindRuleParsingFromFileShouldBeSuccess(string filePath, params string[] customResult)
         {

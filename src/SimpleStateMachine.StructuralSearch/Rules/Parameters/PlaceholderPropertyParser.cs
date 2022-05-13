@@ -45,13 +45,19 @@ namespace SimpleStateMachine.StructuralSearch
                 .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
                     new PlaceholderLenghtParameter(placeholder, property)))
                 .Try();
-
-        public static readonly Parser<char, IRuleParameter> PlaceholderPropertyParameter =
-            CommonTemplateParser.Placeholder.Before(CommonParser.Dote)
-                .Select(name => new PlaceholderParameter(name))
-                .Then(Parser.OneOf(Lenght, File, Column, Offset, Line),
-                    (placeholder, func) => func(placeholder))
-                .TrimStart()
+        
+        public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> PlaceholderPropertyParameter =
+            CommonParser.Dote.Then(Parser.OneOf(Lenght, File, Column, Offset, Line)).Optional()
+                .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder =>
+                    property.HasValue ? property.Value(placeholder) : placeholder))
                 .Try();
+        
+        // public static readonly Parser<char, IRuleParameter> PlaceholderPropertyParameter =
+        //     CommonTemplateParser.Placeholder.Before(CommonParser.Dote)
+        //         .Select(name => new PlaceholderParameter(name))
+        //         .Then(Parser.OneOf(Lenght, File, Column, Offset, Line),
+        //             (placeholder, func) => func(placeholder))
+        //         .TrimStart()
+        //         .Try();
     }
 }
