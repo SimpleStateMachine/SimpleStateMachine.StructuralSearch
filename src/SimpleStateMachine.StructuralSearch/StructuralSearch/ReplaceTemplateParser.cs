@@ -57,7 +57,7 @@ namespace SimpleStateMachine.StructuralSearch
         // }
         
         public static readonly Parser<char, IRuleParameter> Parameter =
-            Parser.OneOf(ParametersParser.StringParameter,
+            Parser.OneOf(ParametersParser.Str,
                     ParametersParser.PlaceholderOrPropertyRuleParameter)
                 .Then(ParametersParser.ChangeParameter, (parameter, func) => func(parameter))
                 .Try();

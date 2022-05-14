@@ -113,5 +113,10 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
         {
             return parserAfter.Then(parser, (u, t) => t);
         }
+        
+        public static Parser<char, T> ParenthesisedOptional<T>(this Parser<char, T> parser, Func<Parser<char, string>, Parser<char, string>> custom)
+        {
+            return OneOf(CommonParser.Parenthesised(parser, custom).Try(), parser);
+        }
     }
 }

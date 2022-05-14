@@ -91,11 +91,11 @@ namespace SimpleStateMachine.StructuralSearch
             );
         }
         
-        public static Parser<char, T> BetweenOneOf<T>(Func<char, Parser<char, T>> leftRight,
-            Parser<char, T> expr, params (char, char)[] values)
-        {
-            return OneOf(values.Select(x => expr.Between(leftRight(x.Item1), leftRight(x.Item2))));
-        }
+        // public static Parser<char, T> BetweenOneOf<T>(Func<char, Parser<char, T>> leftRight,
+        //     Parser<char, T> expr, params (char, char)[] values)
+        // {
+        //     return OneOf(values.Select(x => expr.Between(leftRight(x.Item1), leftRight(x.Item2))));
+        // }
 
         public static Parser<char, IEnumerable<T>> BetweenOneOfChars<T>(Func<char, Parser<char, T>> leftRight,
             Parser<char, T> expr, params (char, char)[] values)

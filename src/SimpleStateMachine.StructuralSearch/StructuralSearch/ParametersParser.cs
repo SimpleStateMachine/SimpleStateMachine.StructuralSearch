@@ -8,6 +8,44 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public static class ParametersParser
     {
+
+        static ParametersParser()
+        {
+            Parenthesised = Parsers.BetweenOneOfChars(Parser.Char,
+               Parser.Rec(() => Test),
+               Constant.AllParenthesised);
+
+            Test = Parser.OneOf(Parenthesised, String);
+            
+            Str = Test.AsString()
+                .Select(x => new StringParameter(x))
+                .As<char, StringParameter, IRuleParameter>()
+                .Try();
+
+
+            // Term = Parser.OneOf(Parenthesised, Token)
+            //     .Many()
+            //     .MergerMany();
+        }
+
+        public static readonly Parser<char, IEnumerable<char>> String =
+            CommonParser.Escaped(Constant.Parameter.Escape)
+                .Or(Parser.AnyCharExcept(Constant.Parameter.Excluded))
+                .AtLeastOnce();
+        
+        public static readonly Parser<char, IEnumerable<char>> Parenthesised;
+        
+        public static readonly Parser<char, IEnumerable<char>> Test;
+        
+ 
+
+        public static readonly Parser<char, IRuleParameter> Str;
+
+    
+                // .Select(x => new StringParameter(x))
+                // .As<char, StringParameter, IRuleParameter>()
+                // .Try();
+        
         public static readonly Parser<char, PlaceholderParameter> PlaceholderParameter =
             CommonTemplateParser.Placeholder
                 .Select(x => new PlaceholderParameter(x))
@@ -41,7 +79,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try();
 
         public static readonly Parser<char, IRuleParameter> StringFormatParameter =
-            Parser.OneOf(PlaceholderOrPropertyRuleParameter, StringParameter)
+            Parser.OneOf(PlaceholderOrPropertyRuleParameter, Str)
                 .AtLeastOnce()
                 .Between(CommonParser.DoubleQuotes)
                 .Select(parameters => new StringFormatParameter(parameters))

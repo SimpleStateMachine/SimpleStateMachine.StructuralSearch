@@ -25,9 +25,8 @@ namespace SimpleStateMachine.StructuralSearch.Rules
                 .Try();
 
         public static Parser<char, IRule> InSubRule(IRuleParameter left, SubRuleType ruleType) =>
-            Parser.OneOf(CommonParser.Parenthesised(ParametersParser.Parameters, x => x.Trim())
-                        .Try(),
-                    ParametersParser.Parameters)
+            ParametersParser.Parameters
+                .ParenthesisedOptional(x => x.Trim())
                 .Select(args => new InSubRule(left, args))
                 .As<char, InSubRule, IRule>()
                 .Try();

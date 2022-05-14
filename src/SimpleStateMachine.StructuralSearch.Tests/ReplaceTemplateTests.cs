@@ -52,6 +52,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             Assert.Equal(replaceResult, result);
         }
         
+        // TODO validation parenthesis for parameters
+        
         [Theory]
         [InlineData("test $var1$.Lenght")]
         [InlineData("(test $var1$.Lenght)")]
