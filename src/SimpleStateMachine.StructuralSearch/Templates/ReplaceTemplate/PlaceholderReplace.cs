@@ -20,5 +20,10 @@
         {
             _context = context;
         }
+        
+        public override string ToString()
+        {
+            return $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
+        }  
     }
 }

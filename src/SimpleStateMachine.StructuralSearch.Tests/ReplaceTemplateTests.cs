@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Pidgin;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
@@ -9,10 +10,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     public class ReplaceTemplateTests
     {
         [Theory]
-        [InlineData("ReplaceTemplate/NullUnionOperator.txt", 10)]
-        [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", 6)]
-        [InlineData("ReplaceTemplate/TernaryOperator.txt", 11)]
-        public void TemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
+        [InlineData("ReplaceTemplate/NullUnionOperator.txt", 6)]
+        [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", 4)]
+        [InlineData("ReplaceTemplate/TernaryOperator.txt", 7)]
+        public void ReplaceTemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
         {
             var replaceTemplate = File.ReadAllText(templatePath);
             var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
@@ -49,6 +50,28 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             Assert.NotNull(replaceTemplate);
             Assert.NotNull(replaceResult);
             Assert.Equal(replaceResult, result);
+        }
+        
+        // TODO validation parenthesis for parameters
+        
+        [Theory]
+        [InlineData("test $var1$.Lenght")]
+        [InlineData("(test $var1$.Lenght)")]
+        [InlineData("test ($var1$.Lenght)")]
+        public void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
+        {
+            var replaceBuilder = StructuralSearch.ParseReplaceTemplate(templateStr);
+            var replaceStr = replaceBuilder.ToString().ToLower();
+            Assert.Equal(replaceStr, templateStr.ToLower());
+        }
+        
+        [Theory]
+        [InlineData("(test $var1$.Lenght")]
+        [InlineData("test ($var1$.Lenght")]
+        [InlineData("test $var1$.Lenght)")]
+        public void ReplaceTemplateParsingShouldBeFail(string templateStr)
+        {
+            Assert.Throws<ParseException>(() => StructuralSearch.ParseReplaceTemplate(templateStr));
         }
     }
 }

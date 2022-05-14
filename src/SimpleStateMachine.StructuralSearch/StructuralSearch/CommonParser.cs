@@ -10,10 +10,13 @@ namespace SimpleStateMachine.StructuralSearch
             = Parsers.String(Constant.Empty, false);
         
         internal static readonly Parser<char, char> AnyChar
-            = AnyCharExcept(Constant.FindTemplate.All());
+            = AnyCharExcept(Constant.FindTemplate.All);
         
         internal static readonly Parser<char, char> Space
             = Char(Constant.Space);
+        
+        internal static readonly Parser<char, Unit> EOF
+            = Parser<char>.End;
         
         internal static readonly Parser<char, string> AnyString
             = AnyChar.AtLeastOnceString();
@@ -45,6 +48,9 @@ namespace SimpleStateMachine.StructuralSearch
         
         internal static readonly Parser<char, char> Dote
             = Char(Constant.Dote);
+        
+        internal static readonly Parser<char, char> Underscore
+            = Char(Constant.Underscore);
 
         internal static Parser<char, T> Parenthesised<T>(Parser<char, T> parser, Func<Parser<char, string>, Parser<char, string>> custom)
         {

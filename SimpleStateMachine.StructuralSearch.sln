@@ -9,6 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStateMachine.Structur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStateMachine.StructuralSearch.Sandbox", "src\SimpleStateMachine.StructuralSearch.Sandbox\SimpleStateMachine.StructuralSearch.Sandbox.csproj", "{263ABF7D-9728-4224-A584-5412E158D4BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStateMachine.StructuralSearch.Action", "SimpleStateMachine.StructuralSearch.Action\SimpleStateMachine.StructuralSearch.Action.csproj", "{E22FFF76-E929-4E01-B2B3-4B9283705EDE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6CB879CC-E497-41C0-AEBD-864E9D3807A6}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+		global.json = global.json
+		action.yml = action.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +44,10 @@ Global
 		{263ABF7D-9728-4224-A584-5412E158D4BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{263ABF7D-9728-4224-A584-5412E158D4BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{263ABF7D-9728-4224-A584-5412E158D4BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E22FFF76-E929-4E01-B2B3-4B9283705EDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E22FFF76-E929-4E01-B2B3-4B9283705EDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E22FFF76-E929-4E01-B2B3-4B9283705EDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E22FFF76-E929-4E01-B2B3-4B9283705EDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

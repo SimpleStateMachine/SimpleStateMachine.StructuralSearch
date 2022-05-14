@@ -12,7 +12,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("FindTemplate/AssignmentNullUnionOperator.txt")]
         [InlineData("FindTemplate/NestedParenthesised.txt")]
         [InlineData("FindTemplate/TernaryOperator.txt")]
-        public void TemplateParsingShouldBeSuccess(string templatePath)
+        public void FindTemplateFromFileParsingShouldBeSuccess(string templatePath)
         {
            var findTemplate = File.ReadAllText(templatePath);
            var template = StructuralSearch.ParseFindTemplate(findTemplate);
@@ -39,6 +39,20 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             
             Assert.NotNull(findParser);
             Assert.Equal(match.Match.Lenght, source.Length);
+        }
+        
+        [Theory]
+        [InlineData("( $var$")]
+        public void FindTemplateParsingShouldBeFail(string templateStr)
+        {
+            Assert.Throws<ParseException>(() => StructuralSearch.ParseFindTemplate(templateStr));
+        }
+        
+        [Theory]
+        [InlineData("( $var$ )")]
+        public void FindTemplateParsingShouldBeSuccess(string templateStr)
+        {
+            var template = StructuralSearch.ParseFindTemplate(templateStr);
         }
     }
 }

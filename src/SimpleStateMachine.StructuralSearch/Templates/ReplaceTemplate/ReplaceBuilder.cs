@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
 {
     public class ReplaceBuilder : IReplaceBuilder
     {
-        public IEnumerable<IReplaceStep> Steps { get; }
+        public IEnumerable<IRuleParameter> Steps { get; }
 
-        public ReplaceBuilder(IEnumerable<IReplaceStep> steps)
+        public ReplaceBuilder(IEnumerable<IRuleParameter> steps)
         {
             Steps = steps;
         }
@@ -29,5 +30,10 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
             var result = stringBuilder.ToString();
             return result;
         }
+        
+        public override string ToString()
+        {
+            return $"{string.Join(string.Empty, Steps)}";
+        } 
     }
 }

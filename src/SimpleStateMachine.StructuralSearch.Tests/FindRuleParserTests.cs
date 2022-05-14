@@ -49,17 +49,17 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             Assert.NotNull(rule);
             Assert.Equal(_ruleStr, customResult.ToLower());
         }
-        
         [Theory]
-        [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+        [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"Is\",\"==\",\"!=\",\"is not\"",  "$value$ In $value1$,\"$value1$\\.Value\",$value2$,\"$value2$\\.Value\"")]
         [InlineData("FindRule/AssignmentNullUnionOperator.txt", "$sign$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-        public void FindRuleParsingFromFileShouldBeSuccess(string filePath, string customResult)
+        public void FindRuleParsingFromFileShouldBeSuccess(string filePath, params string[] customResult)
         {
             var ruleStr = File.ReadAllText(filePath);
-            var rule = StructuralSearch.ParseFindRule(ruleStr);
-            var _ruleStr = rule.ToString()?.ToLower();
-            Assert.NotNull(rule);
-            Assert.Equal(_ruleStr, customResult.ToLower());
+            var rules = ruleStr.Split(Constant.LineFeed)
+                .Select(StructuralSearch.ParseFindRule);
+            var rulesAsStr = rules.Select(x => x.ToString()).ToArray();
+            
+            Assert.True(customResult.SequenceEqual(rulesAsStr));
         }
     }
 }

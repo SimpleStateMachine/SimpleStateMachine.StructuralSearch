@@ -16,8 +16,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            var value = EscapeHelper.EscapeChars(Value, c => $"{Constant.BackSlash}{c}", Constant.PlaceholderSeparator,
-                Constant.DoubleQuotes);
+            var value = EscapeHelper.EscapeChars(Value, c => $"{Constant.BackSlash}{c}", Constant.Parameter.Escape);
             
             return $"{value}";
         } 

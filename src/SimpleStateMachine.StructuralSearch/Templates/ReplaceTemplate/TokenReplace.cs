@@ -12,5 +12,10 @@
         {
             return Token;
         }
+        
+        public override string ToString()
+        {
+            return $"{Token}";
+        } 
     }
 }
