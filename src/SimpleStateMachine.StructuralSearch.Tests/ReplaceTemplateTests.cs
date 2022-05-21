@@ -55,10 +55,23 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         // TODO validation parenthesis for parameters
         
         [Theory]
-        [InlineData("test $var1$.Lenght")]
-        [InlineData("(test $var1$.Lenght)")]
-        [InlineData("test ($var1$.Lenght)")]
-        public void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
+        [InlineData(0, "test $var1$.Lenght")]
+        [InlineData(1, "(test) $var1$.Lenght")]
+        [InlineData(2, "test ($var1$.Lenght)")]
+        [InlineData(3, "(test $var1$.Lenght)")]
+        [InlineData(4, "test ")]
+        [InlineData(5, "($var1$.Lenght)")]
+        [InlineData(6, " ($var1$.Lenght)")]
+        [InlineData(7, " ( )")]  
+        [InlineData(8, "test ( )")]
+        [InlineData(9, " (test $var1$.Lenght)")]
+        [InlineData(10, "(test) ($var1$.Lenght)")]
+        [InlineData(11, "((test) $var1$.Lenght)")]
+        [InlineData(12, "(test ($var1$.Lenght))")]
+        [InlineData(13, "((test) ($var1$.Lenght))")]
+        [InlineData(14, "()")]
+        [InlineData(15, "(test ($var1$.Lenght) test2)")]
+        public void ReplaceTemplateParsingShouldBeSuccess(int number, string templateStr)
         {
             var replaceBuilder = StructuralSearch.ParseReplaceTemplate(templateStr);
             var replaceStr = replaceBuilder.ToString().ToLower();
@@ -69,6 +82,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("(test $var1$.Lenght")]
         [InlineData("test ($var1$.Lenght")]
         [InlineData("test $var1$.Lenght)")]
+        [InlineData(" ( ")]  
+        [InlineData("test ( ")]
         public void ReplaceTemplateParsingShouldBeFail(string templateStr)
         {
             Assert.Throws<ParseException>(() => StructuralSearch.ParseReplaceTemplate(templateStr));

@@ -17,7 +17,7 @@ namespace SimpleStateMachine.StructuralSearch
             Parser.Map((placeholder, _, parameter) => new ReplaceSubRule(placeholder, parameter),
                     ParametersParser.PlaceholderParameter.TrimStart(),
                     CommonTemplateParser.Should.TrimStart(),
-                    ParametersParser.Parameter)
+                    ParametersParser.Parameter.TrimStart())
                 .Try()
                 .TrimStart();
 

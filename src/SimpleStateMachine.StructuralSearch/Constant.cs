@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch
 {
@@ -7,7 +8,7 @@ namespace SimpleStateMachine.StructuralSearch
         /// <summary>
         /// Parenthesis empty string
         /// </summary>
-        public static readonly string Empty = string.Empty;
+        public static readonly string EmptyString = string.Empty;
         
         /// <summary>
         /// String: "Not"
@@ -113,7 +114,7 @@ namespace SimpleStateMachine.StructuralSearch
         /// Char: ':'
         /// </summary>
         public const char Colon = ':';
-        
+
         /// <summary>
         /// String: "=>"
         /// </summary>

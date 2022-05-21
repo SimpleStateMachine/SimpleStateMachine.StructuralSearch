@@ -8,10 +8,13 @@ namespace SimpleStateMachine.StructuralSearch.Rules
     public static class SubRuleParser
     {
         public static readonly Parser<char, SubRuleType> SubRuleType =
-            Parser.CIEnum<SubRuleType>().TrimStart();
+            Parser.CIEnum<SubRuleType>()
+                .Trim();
 
         public static Parser<char, IRule> BinarySubRule(IRuleParameter left, SubRuleType ruleType) =>
-            ParametersParser.Parameter.Select(right => new BinarySubRule(ruleType, left, right))
+            ParametersParser.Parameter
+                .TrimStart()
+                .Select(right => new BinarySubRule(ruleType, left, right))
                 .As<char, BinarySubRule, IRule>()
                 .Try();
 
@@ -26,14 +29,15 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 
         public static Parser<char, IRule> InSubRule(IRuleParameter left, SubRuleType ruleType) =>
             ParametersParser.Parameters
-                .ParenthesisedOptional(x => x.Trim())
+                .ParenthesisedOptional(x => Parser.Char(x).Trim())
+                .TrimStart()
                 .Select(args => new InSubRule(left, args))
                 .As<char, InSubRule, IRule>()
                 .Try();
 
         public static readonly Parser<char, IRule> OneOfSubRule =
             Parser.Map((left, ruleType) => (left, ruleType), 
-                    ParametersParser.Parameter, SubRuleType)
+                    ParametersParser.Parameter.Trim(), SubRuleType)
                 .Then(x => x.ruleType switch
                 {
                     Rules.SubRuleType.In => InSubRule(x.left, x.ruleType),

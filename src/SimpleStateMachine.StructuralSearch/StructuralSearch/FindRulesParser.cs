@@ -17,44 +17,51 @@ namespace SimpleStateMachine.StructuralSearch
         
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> And
             = Binary(Parsers.EnumValue(BinaryRuleType.And, true)
-                .TrimStart()
-                .Try());
+                .Trim()
+                .Try())
+                .Labelled($"{nameof(FindRuleParser)}.{nameof(And)}");
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> Or
             = Binary(Parsers.EnumValue(BinaryRuleType.Or, true)
-                .TrimStart()
-                .Try());
+                .Trim()
+                .Try())
+                .Labelled($"{nameof(FindRuleParser)}.{nameof(Or)}");
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> NOR
             = Binary(Parsers.EnumValue(BinaryRuleType.NOR, true)
-                .TrimStart()
-                .Try());
+                .Trim()
+                .Try())
+                .Labelled($"{nameof(FindRuleParser)}.{nameof(NOR)}");
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> XOR
             = Binary(Parsers.EnumValue(BinaryRuleType.XOR, true)
-                .TrimStart()
-                .Try());
+                .Trim()
+                .Try())
+                .Labelled($"{nameof(FindRuleParser)}.{nameof(XOR)}");
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> NAND
             = Binary(Parsers.EnumValue(BinaryRuleType.NAND, true)
-                .TrimStart()
-                .Try());
+                .Trim()
+                .Try())
+                .Labelled($"{nameof(FindRuleParser)}.{nameof(NAND)}");
 
         internal static readonly Parser<char, Func<IRule, IRule, IRule>> XNOR
             = Binary(Parsers.EnumValue(BinaryRuleType.XNOR, true)
-                .TrimStart()
-                .Try());
+                .Trim()
+                .Try())
+                .Labelled($"{nameof(FindRuleParser)}.{nameof(XNOR)}");
 
         internal static readonly Parser<char, Func<IRule, IRule>> Not
             = Unary(Parsers.EnumValue(UnaryRuleType.Not, true)
-                .TrimStart()
-                .Try());
+                .Trim()
+                .Try())
+                .Labelled($"{nameof(FindRuleParser)}.{nameof(Not)}");
 
         public static readonly Parser<char, IRule> Expr = ExpressionParser.Build<char, IRule>(
             rule => (
                 Parser.OneOf(
                     SubRuleParser.OneOfSubRule,
-                    CommonParser.Parenthesised(rule, x => x.TrimStart())
+                    CommonParser.Parenthesised(rule, x => Parser.Char(x).Trim())
                 ),
                 new[]
                 {

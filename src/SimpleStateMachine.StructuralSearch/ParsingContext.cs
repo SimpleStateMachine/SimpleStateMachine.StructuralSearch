@@ -9,26 +9,26 @@ namespace SimpleStateMachine.StructuralSearch
         {
             Input = input;
         }
-        public readonly Dictionary<string, Placeholder> Placeholders = new();
+        public readonly Dictionary<string, IPlaceholder> Placeholders = new();
 
         public IInput Input { get; }
 
-        public bool TryGetPlaceholder(string name, out Placeholder value)
+        public bool TryGetPlaceholder(string name, out IPlaceholder value)
         {
             return Placeholders.TryGetValue(name, out value);
         }
 
-        public void AddPlaceholder(Placeholder placeholder)
+        public void AddPlaceholder(IPlaceholder placeholder)
         {
             Placeholders[placeholder.Name] = placeholder;
         }
 
-        public Placeholder GetPlaceholder(string name)
+        public IPlaceholder GetPlaceholder(string name)
         {
             return Placeholders[name];
         }
 
-        public IReadOnlyDictionary<string, Placeholder> SwitchOnNew()
+        public IReadOnlyDictionary<string, IPlaceholder> SwitchOnNew()
         {
             var placeholders = Placeholders
                 .OrderBy(x=> x.Value.Offset.Start)
@@ -37,7 +37,7 @@ namespace SimpleStateMachine.StructuralSearch
             return placeholders;
         }
 
-        public void Set(IReadOnlyDictionary<string, Placeholder> placeholders)
+        public void Set(IReadOnlyDictionary<string, IPlaceholder> placeholders)
         {
             Clear();
             

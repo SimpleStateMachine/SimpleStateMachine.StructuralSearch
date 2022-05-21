@@ -16,7 +16,7 @@
             return _context.GetPlaceholder(Name).Value;
         }
         
-        public Placeholder GetPlaceholder()
+        public IPlaceholder GetPlaceholder()
         {
             return _context.GetPlaceholder(Name);
         }

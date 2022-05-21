@@ -21,7 +21,12 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
     {
         static void Main(string[] args)
         {
-
+            
+            var pr = Parser.String("var").Trim();
+            var str = pr.ParseOrThrow("var");
+            str = pr.ParseOrThrow(" var");
+            str = pr.ParseOrThrow("var ");
+            str = pr.ParseOrThrow(" var ");
             var source = "test;;;test;;;.";
             var parser = Parser.OneOf(Parser<char>.Any.ThenReturn(Unit.Value), Parser<char>.End);
             

@@ -7,6 +7,13 @@ public class ParameterParserTests
 {
     [Theory]
     [InlineData("\\\"132\\\"")]
+    [InlineData("\\\"()(132)\\\"")]
+    [InlineData("()(132)")]
+    [InlineData("(132)")]
+    [InlineData("()")]
+    [InlineData(" ")]
+    [InlineData("( )")]
+    [InlineData("( )( )")]
     public void StringParameterParsingShouldBeSuccess(string str)
     {
         var parameter = ParametersParser.StringParameter.ParseOrThrow(str);
@@ -16,9 +23,15 @@ public class ParameterParserTests
     
     [Theory]
     [InlineData("\"132\"")]
+    [InlineData("( ")]
+    [InlineData("( )(")]
     public void StringParameterParsingShouldBeFail(string str)
     {
-        Assert.Throws<ParseException>(() => ParametersParser.StringParameter.ParseOrThrow(str));
+        Assert.Throws<ParseException>(() =>
+        {
+            var result = ParametersParser.StringParameter.Before(CommonParser.EOF).ParseOrThrow(str);
+            return result;
+        });
     }
     
     [Theory]
@@ -28,6 +41,7 @@ public class ParameterParserTests
     [InlineData("\"132 $var1$ \"")]
     [InlineData("\"123$var1$.Lenght456\"")]
     [InlineData("\" \\\"132\\\" \"")]
+    [InlineData("\" \"")]
     public void StringFormatParameterParsingShouldBeSuccess(string str)
     {
         var parameter = ParametersParser.StringFormatParameter.ParseOrThrow(str);

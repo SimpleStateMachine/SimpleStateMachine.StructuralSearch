@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch
 {
-    public readonly struct Placeholder
+    public readonly struct Placeholder : IPlaceholder
     {
         private readonly Match<string> _match;
         private readonly IParsingContext _context;
@@ -11,7 +11,7 @@
             _match = match;
         }
         
-        public readonly string Name;
+        public string Name { get; }
         public string Value => _match.Value;
         public int Lenght => _match.Lenght;
         public LinePosition Line => _match.Line;

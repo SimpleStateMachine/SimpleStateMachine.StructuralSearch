@@ -9,9 +9,6 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public static class Parsers
     {
-        public static Parser<char, string> Stringc(char character, bool ignoreCase = false) =>
-            String(character.ToString(), ignoreCase);
-
         public static Parser<char, string> String(string value, bool ignoreCase)
         {
             return ignoreCase ? Parser.CIString(value): Parser.String(value);
@@ -103,6 +100,14 @@ namespace SimpleStateMachine.StructuralSearch
             return OneOf(values.Select(x =>
                 MapToMany(leftRight(x.Item1), expr, leftRight(x.Item2)))
             );
+        }
+        
+        public static Parser<char, (TResult, T)> BetweenOneOfChars<T, TResult>(Func<char, char, TResult> resultFunc,
+            Parser<char, T> expr, params (char, char)[] values)
+        {
+            return OneOf(values.Select(x => 
+                Map((c1, res, c2) => (resultFunc(c1, c2), res),
+                    Char(x.Item1).Try(), expr, Char(x.Item2).Try())));
         }
 
         public static Parser<char, TEnum> EnumExcept<TEnum>(bool ignoreCase = false, params TEnum[] excluded)

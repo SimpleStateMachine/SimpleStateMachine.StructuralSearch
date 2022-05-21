@@ -7,7 +7,7 @@ namespace SimpleStateMachine.StructuralSearch
     internal static class CommonParser
     {
         internal static readonly Parser<char, string> Empty
-            = Parsers.String(Constant.Empty, false);
+            = Parsers.String(Constant.EmptyString, false);
         
         internal static readonly Parser<char, char> AnyChar
             = AnyCharExcept(Constant.FindTemplate.All);
@@ -17,7 +17,7 @@ namespace SimpleStateMachine.StructuralSearch
         
         internal static readonly Parser<char, Unit> EOF
             = Parser<char>.End;
-        
+
         internal static readonly Parser<char, string> AnyString
             = AnyChar.AtLeastOnceString();
         
@@ -52,13 +52,15 @@ namespace SimpleStateMachine.StructuralSearch
         internal static readonly Parser<char, char> Underscore
             = Char(Constant.Underscore);
 
-        internal static Parser<char, T> Parenthesised<T>(Parser<char, T> parser, Func<Parser<char, string>, Parser<char, string>> custom)
+        internal static Parser<char, T> Parenthesised<T, TResult>(Parser<char, T> parser, Func<char, Parser<char, TResult>> custom)
         {
-            return parser.Between(custom(Parsers.Stringc(Constant.LeftParenthesis)),
-                custom(Parsers.Stringc(Constant.RightParenthesis)));
+            return parser.Between
+            (
+                custom(Constant.LeftParenthesis),
+                custom(Constant.RightParenthesis)
+            );
         }
-        
-        
+
         internal static Parser<char, char> Escaped(params char [] chars)
         {
             return Char(Constant.BackSlash).Then(OneOf(chars));

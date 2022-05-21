@@ -6,27 +6,27 @@ namespace SimpleStateMachine.StructuralSearch.Tests.Mock
     {
         public IInput Input { get; }
 
-        public bool TryGetPlaceholder(string name, out Placeholder value)
+        public bool TryGetPlaceholder(string name, out IPlaceholder value)
         {
             throw new System.NotImplementedException();
         }
 
-        public void AddPlaceholder(Placeholder placeholder)
+        public void AddPlaceholder(IPlaceholder placeholder)
         {
             throw new System.NotImplementedException();
         }
 
-        public Placeholder GetPlaceholder(string name)
+        public IPlaceholder GetPlaceholder(string name)
         {
             return Placeholder.CreateEmpty(this, name, string.Empty);
         }
 
-        public IReadOnlyDictionary<string, Placeholder> SwitchOnNew()
+        public IReadOnlyDictionary<string, IPlaceholder> SwitchOnNew()
         {
             throw new System.NotImplementedException();
         }
 
-        public void Set(IReadOnlyDictionary<string, Placeholder> placeholders)
+        public void Set(IReadOnlyDictionary<string, IPlaceholder> placeholders)
         {
             throw new System.NotImplementedException();
         }

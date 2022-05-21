@@ -6,14 +6,14 @@ namespace SimpleStateMachine.StructuralSearch
     {
         IInput Input { get; }
         
-        bool TryGetPlaceholder(string name, out Placeholder value);
+        bool TryGetPlaceholder(string name, out IPlaceholder value);
 
-        void AddPlaceholder(Placeholder placeholder);
+        void AddPlaceholder(IPlaceholder placeholder);
 
-        Placeholder GetPlaceholder(string name);
+        IPlaceholder GetPlaceholder(string name);
         
-        IReadOnlyDictionary<string, Placeholder> SwitchOnNew();
-        void Set(IReadOnlyDictionary<string, Placeholder>placeholders);
+        IReadOnlyDictionary<string, IPlaceholder> SwitchOnNew();
+        void Set(IReadOnlyDictionary<string, IPlaceholder>placeholders);
         void Clear();
     }
 }
