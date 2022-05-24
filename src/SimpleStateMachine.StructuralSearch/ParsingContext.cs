@@ -37,7 +37,7 @@ namespace SimpleStateMachine.StructuralSearch
             return placeholders;
         }
 
-        public void Set(IReadOnlyDictionary<string, IPlaceholder> placeholders)
+        public void Fill(IReadOnlyDictionary<string, IPlaceholder> placeholders)
         {
             Clear();
             

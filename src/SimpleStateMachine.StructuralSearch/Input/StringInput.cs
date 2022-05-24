@@ -2,14 +2,21 @@
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public class EmptyInput : IInput
+    public class StringInput : IInput
     {
+        public StringInput(string input)
+        {
+            Input = input;
+        }
+        
+        public readonly string Input;
+        
         public Result<char, T> ParseBy<T>(Parser<char, T> parser)
         {
-            throw new System.NotImplementedException();
+            return parser.Parse(Input);
         }
 
-        public void Replace(Match<string> match, string value)
+        public void ReplaceAsync(Match<string> match, string value)
         {
             throw new System.NotImplementedException();
         }
@@ -18,6 +25,6 @@ namespace SimpleStateMachine.StructuralSearch
         public string Path => string.Empty;
         public string Name => string.Empty;
         public string Data => string.Empty;
-        public long Lenght => 0;
+        public long Lenght => Input.Length;
     }
 }

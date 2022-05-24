@@ -13,7 +13,7 @@ namespace SimpleStateMachine.StructuralSearch
         IPlaceholder GetPlaceholder(string name);
         
         IReadOnlyDictionary<string, IPlaceholder> SwitchOnNew();
-        void Set(IReadOnlyDictionary<string, IPlaceholder>placeholders);
+        void Fill(IReadOnlyDictionary<string, IPlaceholder>placeholders);
         void Clear();
     }
 }

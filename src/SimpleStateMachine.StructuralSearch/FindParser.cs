@@ -17,9 +17,9 @@ namespace SimpleStateMachine.StructuralSearch
             Parser = parser;
         }
 
-        public IEnumerable<FindParserMatch> Parse(ref IParsingContext context)
+        public IEnumerable<FindParserResult> Parse(ref IParsingContext context)
         {
-            List<FindParserMatch> matches = new();
+            List<FindParserResult> matches = new();
             StringBuilder res = new();
             Parser.SetContext(ref context);
             
@@ -29,7 +29,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .ThenInvoke(match =>
                 {
                     var placeholders= parsingContext.SwitchOnNew();
-                    matches.Add(new FindParserMatch(match, placeholders));
+                    matches.Add(new FindParserResult(match, placeholders));
                 })
                 .ThenReturn(Unit.Value)
                 .Try();
