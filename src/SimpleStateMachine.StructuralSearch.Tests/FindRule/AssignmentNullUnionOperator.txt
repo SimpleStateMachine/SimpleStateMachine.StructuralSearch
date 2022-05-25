@@ -1,1 +1,1 @@
-﻿$sign$ In ("Is", "==", "!=", "is not")
+﻿$sign$ In ("is", "==", "!=", "is not")

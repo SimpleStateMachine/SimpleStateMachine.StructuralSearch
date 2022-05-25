@@ -6,7 +6,7 @@
           $var$ = $value$;
       }
     FindRules:
-      - $sign$ In ("Is", "==", "!=", "is not")
+      - $sign$ In ("is", "==", "!=", "is not")
     ReplaceTemplate: |-
       $var$ ??= $value$;
     ReplaceRules:
@@ -19,8 +19,8 @@
       else
           $var$ = $value1$;
     FindRules:
-      - $sign$ In ("Is", "==", "!=", "is not")
-      - $value$ In ($value1$, "$value1$\.Value",  $value2$, "$value2$\.Value")
+      - $sign$ In ("is", "==", "!=", "is not")
+      - $value$ In ($value1$, "$value$\.Value",  $value2$, "$value2$\.Value")
     ReplaceTemplate: |-
       $var$ = $value1$ ?? $value2$;
     ReplaceRules:  
