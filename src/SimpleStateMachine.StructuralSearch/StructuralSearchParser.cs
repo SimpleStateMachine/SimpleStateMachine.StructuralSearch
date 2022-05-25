@@ -71,7 +71,11 @@ namespace SimpleStateMachine.StructuralSearch
                 context.Fill(match.Placeholders);
                 
                 var rules = ReplaceRules
-                    .Where(x => x.ConditionRule.Execute())
+                    .Where(x =>
+                    {
+                        var result = x.ConditionRule.Execute();
+                        return result;
+                    })
                     .SelectMany(x => x.Rules);
 
                 foreach (var rule in rules)

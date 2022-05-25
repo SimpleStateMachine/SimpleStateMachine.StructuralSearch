@@ -9,8 +9,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests
     {
         [Theory]
         // [InlineData("AssignmentNullUnionOperator")]
-        [InlineData("NullUnionOperator", "Examples/NullUnionOperator.cs", 2)]
-        [InlineData("TernaryOperator", "Examples/TernaryOperator.cs", 3)]
+        [InlineData("NullUnionOperator", "ExamplesInput/NullUnionOperator.cs", 2)]
+        [InlineData("TernaryOperator", "ExamplesInput/TernaryOperator.cs", 3)]
         public static void StructuralSearchShouldBeSuccess(string exampleName, string exampleFilePath, int matchesCount)
         {
             var config = ConfigurationMock.GetConfigurationFromFiles(exampleName);
@@ -26,13 +26,15 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         
         [Theory]
         // [InlineData("AssignmentNullUnionOperator")]
-        [InlineData("NullUnionOperator", "Examples/NullUnionOperator.cs", "Examples/Test.cs", 2)]
-        [InlineData("TernaryOperator", "Examples/TernaryOperator.cs", "", 3)]
-        public static void StructuralSearchShouldBe(string exampleName, string inputFilePath, string outputFilePath, int matchesCount)
+        [InlineData("NullUnionOperator", 2)]
+        [InlineData("TernaryOperator", 3)]
+        public static void StructuralSearchShouldBe(string exampleName, int matchesCount)
         {
-            // TODO fix NullUnion example
-            
             var config = ConfigurationMock.GetConfigurationFromFiles(exampleName);
+            var inputFilePath = Path.Combine($"ExamplesInput/{exampleName}.cs");
+            var resultFilePath = Path.Combine($"ExamplesOutput/{exampleName}.txt");
+            var outputFilePath = Path.Combine($"{exampleName}.cs");
+            
             var parser = new StructuralSearchParser(config);
 
             var inputFileInfo = new FileInfo(inputFilePath);
@@ -47,6 +49,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             var output = Output.File(outputFileInfo);
             output.Replace(input, replaceMatches);
             Assert.Equal(matches.Count(), matchesCount);
+         
+            var resultStr = File.ReadAllText(resultFilePath);
+            var outputStr = File.ReadAllText(outputFilePath);
+            Assert.Equal(resultStr, outputStr);
         }
     }
 }

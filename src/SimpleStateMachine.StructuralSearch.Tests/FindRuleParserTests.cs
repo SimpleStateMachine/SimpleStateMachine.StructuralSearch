@@ -25,9 +25,10 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("$var$ StartsWith \"123\"")]
         [InlineData("$var$ EndsWith $var$.Lenght")]
         [InlineData("$var$ EndsWith \"123\"")]
-        [InlineData("$var$ Match $var$.Lenght")]
+        // [InlineData("$var$ Match $var$.Lenght")]
         [InlineData("$var$ Is Int")]
         [InlineData("$var$ Is DateTime")]
+        [InlineData("$var$ equals $var1$ or $var2$ equals $var1$")]
         public void FindRuleExprParsingShouldBeSuccess(string ruleStr)
         {
             var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);
@@ -62,7 +63,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
             Assert.Equal(_ruleStr, customResult.ToLower());
         }
         [Theory]
-        [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"",  "$value$ In $value1$,\"$value1$\\.Value\",$value2$,\"$value2$\\.Value\"")]
+        [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"",  "$value$ In $value1$,$value2$")]
         [InlineData("FindRule/AssignmentNullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"")]
         public void FindRuleParsingFromFileShouldBeSuccess(string filePath, params string[] customResult)
         {

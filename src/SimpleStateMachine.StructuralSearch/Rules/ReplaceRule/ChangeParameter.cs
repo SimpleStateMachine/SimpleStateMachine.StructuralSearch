@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public class ChangeParameter : IRuleParameter, IContextDependent
+    public class ChangeParameter : IRuleParameter
     {
         public IRuleParameter Parameter { get; }
         public ChangeType Type { get; }

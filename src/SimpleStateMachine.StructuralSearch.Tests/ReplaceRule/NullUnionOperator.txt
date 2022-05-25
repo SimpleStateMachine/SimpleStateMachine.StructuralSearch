@@ -1,1 +1,1 @@
-﻿$sign$ In ("!=", "is not") then $var2$ => $var1$, $var1$ => $var2$
+﻿$sign$ In ("!=", "is not") then $value2$ => $value1$, $value1$ => $value2$

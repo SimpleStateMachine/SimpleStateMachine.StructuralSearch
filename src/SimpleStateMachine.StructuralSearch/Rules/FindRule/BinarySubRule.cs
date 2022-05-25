@@ -20,8 +20,8 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 
         public bool Execute()
         {
-            var left = Right.GetValue();
-            var right = Left.GetValue();
+            var left = Left.GetValue();
+            var right = Right.GetValue();
             
             return Type switch
             {

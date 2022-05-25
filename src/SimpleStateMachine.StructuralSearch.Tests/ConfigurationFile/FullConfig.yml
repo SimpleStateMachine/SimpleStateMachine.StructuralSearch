@@ -20,11 +20,11 @@
           $var$ = $value1$;
     FindRules:
       - $sign$ In ("is", "==", "!=", "is not")
-      - $value$ In ($value1$, "$value$\.Value",  $value2$, "$value2$\.Value")
+      - $value$ In ($value1$, $value2$)
     ReplaceTemplate: |-
       $var$ = $value1$ ?? $value2$;
-    ReplaceRules:  
-      - $sign$ In ("!=", "is not") then $var2$ => $var1$, $var1$ => $var2$
+    ReplaceRules:
+      - $sign$ In ("!=", "is not") then $value2$ => $value1$, $value1$ => $value2$
 
 #  TernaryOperator 
   
