@@ -16,7 +16,7 @@ namespace SimpleStateMachine.StructuralSearch
             return parser.Parse(Input);
         }
 
-        public void ReplaceAsync(Match<string> match, string value)
+        public void Replace(Match<string> match, string value)
         {
             throw new System.NotImplementedException();
         }

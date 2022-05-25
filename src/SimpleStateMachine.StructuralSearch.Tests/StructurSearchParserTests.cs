@@ -26,21 +26,26 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         
         [Theory]
         // [InlineData("AssignmentNullUnionOperator")]
-        [InlineData("NullUnionOperator", "Examples/NullUnionOperator.cs", 2)]
-        [InlineData("TernaryOperator", "Examples/TernaryOperator.cs", 3)]
-        public static void StructuralSearchShouldBe(string exampleName, string exampleFilePath, int matchesCount)
+        [InlineData("NullUnionOperator", "Examples/NullUnionOperator.cs", "Examples/Test.cs", 2)]
+        [InlineData("TernaryOperator", "Examples/TernaryOperator.cs", "", 3)]
+        public static void StructuralSearchShouldBe(string exampleName, string inputFilePath, string outputFilePath, int matchesCount)
         {
+            // TODO fix NullUnion example
+            
             var config = ConfigurationMock.GetConfigurationFromFiles(exampleName);
             var parser = new StructuralSearchParser(config);
 
-            var fileInfo = new FileInfo(exampleFilePath);
-            var input = Input.File(fileInfo);
+            var inputFileInfo = new FileInfo(inputFilePath);
+            var input = Input.File(inputFileInfo);
             IParsingContext context = new ParsingContext(input);
             var matches = parser.Parse(ref context);
             matches = parser.ApplyFindRule(ref context, matches);
             matches = parser.ApplyReplaceRule(ref context, matches);
-            parser.Replace(ref context, matches);
+            var replaceMatches = parser.GetReplaceMatches(ref context, matches);
             
+            var outputFileInfo = new FileInfo(outputFilePath);
+            var output = Output.File(outputFileInfo);
+            output.Replace(input, replaceMatches);
             Assert.Equal(matches.Count(), matchesCount);
         }
     }

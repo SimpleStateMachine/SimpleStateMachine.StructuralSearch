@@ -37,6 +37,12 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{Left}{Constant.Space}{Type}{Constant.Space}{Right}";
-        } 
+        }
+
+        public void SetContext(ref IParsingContext context)
+        {
+            Left.SetContext(ref context);
+            Right.SetContext(ref context);
+        }
     }
 }

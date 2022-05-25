@@ -20,6 +20,14 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{Constant.DoubleQuotes}{string.Join(string.Empty, Parameters.Select(x=> x.ToString()))}{Constant.DoubleQuotes}";
-        } 
+        }
+
+        public void SetContext(ref IParsingContext context)
+        {
+            foreach (var parameter in Parameters)
+            {
+                parameter.SetContext(ref context);
+            }
+        }
     }
 }

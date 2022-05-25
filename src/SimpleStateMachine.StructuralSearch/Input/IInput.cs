@@ -5,7 +5,7 @@ namespace SimpleStateMachine.StructuralSearch
     public interface IInput
     {
         Result<char, T> ParseBy<T>(Parser<char, T> parser);
-        void ReplaceAsync(Match<string> match, string value);
+        void Replace(Match<string> match, string value);
         
         string Extension { get; }
         string Path { get; }

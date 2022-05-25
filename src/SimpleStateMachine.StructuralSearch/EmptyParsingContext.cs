@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SimpleStateMachine.StructuralSearch.Tests.Mock
+namespace SimpleStateMachine.StructuralSearch
 {
     public class EmptyParsingContext : IParsingContext
     {

@@ -19,7 +19,7 @@ namespace SimpleStateMachine.StructuralSearch
             return parser.Parse(FileInfo.OpenText());
         }
 
-        public void ReplaceAsync(Match<string> match, string value)
+        public void Replace(Match<string> match, string value)
         {
             var text = File.ReadAllText(Path);
             text = text.Replace(match.Value, value);

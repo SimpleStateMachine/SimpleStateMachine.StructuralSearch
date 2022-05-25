@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public class ChangeParameter : IRuleParameter
+    public class ChangeParameter : IRuleParameter, IContextDependent
     {
         public IRuleParameter Parameter { get; }
         public ChangeType Type { get; }
@@ -31,6 +31,11 @@ namespace SimpleStateMachine.StructuralSearch
         public override string ToString()
         {
             return $"{Parameter}{Constant.Dote}{Type}";
-        } 
+        }
+
+        public void SetContext(ref IParsingContext context)
+        {
+            Parameter.SetContext(ref context);
+        }
     }
 }

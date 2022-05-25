@@ -29,6 +29,11 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{PlaceholderParameter}{Constant.Dote}{PlaceholderProperty.Offset}{Constant.Dote}{Property}";
-        } 
+        }
+
+        public void SetContext(ref IParsingContext context)
+        {
+            PlaceholderParameter.SetContext(ref context);
+        }
     }
 }

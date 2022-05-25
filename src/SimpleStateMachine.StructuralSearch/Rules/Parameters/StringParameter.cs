@@ -19,6 +19,11 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             var value = EscapeHelper.EscapeChars(Value, c => $"{Constant.BackSlash}{c}", Constant.Parameter.Escape);
             
             return $"{value}";
-        } 
+        }
+
+        public void SetContext(ref IParsingContext context)
+        {
+            
+        }
     }
 }
