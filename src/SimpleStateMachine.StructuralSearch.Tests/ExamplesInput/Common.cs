@@ -1,18 +1,18 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Tests.Examples;
 
-public class NullUnionOperator
+public class Common
 {
-    public int Test1()
+    public int Method1()
     {
-        int? temp = 1;
+        var temp = 5;
             
-        if(temp is null)
-            return 3;
+        if(temp == 6)
+            return 7;
         else
-            return 4;
+            return 8;
     }
-        
-    public void Test2()
+
+    public void Method2()
     {
         int? result;
         int? temp1 = 5;
@@ -23,7 +23,7 @@ public class NullUnionOperator
             result =  temp1;
     }
         
-    public void Test3()
+    public void Method3()
     {
         int result;
         int? temp1 = 5;
@@ -32,22 +32,5 @@ public class NullUnionOperator
             result = temp2.Value;
         else
             result =  temp1.Value;
-    }
-        
-    public int Test4()
-    {
-        int? temp3 = 5;
-            
-        if(temp3 is null)
-            return 7;
-        else if (temp3 == 8)
-            return 9;
-        else
-            return 10;
-    }
-        
-    public void Test5()
-    {
-            
     }
 }

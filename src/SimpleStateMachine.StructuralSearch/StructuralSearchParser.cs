@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Extensions;
@@ -13,11 +12,11 @@ namespace SimpleStateMachine.StructuralSearch
     {
         public IFindParser FindParser { get; set; }
 
-        public IEnumerable<IRule> FindRules { get; set; }
+        public IReadOnlyList<IRule> FindRules { get; set; }
 
         public IReplaceBuilder ReplaceBuilder { get; set; }
 
-        public IEnumerable<ReplaceRule> ReplaceRules { get; set; }
+        public IReadOnlyList<ReplaceRule> ReplaceRules { get; set; }
         
         public StructuralSearchParser(Configuration configuration)
         {
@@ -25,27 +24,29 @@ namespace SimpleStateMachine.StructuralSearch
             
             FindRules = configuration.FindRules
                 .EmptyIfNull()
-                .Select(StructuralSearch.ParseFindRule);
+                .Select(StructuralSearch.ParseFindRule).ToList();
             
-            ReplaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
+            if(!string.IsNullOrEmpty(configuration.ReplaceTemplate))
+                ReplaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
             
             ReplaceRules = configuration.ReplaceRules
                 .EmptyIfNull()
-                .Select(StructuralSearch.ParseReplaceRule);
+                .Select(StructuralSearch.ParseReplaceRule).ToList();
         }
 
-        public IEnumerable<FindParserMatch> Parse(ref IParsingContext context)
+        public IEnumerable<FindParserResult> Parse(ref IParsingContext context)
         {
             var matches = FindParser.Parse(ref context);
             return matches;
         }
 
-        public IEnumerable<FindParserMatch> ApplyFindRule(ref IParsingContext context, IEnumerable<FindParserMatch> matches)
+        public IEnumerable<FindParserResult> ApplyFindRule(ref IParsingContext context, IEnumerable<FindParserResult> matches)
         {
-            var result = new List<FindParserMatch>();
+            var result = new List<FindParserResult>();
+            SetFindRulesContext(ref context);
             foreach (var match in matches)
             {
-                context.Set(match.Placeholders);
+                context.Fill(match.Placeholders);
                 var all = FindRules.All(x => x.Execute());
                 if (all)
                 {
@@ -53,36 +54,84 @@ namespace SimpleStateMachine.StructuralSearch
                 }
             }
             
+            SetFindRulesContext(ref ParsingContext.Empty);
             return result;
         }
-        public void ApplyReplaceRule(ref IParsingContext context, IEnumerable<FindParserMatch> matches)
+        public IEnumerable<FindParserResult> ApplyReplaceRule(ref IParsingContext context, IEnumerable<FindParserResult> matches)
         {
-            // var result = new List<FindParserMatch>();
-            // foreach (var match in matches)
-            // {
-            //     context.Set(match.Placeholders);
-            //     
-            //     var rules = ReplaceRules
-            //         .Where(x => x.FindRule.Execute())
-            //         .SelectMany(x => x.Rules);
-            //     
-            //     var placeHolder = match.Placeholders
-            //         .ToDictionary(x=> x.Key, x=> x.Value);
-            //  
-            //     foreach (var rule in rules)
-            //     {
-            //         placeHolder[rule.Placeholder.Name].Value 
-            //     }
-            // }
-            //
-            // return result;
+            SetReplaceRulesContext(ref context);
+            var result = new List<FindParserResult>();
+            
+            foreach (var match in matches)
+            {
+                var placeholders = match.Placeholders
+                    .ToDictionary(x => x.Key, 
+                    x => x.Value);
+                
+                context.Fill(match.Placeholders);
+                
+                var rules = ReplaceRules
+                    .Where(x =>
+                    {
+                        var result = x.ConditionRule.Execute();
+                        return result;
+                    })
+                    .SelectMany(x => x.Rules);
+
+                foreach (var rule in rules)
+                {
+                    var name = rule.Placeholder.Name;
+                    var placeholder = placeholders[name];
+                    var value = rule.Parameter.GetValue();
+                    placeholders[name] = new ReplacedPlaceholder(placeholder, value);
+                }
+                
+                result.Add(match with { Placeholders = placeholders });
+            }
+            
+            SetReplaceRulesContext(ref ParsingContext.Empty);
+
+            return result;
         }
-        public void Replace(FindParserMatch context)
+        public ReplaceMatch GetReplaceMatch(ref IParsingContext context, FindParserResult parserResult)
         {
+            context.Fill(parserResult.Placeholders);
+            var replaceText = ReplaceBuilder.Build(context);
+            return new ReplaceMatch(parserResult.Match, replaceText);
+            // context.Input.Replace(parserResult.Match, replaceText);
             //ReplaceBuilder.Build(context);
             // context.
             //FindParser.Parse(context, context.File.Data);
         }
+        public IEnumerable<ReplaceMatch> GetReplaceMatches(ref IParsingContext context, IEnumerable<FindParserResult> parserResults)
+        {
+            var replaceMatches = new List<ReplaceMatch>();
+            foreach (var parserResult in parserResults)
+            {
+                var replaceMatch  = GetReplaceMatch(ref context, parserResult);
+                replaceMatches.Add(replaceMatch);
+            }
+
+            return replaceMatches;
+        }
+
+
+        private void SetFindRulesContext(ref IParsingContext context)
+        {
+            foreach (var findRule in FindRules)
+            {
+                if(findRule is IContextDependent contextDependent)
+                    contextDependent.SetContext(ref context);
+            }
+        }
         
+        private void SetReplaceRulesContext(ref IParsingContext context)
+        {
+            foreach (var replaceRule in ReplaceRules)
+            {
+                if(replaceRule is IContextDependent contextDependent)
+                    contextDependent.SetContext(ref context);
+            }
+        }
     }
 }

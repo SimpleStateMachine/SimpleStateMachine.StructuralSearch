@@ -26,6 +26,14 @@ public class ParenthesisedParameter : IRuleParameter
         return string.Format(Template, string.Join(string.Empty, Parameters.Select(x=> x.ToString())));
     }
 
+    public void SetContext(ref IParsingContext context)
+    {
+        foreach (var parameter in Parameters)
+        {
+            parameter.SetContext(ref context);
+        }
+    }
+
     private static string GetTemplate(ParenthesisType parenthesisType)
     {
         return parenthesisType switch

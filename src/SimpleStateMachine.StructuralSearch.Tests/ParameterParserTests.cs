@@ -55,4 +55,20 @@ public class ParameterParserTests
     {
         Assert.Throws<ParseException>(() => ParametersParser.StringFormatParameter.ParseOrThrow(str));
     }
+    
+    [Theory]
+    [InlineData("$var$")]
+    [InlineData("$var$.Trim")]
+    [InlineData("$var$.Lenght")]
+    [InlineData("$var$.Lenght.Trim")]
+    [InlineData("$var$.RemoveSubStr(\"123\")")]
+    [InlineData("$var$.Lenght.RemoveSubStr(\"123\")")]
+    [InlineData("$var$.Lenght.Trim.RemoveSubStr(\"123\")")]
+    public void ParameterParsingShouldBeSuccess(string str)
+    {
+        var parameter = ParametersParser.Parameter.ParseOrThrow(str);
+        var parameterStr = parameter.ToString().ToLower();
+        Assert.Equal(parameterStr.ToLower(), str.ToLower());
+    }
+    
 }

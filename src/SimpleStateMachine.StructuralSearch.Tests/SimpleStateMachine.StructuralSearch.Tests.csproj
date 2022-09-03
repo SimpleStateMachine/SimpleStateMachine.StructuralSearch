@@ -25,7 +25,10 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-        <Content Include="Examples\*.cs">
+        <Content Include="ExamplesOutput\*.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="ExamplesInput\*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="FindTemplate\*.txt">

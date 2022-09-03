@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SimpleStateMachine.StructuralSearch.Tests.Mock
+namespace SimpleStateMachine.StructuralSearch
 {
     public class EmptyParsingContext : IParsingContext
     {
@@ -26,7 +26,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests.Mock
             throw new System.NotImplementedException();
         }
 
-        public void Set(IReadOnlyDictionary<string, IPlaceholder> placeholders)
+        public void Fill(IReadOnlyDictionary<string, IPlaceholder> placeholders)
         {
             throw new System.NotImplementedException();
         }

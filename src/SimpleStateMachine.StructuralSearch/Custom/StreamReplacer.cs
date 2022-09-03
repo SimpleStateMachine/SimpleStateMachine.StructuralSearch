@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-
-namespace SimpleStateMachine.StructuralSearch.Custom;
+﻿namespace SimpleStateMachine.StructuralSearch.Custom;
 
 // public class StreamReplacer : Stream
 // {

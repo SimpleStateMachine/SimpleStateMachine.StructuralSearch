@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class PlaceholderParameter : IRuleParameter, IContextDependent
+    public class PlaceholderParameter : IRuleParameter
     {
         private IParsingContext _context;
         

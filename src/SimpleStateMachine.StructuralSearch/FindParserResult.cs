@@ -2,4 +2,4 @@
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public readonly record struct FindParserMatch(Match<string> Match, IReadOnlyDictionary<string, IPlaceholder> Placeholders);
+public readonly record struct FindParserResult(Match<string> Match, IReadOnlyDictionary<string, IPlaceholder> Placeholders);

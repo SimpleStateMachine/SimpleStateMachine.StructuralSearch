@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-using Pidgin;
 using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
 {
-    public class ConfigurationFileTests
+    public class ConfigurationFileParserTests
     {
         [Theory]
         [InlineData("ConfigurationFile/ShortConfig.yml")]

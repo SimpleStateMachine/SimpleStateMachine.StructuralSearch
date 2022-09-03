@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using System.Threading;
 using Pidgin;
-using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch
 {
@@ -21,12 +19,16 @@ namespace SimpleStateMachine.StructuralSearch
 
         public void Replace(Match<string> match, string value)
         {
-            using var valueReader = new StringReader(value);
-            using var streamWriter = new StreamWriter(FileInfo.FullName);
-            var emptyStart = match.Offset.Start + match.Lenght;
-            var emptyEnd = match.Offset.End;
-            valueReader.CopyPartTo(streamWriter, match.Offset.Start, match.Lenght);
-            
+            var text = File.ReadAllText(Path);
+            text = text.Replace(match.Value, value);
+            File.WriteAllText(Path, text);
+
+            // using var valueReader = new StringReader(value);
+            // using var streamWriter = new StreamWriter(FileInfo.FullName);
+            // var emptyStart = match.Offset.Start + match.Lenght;
+            // var emptyEnd = match.Offset.End;
+            // valueReader.CopyPartTo(streamWriter, match.Offset.Start, match.Lenght);
+
             //return (emptyStart, emptyEnd);
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SimpleStateMachine.StructuralSearch.Rules
+﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class PlaceholderLenghtParameter: IRuleParameter
     {
@@ -21,6 +19,11 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{PlaceholderParameter}{Constant.Dote}{Property}";
-        } 
+        }
+
+        public void SetContext(ref IParsingContext context)
+        {
+            PlaceholderParameter.SetContext(ref context);
+        }
     }
 }

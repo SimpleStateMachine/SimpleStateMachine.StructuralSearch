@@ -5,6 +5,8 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class ParsingContext : IParsingContext
     {
+        public static IParsingContext Empty = new EmptyParsingContext();
+        
         public ParsingContext(IInput input)
         {
             Input = input;
@@ -37,7 +39,7 @@ namespace SimpleStateMachine.StructuralSearch
             return placeholders;
         }
 
-        public void Set(IReadOnlyDictionary<string, IPlaceholder> placeholders)
+        public void Fill(IReadOnlyDictionary<string, IPlaceholder> placeholders)
         {
             Clear();
             

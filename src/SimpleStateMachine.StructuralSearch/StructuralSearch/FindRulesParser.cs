@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using Pidgin;
 using Pidgin.Expression;
 using SimpleStateMachine.StructuralSearch.Extensions;

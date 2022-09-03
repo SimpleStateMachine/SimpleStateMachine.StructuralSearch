@@ -20,8 +20,8 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 
         public bool Execute()
         {
-            var left = Right.GetValue();
-            var right = Left.GetValue();
+            var left = Left.GetValue();
+            var right = Right.GetValue();
             
             return Type switch
             {
@@ -37,6 +37,12 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{Left}{Constant.Space}{Type}{Constant.Space}{Right}";
-        } 
+        }
+
+        public void SetContext(ref IParsingContext context)
+        {
+            Left.SetContext(ref context);
+            Right.SetContext(ref context);
+        }
     }
 }

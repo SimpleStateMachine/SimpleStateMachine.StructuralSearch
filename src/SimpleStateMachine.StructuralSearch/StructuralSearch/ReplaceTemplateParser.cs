@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Collections.Generic;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
@@ -24,7 +21,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try();
 
             Parameter = Parser.OneOf(ParenthesisedParameter, ParametersParser.Parameter, ParametersParser.StringParameter)
-                .Then(ParametersParser.ChangeParameter, (parameter, func) => func(parameter))
+                .Then(ParametersParser.Change, (parameter, func) => func(parameter))
                 .Try();
 
 

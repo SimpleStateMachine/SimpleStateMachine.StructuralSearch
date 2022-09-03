@@ -31,6 +31,11 @@ namespace SimpleStateMachine.StructuralSearch
         public override string ToString()
         {
             return $"{Parameter}{Constant.Dote}{Type}";
-        } 
+        }
+
+        public void SetContext(ref IParsingContext context)
+        {
+            Parameter.SetContext(ref context);
+        }
     }
 }

@@ -28,6 +28,11 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{Type}{Constant.Space}{Parameter}";
-        } 
+        }
+
+        public void SetContext(ref IParsingContext context)
+        {
+            Parameter.SetContext(ref context);
+        }
     }
 }
