@@ -40,13 +40,13 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
             return parser.Select(x => new List<string>() { x }).ToIEnumerable();
         }
         
-        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, IEnumerable<string>> parser, string separator = null)
+        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, IEnumerable<string>> parser, string? separator = null)
         {
             separator ??= string.Empty;
             return parser.Select(x => string.Join(separator, x));
         }
         
-        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, List<string>> parser, string separator = null)
+        public static Parser<TToken, string> JoinToString<TToken>(this Parser<TToken, List<string>> parser, string? separator = null)
         {
             separator ??= string.Empty;
             return parser.Select(x => string.Join(separator, x));

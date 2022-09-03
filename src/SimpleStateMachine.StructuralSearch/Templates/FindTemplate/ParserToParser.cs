@@ -10,17 +10,6 @@ namespace SimpleStateMachine.StructuralSearch
             return Parser.CIChar(token).Select(Parser.CIChar);
         }
         
-        // public static Parser<char, Parser<char, string>> String(string token, bool ignoreCase = false)
-        // {
-        //     return Parsers.String(token, ignoreCase).Select(x => Parsers.String(token, ignoreCase));
-        // }
-        
-        // public static Parser<char, Parser<char, string>> Stringc(char token, bool ignoreCase = false)
-        // {
-        //     var _token = token.ToString();
-        //     return Parser.Char(_token, ignoreCase).Select(x => Parsers.String(_token, ignoreCase));
-        // }
-
         public static Parser<char, Parser<char, string>> ResultAsParser(Parser<char, string> parser, bool ignoreCase = false)
         {
             return parser.Select(value => Parsers.String(value, ignoreCase));
@@ -35,7 +24,5 @@ namespace SimpleStateMachine.StructuralSearch
         {
             return parser.Select(x=> Parsers.String(x, ignoreCase).AsMatch());
         }
-        
-
     }
 }

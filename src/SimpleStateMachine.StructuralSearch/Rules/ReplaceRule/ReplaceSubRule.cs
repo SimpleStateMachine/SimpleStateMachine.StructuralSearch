@@ -4,8 +4,8 @@ namespace SimpleStateMachine.StructuralSearch;
 
 public class ReplaceSubRule: IContextDependent
 {
-    public PlaceholderParameter Placeholder { get; }
-    public IRuleParameter Parameter { get; }
+    public readonly PlaceholderParameter Placeholder;
+    public readonly IRuleParameter Parameter;
     
     public ReplaceSubRule(PlaceholderParameter placeholder, IRuleParameter parameter)
     {

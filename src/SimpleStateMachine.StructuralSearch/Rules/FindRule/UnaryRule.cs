@@ -4,21 +4,20 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class UnaryRule : IRule
     {
-        public UnaryRuleType Type { get; }
-
-        public IRule Parameter { get; }
+        private readonly UnaryRuleType _type;
+        private readonly IRule _parameter;
 
         public UnaryRule(UnaryRuleType type, IRule parameter)
         {
-            Type = type;
-            Parameter = parameter;
+            _type = type;
+            _parameter = parameter;
         }
 
         public bool Execute()
         {
-            var result = Parameter.Execute();
+            var result = _parameter.Execute();
             
-            return Type switch
+            return _type switch
             {
                 UnaryRuleType.Not => !result,
                 _ => throw new ArgumentOutOfRangeException()
@@ -27,12 +26,12 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{Type}{Constant.Space}{Parameter}";
+            return $"{_type}{Constant.Space}{_parameter}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            Parameter.SetContext(ref context);
+            _parameter.SetContext(ref context);
         }
     }
 }

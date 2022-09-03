@@ -15,7 +15,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         {
             var replaceTemplate = File.ReadAllText(templatePath);
             var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
-            var result = replaceBuilder.Build(new EmptyParsingContext());
+            var result = replaceBuilder.Build(ParsingContext.Empty);
 
             Assert.NotNull(replaceTemplate);
             Assert.Equal(replaceBuilder.Steps.Count(), stepsCount);

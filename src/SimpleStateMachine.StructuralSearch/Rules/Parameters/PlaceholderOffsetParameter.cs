@@ -4,19 +4,19 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class PlaceholderOffsetParameter : IRuleParameter
     {
-        public PlaceholderParameter PlaceholderParameter { get; }
-        public OffsetProperty Property { get; }
+        private readonly PlaceholderParameter _placeholderParameter;
+        private readonly OffsetProperty _property;
 
         public PlaceholderOffsetParameter(PlaceholderParameter parameter, OffsetProperty property)
         {
-            PlaceholderParameter = parameter;
-            Property = property;
+            _placeholderParameter = parameter;
+            _property = property;
         }
         public string GetValue()
         {
-            var offset = PlaceholderParameter.GetPlaceholder().Offset;
+            var offset = _placeholderParameter.GetPlaceholder().Offset;
             
-            var value = Property switch
+            var value = _property switch
             {
                 OffsetProperty.Start => offset.Start,
                 OffsetProperty.End => offset.End,
@@ -28,12 +28,12 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{PlaceholderParameter}{Constant.Dote}{PlaceholderProperty.Offset}{Constant.Dote}{Property}";
+            return $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Offset}{Constant.Dote}{_property}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            PlaceholderParameter.SetContext(ref context);
+            _placeholderParameter.SetContext(ref context);
         }
     }
 }

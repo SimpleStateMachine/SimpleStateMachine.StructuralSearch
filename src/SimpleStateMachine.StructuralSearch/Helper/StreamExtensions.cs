@@ -11,6 +11,7 @@ public static class StreamExtensions
         /// </summary>
         /// <param name="source">The source stream.</param>
         /// <param name="destination">The destination stream.</param>
+        /// <param name="offset"></param>
         /// <param name="count">The number of bytes to copy.</param>
         /// <param name="bufferSize">The size of the buffer to use.
         /// The default is 4096.</param>
@@ -34,6 +35,7 @@ public static class StreamExtensions
         /// </summary>
         /// <param name="source">The source stream.</param>
         /// <param name="destination">The destination stream.</param>
+        /// <param name="offset"></param>
         /// <param name="count">The number of bytes to copy.</param>
         public static void CopyPartTo(this Stream source, Stream destination, int offset, int count)
         {

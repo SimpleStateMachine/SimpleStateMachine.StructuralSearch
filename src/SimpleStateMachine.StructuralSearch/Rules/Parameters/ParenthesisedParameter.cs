@@ -6,29 +6,29 @@ namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
 public class ParenthesisedParameter : IRuleParameter
 {
-    public readonly IEnumerable<IRuleParameter> Parameters;
-    public readonly ParenthesisType ParenthesisType;
-    public readonly string Template;
+    private readonly IEnumerable<IRuleParameter> _parameters;
+    private readonly ParenthesisType _parenthesisType;
+    private readonly string _template;
     public ParenthesisedParameter(ParenthesisType parenthesisType, IEnumerable<IRuleParameter> parameters)
     {
-        ParenthesisType = parenthesisType;
-        Parameters = parameters;
-        Template = GetTemplate(parenthesisType);
+        _parenthesisType = parenthesisType;
+        _parameters = parameters;
+        _template = GetTemplate(parenthesisType);
     }
 
     public string GetValue()
     {
-        return string.Format(Template, string.Join(string.Empty, Parameters.Select(x => x.GetValue())));
+        return string.Format(_template, string.Join(string.Empty, _parameters.Select(x => x.GetValue())));
     }
         
     public override string ToString()
     {
-        return string.Format(Template, string.Join(string.Empty, Parameters.Select(x=> x.ToString())));
+        return string.Format(_template, string.Join(string.Empty, _parameters.Select(x=> x.ToString())));
     }
 
     public void SetContext(ref IParsingContext context)
     {
-        foreach (var parameter in Parameters)
+        foreach (var parameter in _parameters)
         {
             parameter.SetContext(ref context);
         }

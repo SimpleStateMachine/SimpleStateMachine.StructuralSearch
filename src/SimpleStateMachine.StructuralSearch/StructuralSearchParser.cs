@@ -10,33 +10,30 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class StructuralSearchParser
     {
-        public IFindParser FindParser { get; set; }
-
-        public IReadOnlyList<IRule> FindRules { get; set; }
-
-        public IReplaceBuilder ReplaceBuilder { get; set; }
-
-        public IReadOnlyList<ReplaceRule> ReplaceRules { get; set; }
+        private readonly IFindParser _findParser;
+        private readonly IReadOnlyList<IRule> _findRules;
+        private readonly IReplaceBuilder _replaceBuilder;
+        private readonly IReadOnlyList<ReplaceRule> _replaceRules;
         
         public StructuralSearchParser(Configuration configuration)
         {
-            FindParser = StructuralSearch.ParseFindTemplate(configuration.FindTemplate);
+            _findParser = StructuralSearch.ParseFindTemplate(configuration.FindTemplate);
             
-            FindRules = configuration.FindRules
+            _findRules = configuration.FindRules
                 .EmptyIfNull()
                 .Select(StructuralSearch.ParseFindRule).ToList();
             
             if(!string.IsNullOrEmpty(configuration.ReplaceTemplate))
-                ReplaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
+                _replaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
             
-            ReplaceRules = configuration.ReplaceRules
+            _replaceRules = configuration.ReplaceRules
                 .EmptyIfNull()
                 .Select(StructuralSearch.ParseReplaceRule).ToList();
         }
 
         public IEnumerable<FindParserResult> Parse(ref IParsingContext context)
         {
-            var matches = FindParser.Parse(ref context);
+            var matches = _findParser.Parse(ref context);
             return matches;
         }
 
@@ -47,7 +44,7 @@ namespace SimpleStateMachine.StructuralSearch
             foreach (var match in matches)
             {
                 context.Fill(match.Placeholders);
-                var all = FindRules.All(x => x.Execute());
+                var all = _findRules.All(x => x.Execute());
                 if (all)
                 {
                     result.Add(match);   
@@ -70,7 +67,7 @@ namespace SimpleStateMachine.StructuralSearch
                 
                 context.Fill(match.Placeholders);
                 
-                var rules = ReplaceRules
+                var rules = _replaceRules
                     .Where(x =>
                     {
                         var result = x.ConditionRule.Execute();
@@ -96,7 +93,7 @@ namespace SimpleStateMachine.StructuralSearch
         public ReplaceMatch GetReplaceMatch(ref IParsingContext context, FindParserResult parserResult)
         {
             context.Fill(parserResult.Placeholders);
-            var replaceText = ReplaceBuilder.Build(context);
+            var replaceText = _replaceBuilder.Build(context);
             return new ReplaceMatch(parserResult.Match, replaceText);
             // context.Input.Replace(parserResult.Match, replaceText);
             //ReplaceBuilder.Build(context);
@@ -118,7 +115,7 @@ namespace SimpleStateMachine.StructuralSearch
 
         private void SetFindRulesContext(ref IParsingContext context)
         {
-            foreach (var findRule in FindRules)
+            foreach (var findRule in _findRules)
             {
                 if(findRule is IContextDependent contextDependent)
                     contextDependent.SetContext(ref context);
@@ -127,7 +124,7 @@ namespace SimpleStateMachine.StructuralSearch
         
         private void SetReplaceRulesContext(ref IParsingContext context)
         {
-            foreach (var replaceRule in ReplaceRules)
+            foreach (var replaceRule in _replaceRules)
             {
                 if(replaceRule is IContextDependent contextDependent)
                     contextDependent.SetContext(ref context);

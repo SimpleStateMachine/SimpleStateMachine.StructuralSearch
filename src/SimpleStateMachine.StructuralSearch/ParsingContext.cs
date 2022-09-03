@@ -5,8 +5,8 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class ParsingContext : IParsingContext
     {
-        public static IParsingContext Empty = new EmptyParsingContext();
-        
+        public static IParsingContext Empty = new EmptyParsingContext(SimpleStateMachine.StructuralSearch.Input.Empty);
+
         public ParsingContext(IInput input)
         {
             Input = input;

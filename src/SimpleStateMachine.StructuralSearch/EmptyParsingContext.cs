@@ -5,6 +5,11 @@ namespace SimpleStateMachine.StructuralSearch
     public class EmptyParsingContext : IParsingContext
     {
         public IInput Input { get; }
+        
+        public EmptyParsingContext(IInput input)
+        {
+            Input = input;
+        }
 
         public bool TryGetPlaceholder(string name, out IPlaceholder value)
         {

@@ -14,6 +14,5 @@ public class EmptySubRule : IRule
 
     public void SetContext(ref IParsingContext context)
     {
-        
     }
 }

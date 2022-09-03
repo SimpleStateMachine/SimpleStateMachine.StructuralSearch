@@ -3,17 +3,17 @@
     public class PlaceholderReplace : IReplaceStep, IContextDependent
     {
         private IParsingContext _context;
-        
-        public string Name { get; }
+
+        private readonly string _name;
 
         public PlaceholderReplace(string name)
         {
-            Name = name;
+            _name = name;
         }
 
         public string GetValue()
         {
-            return _context.GetPlaceholder(Name).Value;
+            return _context.GetPlaceholder(_name).Value;
         }
 
         public void SetContext(ref IParsingContext context)
@@ -23,7 +23,7 @@
         
         public override string ToString()
         {
-            return $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
+            return $"{Constant.PlaceholderSeparator}{_name}{Constant.PlaceholderSeparator}";
         }  
     }
 }

@@ -6,7 +6,7 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
 {
     public class ConfigurationFile: IEquatable<ConfigurationFile>
     {
-        public List<Configuration> Configurations { get; set; }
+        public List<Configuration> Configurations { get; init; }
 
         public bool Equals(ConfigurationFile? other)
         {
@@ -15,8 +15,7 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
 
         public override bool Equals(object? obj)
         {
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((ConfigurationFile)obj);
+            return obj?.GetType() == GetType() && Equals((ConfigurationFile)obj);
         }
 
         public override int GetHashCode()

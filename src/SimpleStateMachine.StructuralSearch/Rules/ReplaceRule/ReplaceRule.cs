@@ -5,7 +5,7 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class ReplaceRule: IContextDependent
     {
-        public IRule ConditionRule { get; }
+        public readonly IRule ConditionRule;
         
         public IEnumerable<ReplaceSubRule> Rules { get; }
         

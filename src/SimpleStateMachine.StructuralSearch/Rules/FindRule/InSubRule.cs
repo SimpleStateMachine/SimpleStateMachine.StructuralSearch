@@ -5,24 +5,24 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class InSubRule : IRule
     {
-        public IRuleParameter Parameter { get; }
-        
-        public IEnumerable<IRuleParameter> Arguments { get; }
+        private readonly IRuleParameter _parameter;
+
+        private readonly IEnumerable<IRuleParameter> _arguments;
         
         public InSubRule(IRuleParameter parameter, IEnumerable<IRuleParameter> arguments)
         {
-            Parameter = parameter;
+            _parameter = parameter;
             
-            Arguments = arguments;
+            _arguments = arguments;
         }
 
         public bool Execute()
         {
-            var value = Parameter.GetValue();
-            var result = Arguments.Any(parameter =>
+            var value = _parameter.GetValue();
+            var result = _arguments.Any(parameter =>
             {
-                var value_ = parameter.GetValue();
-                var equal = Equals(value, value_);
+                var valueForResult = parameter.GetValue();
+                var equal = Equals(value, valueForResult);
                 return equal;
             });
             return result;
@@ -30,14 +30,14 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{Parameter}{Constant.Space}{SubRuleType.In}{Constant.Space}{string.Join(Constant.Comma, Arguments.Select(x=>x.ToString()))}";
+            return $"{_parameter}{Constant.Space}{SubRuleType.In}{Constant.Space}{string.Join(Constant.Comma, _arguments.Select(x=>x.ToString()))}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            Parameter.SetContext(ref context);
+            _parameter.SetContext(ref context);
 
-            foreach (var argument in Arguments)
+            foreach (var argument in _arguments)
             {
                 argument.SetContext(ref context);
             }

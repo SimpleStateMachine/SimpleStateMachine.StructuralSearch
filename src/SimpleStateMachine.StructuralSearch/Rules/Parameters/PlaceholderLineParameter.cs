@@ -4,20 +4,20 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class PlaceholderLineParameter : IRuleParameter
     {
-        public PlaceholderParameter PlaceholderParameter { get; }
-        public LineProperty Property { get; }
+        private readonly PlaceholderParameter _placeholderParameter;
+        private readonly LineProperty _property;
 
         public PlaceholderLineParameter(PlaceholderParameter parameter, LineProperty property)
         {
-            PlaceholderParameter = parameter;
-            Property = property;
+            _placeholderParameter = parameter;
+            _property = property;
         }
         
         public string GetValue()
         {
-            var line = PlaceholderParameter.GetPlaceholder().Line;
+            var line = _placeholderParameter.GetPlaceholder().Line;
             
-            var value = Property switch
+            var value = _property switch
             {
                 LineProperty.Start => line.Start,
                 LineProperty.End => line.End,
@@ -29,12 +29,12 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{PlaceholderParameter}{Constant.Dote}{PlaceholderProperty.Line}{Constant.Dote}{Property}";
+            return $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Line}{Constant.Dote}{_property}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            PlaceholderParameter.SetContext(ref context);
+            _placeholderParameter.SetContext(ref context);
         }
     }
 }

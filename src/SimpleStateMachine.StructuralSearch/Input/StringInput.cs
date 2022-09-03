@@ -4,16 +4,16 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class StringInput : IInput
     {
+        private readonly string _input;
+        
         public StringInput(string input)
         {
-            Input = input;
+            _input = input;
         }
-        
-        public readonly string Input;
-        
+
         public Result<char, T> ParseBy<T>(Parser<char, T> parser)
         {
-            return parser.Parse(Input);
+            return parser.Parse(_input);
         }
 
         public void Replace(Match<string> match, string value)
@@ -25,6 +25,6 @@ namespace SimpleStateMachine.StructuralSearch
         public string Path => string.Empty;
         public string Name => string.Empty;
         public string Data => string.Empty;
-        public long Lenght => Input.Length;
+        public long Lenght => _input.Length;
     }
 }

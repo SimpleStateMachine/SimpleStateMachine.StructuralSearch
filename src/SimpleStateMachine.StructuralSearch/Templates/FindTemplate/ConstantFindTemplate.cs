@@ -30,8 +30,7 @@ namespace SimpleStateMachine.StructuralSearch
                 Dote,
             };
 
-            public static readonly char[] Excluded = AllParenthesisArray
-                .Add(Escape);
+            public static readonly char[] Excluded = AllParenthesisArray.Add(Escape);
         }
     }
 }

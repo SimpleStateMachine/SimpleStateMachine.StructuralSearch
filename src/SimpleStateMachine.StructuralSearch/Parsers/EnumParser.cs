@@ -9,7 +9,7 @@ namespace SimpleStateMachine.StructuralSearch
     public class EnumParser<TEnum> : Parser<char, TEnum>
         where TEnum : struct, Enum
     {
-        private Parser<char, TEnum> _parser;
+        private readonly Parser<char, TEnum> _parser;
 
         public EnumParser(bool ignoreCase, params TEnum [] excluded)
         {
