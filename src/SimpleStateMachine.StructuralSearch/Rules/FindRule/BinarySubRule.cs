@@ -5,25 +5,23 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class BinarySubRule : IRule
     {
-        public SubRuleType Type { get; }
-        
-        public IRuleParameter Left { get; }
-        
-        public IRuleParameter Right { get; }
+        private readonly SubRuleType _type;
+        private readonly IRuleParameter _left;
+        private readonly IRuleParameter _right;
         
         public BinarySubRule(SubRuleType type, IRuleParameter left, IRuleParameter right)
         {
-            Type = type;
-            Left = left;
-            Right = right;
+            _type = type;
+            _left = left;
+            _right = right;
         }
 
         public bool Execute()
         {
-            var left = Left.GetValue();
-            var right = Right.GetValue();
+            var left = _left.GetValue();
+            var right = _right.GetValue();
             
-            return Type switch
+            return _type switch
             {
                 SubRuleType.Equals => left.Equals(right),
                 SubRuleType.Contains => left.Contains(right),
@@ -36,13 +34,13 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{Left}{Constant.Space}{Type}{Constant.Space}{Right}";
+            return $"{_left}{Constant.Space}{_type}{Constant.Space}{_right}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            Left.SetContext(ref context);
-            Right.SetContext(ref context);
+            _left.SetContext(ref context);
+            _right.SetContext(ref context);
         }
     }
 }

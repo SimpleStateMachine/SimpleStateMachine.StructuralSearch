@@ -22,6 +22,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests.Mock
                 ReplaceTemplate = replaceTemplate,
                 ReplaceRules = replaceRules
             };
+            
             return config;
             
             string? FileOrNull(string folder, string name)

@@ -6,11 +6,11 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class SeriesParser : Parser<char, IEnumerable<string>>, IContextDependent
     {
-        public IEnumerable<Parser<char, string>> Parsers { get; }
+        private readonly IEnumerable<Parser<char, string>> _parsers;
         
         public SeriesParser(IEnumerable<Parser<char, string>> parsers)
         {
-            Parsers = parsers;
+            _parsers = parsers;
             
             InitializeLookaheadParsers();
         }
@@ -19,11 +19,11 @@ namespace SimpleStateMachine.StructuralSearch
             out IEnumerable<string> result)
         {
             var results = new List<string>();
-            var count = Parsers.Count();
+            var count = _parsers.Count();
 
             for (int i = 0; i < count; i++)
             {
-                var parser = Parsers.ElementAt(i);
+                var parser = _parsers.ElementAt(i);
                 if (!parser.TryParse(ref state, ref expecteds, out var _result))
                 {
                     result = results;
@@ -63,7 +63,7 @@ namespace SimpleStateMachine.StructuralSearch
         
         public void SetContext(ref IParsingContext parsingContext)
         {
-            foreach (var parser in Parsers)
+            foreach (var parser in _parsers)
             {
                 if (parser is IContextDependent element)
                 {
@@ -74,16 +74,16 @@ namespace SimpleStateMachine.StructuralSearch
         
         private void InitializeLookaheadParsers()
         {
-            var count = Parsers.Count();
+            var count = _parsers.Count();
             
             for (var i = count-1; i >= 0 ; i--)
             {
-                var parser = Parsers.ElementAt(i);
+                var parser = _parsers.ElementAt(i);
                 if (parser is ParserWithLookahead<char, string> lookaheadParser)
                 {
                     var number = i;
-                    lookaheadParser.Lookahead(() => Parsers.ElementAtOrDefault(number + 1), () =>
-                        Parsers.ElementAtOrDefault(number + 2));
+                    lookaheadParser.Lookahead(() => _parsers.ElementAtOrDefault(number + 1), () =>
+                        _parsers.ElementAtOrDefault(number + 2));
                 }
             }
         }

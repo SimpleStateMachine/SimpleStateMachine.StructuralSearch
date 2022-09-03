@@ -72,7 +72,5 @@ namespace SimpleStateMachine.StructuralSearch.Helper
         {
             return Enum.TryParse(value, ignoreCase, out result);
         }
-
-        
     }
 }

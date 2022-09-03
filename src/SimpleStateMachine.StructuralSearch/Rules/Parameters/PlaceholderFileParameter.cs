@@ -4,19 +4,19 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class PlaceholderFileParameter : IRuleParameter
     {
-        public PlaceholderParameter PlaceholderParameter { get; }
-        public FileProperty Property { get; }
+        private readonly PlaceholderParameter _placeholderParameter;
+        private readonly FileProperty _property;
 
         public PlaceholderFileParameter(PlaceholderParameter parameter, FileProperty property)
         {
-            PlaceholderParameter = parameter;
-            Property = property;
+            _placeholderParameter = parameter;
+            _property = property;
         }
 
         public string GetValue()
         {
-            var input = PlaceholderParameter.GetPlaceholder().Input;
-            return Property switch
+            var input = _placeholderParameter.GetPlaceholder().Input;
+            return _property switch
             {
                 FileProperty.Path => input.Path,
                 FileProperty.Data => input.Data,
@@ -29,12 +29,12 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{PlaceholderParameter}{Constant.Dote}{PlaceholderProperty.File}{Constant.Dote}{Property}";
+            return $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.File}{Constant.Dote}{_property}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            PlaceholderParameter.SetContext(ref context);
+            _placeholderParameter.SetContext(ref context);
         }
     }
 }

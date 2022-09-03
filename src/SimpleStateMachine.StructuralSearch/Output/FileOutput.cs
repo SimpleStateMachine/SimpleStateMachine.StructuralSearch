@@ -6,11 +6,11 @@ namespace SimpleStateMachine.StructuralSearch;
 
 public class FileOutput : IOutput
 {
-    public readonly FileInfo FileInfo;
+    private readonly FileInfo _fileInfo;
     
     public FileOutput(FileInfo fileInfo)
     {
-        FileInfo = fileInfo;
+        _fileInfo = fileInfo;
     }
     
     public void Replace(IInput input, IEnumerable<ReplaceMatch> replaceMatches)
@@ -22,7 +22,7 @@ public class FileOutput : IOutput
         File.WriteAllText(Path, text);
     }
     
-    public string Extension => FileInfo.Extension;
-    public string Path => System.IO.Path.GetFullPath(FileInfo.FullName);
-    public string Name => System.IO.Path.GetFileNameWithoutExtension(FileInfo.Name);
+    public string Extension => _fileInfo.Extension;
+    public string Path => System.IO.Path.GetFullPath(_fileInfo.FullName);
+    public string Name => System.IO.Path.GetFileNameWithoutExtension(_fileInfo.Name);
 }

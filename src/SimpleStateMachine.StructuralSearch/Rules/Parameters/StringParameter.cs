@@ -4,19 +4,20 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class StringParameter : IRuleParameter
     {
-        public string Value { get; }
+        private readonly string _value;
+        
         public StringParameter(string value)
         {
-            Value = value;
+            _value = value;
         }
         public string GetValue()
         {
-            return Value;
+            return _value;
         }
         
         public override string ToString()
         {
-            var value = EscapeHelper.EscapeChars(Value, c => $"{Constant.BackSlash}{c}", Constant.Parameter.Escape);
+            var value = EscapeHelper.EscapeChars(_value, c => $"{Constant.BackSlash}{c}", Constant.Parameter.Escape);
             
             return $"{value}";
         }

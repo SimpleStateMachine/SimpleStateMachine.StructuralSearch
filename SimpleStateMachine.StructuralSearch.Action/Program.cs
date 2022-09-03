@@ -17,7 +17,7 @@ static TService Get<TService>(IHost host)
     where TService : notnull =>
     host.Services.GetRequiredService<TService>();
 
-static async Task StartAnalysisAsync(ActionInputs inputs, IHost host)
+static Task StartAnalysisAsync(ActionInputs inputs, IHost host)
 {
     // using ProjectWorkspace workspace = Get<ProjectWorkspace>(host);
     using CancellationTokenSource tokenSource = new();
@@ -85,6 +85,7 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host)
     // Console.WriteLine($"::set-output name=summary-details::{summary}");
 
     Environment.Exit(0);
+    return Task.CompletedTask;
 }
 
 var parser = Default.ParseArguments(() => new ActionInputs(), args);

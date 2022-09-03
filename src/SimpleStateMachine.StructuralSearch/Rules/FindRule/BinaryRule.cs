@@ -4,36 +4,34 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class BinaryRule : IRule
     {
-        public BinaryRuleType Type { get; }
-
-        public IRule Left { get; }
-
-        public IRule Right { get; }
+        private readonly BinaryRuleType _type;
+        private readonly IRule _left;
+        private readonly IRule _right;
 
         public BinaryRule(BinaryRuleType type, IRule left, IRule right)
         {
-            Type = type;
-            Left = left;
-            Right = right;
+            _type = type;
+            _left = left;
+            _right = right;
         }
 
         public bool Execute()
         {
-            var left = Left.Execute();
-            var right = Right.Execute();
+            var left = _left.Execute();
+            var right = _right.Execute();
             
-            return LogicalHelper.Calculate(Type, left, right);
+            return LogicalHelper.Calculate(_type, left, right);
         }
         
         public override string ToString()
         {
-            return $"{Left}{Constant.Space}{Type}{Constant.Space}{Right}";
+            return $"{_left}{Constant.Space}{_type}{Constant.Space}{_right}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            Left.SetContext(ref context);
-            Right.SetContext(ref context);
+            _left.SetContext(ref context);
+            _right.SetContext(ref context);
         }
     }
 }

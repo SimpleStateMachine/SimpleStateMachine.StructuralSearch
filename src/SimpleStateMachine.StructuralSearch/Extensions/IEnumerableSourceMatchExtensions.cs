@@ -7,9 +7,10 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
     {
         public static SourceMatch Concatenate(this IEnumerable<SourceMatch> matches)
         {
-            int start = matches.First().Start;
-            int end = matches.Last().End;
-            var value = string.Join(string.Empty, matches.Select(x => x.Value));
+            var sourceMatches = matches as SourceMatch[] ?? matches.ToArray();
+            int start = sourceMatches.First().Start;
+            int end = sourceMatches.Last().End;
+            var value = string.Join(string.Empty, sourceMatches.Select(x => x.Value));
             return new SourceMatch(value, start, end);
         }
     }

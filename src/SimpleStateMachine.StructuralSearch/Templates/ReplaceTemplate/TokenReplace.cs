@@ -2,20 +2,21 @@
 {
     public class TokenReplace : IReplaceStep
     {
-        public string Token { get; }
+        private readonly string _token;
+        
         public TokenReplace(string token)
         {
-            Token = token;
+            _token = token;
         }
 
         public string GetValue()
         {
-            return Token;
+            return _token;
         }
         
         public override string ToString()
         {
-            return $"{Token}";
+            return $"{_token}";
         } 
     }
 }

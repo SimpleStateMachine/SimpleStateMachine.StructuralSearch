@@ -5,19 +5,19 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class ChangeParameter : IRuleParameter
     {
-        public IRuleParameter Parameter { get; }
-        public ChangeType Type { get; }
+        private readonly IRuleParameter _parameter;
+        private readonly ChangeType _type;
 
         public ChangeParameter(IRuleParameter parameter, ChangeType type)
         {
-            Parameter = parameter;
-            Type = type;
+            _parameter = parameter;
+            _type = type;
         }
 
         public string GetValue()
         {
-            var value = Parameter.GetValue();
-            return Type switch
+            var value = _parameter.GetValue();
+            return _type switch
             {
                 ChangeType.Trim => value.Trim(),
                 ChangeType.TrimEnd => value.TrimEnd(),
@@ -30,12 +30,12 @@ namespace SimpleStateMachine.StructuralSearch
         
         public override string ToString()
         {
-            return $"{Parameter}{Constant.Dote}{Type}";
+            return $"{_parameter}{Constant.Dote}{_type}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            Parameter.SetContext(ref context);
+            _parameter.SetContext(ref context);
         }
     }
 }

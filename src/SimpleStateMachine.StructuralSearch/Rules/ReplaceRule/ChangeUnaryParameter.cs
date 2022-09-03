@@ -5,22 +5,22 @@ namespace SimpleStateMachine.StructuralSearch;
 
 public class ChangeUnaryParameter : IRuleParameter
 {
-    public IRuleParameter Parameter { get; }
-    public ChangeUnaryType Type { get; }
-    public IRuleParameter Arg { get; }
+    private readonly IRuleParameter _parameter;
+    private readonly ChangeUnaryType _type;
+    private readonly IRuleParameter _arg;
     
     public ChangeUnaryParameter(IRuleParameter parameter, ChangeUnaryType type, IRuleParameter arg)
     {
-        Parameter = parameter;
-        Type = type;
-        Arg = arg;
+        _parameter = parameter;
+        _type = type;
+        _arg = arg;
     }
 
     public string GetValue()
     {
-        var parameter = Parameter.GetValue();
-        var arg = Arg.GetValue();
-        return Type switch
+        var parameter = _parameter.GetValue();
+        var arg = _arg.GetValue();
+        return _type switch
         {
             ChangeUnaryType.RemoveSubStr => parameter.Replace(arg, string.Empty),
             _ => throw new ArgumentOutOfRangeException()
@@ -29,12 +29,12 @@ public class ChangeUnaryParameter : IRuleParameter
         
     public override string ToString()
     {
-        return $"{Parameter}{Constant.Dote}{Type}{Constant.LeftParenthesis}{Arg}{Constant.RightParenthesis}";
+        return $"{_parameter}{Constant.Dote}{_type}{Constant.LeftParenthesis}{_arg}{Constant.RightParenthesis}";
     }
 
     public void SetContext(ref IParsingContext context)
     {
-        Parameter.SetContext(ref context);
-        Arg.SetContext(ref context);
+        _parameter.SetContext(ref context);
+        _arg.SetContext(ref context);
     }
 }

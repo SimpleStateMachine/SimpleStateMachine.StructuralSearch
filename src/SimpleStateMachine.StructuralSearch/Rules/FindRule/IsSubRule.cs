@@ -5,21 +5,20 @@ namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class IsSubRule : IRule
     {
-        public PlaceholderType Argument { get; }
-        
-        public IRuleParameter Parameter { get; }
+        private readonly PlaceholderType _argument;
+        private readonly IRuleParameter _parameter;
         
         public IsSubRule(IRuleParameter parameter, PlaceholderType argument)
         {
-            Parameter = parameter;
-            Argument = argument;
+            _parameter = parameter;
+            _argument = argument;
         }
 
         public bool Execute()
         {
-            var value = Parameter.GetValue();
+            var value = _parameter.GetValue();
             
-            return Argument switch
+            return _argument switch
             {
                 PlaceholderType.Var => CommonParser.Identifier.TryParse(value, out _),
                 PlaceholderType.Int => int.TryParse(value, out _),
@@ -32,12 +31,12 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         
         public override string ToString()
         {
-            return $"{Parameter}{Constant.Space}{SubRuleType.Is}{Constant.Space}{Argument}";
+            return $"{_parameter}{Constant.Space}{SubRuleType.Is}{Constant.Space}{_argument}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            Parameter.SetContext(ref context);
+            _parameter.SetContext(ref context);
         }
     }
 }

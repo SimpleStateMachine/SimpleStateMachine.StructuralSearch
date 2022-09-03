@@ -2,28 +2,28 @@
 {
     public class PlaceholderLenghtParameter: IRuleParameter
     {
-        public PlaceholderParameter PlaceholderParameter { get; }
-        public PlaceholderProperty Property { get; }
+        private readonly PlaceholderParameter _placeholderParameter;
+        private readonly PlaceholderProperty _property;
 
         public PlaceholderLenghtParameter(PlaceholderParameter parameter, PlaceholderProperty property)
         {
-            PlaceholderParameter = parameter;
-            Property = property;
+            _placeholderParameter = parameter;
+            _property = property;
         }
         
         public string GetValue()
         {
-            return PlaceholderParameter.GetPlaceholder().Lenght.ToString();
+            return _placeholderParameter.GetPlaceholder().Lenght.ToString();
         }
         
         public override string ToString()
         {
-            return $"{PlaceholderParameter}{Constant.Dote}{Property}";
+            return $"{_placeholderParameter}{Constant.Dote}{_property}";
         }
 
         public void SetContext(ref IParsingContext context)
         {
-            PlaceholderParameter.SetContext(ref context);
+            _placeholderParameter.SetContext(ref context);
         }
     }
 }

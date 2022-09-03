@@ -1,8 +1,12 @@
 ﻿namespace SimpleStateMachine.StructuralSearch
 {
-    public struct SourceMatch
+    public readonly struct SourceMatch
     {
-        public static readonly SourceMatch Empty;
+        public readonly string Value;
+        public readonly int Start;
+        public readonly int End;
+        public readonly int Lenght;
+        
         public SourceMatch(string value, int start, int end)
         {
             Value = value;
@@ -10,12 +14,6 @@
             End = end;
             Lenght = value.Length;
         }
-        
-        public string Value { get; }
-        public int Start { get; }
-        public int End { get; }
-        
-        public int Lenght { get; }
 
         public override string ToString()
         {

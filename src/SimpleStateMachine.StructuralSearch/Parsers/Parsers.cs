@@ -19,13 +19,7 @@ namespace SimpleStateMachine.StructuralSearch
         {
             return Parsers.String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
         }
-
-        // public static Parser<char, string> EnumValue<TEnum>(TEnum value, bool ignoreCase = false)
-        //     where TEnum : struct, Enum
-        // {
-        //     return Parsers.String(value.Name(), ignoreCase).AsEnum<TEnum>();
-        // }
-
+        
         public static Parser<TToken, IEnumerable<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1,
             Parser<TToken, T> parser2, Parser<TToken, T> parser3)
         {
@@ -88,12 +82,6 @@ namespace SimpleStateMachine.StructuralSearch
             );
         }
         
-        // public static Parser<char, T> BetweenOneOf<T>(Func<char, Parser<char, T>> leftRight,
-        //     Parser<char, T> expr, params (char, char)[] values)
-        // {
-        //     return OneOf(values.Select(x => expr.Between(leftRight(x.Item1), leftRight(x.Item2))));
-        // }
-
         public static Parser<char, IEnumerable<T>> BetweenOneOfChars<T>(Func<char, Parser<char, T>> leftRight,
             Parser<char, T> expr, params (char, char)[] values)
         {
@@ -141,29 +129,5 @@ namespace SimpleStateMachine.StructuralSearch
                 parser,
                 Parser<char>.CurrentPos, Parser<char>.CurrentOffset);
         }
-        
-        
-        // public static string Match(Parser<char, string> parser, ref ParseState<char> state,
-        //     ref PooledList<Expected<char>> expected, out string result)
-        // {
-        //     Parser<char>.CurrentPos.Then(Parser<char>.CurrentOffset, (pos, i) => (oldPos, oldOffset))
-        //         .Then()
-        //     .TryParse(ref state, ref expected, out var oldPos);
-        //    .TryParse(ref state, ref expected, out var oldOffset);
-        //     var res = parser.TryParse(ref state, ref expected, out result);
-        //
-        //     if (res)
-        //     {
-        //         Parser<char>.CurrentPos.TryParse(ref state, ref expected, out var newPos);
-        //         Parser<char>.CurrentOffset.TryParse(ref state, ref expected, out var newOffset);
-        //
-        //         var line = new LinePosition(oldPos.Line, newPos.Line);
-        //         var column = new ColumnPosition(oldPos.Col, newPos.Col);
-        //         var offset = new OffsetPosition(oldOffset, newOffset);
-        //         
-        //     }
-        //
-        //     return null;
-        // }
     }
 }

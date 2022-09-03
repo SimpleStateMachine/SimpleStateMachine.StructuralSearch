@@ -21,9 +21,7 @@ namespace SimpleStateMachine.StructuralSearch
         {
             var _next = next();
             var _nextNext = nextNext();
-                // ?? Parser.OneOf(Parser<char>.End.ThenReturn(string.Empty), Parser<char>.Any.ThenReturn(string.Empty));
-                //  Parser<char>.End.ThenReturn(string.Empty)
-            
+
             Parser<char, Unit> lookahead;
             if (_nextNext is not null)
             {
@@ -98,35 +96,7 @@ namespace SimpleStateMachine.StructuralSearch
             
             return res;
         }
-
-
-        // internal Parser<char, SourceMatch> GetParser()
-        // {
-        //     
-        // }
-        // public override Parser<char, SourceMatch> BuildParser<Res1, Res2>(Func<Parser<char, Res1>> next, Func<Parser<char, Res2>> nextNext)
-        // {
-        //     var _next = next();
-        //     var _nextNext = nextNext();
-        //     var lookahead = Parser.Lookahead(_next.Then(_nextNext).Try());
-        //     var anyString = Parser<char>.Any.AtLeastOnceAsStringUntil(lookahead)
-        //         .Try();
-        //     
-        //     var simpleString = CommonTemplateParser.StringWithoutParenthesisedAndWhiteSpaces;
-        //     var token = Parser.OneOf(simpleString, CommonParser.WhiteSpaces)
-        //         .AtLeastOnce();
-        //     Parser<char, IEnumerable<string>> term = null;
-        //     
-        //     var parenthesised = Parsers.BetweenOneOfChars(Parsers.Stringc, 
-        //         Parser.Rec(() => term), 
-        //         Constant.AllParenthesised);
-        //     
-        //     term = Parser.OneOf(token, parenthesised).AtLeastOnce().MergerMany();
-        //
-        //     // var parser = Parser.OneOf(term.JoinToString(), anyString).AsMatch();
-        //     var parser = term.JoinToString().AsMatch();
-        //     return parser;
-        // }
+        
         public void SetContext(ref IParsingContext context)
         {
             _context = context;

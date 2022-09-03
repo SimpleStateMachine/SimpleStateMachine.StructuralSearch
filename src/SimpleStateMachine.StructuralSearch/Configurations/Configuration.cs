@@ -7,11 +7,8 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
     public class Configuration : IEquatable<Configuration>
     {
         public string FindTemplate { get; init; }
-
         public List<string>? FindRules { get; init; }
-
         public string ReplaceTemplate { get; init; }
-
         public List<string>? ReplaceRules { get; init; }
 
         public bool Equals(Configuration? other)
@@ -25,8 +22,7 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
 
         public override bool Equals(object? obj)
         {
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Configuration)obj);
+            return obj?.GetType() == GetType() && Equals((Configuration)obj);
         }
 
         public override int GetHashCode()
