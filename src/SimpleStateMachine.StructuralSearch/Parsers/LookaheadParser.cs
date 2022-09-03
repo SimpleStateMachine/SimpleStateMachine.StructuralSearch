@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Pidgin;
+﻿using Pidgin;
 
 namespace SimpleStateMachine.StructuralSearch
 {

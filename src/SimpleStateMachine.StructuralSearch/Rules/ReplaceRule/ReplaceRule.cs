@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection.Metadata;
-using Pidgin;
-using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch

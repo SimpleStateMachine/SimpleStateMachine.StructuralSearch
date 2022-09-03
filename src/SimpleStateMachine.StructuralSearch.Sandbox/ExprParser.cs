@@ -1,5 +1,4 @@
-﻿using System;
-using Pidgin;
+﻿using Pidgin;
 using Pidgin.Expression;
 using static Pidgin.Parser;
 

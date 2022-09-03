@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Pidgin;
-using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests

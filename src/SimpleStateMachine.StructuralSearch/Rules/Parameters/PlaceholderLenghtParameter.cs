@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SimpleStateMachine.StructuralSearch.Rules
+﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
     public class PlaceholderLenghtParameter: IRuleParameter
     {

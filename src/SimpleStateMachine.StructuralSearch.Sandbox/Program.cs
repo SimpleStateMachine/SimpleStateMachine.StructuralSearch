@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using Pidgin;
-using SimpleStateMachine.StructuralSearch.Configurations;
+﻿using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
-using SimpleStateMachine.StructuralSearch.Rules;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 using static Pidgin.Parser;
-using String = System.String;
 
 namespace SimpleStateMachine.StructuralSearch.Sandbox
 {

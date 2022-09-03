@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-
-namespace SimpleStateMachine.StructuralSearch.Tests.Examples;
+﻿namespace SimpleStateMachine.StructuralSearch.Tests.Examples;
 
 public class Common
 {

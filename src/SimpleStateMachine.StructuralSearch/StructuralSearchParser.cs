@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Extensions;
@@ -27,7 +26,8 @@ namespace SimpleStateMachine.StructuralSearch
                 .EmptyIfNull()
                 .Select(StructuralSearch.ParseFindRule).ToList();
             
-            ReplaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
+            if(!string.IsNullOrEmpty(configuration.ReplaceTemplate))
+                ReplaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
             
             ReplaceRules = configuration.ReplaceRules
                 .EmptyIfNull()

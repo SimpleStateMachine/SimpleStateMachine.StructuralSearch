@@ -28,7 +28,7 @@
         <Content Include="ExamplesOutput\*.txt">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="ExamplesInput\*.cs">
+        <Content Include="ExamplesInput\*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="FindTemplate\*.txt">

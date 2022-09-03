@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Pidgin;
-using SimpleStateMachine.StructuralSearch.Rules;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests
@@ -29,6 +27,7 @@ namespace SimpleStateMachine.StructuralSearch.Tests
         [InlineData("$var$ Is Int")]
         [InlineData("$var$ Is DateTime")]
         [InlineData("$var$ equals $var1$ or $var2$ equals $var1$")]
+         [InlineData("$var$ match \"[a-b]+\"")]
         public void FindRuleExprParsingShouldBeSuccess(string ruleStr)
         {
             var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);

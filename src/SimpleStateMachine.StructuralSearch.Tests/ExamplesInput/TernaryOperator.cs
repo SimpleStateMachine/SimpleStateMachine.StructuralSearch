@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SimpleStateMachine.StructuralSearch.Tests.ExamplesInput
+﻿namespace SimpleStateMachine.StructuralSearch.Tests.ExamplesInput
 {
     public class TernaryOperator
     {

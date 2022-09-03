@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using System.Threading;
 using Pidgin;
-using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch
 {

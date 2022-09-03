@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Tests.ExamplesInput;
+﻿namespace SimpleStateMachine.StructuralSearch.Tests.ExamplesOutput;
 
 public class NullUnionOperator
 {
