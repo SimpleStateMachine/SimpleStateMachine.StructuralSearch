@@ -1,5 +1,5 @@
 Configurations:
-  - FindTemplate: if($var1$ == $var2$)
+  - FindTemplate: if ($var1$ == $var2$)
     FindRules:
       - $var1$ Is Var
       - $var2$ is Var

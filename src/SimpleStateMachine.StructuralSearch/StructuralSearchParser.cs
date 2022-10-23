@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Extensions;
@@ -13,7 +14,7 @@ namespace SimpleStateMachine.StructuralSearch
         private readonly IFindParser _findParser;
         private readonly IReadOnlyList<IRule> _findRules;
         private readonly IReplaceBuilder _replaceBuilder;
-        private readonly IReadOnlyList<ReplaceRule> _replaceRules;
+        private readonly IReadOnlyList<IReplaceRule> _replaceRules;
         
         public StructuralSearchParser(Configuration configuration)
         {
@@ -23,8 +24,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .EmptyIfNull()
                 .Select(StructuralSearch.ParseFindRule).ToList();
             
-            if(!string.IsNullOrEmpty(configuration.ReplaceTemplate))
-                _replaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
+            _replaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
             
             _replaceRules = configuration.ReplaceRules
                 .EmptyIfNull()
@@ -117,7 +117,7 @@ namespace SimpleStateMachine.StructuralSearch
         {
             foreach (var findRule in _findRules)
             {
-                if(findRule is IContextDependent contextDependent)
+                if (findRule is IContextDependent contextDependent)
                     contextDependent.SetContext(ref context);
             }
         }
@@ -126,7 +126,7 @@ namespace SimpleStateMachine.StructuralSearch
         {
             foreach (var replaceRule in _replaceRules)
             {
-                if(replaceRule is IContextDependent contextDependent)
+                if (replaceRule is IContextDependent contextDependent)
                     contextDependent.SetContext(ref context);
             }
         }

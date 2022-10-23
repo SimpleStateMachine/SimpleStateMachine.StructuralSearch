@@ -1,7 +1,7 @@
 ﻿Configurations:
 #  AssignmentNullUnionOperator
   - FindTemplate: |-
-      if($var$ $sign$ null)
+      if ($var$ $sign$ null)
       {
           $var$ = $value$;
       }
@@ -13,7 +13,7 @@
 #  NullUnionOperator    
 
   - FindTemplate: |-
-      if($value$ $sign$ null)
+      if ($value$ $sign$ null)
           $var$ = $value2$;
       else
           $var$ = $value1$;
@@ -28,7 +28,7 @@
 #  TernaryOperator   
   
   - FindTemplate: |-
-      if($condition$)
+      if ($condition$)
           return $value1$;
       else
           return $value2$;

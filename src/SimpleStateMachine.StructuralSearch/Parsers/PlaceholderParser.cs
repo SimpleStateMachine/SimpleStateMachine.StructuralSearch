@@ -19,29 +19,33 @@ namespace SimpleStateMachine.StructuralSearch
         public override Parser<char, string> BuildParser(Func<Parser<char, string>?> next,
             Func<Parser<char, string>?> nextNext)
         {
-            var _next = next();
-            var _nextNext = nextNext();
+            var nextParser = next();
+            var nextNextParser = nextNext();
 
+            if (nextParser is null)
+                return EmptyParser.AlwaysNotCorrectString;
+            
             Parser<char, Unit> lookahead;
-            if (_nextNext is not null)
+            if (nextNextParser is not null)
             {
-                lookahead = Parsers.Lookahead(_next.Then(_nextNext, (s1, s2) =>
+            
+                lookahead = Parser.Lookahead(nextParser.Then(nextNextParser, (s1, s2) =>
                 {
                     OnLookahead = () => new List<LookaheadResult<char, string>>
                     {
-                        new(_next, s1, s1.Length),
-                        new(_nextNext, s2, s2.Length),
+                        new(nextParser, s1, s1.Length),
+                        new(nextNextParser, s2, s2.Length),
                     };
                     return Unit.Value;
                 }).Try());
             }
             else
             {
-                lookahead = Parsers.Lookahead(_next.Select(s =>
+                lookahead = Parser.Lookahead(nextParser.Select(s =>
                 {
                     OnLookahead = () => new List<LookaheadResult<char, string>>
                     {
-                        new(_next, s, s.Length)
+                        new(nextParser, s, s.Length)
                     };
                     return Unit.Value;
                 }).Try());  

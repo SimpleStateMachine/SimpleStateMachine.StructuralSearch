@@ -3,7 +3,7 @@ using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
 
-public class ParameterParserTests
+public static class ParameterParserTests
 {
     [Theory]
     [InlineData("\\\"132\\\"")]
@@ -14,18 +14,18 @@ public class ParameterParserTests
     [InlineData(" ")]
     [InlineData("( )")]
     [InlineData("( )( )")]
-    public void StringParameterParsingShouldBeSuccess(string str)
+    public static void StringParameterParsingShouldBeSuccess(string str)
     {
         var parameter = ParametersParser.StringParameter.ParseOrThrow(str);
-        var parameterStr = parameter.ToString().ToLower();
-        Assert.Equal(parameterStr.ToLower(), str.ToLower());
+        var parameterStr = parameter.ToString()?.ToLower();
+        Assert.Equal(parameterStr?.ToLower(), str.ToLower());
     }
     
     [Theory]
     [InlineData("\"132\"")]
     [InlineData("( ")]
     [InlineData("( )(")]
-    public void StringParameterParsingShouldBeFail(string str)
+    public static void StringParameterParsingShouldBeFail(string str)
     {
         Assert.Throws<ParseException>(() =>
         {
@@ -42,16 +42,16 @@ public class ParameterParserTests
     [InlineData("\"123$var1$.Lenght456\"")]
     [InlineData("\" \\\"132\\\" \"")]
     [InlineData("\" \"")]
-    public void StringFormatParameterParsingShouldBeSuccess(string str)
+    public static void StringFormatParameterParsingShouldBeSuccess(string str)
     {
         var parameter = ParametersParser.StringFormatParameter.ParseOrThrow(str);
-        var parameterStr = parameter.ToString().ToLower();
-        Assert.Equal(parameterStr.ToLower(), str.ToLower());
+        var parameterStr = parameter.ToString()?.ToLower();
+        Assert.Equal(parameterStr?.ToLower(), str.ToLower());
     }
     
     [Theory]
     [InlineData("\\\"132\\\"")]
-    public void StringFormatParameterParsingShouldBeFail(string str)
+    public static void StringFormatParameterParsingShouldBeFail(string str)
     {
         Assert.Throws<ParseException>(() => ParametersParser.StringFormatParameter.ParseOrThrow(str));
     }
@@ -64,11 +64,11 @@ public class ParameterParserTests
     [InlineData("$var$.RemoveSubStr(\"123\")")]
     [InlineData("$var$.Lenght.RemoveSubStr(\"123\")")]
     [InlineData("$var$.Lenght.Trim.RemoveSubStr(\"123\")")]
-    public void ParameterParsingShouldBeSuccess(string str)
+    public static void ParameterParsingShouldBeSuccess(string str)
     {
         var parameter = ParametersParser.Parameter.ParseOrThrow(str);
-        var parameterStr = parameter.ToString().ToLower();
-        Assert.Equal(parameterStr.ToLower(), str.ToLower());
+        var parameterStr = parameter.ToString()?.ToLower();
+        Assert.Equal(parameterStr?.ToLower(), str.ToLower());
     }
     
 }

@@ -6,11 +6,22 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
 {
     public class ConfigurationFile: IEquatable<ConfigurationFile>
     {
+        // Use for deserialization
+        public ConfigurationFile()
+        {
+            Configurations = new List<Configuration>();
+        }
+        
+        public ConfigurationFile(List<Configuration> configurations)
+        {
+            Configurations = configurations;
+        }
+
         public List<Configuration> Configurations { get; init; }
 
         public bool Equals(ConfigurationFile? other)
         {
-            return Configurations.SequenceEqual(other.Configurations);
+            return other?.Configurations != null && Configurations.SequenceEqual(other.Configurations);
         }
 
         public override bool Equals(object? obj)

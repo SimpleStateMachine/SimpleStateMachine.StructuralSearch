@@ -9,12 +9,12 @@ namespace SimpleStateMachine.StructuralSearch.Helper
     {
         public static ConfigurationFile Parse(string filePath)
         {
-            var yml = File.ReadAllText(filePath);
+            var textReader =  File.OpenText(filePath);
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(PascalCaseNamingConvention.Instance)
                 .Build();
             
-            var cfg = deserializer.Deserialize<ConfigurationFile>(yml);
+            var cfg = deserializer.Deserialize<ConfigurationFile>(textReader);
             return cfg;
         }
     }

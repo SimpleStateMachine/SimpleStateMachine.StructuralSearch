@@ -53,54 +53,11 @@ namespace SimpleStateMachine.StructuralSearch
         
         private static readonly Parser<char, SeriesParser> SeriesParser;
         
-        internal static IFindParser ParseTemplate(string str)
+        internal static IFindParser ParseTemplate(string? str)
         {
-            return SeriesParser.Select(parser => new FindParser(parser)).ParseOrThrow(str);
+            return string.IsNullOrEmpty(str)
+                ? FindParser.Empty 
+                : SeriesParser.Select(parser => new FindParser(parser)).ParseOrThrow(str);
         }
-        
-        
-        
-        
-        // static FindTemplateParser()
-        // {
-        //     Parenthesised = Parsers.BetweenOneOfChars(ParserToParser.StringcMatch,
-        //         Parser.Rec(() => Term.Or(Empty)),
-        //         Constant.AllParenthesised);
-        //
-        //     Term = Parser.OneOf(Parenthesised, Token)
-        //         .AtLeastOnce();
-        //
-        //     
-        //     TemplateParser = Term;
-        // }
-        
-        
-        // internal static readonly Parser<char, Parser<char, SourceMatch>> Empty =
-        //     ParserToParser.ResultAsMatch(CommonParser.Empty);  
-        //
-        // internal static readonly Parser<char, Parser<char, SourceMatch>> AnyString =
-        //     ParserToParser.ResultAsMatch(CommonParser.AnyString).Try();
-        //     
-        // internal static readonly Parser<char, Parser<char, SourceMatch>> WhiteSpaces =
-        //     ParserToParser.ResultAsMatch(CommonParser.WhiteSpaces).Try();  
-        //
-        // internal static readonly Parser<char, Parser<char, SourceMatch>> Placeholder = 
-        //     CommonTemplateParser.Placeholder
-        //         .Select(name => new PlaceholderParser(name))
-        //         .Cast<Parser<char, SourceMatch>>(); 
-        //
-        // internal static readonly Parser<char, Parser<char, SourceMatch>> Token =
-        //     Parser.OneOf(AnyString, Placeholder, WhiteSpaces); 
-        //
-        // internal static readonly Parser<char, Parser<char, SourceMatch>> Term;
-        //
-        // internal static readonly Parser<char, Parser<char, SourceMatch>> Parenthesised;
-        //
-        // private static readonly Parser<char, Parser<char, SourceMatch>> TemplateParser;
-        //
-        // internal static Parser<char, SourceMatch> ParseTemplate(string str)
-        // {
-        //     return TemplateParser.ParseOrThrow(str);
-        // }
     }
 }

@@ -9,7 +9,7 @@ public class Common2
         return temp == 6 ? 7 : 8;
     }
 
-    public void Method2()
+    public static void Method2()
     {
         int? result;
         int? temp1 = 5;
@@ -17,7 +17,7 @@ public class Common2
         result = temp1 ?? temp2;
     }
         
-    public void Method3()
+    public static void Method3()
     {
         int result;
         int? temp1 = 5;

@@ -75,9 +75,11 @@ namespace SimpleStateMachine.StructuralSearch
             )
         );
 
-        internal static IRule ParseTemplate(string str)
+        internal static IRule ParseTemplate(string? str)
         {
-            return Expr.Before(CommonParser.EOF).ParseOrThrow(str);
+            return string.IsNullOrEmpty(str)
+                ? Rule.Empty
+                : Expr.Before(CommonParser.EOF).ParseOrThrow(str);
         }
     }
 }

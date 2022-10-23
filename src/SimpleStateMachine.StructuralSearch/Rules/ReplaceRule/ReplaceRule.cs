@@ -3,12 +3,13 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public class ReplaceRule: IContextDependent
+    public class ReplaceRule : IReplaceRule
     {
-        public readonly IRule ConditionRule;
+        public static readonly IReplaceRule Empty = new EmptyReplaceRule();
         
         public IEnumerable<ReplaceSubRule> Rules { get; }
-        
+        public IRule ConditionRule { get; }
+
         public ReplaceRule(IRule conditionRule, IEnumerable<ReplaceSubRule> rules)
         {
             ConditionRule = conditionRule;

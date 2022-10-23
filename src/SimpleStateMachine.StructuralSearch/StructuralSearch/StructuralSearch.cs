@@ -1,20 +1,21 @@
-﻿using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
+﻿using System.Diagnostics.CodeAnalysis;
+using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
 using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
 {
     public static class StructuralSearch
     {
-        public static IFindParser ParseFindTemplate(string template) 
+        public static IFindParser ParseFindTemplate(string? template) 
             => FindTemplateParser.ParseTemplate(template);
         
-        public static IReplaceBuilder ParseReplaceTemplate(string template) 
+        public static IReplaceBuilder ParseReplaceTemplate(string? template) 
             => ReplaceTemplateParser.ParseTemplate(template);
         
-        public static IRule ParseFindRule(string template) 
+        public static IRule ParseFindRule(string? template) 
             => FindRuleParser.ParseTemplate(template);
         
-        public static ReplaceRule ParseReplaceRule(string template) 
+        public static IReplaceRule ParseReplaceRule(string? template) 
             => ReplaceRuleParser.ParseTemplate(template);
     }
 }
