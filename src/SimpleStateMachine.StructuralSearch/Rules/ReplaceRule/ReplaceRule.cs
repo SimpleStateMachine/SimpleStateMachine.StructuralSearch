@@ -5,7 +5,7 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class ReplaceRule : IReplaceRule
     {
-        public static readonly IReplaceRule Empty = new EmptyReplaceRule();
+        public static readonly EmptyReplaceRule Empty = new ();
         
         public IEnumerable<ReplaceSubRule> Rules { get; }
         public IRule ConditionRule { get; }
