@@ -51,7 +51,8 @@ namespace SimpleStateMachine.StructuralSearch
                 }
             }
             
-            SetFindRulesContext(ref ParsingContext.Empty);
+            IParsingContext emptyParsingContext = ParsingContext.Empty;
+            SetFindRulesContext(ref emptyParsingContext);
             return result;
         }
         public IEnumerable<FindParserResult> ApplyReplaceRule(ref IParsingContext context, IEnumerable<FindParserResult> matches)
@@ -85,8 +86,9 @@ namespace SimpleStateMachine.StructuralSearch
                 
                 result.Add(match with { Placeholders = placeholders });
             }
-            
-            SetReplaceRulesContext(ref ParsingContext.Empty);
+
+            IParsingContext emptyParsingContext = ParsingContext.Empty;
+            SetReplaceRulesContext(ref emptyParsingContext);
 
             return result;
         }
