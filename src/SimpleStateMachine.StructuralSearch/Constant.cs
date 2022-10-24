@@ -95,7 +95,7 @@
         /// <summary>
         /// Char: '='
         /// </summary>
-        private const char Equals = '=';
+        private new const char Equals = '=';
         
         /// <summary>
         /// Char: '>'

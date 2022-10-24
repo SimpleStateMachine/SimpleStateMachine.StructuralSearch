@@ -1,4 +1,4 @@
-﻿if(var1 is null)
+﻿if (var1 is null)
     temp = var2;
 else
     temp = var1;

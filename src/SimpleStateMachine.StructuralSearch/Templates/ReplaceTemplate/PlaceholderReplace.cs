@@ -3,7 +3,6 @@
     public class PlaceholderReplace : IReplaceStep, IContextDependent
     {
         private IParsingContext _context;
-
         private readonly string _name;
 
         public PlaceholderReplace(string name)

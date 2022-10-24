@@ -32,9 +32,11 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try()
                 .TrimStart();
 
-        internal static ReplaceRule ParseTemplate(string str)
+        internal static IReplaceRule ParseTemplate(string? str)
         {
-            return ReplaceRule.Before(CommonParser.EOF).ParseOrThrow(str);
+            return string.IsNullOrEmpty(str)
+                ? SimpleStateMachine.StructuralSearch.ReplaceRule.Empty
+                : ReplaceRule.Before(CommonParser.EOF).ParseOrThrow(str);
         }
     }
 }

@@ -8,7 +8,7 @@ using SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    internal class ReplaceTemplateParser
+    internal static class ReplaceTemplateParser
     {
         static ReplaceTemplateParser()
         {
@@ -47,9 +47,11 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly Parser<char, IEnumerable<IRuleParameter>> ParenthesisedParameters;
         public static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters;
 
-        internal static IReplaceBuilder ParseTemplate(string str)
+        internal static IReplaceBuilder ParseTemplate(string? str)
         {
-            return Parameters
+            return string.IsNullOrEmpty(str)
+                ? ReplaceBuilder.Empty
+                : Parameters
                 .Select(steps => new ReplaceBuilder(steps))
                 .ParseOrThrow(str);
         }

@@ -8,6 +8,8 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public class FindParser : IFindParser
     {
+        public static readonly IFindParser Empty = new EmptyFindParser();
+        
         private SeriesParser Parser { get; }
         public FindParser(SeriesParser parser)    
         {

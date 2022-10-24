@@ -35,7 +35,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions
         
         public static bool TryParse(this Parser<char, string> parser, string value, out string? result)
         {
-            if(parser is null)
+            if (parser is null)
                 throw new ArgumentNullException(nameof(parser));
             
             var res = parser.Parse(value);

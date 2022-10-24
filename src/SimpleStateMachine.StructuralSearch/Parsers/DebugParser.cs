@@ -2,7 +2,7 @@
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public class DebugParser<TToken, T>: Parser<TToken, T>
+    public class DebugParser<TToken, T> : Parser<TToken, T>
     {
         private readonly Parser<TToken, T> _parser;
         public DebugParser(Parser<TToken, T> parser)

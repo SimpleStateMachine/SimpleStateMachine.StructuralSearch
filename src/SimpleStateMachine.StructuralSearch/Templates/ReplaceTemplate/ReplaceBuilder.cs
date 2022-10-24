@@ -6,6 +6,8 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
 {
     public class ReplaceBuilder : IReplaceBuilder
     {
+        public static readonly IReplaceBuilder Empty = new EmptyReplaceBuilder();
+        
         public IEnumerable<IRuleParameter> Steps { get; }
 
         public ReplaceBuilder(IEnumerable<IRuleParameter> steps)

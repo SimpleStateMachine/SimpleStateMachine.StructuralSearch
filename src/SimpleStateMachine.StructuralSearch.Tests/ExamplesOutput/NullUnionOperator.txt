@@ -8,10 +8,7 @@ public class NullUnionOperator
         int? temp1 = 5;
         int? temp2 = 5; 
         
-        if (temp1 is null)
-            result = temp2;
-        else
-            result =  temp1;
+        result = temp1 ?? temp2;
     }
         
     public static void Test2()
@@ -20,9 +17,6 @@ public class NullUnionOperator
         int? result;
         int? temp1 = 6;
         int? temp2 = 7;
-        if (temp1 is not null)
-            result = temp2;
-        else
-            result =  temp1;
+        result = temp2 ?? temp1;
     }
 }

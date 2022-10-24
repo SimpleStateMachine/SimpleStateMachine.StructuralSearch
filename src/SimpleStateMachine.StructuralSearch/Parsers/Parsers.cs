@@ -110,11 +110,6 @@ namespace SimpleStateMachine.StructuralSearch
             return Parsers.String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
         }
         
-        public static Parser<TToken, T> Lookahead<TToken, T>(Parser<TToken, T> parser) => 
-            parser != null ? (Parser<TToken, T>) 
-            new LookaheadParser<TToken, T>(parser) 
-            : throw new ArgumentNullException(nameof (parser));
-        
         public static Parser<char, Match<T>> Match<T>(Parser<char, T> parser)
         {
             return Map((oldPos, oldOffset, result, newPos, newOffset) =>

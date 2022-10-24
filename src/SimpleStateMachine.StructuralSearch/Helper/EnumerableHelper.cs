@@ -9,8 +9,11 @@ namespace SimpleStateMachine.StructuralSearch.Helper
         {
             if (first is null && second is null)
                 return true;
+            
+            if (first is null || second is null)
+                return false;
 
-            return Enumerable.SequenceEqual(first, second);
+            return first.SequenceEqual(second);
         }
     }
 }

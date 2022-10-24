@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Tests.ExamplesInput
+﻿namespace SimpleStateMachine.StructuralSearch.Tests.Examples
 {
     public class TernaryOperator
     {
@@ -6,7 +6,7 @@
         {
             var temp = 1;
             
-            if(temp == 2)
+            if (temp == 2)
                 return 3;
             else
                 return 4;
@@ -16,7 +16,7 @@
         {
             var temp = 5;
             
-            if(temp == 6)
+            if (temp == 6)
                 return 7;
             else
                 return 8;
@@ -26,25 +26,13 @@
         {
             var temp2 = 1;
             
-            if(temp2 == 2)
+            if (temp2 == 2)
                 return 3;
             else
                 return 4; 
         }
         
-        public int Test4()
-        {
-            var temp3 = 5;
-            
-            if(temp3 == 6)
-                return 7;
-            else if (temp3 == 8)
-                return 9;
-            else
-                return 10;
-        }
-        
-        public void Test5()
+        public static void Test5()
         {
             
         }
