@@ -18,7 +18,7 @@ public static class ReplaceRuleParserTests
     public static void ReplaceRuleParsingShouldBeSuccess(string replaceRule)
     {
         var rule = StructuralSearch.ParseReplaceRule(replaceRule);
-        var ruleStr = rule.ToString().ToLower();
+        var ruleStr = rule.ToString()?.ToLower();
         Assert.NotNull(rule);
         Assert.Equal(ruleStr, replaceRule.ToLower());
     }
@@ -28,7 +28,7 @@ public static class ReplaceRuleParserTests
     public static void ReplaceRuleShouldBeEqualsString(string replaceRule, string customResult)
     {
         var rule = StructuralSearch.ParseReplaceRule(replaceRule);
-        var ruleStr = rule.ToString().ToLower();
+        var ruleStr = rule.ToString()?.ToLower();
         Assert.NotNull(rule);
         Assert.Equal(ruleStr, customResult.ToLower());
     }
