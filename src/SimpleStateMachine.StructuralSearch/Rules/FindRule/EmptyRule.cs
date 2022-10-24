@@ -14,5 +14,5 @@ public class EmptyRule: IRule
 
 public static class Rule
 {
-    public static readonly IRule Empty = new EmptyRule();
+    public static readonly EmptyRule Empty = new();
 }
