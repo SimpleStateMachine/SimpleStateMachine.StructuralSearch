@@ -7,7 +7,7 @@ public class EmptyRule: IRule
         return true;
             
     }
-    public void SetContext(ref IParsingContext context)
+    public void SetContext(IParsingContext context)
     {
     }
 }

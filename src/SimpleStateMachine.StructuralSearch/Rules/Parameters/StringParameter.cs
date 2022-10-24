@@ -22,7 +22,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return $"{value}";
         }
 
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
             
         }

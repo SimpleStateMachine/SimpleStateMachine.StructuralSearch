@@ -32,9 +32,9 @@ public class ChangeUnaryParameter : IRuleParameter
         return $"{_parameter}{Constant.Dote}{_type}{Constant.LeftParenthesis}{_arg}{Constant.RightParenthesis}";
     }
 
-    public void SetContext(ref IParsingContext context)
+    public void SetContext(IParsingContext context)
     {
-        _parameter.SetContext(ref context);
-        _arg.SetContext(ref context);
+        _parameter.SetContext(context);
+        _arg.SetContext(context);
     }
 }

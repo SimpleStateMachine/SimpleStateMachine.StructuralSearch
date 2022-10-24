@@ -101,7 +101,7 @@ namespace SimpleStateMachine.StructuralSearch
             return res;
         }
         
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
             _context = context;
         }

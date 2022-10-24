@@ -33,13 +33,13 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return $"{_parameter}{Constant.Space}{SubRuleType.In}{Constant.Space}{string.Join(Constant.Comma, _arguments.Select(x=>x.ToString()))}";
         }
 
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
-            _parameter.SetContext(ref context);
+            _parameter.SetContext(context);
 
             foreach (var argument in _arguments)
             {
-                argument.SetContext(ref context);
+                argument.SetContext(context);
             }
         }
     }

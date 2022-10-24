@@ -33,9 +33,9 @@ namespace SimpleStateMachine.StructuralSearch
             return $"{_parameter}{Constant.Dote}{_type}";
         }
 
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
-            _parameter.SetContext(ref context);
+            _parameter.SetContext(context);
         }
     }
 }

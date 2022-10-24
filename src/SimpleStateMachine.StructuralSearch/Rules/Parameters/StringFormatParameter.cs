@@ -22,11 +22,11 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return $"{Constant.DoubleQuotes}{string.Join(string.Empty, Parameters.Select(x=> x.ToString()))}{Constant.DoubleQuotes}";
         }
 
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
             foreach (var parameter in Parameters)
             {
-                parameter.SetContext(ref context);
+                parameter.SetContext(context);
             }
         }
     }

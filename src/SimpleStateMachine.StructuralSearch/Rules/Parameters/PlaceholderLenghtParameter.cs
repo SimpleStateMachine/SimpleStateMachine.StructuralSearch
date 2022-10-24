@@ -21,9 +21,9 @@
             return $"{_placeholderParameter}{Constant.Dote}{_property}";
         }
 
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
-            _placeholderParameter.SetContext(ref context);
+            _placeholderParameter.SetContext(context);
         }
     }
 }

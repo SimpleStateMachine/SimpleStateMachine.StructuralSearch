@@ -21,13 +21,13 @@ namespace SimpleStateMachine.StructuralSearch
             return $"{ConditionRule}{Constant.Space}{Constant.Then}{Constant.Space}{string.Join(Constant.Comma, Rules)}";
         }
 
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
-            ConditionRule.SetContext(ref context);
+            ConditionRule.SetContext(context);
 
             foreach (var rule in Rules)
             {
-                rule.SetContext(ref context);
+                rule.SetContext(context);
             }
         }
     }

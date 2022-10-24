@@ -19,7 +19,7 @@ public static class StructuralSearchParserTests
         var input = Input.File(fileInfo);
         IParsingContext context = new ParsingContext(input);
            
-        var matches = parser.Parse(ref context);
+        var matches = parser.Parse(context);
         Assert.Equal(matches.Count(), matchesCount);
     }
         
@@ -39,9 +39,9 @@ public static class StructuralSearchParserTests
         var inputFileInfo = new FileInfo(inputFilePath);
         var input = Input.File(inputFileInfo);
         IParsingContext context = new ParsingContext(input);
-        var matches = parser.Parse(ref context);
-        matches = parser.ApplyFindRule(ref context, matches);
-        matches = parser.ApplyReplaceRule(ref context, matches);
+        var matches = parser.Parse(context);
+        matches = parser.ApplyFindRule(context, matches);
+        matches = parser.ApplyReplaceRule(context, matches);
         var replaceMatches = parser.GetReplaceMatches(ref context, matches);
         var outputFileInfo = new FileInfo(outputFilePath);
         var output = Output.File(outputFileInfo);

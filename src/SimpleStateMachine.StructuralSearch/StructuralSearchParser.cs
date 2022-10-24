@@ -31,16 +31,16 @@ namespace SimpleStateMachine.StructuralSearch
                 .Select(StructuralSearch.ParseReplaceRule).ToList();
         }
 
-        public IEnumerable<FindParserResult> Parse(ref IParsingContext context)
+        public IEnumerable<FindParserResult> Parse(IParsingContext context)
         {
             var matches = _findParser.Parse(ref context);
             return matches;
         }
 
-        public IEnumerable<FindParserResult> ApplyFindRule(ref IParsingContext context, IEnumerable<FindParserResult> matches)
+        public IEnumerable<FindParserResult> ApplyFindRule(IParsingContext context, IEnumerable<FindParserResult> matches)
         {
             var result = new List<FindParserResult>();
-            SetFindRulesContext(ref context);
+            SetFindRulesContext(context);
             foreach (var match in matches)
             {
                 context.Fill(match.Placeholders);
@@ -51,12 +51,12 @@ namespace SimpleStateMachine.StructuralSearch
                 }
             }
             
-            SetFindRulesContext(ref ParsingContext.Empty);
+            SetFindRulesContext(ParsingContext.Empty);
             return result;
         }
-        public IEnumerable<FindParserResult> ApplyReplaceRule(ref IParsingContext context, IEnumerable<FindParserResult> matches)
+        public IEnumerable<FindParserResult> ApplyReplaceRule(IParsingContext context, IEnumerable<FindParserResult> matches)
         {
-            SetReplaceRulesContext(ref context);
+            SetReplaceRulesContext(context);
             var result = new List<FindParserResult>();
             
             foreach (var match in matches)
@@ -86,7 +86,7 @@ namespace SimpleStateMachine.StructuralSearch
                 result.Add(match with { Placeholders = placeholders });
             }
             
-            SetReplaceRulesContext(ref ParsingContext.Empty);
+            SetReplaceRulesContext(ParsingContext.Empty);
 
             return result;
         }
@@ -113,21 +113,21 @@ namespace SimpleStateMachine.StructuralSearch
         }
 
 
-        private void SetFindRulesContext(ref IParsingContext context)
+        private void SetFindRulesContext(IParsingContext context)
         {
             foreach (var findRule in _findRules)
             {
                 if (findRule is IContextDependent contextDependent)
-                    contextDependent.SetContext(ref context);
+                    contextDependent.SetContext(context);
             }
         }
         
-        private void SetReplaceRulesContext(ref IParsingContext context)
+        private void SetReplaceRulesContext(IParsingContext context)
         {
             foreach (var replaceRule in _replaceRules)
             {
                 if (replaceRule is IContextDependent contextDependent)
-                    contextDependent.SetContext(ref context);
+                    contextDependent.SetContext(context);
             }
         }
     }

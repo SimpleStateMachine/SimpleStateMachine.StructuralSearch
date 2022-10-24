@@ -23,7 +23,7 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
             {
                 if (step is IContextDependent contextDependentStep)
                 {
-                    contextDependentStep.SetContext(ref context);
+                    contextDependentStep.SetContext(context);
                 }
                 
                 stringBuilder.Append(step.GetValue());

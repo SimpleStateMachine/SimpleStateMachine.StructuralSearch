@@ -37,10 +37,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return $"{_left}{Constant.Space}{_type}{Constant.Space}{_right}";
         }
 
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
-            _left.SetContext(ref context);
-            _right.SetContext(ref context);
+            _left.SetContext(context);
+            _right.SetContext(context);
         }
     }
 }

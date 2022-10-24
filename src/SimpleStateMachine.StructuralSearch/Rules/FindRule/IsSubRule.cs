@@ -34,9 +34,9 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return $"{_parameter}{Constant.Space}{SubRuleType.Is}{Constant.Space}{_argument}";
         }
 
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
-            _parameter.SetContext(ref context);
+            _parameter.SetContext(context);
         }
     }
 }

@@ -26,11 +26,11 @@ public class ParenthesisedParameter : IRuleParameter
         return string.Format(_template, string.Join(string.Empty, _parameters.Select(x=> x.ToString())));
     }
 
-    public void SetContext(ref IParsingContext context)
+    public void SetContext(IParsingContext context)
     {
         foreach (var parameter in _parameters)
         {
-            parameter.SetContext(ref context);
+            parameter.SetContext(context);
         }
     }
 

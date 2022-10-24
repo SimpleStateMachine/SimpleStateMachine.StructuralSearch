@@ -15,7 +15,7 @@
             return _context.GetPlaceholder(_name).Value;
         }
 
-        public void SetContext(ref IParsingContext context)
+        public void SetContext(IParsingContext context)
         {
             _context = context;
         }

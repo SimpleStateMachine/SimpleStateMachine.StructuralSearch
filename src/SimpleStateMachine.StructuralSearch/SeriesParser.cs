@@ -61,13 +61,13 @@ namespace SimpleStateMachine.StructuralSearch
             return true;
         }
         
-        public void SetContext(ref IParsingContext parsingContext)
+        public void SetContext(IParsingContext parsingContext)
         {
             foreach (var parser in _parsers)
             {
                 if (parser is IContextDependent element)
                 {
-                    element.SetContext(ref parsingContext);
+                    element.SetContext(parsingContext);
                 }
             }
         }

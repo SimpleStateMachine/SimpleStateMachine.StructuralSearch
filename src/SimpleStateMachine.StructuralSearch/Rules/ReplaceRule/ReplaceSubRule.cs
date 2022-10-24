@@ -18,9 +18,9 @@ public class ReplaceSubRule: IContextDependent
         return $"{Placeholder}{Constant.Space}{Constant.Should}{Constant.Space}{Parameter}";
     }
 
-    public void SetContext(ref IParsingContext context)
+    public void SetContext(IParsingContext context)
     {
-        Placeholder.SetContext(ref context);
-        Parameter.SetContext(ref context);
+        Placeholder.SetContext(context);
+        Parameter.SetContext(context);
     }
 }
