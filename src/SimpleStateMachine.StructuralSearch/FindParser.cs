@@ -21,6 +21,8 @@ namespace SimpleStateMachine.StructuralSearch
             List<FindParserResult> matches = new();
             StringBuilder res = new();
 
+            Parser.SetContext(ref context);
+            
             var parsingContext = context;
             var parser = Parser.Select(x => string.Join(string.Empty, x))
                 .Match()

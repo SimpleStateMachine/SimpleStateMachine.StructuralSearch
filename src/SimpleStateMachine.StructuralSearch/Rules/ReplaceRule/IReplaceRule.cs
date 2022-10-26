@@ -14,8 +14,4 @@ public class EmptyReplaceRule : IReplaceRule
 {
     public IEnumerable<ReplaceSubRule> Rules { get; } = Array.Empty<ReplaceSubRule>();
     public IRule ConditionRule => Rule.Empty;
-
-    public void SetContext(ref IParsingContext context)
-    {
-    }
 }

@@ -11,8 +11,4 @@ public class EmptySubRule : IRule
     {
         return $"{Constant.Underscore}";
     }
-
-    public void SetContext(ref IParsingContext context)
-    {
-    }
 }

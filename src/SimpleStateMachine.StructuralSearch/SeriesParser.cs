@@ -4,10 +4,10 @@ using Pidgin;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public class SeriesParser : Parser<char, IEnumerable<string>>
+    public class SeriesParser : Parser<char, IEnumerable<string>>, IContextDependent
     {
         private readonly IEnumerable<Parser<char, string>> _parsers;
-        
+
         public SeriesParser(IEnumerable<Parser<char, string>> parsers)
         {
             _parsers = parsers;
@@ -74,6 +74,17 @@ namespace SimpleStateMachine.StructuralSearch
 
             result = results;
             return true;
+        }
+        
+        public void SetContext(ref IParsingContext parsingContext)
+        {
+            foreach (var parser in _parsers)
+            {
+                if (parser is IContextDependent element)
+                {
+                    element.SetContext(ref parsingContext);
+                }
+            }
         }
     }
 }

@@ -5,10 +5,10 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch
 {
-    public class PlaceholderParser : ParserWithLookahead<char, string>
+    public class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
     {
         private readonly string _name;
-        
+        private IParsingContext _context;
         public PlaceholderParser(string name)
         {
             _name = name;
@@ -79,7 +79,7 @@ namespace SimpleStateMachine.StructuralSearch
             bool res;
 
             // No use look-ahead if placeholder is already defined
-            if (context.TryGetPlaceholder(_name, out var placeholder))
+            if (_context.TryGetPlaceholder(_name, out var placeholder))
             {
                 res = Parser.String(placeholder.Value).TryParse(ref state, ref expected, out result);
             }
@@ -89,14 +89,19 @@ namespace SimpleStateMachine.StructuralSearch
                 result = match.Value;
                 if (res)
                 {
-                    context.AddPlaceholder(new Placeholder(
-                        context: ref context,
+                    _context.AddPlaceholder(new Placeholder(
+                        context: ref _context,
                         name: _name,
                         match: match));
                 }
             }
             
             return res;
+        }
+        
+        public void SetContext(ref IParsingContext context)
+        {
+            _context = context;
         }
     }
 }
