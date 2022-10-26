@@ -28,7 +28,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .Match()
                 .ThenInvoke(match =>
                 {
-                    var placeholders= parsingContext.SwitchOnNew();
+                    var placeholders = parsingContext.Clear();
                     matches.Add(new FindParserResult(match, placeholders));
                 })
                 .ThenReturn(Unit.Value)
@@ -38,7 +38,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .ThenInvoke(x =>
                 {
                     res.Append(x);
-                    parsingContext.SwitchOnNew();
+                    parsingContext.Clear();
                 })
                 .ThenReturn(Unit.Value);
             

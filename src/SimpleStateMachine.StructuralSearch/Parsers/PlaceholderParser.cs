@@ -55,7 +55,7 @@ namespace SimpleStateMachine.StructuralSearch
 
             var simpleString = CommonTemplateParser.StringWithPlshd;
             var token = Parser.OneOf(simpleString, CommonParser.WhiteSpaces).Try();
-            Parser<char, string> term = null;
+            Parser<char, string>? term = null;
 
             var parenthesised = Parsers.BetweenOneOfChars(x => Parser.Char(x).AsString(),
                 expr: Parser.Rec(() => term),
