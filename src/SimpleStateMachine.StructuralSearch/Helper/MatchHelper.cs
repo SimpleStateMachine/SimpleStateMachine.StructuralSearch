@@ -12,7 +12,7 @@ public static class MatchHelper
             (Constant.LeftParenthesis, Constant.RightParenthesis) => ParenthesisType.Usual,
             (Constant.LeftSquareParenthesis, Constant.RightSquareParenthesis) => ParenthesisType.Square,
             (Constant.LeftCurlyParenthesis, Constant.RightCurlyParenthesis) => ParenthesisType.Curly,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new ArgumentOutOfRangeException(nameof(parenthesis), parenthesis, null)
         };
 
         return type;

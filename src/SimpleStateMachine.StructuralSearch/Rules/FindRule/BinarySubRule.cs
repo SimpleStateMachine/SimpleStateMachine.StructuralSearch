@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
@@ -28,7 +29,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
                 SubRuleType.StartsWith => left.StartsWith(right),
                 SubRuleType.EndsWith => left.EndsWith(right),
                 SubRuleType.Match => Regex.IsMatch(left, right),
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(_type).FormatPrivateVar(), _type, null)
             };
         }
         

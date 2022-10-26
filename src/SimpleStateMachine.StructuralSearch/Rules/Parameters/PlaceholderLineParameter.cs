@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
@@ -22,7 +23,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             {
                 LineProperty.Start => line.Start,
                 LineProperty.End => line.End,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(_property).FormatPrivateVar(), _property, null)
             };
 
             return value.ToString();

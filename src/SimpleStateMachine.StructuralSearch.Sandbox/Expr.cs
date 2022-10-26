@@ -96,7 +96,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 UnaryOperatorType.Decrement => Expr.Invoke() - 1,
                 UnaryOperatorType.Plus => - Expr.Invoke(),
                 UnaryOperatorType.Minus => + Expr.Invoke(),
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(Type), Type, null)
             };
         }
     }
@@ -135,7 +135,7 @@ namespace SimpleStateMachine.StructuralSearch.Sandbox
                 BinaryOperatorType.Mul => Left.Invoke() * Right.Invoke(),
                 BinaryOperatorType.Div => Left.Invoke() / Right.Invoke(),
                 BinaryOperatorType.Sub => Left.Invoke() - Right.Invoke(),
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(Type), Type, null)
             };
         }
     }

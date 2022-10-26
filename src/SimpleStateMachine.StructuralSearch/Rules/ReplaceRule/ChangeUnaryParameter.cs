@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
@@ -23,7 +24,7 @@ public class ChangeUnaryParameter : IRuleParameter
         return _type switch
         {
             ChangeUnaryType.RemoveSubStr => parameter.Replace(arg, string.Empty),
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new ArgumentOutOfRangeException(nameof(_type).FormatPrivateVar(), _type, null)
         };
     }
         
