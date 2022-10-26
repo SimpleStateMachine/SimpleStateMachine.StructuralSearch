@@ -69,7 +69,7 @@ namespace SimpleStateMachine.StructuralSearch
                 List<ReplaceSubRule> rules = new();
                 foreach (var replaceRule in _replaceRules)
                 {
-                    if (replaceRule.ConditionRule.Execute(ref context))
+                    if (replaceRule.IsMatch(ref context))
                     {
                         rules.AddRange(replaceRule.Rules);
                     }

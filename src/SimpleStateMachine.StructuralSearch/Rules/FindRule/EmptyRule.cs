@@ -5,7 +5,6 @@ public class EmptyRule: IRule
     public bool Execute(ref IParsingContext context)
     {
         return true;
-            
     }
 }
 
