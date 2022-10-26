@@ -19,10 +19,10 @@ namespace SimpleStateMachine.StructuralSearch
                 .AsEnum<TEnum>(ignoreCase);
         }
 
-        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expecteds,
+        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected,
             out TEnum result)
         {
-            return _parser.TryParse(ref state, ref expecteds, out result);
+            return _parser.TryParse(ref state, ref expected, out result);
         }
     }
 }

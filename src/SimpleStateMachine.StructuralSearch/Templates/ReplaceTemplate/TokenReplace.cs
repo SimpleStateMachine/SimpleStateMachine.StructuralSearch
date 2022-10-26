@@ -9,7 +9,7 @@
             _token = token;
         }
 
-        public string GetValue()
+        public string GetValue(ref IParsingContext context)
         {
             return _token;
         }

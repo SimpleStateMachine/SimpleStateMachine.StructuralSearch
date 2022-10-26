@@ -10,7 +10,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         {
             _value = value;
         }
-        public string GetValue()
+        public string GetValue(ref IParsingContext context)
         {
             return _value;
         }
@@ -20,11 +20,6 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             var value = EscapeHelper.EscapeChars(_value, c => $"{Constant.BackSlash}{c}", Constant.Parameter.Escape);
             
             return $"{value}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            
         }
     }
 }

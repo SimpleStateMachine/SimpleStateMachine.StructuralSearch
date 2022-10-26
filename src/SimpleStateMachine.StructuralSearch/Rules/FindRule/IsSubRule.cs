@@ -14,9 +14,9 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _argument = argument;
         }
 
-        public bool Execute()
+        public bool Execute(ref IParsingContext context)
         {
-            var value = _parameter.GetValue();
+            var value = _parameter.GetValue(ref context);
             
             return _argument switch
             {
@@ -32,11 +32,6 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{_parameter}{Constant.Space}{SubRuleType.Is}{Constant.Space}{_argument}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _parameter.SetContext(ref context);
         }
     }
 }

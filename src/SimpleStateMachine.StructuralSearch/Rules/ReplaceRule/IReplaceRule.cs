@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public interface IReplaceRule : IContextDependent
+public interface IReplaceRule
 {
     IEnumerable<ReplaceSubRule> Rules { get; }
     IRule ConditionRule { get; }

@@ -16,10 +16,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _right = right;
         }
 
-        public bool Execute()
+        public bool Execute(ref IParsingContext context)
         {
-            var left = _left.GetValue();
-            var right = _right.GetValue();
+            var left = _left.GetValue(ref context);
+            var right = _right.GetValue(ref context);
             
             return _type switch
             {
@@ -35,12 +35,6 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{_left}{Constant.Space}{_type}{Constant.Space}{_right}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _left.SetContext(ref context);
-            _right.SetContext(ref context);
         }
     }
 }

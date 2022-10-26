@@ -1,7 +1,7 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public interface IRule : IContextDependent
+    public interface IRule
     {
-        bool Execute();
+        bool Execute(ref IParsingContext context);
     }
 }

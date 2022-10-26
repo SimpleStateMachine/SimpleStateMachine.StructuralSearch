@@ -11,19 +11,15 @@
             _property = property;
         }
         
-        public string GetValue()
+        public string GetValue(ref IParsingContext context)
         {
-            return _placeholderParameter.GetPlaceholder().Lenght.ToString();
+            var placeHolder = _placeholderParameter.GetPlaceholder(ref context);
+            return placeHolder.Lenght.ToString();
         }
         
         public override string ToString()
         {
             return $"{_placeholderParameter}{Constant.Dote}{_property}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _placeholderParameter.SetContext(ref context);
         }
     }
 }

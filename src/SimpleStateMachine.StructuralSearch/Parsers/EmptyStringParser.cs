@@ -11,7 +11,7 @@ namespace SimpleStateMachine.StructuralSearch
             _value = value;
         }
 
-        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expecteds,
+        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected,
             out string result)
         {
             result = string.Empty;

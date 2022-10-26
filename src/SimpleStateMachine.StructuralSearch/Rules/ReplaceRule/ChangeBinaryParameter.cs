@@ -14,9 +14,9 @@ public class ChangeBinaryParameter : IRuleParameter
         _type = type;
     }
 
-    public string GetValue()
+    public string GetValue(ref IParsingContext context)
     {
-        var value = _parameter.GetValue();
+        var value = _parameter.GetValue(ref context);
         return _type switch
         {
             ChangeType.Trim => value.Trim(),
@@ -31,10 +31,5 @@ public class ChangeBinaryParameter : IRuleParameter
     public override string ToString()
     {
         return $"{_parameter}{Constant.Dote}{_type}";
-    }
-
-    public void SetContext(ref IParsingContext context)
-    {
-        _parameter.SetContext(ref context);
     }
 }

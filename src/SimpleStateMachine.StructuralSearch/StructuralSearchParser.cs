@@ -40,24 +40,22 @@ namespace SimpleStateMachine.StructuralSearch
         public IEnumerable<FindParserResult> ApplyFindRule(ref IParsingContext context, IEnumerable<FindParserResult> matches)
         {
             var result = new List<FindParserResult>();
-            SetFindRulesContext(ref context);
+            
             foreach (var match in matches)
             {
                 context.Fill(match.Placeholders);
-                var all = _findRules.All(x => x.Execute());
-                if (all)
+
+                if (FindRuleIsMatch(match, ref context))
                 {
-                    result.Add(match);   
+                    result.Add(match);
                 }
             }
             
-            IParsingContext emptyParsingContext = ParsingContext.Empty;
-            SetFindRulesContext(ref emptyParsingContext);
             return result;
         }
+        
         public IEnumerable<FindParserResult> ApplyReplaceRule(ref IParsingContext context, IEnumerable<FindParserResult> matches)
         {
-            SetReplaceRulesContext(ref context);
             var result = new List<FindParserResult>();
             
             foreach (var match in matches)
@@ -67,35 +65,33 @@ namespace SimpleStateMachine.StructuralSearch
                     x => x.Value);
                 
                 context.Fill(match.Placeholders);
-                
-                var rules = _replaceRules
-                    .Where(x =>
-                    {
-                        var result = x.ConditionRule.Execute();
-                        return result;
-                    })
-                    .SelectMany(x => x.Rules);
 
+                List<ReplaceSubRule> rules = new();
+                foreach (var replaceRule in _replaceRules)
+                {
+                    if (replaceRule.ConditionRule.Execute(ref context))
+                    {
+                        rules.AddRange(replaceRule.Rules);
+                    }
+                }
+                
                 foreach (var rule in rules)
                 {
                     var name = rule.Placeholder.Name;
                     var placeholder = placeholders[name];
-                    var value = rule.Parameter.GetValue();
+                    var value = rule.Parameter.GetValue(ref context);
                     placeholders[name] = new ReplacedPlaceholder(placeholder, value);
                 }
                 
                 result.Add(match with { Placeholders = placeholders });
             }
-
-            IParsingContext emptyParsingContext = ParsingContext.Empty;
-            SetReplaceRulesContext(ref emptyParsingContext);
-
+            
             return result;
         }
         public ReplaceMatch GetReplaceMatch(ref IParsingContext context, FindParserResult parserResult)
         {
             context.Fill(parserResult.Placeholders);
-            var replaceText = _replaceBuilder.Build(context);
+            var replaceText = _replaceBuilder.Build(ref context);
             return new ReplaceMatch(parserResult.Match, replaceText);
             // context.Input.Replace(parserResult.Match, replaceText);
             //ReplaceBuilder.Build(context);
@@ -114,23 +110,15 @@ namespace SimpleStateMachine.StructuralSearch
             return replaceMatches;
         }
 
-
-        private void SetFindRulesContext(ref IParsingContext context)
+        private bool FindRuleIsMatch(FindParserResult parserResult, ref IParsingContext context)
         {
             foreach (var findRule in _findRules)
             {
-                if (findRule is IContextDependent contextDependent)
-                    contextDependent.SetContext(ref context);
+                if (!findRule.Execute(ref context))
+                    return false;
             }
-        }
-        
-        private void SetReplaceRulesContext(ref IParsingContext context)
-        {
-            foreach (var replaceRule in _replaceRules)
-            {
-                if (replaceRule is IContextDependent contextDependent)
-                    contextDependent.SetContext(ref context);
-            }
+
+            return true;
         }
     }
 }

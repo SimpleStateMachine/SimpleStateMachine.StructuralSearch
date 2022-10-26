@@ -12,9 +12,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _placeholderParameter = parameter;
             _property = property;
         }
-        public string GetValue()
+        public string GetValue(ref IParsingContext context)
         {
-            var offset = _placeholderParameter.GetPlaceholder().Offset;
+            var placeHolder = _placeholderParameter.GetPlaceholder(ref context);
+            var offset = placeHolder.Offset;
             
             var value = _property switch
             {
@@ -29,11 +30,6 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Offset}{Constant.Dote}{_property}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _placeholderParameter.SetContext(ref context);
         }
     }
 }

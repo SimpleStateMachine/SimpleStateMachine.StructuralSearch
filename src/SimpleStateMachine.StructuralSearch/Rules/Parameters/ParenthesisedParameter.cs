@@ -16,24 +16,22 @@ public class ParenthesisedParameter : IRuleParameter
         _template = GetTemplate(parenthesisType);
     }
 
-    public string GetValue()
+    public string GetValue(ref IParsingContext context)
     {
-        return string.Format(_template, string.Join(string.Empty, _parameters.Select(x => x.GetValue())));
+        var values = new List<string>();
+        foreach (var parameter in _parameters)
+        {
+            values.Add(parameter.GetValue(ref context));
+        }
+        
+        return string.Format(_template, string.Join(string.Empty, values));
     }
         
     public override string ToString()
     {
         return string.Format(_template, string.Join(string.Empty, _parameters.Select(x=> x.ToString())));
     }
-
-    public void SetContext(ref IParsingContext context)
-    {
-        foreach (var parameter in _parameters)
-        {
-            parameter.SetContext(ref context);
-        }
-    }
-
+    
     private static string GetTemplate(ParenthesisType parenthesisType)
     {
         return parenthesisType switch

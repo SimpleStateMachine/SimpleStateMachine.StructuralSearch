@@ -2,7 +2,7 @@
 
 public class EmptySubRule : IRule
 {
-    public bool Execute()
+    public bool Execute(ref IParsingContext context)
     {
         return true;
     }

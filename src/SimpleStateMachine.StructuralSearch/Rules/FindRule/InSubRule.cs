@@ -16,31 +16,24 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _arguments = arguments;
         }
 
-        public bool Execute()
+        public bool Execute(ref IParsingContext context)
         {
-            var value = _parameter.GetValue();
-            var result = _arguments.Any(parameter =>
+            var value = _parameter.GetValue(ref context);
+
+            foreach (var argument in _arguments)
             {
-                var valueForResult = parameter.GetValue();
-                var equal = Equals(value, valueForResult);
-                return equal;
-            });
-            return result;
+                var valueForResult = argument.GetValue(ref context);
+                
+                if (Equals(value, valueForResult))
+                    return true;
+            }
+            
+            return false;
         }
         
         public override string ToString()
         {
             return $"{_parameter}{Constant.Space}{SubRuleType.In}{Constant.Space}{string.Join(Constant.Comma, _arguments.Select(x=>x.ToString()))}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _parameter.SetContext(ref context);
-
-            foreach (var argument in _arguments)
-            {
-                argument.SetContext(ref context);
-            }
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IReplaceStep
     {
-        string GetValue();
+        string GetValue(ref IParsingContext context);
     }
 }

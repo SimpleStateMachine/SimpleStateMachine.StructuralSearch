@@ -15,10 +15,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _right = right;
         }
 
-        public bool Execute()
+        public bool Execute(ref IParsingContext context)
         {
-            var left = _left.Execute();
-            var right = _right.Execute();
+            var left = _left.Execute(ref context);
+            var right = _right.Execute(ref context);
             
             return LogicalHelper.Calculate(_type, left, right);
         }
@@ -26,12 +26,6 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{_left}{Constant.Space}{_type}{Constant.Space}{_right}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _left.SetContext(ref context);
-            _right.SetContext(ref context);
         }
     }
 }

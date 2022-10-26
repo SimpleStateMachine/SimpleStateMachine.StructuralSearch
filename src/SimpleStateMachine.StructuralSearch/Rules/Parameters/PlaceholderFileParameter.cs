@@ -13,9 +13,11 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _property = property;
         }
 
-        public string GetValue()
+        public string GetValue(ref IParsingContext context)
         {
-            var input = _placeholderParameter.GetPlaceholder().Input;
+            var placeHolder = _placeholderParameter.GetPlaceholder(ref context);
+            var input = placeHolder.Input;
+            
             return _property switch
             {
                 FileProperty.Path => input.Path,
@@ -30,11 +32,6 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.File}{Constant.Dote}{_property}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _placeholderParameter.SetContext(ref context);
         }
     }
 }

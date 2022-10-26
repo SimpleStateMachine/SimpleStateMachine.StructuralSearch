@@ -1,8 +1,7 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
 {
-    public class PlaceholderReplace : IReplaceStep, IContextDependent
+    public class PlaceholderReplace : IReplaceStep
     {
-        private IParsingContext _context;
         private readonly string _name;
 
         public PlaceholderReplace(string name)
@@ -10,14 +9,10 @@
             _name = name;
         }
 
-        public string GetValue()
+        public string GetValue(ref IParsingContext context)
         {
-            return _context.GetPlaceholder(_name).Value;
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _context = context;
+            var placeHolder = context.GetPlaceholder(_name);
+            return placeHolder.Value;
         }
         
         public override string ToString()
