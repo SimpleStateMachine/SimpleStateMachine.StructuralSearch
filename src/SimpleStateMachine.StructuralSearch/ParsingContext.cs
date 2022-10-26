@@ -29,19 +29,10 @@ namespace SimpleStateMachine.StructuralSearch
         {
             return Placeholders[name];
         }
-
-        public IReadOnlyDictionary<string, IPlaceholder> SwitchOnNew()
-        {
-            var placeholders = Placeholders
-                .OrderBy(x=> x.Value.Offset.Start)
-                .ToDictionary(x=> x.Key, x=> x.Value);
-            Clear();
-            return placeholders;
-        }
-
+        
         public void Fill(IReadOnlyDictionary<string, IPlaceholder> placeholders)
         {
-            Clear();
+            ClearInternal();
             
             foreach (var placeholder in placeholders)
             {
@@ -49,9 +40,20 @@ namespace SimpleStateMachine.StructuralSearch
             }
         }
 
-        public void Clear()
+        public IReadOnlyDictionary<string, IPlaceholder> Clear()
         {
-            Placeholders.Clear();
+            var placeholders = Placeholders
+                .OrderBy(x=> x.Value.Offset.Start)
+                .ToDictionary(x=> x.Key, x=> x.Value);
+            
+            ClearInternal();
+            
+            return placeholders;
+        }
+
+        private void ClearInternal()
+        {
+            Placeholders.Clear();;
         }
     }
 }

@@ -54,23 +54,23 @@ public static class ReplaceTemplateTests
     // TODO validation parenthesis for parameters
         
     [Theory]
-    [InlineData(0, "test $var1$.Lenght")]
-    [InlineData(1, "(test) $var1$.Lenght")]
-    [InlineData(2, "test ($var1$.Lenght)")]
-    [InlineData(3, "(test $var1$.Lenght)")]
-    [InlineData(4, "test ")]
-    [InlineData(5, "($var1$.Lenght)")]
-    [InlineData(6, " ($var1$.Lenght)")]
-    [InlineData(7, " ( )")]  
-    [InlineData(8, "test ( )")]
-    [InlineData(9, " (test $var1$.Lenght)")]
-    [InlineData(10, "(test) ($var1$.Lenght)")]
-    [InlineData(11, "((test) $var1$.Lenght)")]
-    [InlineData(12, "(test ($var1$.Lenght))")]
-    [InlineData(13, "((test) ($var1$.Lenght))")]
-    [InlineData(14, "()")]
-    [InlineData(15, "(test ($var1$.Lenght) test2)")]
-    public static void ReplaceTemplateParsingShouldBeSuccess(int number, string templateStr)
+    [InlineData("test $var1$.Lenght")]
+    [InlineData("(test) $var1$.Lenght")]
+    [InlineData("test ($var1$.Lenght)")]
+    [InlineData("(test $var1$.Lenght)")]
+    [InlineData("test ")]
+    [InlineData("($var1$.Lenght)")]
+    [InlineData(" ($var1$.Lenght)")]
+    [InlineData(" ( )")]  
+    [InlineData("test ( )")]
+    [InlineData(" (test $var1$.Lenght)")]
+    [InlineData("(test) ($var1$.Lenght)")]
+    [InlineData("((test) $var1$.Lenght)")]
+    [InlineData("(test ($var1$.Lenght))")]
+    [InlineData("((test) ($var1$.Lenght))")]
+    [InlineData("()")]
+    [InlineData("(test ($var1$.Lenght) test2)")]
+    public static void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
     {
         var replaceBuilder = StructuralSearch.ParseReplaceTemplate(templateStr);
         var replaceStr = replaceBuilder.ToString()?.ToLower();

@@ -36,7 +36,7 @@ namespace SimpleStateMachine.StructuralSearch
             throw new System.NotImplementedException();
         }
 
-        public void Clear()
+        public IReadOnlyDictionary<string, IPlaceholder> Clear()
         {
             throw new System.NotImplementedException();
         }
