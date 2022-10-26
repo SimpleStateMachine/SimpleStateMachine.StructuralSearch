@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
@@ -20,7 +21,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return _type switch
             {
                 UnaryRuleType.Not => !result,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(_type).FormatPrivateVar(), _type, null)
             };
         }
         

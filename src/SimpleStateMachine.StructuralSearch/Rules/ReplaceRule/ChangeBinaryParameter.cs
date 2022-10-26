@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
@@ -24,7 +25,7 @@ public class ChangeBinaryParameter : IRuleParameter
             ChangeType.TrimStart => value.TrimStart(),
             ChangeType.ToUpper => value.ToUpper(),
             ChangeType.ToLower => value.ToLower(),
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new ArgumentOutOfRangeException(nameof(_type).FormatPrivateVar(), _type, null)
         };
     }
         

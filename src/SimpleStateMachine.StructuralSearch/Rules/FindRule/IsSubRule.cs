@@ -1,5 +1,6 @@
 ﻿using System;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
@@ -25,7 +26,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
                 PlaceholderType.Double => double.TryParse(value, out _),
                 PlaceholderType.DateTime => DateTime.TryParse(value, out _),
                 PlaceholderType.Guid => Guid.TryParse(value, out _),
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(_argument).FormatPrivateVar(), _argument, null)
             };
         }
         
