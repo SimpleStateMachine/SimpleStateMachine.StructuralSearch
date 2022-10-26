@@ -16,10 +16,10 @@ public class ChangeUnaryParameter : IRuleParameter
         _arg = arg;
     }
 
-    public string GetValue()
+    public string GetValue(ref IParsingContext context)
     {
-        var parameter = _parameter.GetValue();
-        var arg = _arg.GetValue();
+        var parameter = _parameter.GetValue(ref context);
+        var arg = _arg.GetValue(ref context);
         return _type switch
         {
             ChangeUnaryType.RemoveSubStr => parameter.Replace(arg, string.Empty),
@@ -30,11 +30,5 @@ public class ChangeUnaryParameter : IRuleParameter
     public override string ToString()
     {
         return $"{_parameter}{Constant.Dote}{_type}{Constant.LeftParenthesis}{_arg}{Constant.RightParenthesis}";
-    }
-
-    public void SetContext(ref IParsingContext context)
-    {
-        _parameter.SetContext(ref context);
-        _arg.SetContext(ref context);
     }
 }

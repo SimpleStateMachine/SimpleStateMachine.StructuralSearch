@@ -7,7 +7,7 @@ namespace SimpleStateMachine.StructuralSearch
     public class SeriesParser : Parser<char, IEnumerable<string>>, IContextDependent
     {
         private readonly IEnumerable<Parser<char, string>> _parsers;
-        
+
         public SeriesParser(IEnumerable<Parser<char, string>> parsers)
         {
             _parsers = parsers;
@@ -15,8 +15,22 @@ namespace SimpleStateMachine.StructuralSearch
             InitializeLookaheadParsers();
         }
 
-        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expecteds,
-            out IEnumerable<string> result)
+        private void InitializeLookaheadParsers()
+        {
+            var count = _parsers.Count();
+            
+            for (var i = count-1; i >= 0 ; i--)
+            {
+                var parser = _parsers.ElementAt(i);
+                if (parser is not ParserWithLookahead<char, string> lookaheadParser) continue;
+                
+                var number = i;
+                lookaheadParser.Lookahead(() => _parsers.ElementAtOrDefault(number + 1), () =>
+                    _parsers.ElementAtOrDefault(number + 2));
+            }
+        }
+
+        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected, out IEnumerable<string> result)
         {
             var results = new List<string>();
             var count = _parsers.Count();
@@ -24,13 +38,14 @@ namespace SimpleStateMachine.StructuralSearch
             for (int i = 0; i < count; i++)
             {
                 var parser = _parsers.ElementAt(i);
-                if (!parser.TryParse(ref state, ref expecteds, out var _result))
+                
+                if (!parser.TryParse(ref state, ref expected, out var parserResult))
                 {
                     result = results;
                     return false;
                 }
-
-                results.Add(_result);
+                
+                results.Add(parserResult);
 
                 SkipLookedParsers(parser, ref state);
 
@@ -68,22 +83,6 @@ namespace SimpleStateMachine.StructuralSearch
                 if (parser is IContextDependent element)
                 {
                     element.SetContext(ref parsingContext);
-                }
-            }
-        }
-        
-        private void InitializeLookaheadParsers()
-        {
-            var count = _parsers.Count();
-            
-            for (var i = count-1; i >= 0 ; i--)
-            {
-                var parser = _parsers.ElementAt(i);
-                if (parser is ParserWithLookahead<char, string> lookaheadParser)
-                {
-                    var number = i;
-                    lookaheadParser.Lookahead(() => _parsers.ElementAtOrDefault(number + 1), () =>
-                        _parsers.ElementAtOrDefault(number + 2));
                 }
             }
         }

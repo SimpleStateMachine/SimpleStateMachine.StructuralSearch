@@ -2,8 +2,6 @@
 {
     public class PlaceholderParameter : IRuleParameter
     {
-        private IParsingContext _context;
-        
         public PlaceholderParameter(string name)
         {
             Name = name;
@@ -11,24 +9,19 @@
         
         public string Name { get; }
         
-        public string GetValue()
+        public string GetValue(ref IParsingContext context)
         {
-            return _context.GetPlaceholder(Name).Value;
+            return context.GetPlaceholder(Name).Value;
         }
         
-        public IPlaceholder GetPlaceholder()
+        public IPlaceholder GetPlaceholder(ref IParsingContext context)
         {
-            return _context.GetPlaceholder(Name);
+            return context.GetPlaceholder(Name);
         }
         
         public override string ToString()
         {
             return $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _context = context;
         }
     }
 }

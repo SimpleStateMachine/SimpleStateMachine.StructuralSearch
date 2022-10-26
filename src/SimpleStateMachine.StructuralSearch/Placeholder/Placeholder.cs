@@ -4,7 +4,7 @@
     {
         private readonly Match<string> _match;
         private readonly IParsingContext _context;
-        public Placeholder(IParsingContext context, string name, Match<string> match)
+        public Placeholder(ref IParsingContext context, string name, Match<string> match)
         {
             _context = context;
             Name = name;
@@ -22,7 +22,7 @@
         public static Placeholder CreateEmpty(IParsingContext context, string name, string value)
         {
             return new Placeholder(
-                context: context,
+                context: ref context,
                 name: name,
                 new Match<string>(
                     value, 

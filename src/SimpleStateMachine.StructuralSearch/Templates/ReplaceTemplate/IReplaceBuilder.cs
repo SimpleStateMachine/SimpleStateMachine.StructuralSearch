@@ -7,14 +7,14 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
     public interface IReplaceBuilder
     {
         IEnumerable<IRuleParameter> Steps { get; }
-        string Build(IParsingContext context);
+        string Build(ref IParsingContext context);
     }
     
     public class EmptyReplaceBuilder: IReplaceBuilder
     {
         public IEnumerable<IRuleParameter> Steps { get; } = Array.Empty<IRuleParameter>();
         
-        public string Build(IParsingContext context)
+        public string Build(ref IParsingContext context)
         {
             return string.Empty;
         }

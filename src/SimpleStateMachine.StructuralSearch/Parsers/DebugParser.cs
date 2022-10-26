@@ -10,9 +10,9 @@ namespace SimpleStateMachine.StructuralSearch
             _parser = parser;
         }
         
-        public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expecteds, out T result)
+        public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected, out T result)
         {
-            var res = _parser.TryParse(ref state, ref expecteds, out result);
+            var res = _parser.TryParse(ref state, ref expected, out result);
             return res;
         }
     }

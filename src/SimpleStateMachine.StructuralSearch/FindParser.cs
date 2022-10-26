@@ -20,6 +20,7 @@ namespace SimpleStateMachine.StructuralSearch
         {
             List<FindParserResult> matches = new();
             StringBuilder res = new();
+
             Parser.SetContext(ref context);
             
             var parsingContext = context;

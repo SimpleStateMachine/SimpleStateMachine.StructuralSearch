@@ -15,18 +15,13 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
             Steps = steps;
         }
 
-        public string Build(IParsingContext context)
+        public string Build(ref IParsingContext context)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             
             foreach (var step in Steps)
             {
-                if (step is IContextDependent contextDependentStep)
-                {
-                    contextDependentStep.SetContext(ref context);
-                }
-                
-                stringBuilder.Append(step.GetValue());
+                stringBuilder.Append(step.GetValue(ref context));
             }
 
             var result = stringBuilder.ToString();

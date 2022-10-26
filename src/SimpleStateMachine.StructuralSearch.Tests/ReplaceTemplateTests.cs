@@ -15,7 +15,8 @@ public static class ReplaceTemplateTests
     {
         var replaceTemplate = File.ReadAllText(templatePath);
         var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
-        var result = replaceBuilder.Build(ParsingContext.Empty);
+        IParsingContext context = ParsingContext.Empty;
+        var result = replaceBuilder.Build(ref context);
 
         Assert.NotNull(replaceTemplate);
         Assert.Equal(replaceBuilder.Steps.Count(), stepsCount);
@@ -37,13 +38,13 @@ public static class ReplaceTemplateTests
         var replaceResult = File.ReadAllText(resultPath);
         var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
             
-        var parsingContext = new ParsingContext(Input.Empty);
+        IParsingContext parsingContext = new ParsingContext(Input.Empty);
         for (int i = 0; i < keys.Length; i++)
         {
             parsingContext.AddPlaceholder(Placeholder.CreateEmpty(parsingContext, keys[i], values[i]));
         }
             
-        var result = replaceBuilder.Build(parsingContext);
+        var result = replaceBuilder.Build(ref parsingContext);
 
         Assert.NotNull(replaceTemplate);
         Assert.NotNull(replaceResult);

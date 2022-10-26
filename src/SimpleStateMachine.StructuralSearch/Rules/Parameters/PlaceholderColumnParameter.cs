@@ -13,9 +13,10 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _property = property;
         }
         
-        public string GetValue()
+        public string GetValue(ref IParsingContext context)
         {
-            var column = _placeholderParameter.GetPlaceholder().Column;
+            var placeHolder = _placeholderParameter.GetPlaceholder(ref context);
+            var column = placeHolder.Column;
             
             var value = _property switch
             {
@@ -30,11 +31,6 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         public override string ToString()
         {
             return $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Column}{Constant.Dote}{_property}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            _placeholderParameter.SetContext(ref context);
         }
     }
 }

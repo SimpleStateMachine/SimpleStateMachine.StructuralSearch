@@ -2,13 +2,9 @@
 
 public class EmptyRule: IRule
 {
-    public bool Execute()
+    public bool Execute(ref IParsingContext context)
     {
         return true;
-            
-    }
-    public void SetContext(ref IParsingContext context)
-    {
     }
 }
 

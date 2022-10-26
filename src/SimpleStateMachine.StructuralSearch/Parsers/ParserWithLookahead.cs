@@ -28,15 +28,15 @@ namespace SimpleStateMachine.StructuralSearch
 
     public class LookaheadResult<TToken, T>
     {
+        public T Result { get; }
+        public int TokensCount { get; }
+        public readonly Parser<TToken, T> Parser;
+        
         public LookaheadResult(Parser<TToken, T> parser, T result, int tokensCount)
         {
             Parser = parser;
             Result = result;
             TokensCount = tokensCount;
         }
-
-        public T Result { get; }
-        public int TokensCount { get; }
-        public Parser<TToken, T> Parser;
     }
 }

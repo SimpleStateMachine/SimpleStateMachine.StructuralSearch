@@ -16,19 +16,14 @@ namespace SimpleStateMachine.StructuralSearch
             Rules = rules;
         }
         
+        public bool IsMatch(ref IParsingContext context)
+        {
+            return ConditionRule.Execute(ref context);
+        }
+        
         public override string ToString()
         {
             return $"{ConditionRule}{Constant.Space}{Constant.Then}{Constant.Space}{string.Join(Constant.Comma, Rules)}";
-        }
-
-        public void SetContext(ref IParsingContext context)
-        {
-            ConditionRule.SetContext(ref context);
-
-            foreach (var rule in Rules)
-            {
-                rule.SetContext(ref context);
-            }
         }
     }
 }
