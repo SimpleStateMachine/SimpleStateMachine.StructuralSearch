@@ -7,7 +7,7 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
     public class ConfigurationFile: IEquatable<ConfigurationFile>
     {
         // Use for deserialization
-        public ConfigurationFile()
+        private ConfigurationFile()
         {
             Configurations = new List<Configuration>();
         }

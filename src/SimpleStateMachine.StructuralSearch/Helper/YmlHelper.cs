@@ -7,14 +7,15 @@ namespace SimpleStateMachine.StructuralSearch.Helper
 {
     public static class YmlHelper
     {
+        private static readonly IDeserializer Deserializer = new DeserializerBuilder()
+            .WithNamingConvention(PascalCaseNamingConvention.Instance)
+            .EnablePrivateConstructors()
+            .Build();
+
         public static ConfigurationFile Parse(string filePath)
         {
-            var textReader =  File.OpenText(filePath);
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(PascalCaseNamingConvention.Instance)
-                .Build();
-            
-            var cfg = deserializer.Deserialize<ConfigurationFile>(textReader);
+            var textReader = File.OpenText(filePath);
+            var cfg = Deserializer.Deserialize<ConfigurationFile>(textReader);
             return cfg;
         }
     }
