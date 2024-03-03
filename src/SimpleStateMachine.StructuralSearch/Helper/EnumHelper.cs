@@ -40,10 +40,10 @@ namespace SimpleStateMachine.StructuralSearch.Helper
             return Enum.GetNames<TEnum>();
         }
         
-        public static IEnumerable<string?> GetNamesExcept<TEnum>(params TEnum [] excludedElements)
+        public static IEnumerable<string> GetNamesExcept<TEnum>(params TEnum [] excludedElements)
             where TEnum : struct, Enum
         {
-            return GetValueExcept(excludedElements).Select(x=> x.Name());
+            return GetValueExcept(excludedElements).Select(x=> x.Name()).OfType<string>();
         }
 
         public static IEnumerable<TEnum> GetValues<TEnum>() 

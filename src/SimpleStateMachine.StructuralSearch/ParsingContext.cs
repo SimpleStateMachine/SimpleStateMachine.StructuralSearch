@@ -15,20 +15,16 @@ namespace SimpleStateMachine.StructuralSearch
         }
 
         public bool TryGetPlaceholder(string name, out IPlaceholder value)
-        {
-            return _placeholders.TryGetValue(name, out value);
-        }
+            => _placeholders.TryGetValue(name, out value!);
 
         public void AddPlaceholder(IPlaceholder placeholder)
         {
             _placeholders[placeholder.Name] = placeholder;
         }
 
-        public IPlaceholder GetPlaceholder(string name)
-        {
-            return _placeholders[name];
-        }
-        
+        public IPlaceholder GetPlaceholder(string name) 
+            => _placeholders[name];
+
         public void Fill(IReadOnlyDictionary<string, IPlaceholder> placeholders)
         {
             ClearInternal();

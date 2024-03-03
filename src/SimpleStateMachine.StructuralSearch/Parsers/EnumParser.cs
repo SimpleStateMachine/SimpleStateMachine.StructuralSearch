@@ -3,6 +3,7 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
+#pragma warning disable CS9074 // The 'scoped' modifier of parameter doesn't match overridden or implemented member.
 
 namespace SimpleStateMachine.StructuralSearch
 {
@@ -18,11 +19,8 @@ namespace SimpleStateMachine.StructuralSearch
                 .Select(Parser.Try))
                 .AsEnum<TEnum>(ignoreCase);
         }
-
-        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected,
-            out TEnum result)
-        {
-            return _parser.TryParse(ref state, ref expected, out result);
-        }
+        
+        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected, out TEnum result)
+            => _parser.TryParse(ref state, ref expected, out result);
     }
 }

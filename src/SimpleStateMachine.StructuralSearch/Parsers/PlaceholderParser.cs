@@ -8,13 +8,15 @@ namespace SimpleStateMachine.StructuralSearch
     public class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
     {
         private readonly string _name;
-        private IParsingContext _context;
+        private IParsingContext? _context;
+        private IParsingContext Context => _context ?? throw new ArgumentNullException(nameof(_context));
+        
         public PlaceholderParser(string name)
         {
             _name = name;
         }
 
-        public override Parser<char, string> BuildParser(Func<Parser<char, string>?> next,
+        protected override Parser<char, string> BuildParser(Func<Parser<char, string>?> next,
             Func<Parser<char, string>?> nextNext)
         {
             var nextParser = next();
@@ -58,7 +60,7 @@ namespace SimpleStateMachine.StructuralSearch
             Parser<char, string>? term = null;
 
             var parenthesised = Parsers.BetweenOneOfChars(x => Parser.Char(x).AsString(),
-                expr: Parser.Rec(() => term),
+                expr: Parser.Rec(() => term!),
                 Constant.AllParenthesised).JoinToString();
 
             term = Parser.OneOf(parenthesised, token).Many().JoinToString();
@@ -73,24 +75,23 @@ namespace SimpleStateMachine.StructuralSearch
             return parser;
         }
 
-        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected,
-            out string result)
+        public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected, out string result)
         {
             bool res;
 
             // No use look-ahead if placeholder is already defined
-            if (_context.TryGetPlaceholder(_name, out var placeholder))
+            if (Context.TryGetPlaceholder(_name, out var placeholder))
             {
-                res = Parser.String(placeholder.Value).TryParse(ref state, ref expected, out result);
+                res = Parser.String(placeholder.Value).TryParse(ref state, ref expected, out result!);
             }
             else
             {
-                res = parser.Value.Match().TryParse(ref state, ref expected, out var match);
+                res = LookaheadParser.Value.Match().TryParse(ref state, ref expected, out var match);
                 result = match.Value;
                 if (res)
                 {
-                    _context.AddPlaceholder(new Placeholder(
-                        context: ref _context,
+                    Context.AddPlaceholder(new Placeholder(
+                        context: ref _context!,
                         name: _name,
                         match: match));
                 }
