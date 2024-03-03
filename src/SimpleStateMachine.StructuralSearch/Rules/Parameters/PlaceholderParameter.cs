@@ -9,19 +9,13 @@
         
         public string Name { get; }
         
-        public string GetValue(ref IParsingContext context)
-        {
-            return context.GetPlaceholder(Name).Value;
-        }
-        
+        public string GetValue(ref IParsingContext context) 
+            => context.GetPlaceholder(Name).Value;
+
         public IPlaceholder GetPlaceholder(ref IParsingContext context)
-        {
-            return context.GetPlaceholder(Name);
-        }
-        
-        public override string ToString()
-        {
-            return $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
-        }
+            => context.GetPlaceholder(Name);
+
+        public override string ToString() 
+            => $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
     }
 }

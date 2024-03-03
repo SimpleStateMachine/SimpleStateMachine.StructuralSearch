@@ -2,10 +2,8 @@
 
 public class EmptyRule: IRule
 {
-    public bool Execute(ref IParsingContext context)
-    {
-        return true;
-    }
+    public bool Execute(ref IParsingContext context) 
+        => true;
 }
 
 public static class Rule

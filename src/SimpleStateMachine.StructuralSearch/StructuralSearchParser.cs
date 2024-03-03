@@ -32,10 +32,7 @@ namespace SimpleStateMachine.StructuralSearch
         }
 
         public IEnumerable<FindParserResult> Parse(ref IParsingContext context)
-        {
-            var matches = _findParser.Parse(ref context);
-            return matches;
-        }
+            => _findParser.Parse(ref context);
 
         public IEnumerable<FindParserResult> ApplyFindRule(ref IParsingContext context, IEnumerable<FindParserResult> matches)
         {

@@ -14,8 +14,6 @@ public class EmptyReplaceRule : IReplaceRule
 {
     public IEnumerable<ReplaceSubRule> Rules { get; } = Array.Empty<ReplaceSubRule>();
     
-    public bool IsMatch(ref IParsingContext context)
-    {
-        return Rule.Empty.Execute(ref context);
-    }
+    public bool IsMatch(ref IParsingContext context) 
+        => Rule.Empty.Execute(ref context);
 }

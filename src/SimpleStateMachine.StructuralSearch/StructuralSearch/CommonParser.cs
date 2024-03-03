@@ -52,17 +52,13 @@ namespace SimpleStateMachine.StructuralSearch
             = Char(Constant.Underscore);
 
         internal static Parser<char, T> Parenthesised<T, TResult>(Parser<char, T> parser, Func<char, Parser<char, TResult>> custom)
-        {
-            return parser.Between
-            (
-                custom(Constant.LeftParenthesis),
-                custom(Constant.RightParenthesis)
-            );
-        }
+            => parser.Between
+        (
+            custom(Constant.LeftParenthesis),
+            custom(Constant.RightParenthesis)
+        );
 
         internal static Parser<char, char> Escaped(params char [] chars)
-        {
-            return Char(Constant.BackSlash).Then(OneOf(chars));
-        }
+            => Char(Constant.BackSlash).Then(OneOf(chars));
     }
 }

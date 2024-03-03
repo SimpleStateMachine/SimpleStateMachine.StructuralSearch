@@ -31,9 +31,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return false;
         }
         
-        public override string ToString()
-        {
-            return $"{_parameter}{Constant.Space}{SubRuleType.In}{Constant.Space}{string.Join(Constant.Comma, _arguments.Select(x=>x.ToString()))}";
-        }
+        public override string ToString() 
+            => $"{_parameter}{Constant.Space}{SubRuleType.In}{Constant.Space}{string.Join(Constant.Comma, _arguments.Select(x=>x.ToString()))}";
     }
 }

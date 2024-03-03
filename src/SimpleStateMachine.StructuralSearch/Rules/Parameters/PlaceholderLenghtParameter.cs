@@ -17,9 +17,7 @@
             return placeHolder.Lenght.ToString();
         }
         
-        public override string ToString()
-        {
-            return $"{_placeholderParameter}{Constant.Dote}{_property}";
-        }
+        public override string ToString() 
+            => $"{_placeholderParameter}{Constant.Dote}{_property}";
     }
 }

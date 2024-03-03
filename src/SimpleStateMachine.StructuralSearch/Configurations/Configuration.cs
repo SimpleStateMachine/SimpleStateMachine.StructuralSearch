@@ -20,14 +20,10 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
             return findTemplateEquals && findRulesEquals && replaceTemplateEquals && replaceRulesEquals;
         }
 
-        public override bool Equals(object? obj)
-        {
-            return obj?.GetType() == GetType() && Equals((Configuration)obj);
-        }
+        public override bool Equals(object? obj) 
+            => obj?.GetType() == GetType() && Equals((Configuration)obj);
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(FindTemplate, FindRules, ReplaceTemplate, ReplaceRules);
-        }
+        public override int GetHashCode() 
+            => HashCode.Combine(FindTemplate, FindRules, ReplaceTemplate, ReplaceRules);
     }
 }

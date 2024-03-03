@@ -28,9 +28,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return value.ToString();
         }
         
-        public override string ToString()
-        {
-            return $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Offset}{Constant.Dote}{_property}";
-        }
+        public override string ToString() 
+            => $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Offset}{Constant.Dote}{_property}";
     }
 }

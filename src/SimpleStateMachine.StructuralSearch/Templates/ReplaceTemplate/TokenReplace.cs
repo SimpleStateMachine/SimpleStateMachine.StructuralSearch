@@ -9,14 +9,10 @@
             _token = token;
         }
 
-        public string GetValue(ref IParsingContext context)
-        {
-            return _token;
-        }
-        
-        public override string ToString()
-        {
-            return $"{_token}";
-        } 
+        public string GetValue(ref IParsingContext context) 
+            => _token;
+
+        public override string ToString() 
+            => $"{_token}";
     }
 }

@@ -15,9 +15,7 @@
             return placeHolder.Value;
         }
         
-        public override string ToString()
-        {
-            return $"{Constant.PlaceholderSeparator}{_name}{Constant.PlaceholderSeparator}";
-        }  
+        public override string ToString() 
+            => $"{Constant.PlaceholderSeparator}{_name}{Constant.PlaceholderSeparator}";
     }
 }

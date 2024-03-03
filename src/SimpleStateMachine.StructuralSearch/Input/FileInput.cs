@@ -12,10 +12,8 @@ namespace SimpleStateMachine.StructuralSearch
             FileInfo = fileInfo;
         }
 
-        public Result<char, T> ParseBy<T>(Parser<char, T> parser)
-        {
-            return parser.Parse(FileInfo.OpenText());
-        }
+        public Result<char, T> ParseBy<T>(Parser<char, T> parser) 
+            => parser.Parse(FileInfo.OpenText());
 
         public void Replace(Match<string> match, string value)
         {

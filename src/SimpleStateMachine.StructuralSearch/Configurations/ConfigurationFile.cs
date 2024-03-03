@@ -19,19 +19,13 @@ namespace SimpleStateMachine.StructuralSearch.Configurations
 
         public List<Configuration> Configurations { get; init; }
 
-        public bool Equals(ConfigurationFile? other)
-        {
-            return other?.Configurations != null && Configurations.SequenceEqual(other.Configurations);
-        }
+        public bool Equals(ConfigurationFile? other) 
+            => other?.Configurations != null && Configurations.SequenceEqual(other.Configurations);
 
-        public override bool Equals(object? obj)
-        {
-            return obj?.GetType() == GetType() && Equals((ConfigurationFile)obj);
-        }
+        public override bool Equals(object? obj) 
+            => obj?.GetType() == GetType() && Equals((ConfigurationFile)obj);
 
-        public override int GetHashCode()
-        {
-            return Configurations.GetHashCode();
-        }
+        public override int GetHashCode() 
+            => Configurations.GetHashCode();
     }
 }

@@ -9,17 +9,13 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public static class Parsers
     {
-        public static Parser<char, string> String(string value, bool ignoreCase)
-        {
-            return ignoreCase ? Parser.CIString(value): Parser.String(value);
-        }
+        public static Parser<char, string> String(string value, bool ignoreCase) 
+            => ignoreCase ? CIString(value): Parser.String(value);
 
         public static Parser<char, TEnum> After<TEnum>(TEnum value, bool ignoreCase = false)
-            where TEnum : struct, Enum
-        {
-            return Parsers.String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
-        }
-        
+            where TEnum : struct, Enum 
+            => String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
+
         public static Parser<TToken, IEnumerable<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1,
             Parser<TToken, T> parser2, Parser<TToken, T> parser3)
         {
@@ -30,8 +26,7 @@ namespace SimpleStateMachine.StructuralSearch
             if (parser3 == null)
                 throw new ArgumentNullException(nameof(parser3));
 
-            return Map((arg1, arg2, arg3) => (IEnumerable<T>)new List<T> { arg1, arg2, arg3 }, parser1, parser2,
-                parser3);
+            return Map((arg1, arg2, arg3) => (IEnumerable<T>)new List<T> { arg1, arg2, arg3 }, parser1, parser2, parser3);
         }
 
         public static Parser<TToken, IEnumerable<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1,
@@ -74,45 +69,25 @@ namespace SimpleStateMachine.StructuralSearch
             => MapToMany(leftRight(left), expr, leftRight(right));
 
 
-        public static Parser<char, IEnumerable<T>> BetweenOneOfChars<T>(Func<char, Parser<char, T>> leftRight,
-            Parser<char, IEnumerable<T>> expr, params (char, char)[] values)
-        {
-            return OneOf(values.Select(x =>
-                MapToMany(leftRight(x.Item1), expr, leftRight(x.Item2)))
-            );
-        }
-        
-        public static Parser<char, IEnumerable<T>> BetweenOneOfChars<T>(Func<char, Parser<char, T>> leftRight,
-            Parser<char, T> expr, params (char, char)[] values)
-        {
-            return OneOf(values.Select(x =>
-                MapToMany(leftRight(x.Item1), expr, leftRight(x.Item2)))
-            );
-        }
-        
-        public static Parser<char, (TResult, T)> BetweenOneOfChars<T, TResult>(Func<char, char, TResult> resultFunc,
-            Parser<char, T> expr, params (char, char)[] values)
-        {
-            return OneOf(values.Select(x => 
-                Map((c1, res, c2) => (resultFunc(c1, c2), res),
-                    Char(x.Item1).Try(), expr, Char(x.Item2).Try())));
-        }
+        public static Parser<char, IEnumerable<T>> BetweenOneOfChars<T>(Func<char, Parser<char, T>> leftRight, Parser<char, IEnumerable<T>> expr, params (char, char)[] values) 
+            => OneOf(values.Select(x => MapToMany(leftRight(x.Item1), expr, leftRight(x.Item2))));
+
+        public static Parser<char, IEnumerable<T>> BetweenOneOfChars<T>(Func<char, Parser<char, T>> leftRight, Parser<char, T> expr, params (char, char)[] values) 
+            => OneOf(values.Select(x => MapToMany(leftRight(x.Item1), expr, leftRight(x.Item2))));
+
+        public static Parser<char, (TResult, T)> BetweenOneOfChars<T, TResult>(Func<char, char, TResult> resultFunc, Parser<char, T> expr, params (char, char)[] values) 
+            => OneOf(values.Select(x => Map((c1, res, c2) => (resultFunc(c1, c2), res), Char(x.Item1).Try(), expr, Char(x.Item2).Try())));
 
         public static Parser<char, TEnum> EnumExcept<TEnum>(bool ignoreCase = false, params TEnum[] excluded)
-            where TEnum : struct, Enum
-        {
-            return new EnumParser<TEnum>(ignoreCase, excluded);
-        }
+            where TEnum : struct, Enum 
+            => new EnumParser<TEnum>(ignoreCase, excluded);
 
         public static Parser<char, TEnum> EnumValue<TEnum>(TEnum value, bool ignoreCase = false)
-            where TEnum : struct, Enum
-        {
-            return Parsers.String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
-        }
-        
-        public static Parser<char, Match<T>> Match<T>(Parser<char, T> parser)
-        {
-            return Map((oldPos, oldOffset, result, newPos, newOffset) =>
+            where TEnum : struct, Enum 
+            => String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
+
+        public static Parser<char, Match<T>> Match<T>(Parser<char, T> parser) 
+            => Map((oldPos, oldOffset, result, newPos, newOffset) =>
                 {
                     var line = new LinePosition(oldPos.Line, newPos.Line);
                     var column = new ColumnPosition(oldPos.Col, newPos.Col);
@@ -123,6 +98,5 @@ namespace SimpleStateMachine.StructuralSearch
                 Parser<char>.CurrentPos, Parser<char>.CurrentOffset,
                 parser,
                 Parser<char>.CurrentPos, Parser<char>.CurrentOffset);
-        }
     }
 }

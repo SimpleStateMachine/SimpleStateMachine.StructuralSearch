@@ -30,8 +30,6 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         }
         
         public override string ToString()
-        {
-            return $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Line}{Constant.Dote}{_property}";
-        }
+            => $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Line}{Constant.Dote}{_property}";
     }
 }

@@ -14,9 +14,7 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
     {
         public IEnumerable<IRuleParameter> Steps { get; } = Array.Empty<IRuleParameter>();
         
-        public string Build(ref IParsingContext context)
-        {
-            return string.Empty;
-        }
+        public string Build(ref IParsingContext context) 
+            => string.Empty;
     }
 }

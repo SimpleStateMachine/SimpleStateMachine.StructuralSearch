@@ -55,10 +55,8 @@ namespace SimpleStateMachine.StructuralSearch
         private static readonly Parser<char, SeriesParser> SeriesParser;
         
         internal static IFindParser ParseTemplate(string? str)
-        {
-            return string.IsNullOrEmpty(str)
+            => string.IsNullOrEmpty(str)
                 ? FindParser.Empty 
                 : SeriesParser.Select(parser => new FindParser(parser)).ParseOrThrow(str);
-        }
     }
 }

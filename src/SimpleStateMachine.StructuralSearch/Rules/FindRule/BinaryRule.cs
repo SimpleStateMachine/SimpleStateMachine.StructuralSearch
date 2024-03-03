@@ -23,9 +23,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return LogicalHelper.Calculate(_type, left, right);
         }
         
-        public override string ToString()
-        {
-            return $"{_left}{Constant.Space}{_type}{Constant.Space}{_right}";
-        }
+        public override string ToString() 
+            => $"{_left}{Constant.Space}{_type}{Constant.Space}{_right}";
     }
 }
