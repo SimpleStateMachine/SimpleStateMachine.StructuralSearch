@@ -2,6 +2,8 @@
 using System.Linq;
 using Pidgin;
 
+#pragma warning disable CS9074 // The 'scoped' modifier of parameter doesn't match overridden or implemented member.
+
 namespace SimpleStateMachine.StructuralSearch
 {
     public class SeriesParser : Parser<char, IEnumerable<string>>, IContextDependent
@@ -55,7 +57,7 @@ namespace SimpleStateMachine.StructuralSearch
                         lookaheadParser is { OnLookahead: null })
                         return;
 
-                    var lookaheadResults = lookaheadParser.OnLookahead.Invoke();
+                    var lookaheadResults = lookaheadParser.OnLookahead.Invoke().ToArray();
 
                     foreach (var result in lookaheadResults)
                     {

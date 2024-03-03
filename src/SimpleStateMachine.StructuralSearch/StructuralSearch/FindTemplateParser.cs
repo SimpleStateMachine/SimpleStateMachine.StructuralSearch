@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 
@@ -10,7 +11,7 @@ namespace SimpleStateMachine.StructuralSearch
         {
             Parenthesised = Parsers.BetweenOneOfChars(x => ParserToParser.CIChar(x)
                     .Select(x => x.AsString()),
-                Parser.Rec(() => Term),
+                Parser.Rec(() => Term ?? throw new ArgumentNullException(nameof(Term))),
                 Constant.AllParenthesised);
 
             Term = Parser.OneOf(Parenthesised, Token)

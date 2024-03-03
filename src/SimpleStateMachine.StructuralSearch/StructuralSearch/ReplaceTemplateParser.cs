@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
@@ -14,7 +15,7 @@ namespace SimpleStateMachine.StructuralSearch
         {
             ParenthesisedParameter = Parsers.BetweenOneOfChars((c1, c2) =>
                         MatchHelper.GetParenthesisType((c1, c2)),
-                    Parser.Rec(() => Parameter),
+                    Parser.Rec(() => Parameter ?? throw new ArgumentNullException(nameof(Parameter))),
                     Constant.AllParenthesised)
                 .Select(x => new ParenthesisedParameter(x.Item1, new[] { x.Item2 }))
                 .As<char, ParenthesisedParameter, IRuleParameter>()

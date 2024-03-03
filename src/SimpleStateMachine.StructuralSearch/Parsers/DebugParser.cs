@@ -1,4 +1,5 @@
 ﻿using Pidgin;
+#pragma warning disable CS9074 // The 'scoped' modifier of parameter doesn't match overridden or implemented member.
 
 namespace SimpleStateMachine.StructuralSearch
 {
@@ -11,9 +12,6 @@ namespace SimpleStateMachine.StructuralSearch
         }
         
         public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected, out T result)
-        {
-            var res = _parser.TryParse(ref state, ref expected, out result);
-            return res;
-        }
+            => _parser.TryParse(ref state, ref expected, out result!);
     }
 }

@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using Pidgin;
 
+#pragma warning disable CS9074 // The 'scoped' modifier of parameter doesn't match overridden or implemented member.
+
 namespace SimpleStateMachine.StructuralSearch
 {
     public abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
     {
-        protected Lazy<Parser<TToken, T>> parser;
+        private Lazy<Parser<TToken, T>>? _lookaheadParser;
+        protected Lazy<Parser<TToken, T>> LookaheadParser => _lookaheadParser ?? throw new ArgumentNullException(nameof(Lookahead));
+        
+        public Func<IEnumerable<LookaheadResult<TToken, T>>>? OnLookahead { get; protected set; }
 
-        public Func<IEnumerable<LookaheadResult<TToken, T>>> OnLookahead { get; set; }
-
-        public abstract Parser<TToken, T> BuildParser(Func<Parser<TToken, T>?> next,
+        protected abstract Parser<TToken, T> BuildParser(Func<Parser<TToken, T>?> next,
             Func<Parser<TToken, T>?> nextNext);
 
         public void Lookahead(Func<Parser<TToken, T>?> next, Func<Parser<TToken, T>?> nextNext)
         {
-            parser = new Lazy<Parser<TToken, T>>(() => BuildParser(next, nextNext));
+            _lookaheadParser = new Lazy<Parser<TToken, T>>(() => BuildParser(next, nextNext));
         }
 
-        public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected,
-            out T result)
-        {
-            var res = parser.Value.TryParse(ref state, ref expected, out result);
-            return res;
-        }
+        public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected, out T result)
+            => LookaheadParser.Value.TryParse(ref state, ref expected, out result!);
     }
 
     public class LookaheadResult<TToken, T>

@@ -13,7 +13,7 @@ namespace SimpleStateMachine.StructuralSearch
         {
             // TODO optimize
             Parenthesised = Parsers.BetweenOneOfChars(x => Parser.Char(x).Try(),
-                    Parser.Rec(() => StringWithParenthesised),
+                    Parser.Rec(() => StringWithParenthesised ?? throw new ArgumentNullException(nameof(StringWithParenthesised))),
                     Constant.AllParenthesised)
                 .Try()
                 .Labelled($"{nameof(ParametersParser)}.{nameof(Parenthesised)}");
@@ -32,7 +32,7 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try()
                 .Labelled($"{nameof(ParametersParser)}.{nameof(StringParameter)}");
 
-            var placeholderOrPropertyRuleParameter = Parser.Rec(() => PlaceholderOrPropertyRuleParameter);
+            var placeholderOrPropertyRuleParameter = Parser.Rec(() => PlaceholderOrPropertyRuleParameter ?? throw new ArgumentNullException(nameof(PlaceholderOrPropertyRuleParameter)));
 
             StringFormatParameter =
                 Parser.OneOf(placeholderOrPropertyRuleParameter, StringParameter)
@@ -119,8 +119,6 @@ namespace SimpleStateMachine.StructuralSearch
         private static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeUnaryParameter;
 
         public static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> Change;
-
-        public static readonly Parser<char, IRuleParameter> PlaceholderOrProperty;
 
         public static readonly Parser<char, IRuleParameter> PlaceholderOrPropertyRuleParameter;
 
