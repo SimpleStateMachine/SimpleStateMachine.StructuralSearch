@@ -46,9 +46,7 @@ namespace SimpleStateMachine.StructuralSearch
             return placeholders;
         }
 
-        private void ClearInternal()
-        {
-            _placeholders.Clear();;
-        }
+        private void ClearInternal() 
+            => _placeholders.Clear();
     }
 }

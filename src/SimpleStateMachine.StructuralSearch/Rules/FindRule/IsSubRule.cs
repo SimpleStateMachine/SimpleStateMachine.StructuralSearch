@@ -30,9 +30,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             };
         }
         
-        public override string ToString()
-        {
-            return $"{_parameter}{Constant.Space}{SubRuleType.Is}{Constant.Space}{_argument}";
-        }
+        public override string ToString() 
+            => $"{_parameter}{Constant.Space}{SubRuleType.Is}{Constant.Space}{_argument}";
     }
 }

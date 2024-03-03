@@ -29,9 +29,7 @@ namespace SimpleStateMachine.StructuralSearch
             };
         }
         
-        public override string ToString()
-        {
-            return $"{_parameter}{Constant.Dote}{_type}";
-        }
+        public override string ToString() 
+            => $"{_parameter}{Constant.Dote}{_type}";
     }
 }

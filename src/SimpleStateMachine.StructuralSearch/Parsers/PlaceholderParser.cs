@@ -60,7 +60,7 @@ namespace SimpleStateMachine.StructuralSearch
             Parser<char, string>? term = null;
 
             var parenthesised = Parsers.BetweenOneOfChars(x => Parser.Char(x).AsString(),
-                expr: Parser.Rec(() => term!),
+                expr: Parser.Rec(() => term ?? throw new ArgumentNullException(nameof(term))),
                 Constant.AllParenthesised).JoinToString();
 
             term = Parser.OneOf(parenthesised, token).Many().JoinToString();

@@ -15,10 +15,8 @@ namespace SimpleStateMachine.StructuralSearch
                 Space
             );
 
-            public static char[] AllExclude(params char[] excluded)
-            {
-                return All.Where(x => !excluded.Contains(x)).ToArray();
-            }
+            public static char[] AllExclude(params char[] excluded) 
+                => All.Where(x => !excluded.Contains(x)).ToArray();
         }
         
         public static class Parameter

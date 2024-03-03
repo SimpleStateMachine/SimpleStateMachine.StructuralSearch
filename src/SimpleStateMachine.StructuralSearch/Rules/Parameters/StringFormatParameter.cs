@@ -23,9 +23,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             return string.Join(string.Empty, values);
         }
         
-        public override string ToString()
-        {
-            return $"{Constant.DoubleQuotes}{string.Join(string.Empty, _parameters.Select(x=> x.ToString()))}{Constant.DoubleQuotes}";
-        }
+        public override string ToString() 
+            => $"{Constant.DoubleQuotes}{string.Join(string.Empty, _parameters.Select(x=> x.ToString()))}{Constant.DoubleQuotes}";
     }
 }

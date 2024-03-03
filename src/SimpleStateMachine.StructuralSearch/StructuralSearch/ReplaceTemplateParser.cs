@@ -41,20 +41,18 @@ namespace SimpleStateMachine.StructuralSearch
                 .MergerMany()
                 .Try();
         }
-        
-        public static readonly Parser<char, IRuleParameter> ParenthesisedParameter;
-        public static readonly Parser<char, IRuleParameter> Parameter;
-        public static readonly Parser<char, IEnumerable<IRuleParameter>> Parenthesised;
-        public static readonly Parser<char, IEnumerable<IRuleParameter>> ParenthesisedParameters;
-        public static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters;
 
-        internal static IReplaceBuilder ParseTemplate(string? str)
-        {
-            return string.IsNullOrEmpty(str)
+        private static readonly Parser<char, IRuleParameter> ParenthesisedParameter;
+        public static readonly Parser<char, IRuleParameter> Parameter;
+        private static readonly Parser<char, IEnumerable<IRuleParameter>> Parenthesised;
+        private static readonly Parser<char, IEnumerable<IRuleParameter>> ParenthesisedParameters;
+        private static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters;
+
+        internal static IReplaceBuilder ParseTemplate(string? str) 
+            => string.IsNullOrEmpty(str)
                 ? ReplaceBuilder.Empty
                 : Parameters
-                .Select(steps => new ReplaceBuilder(steps))
-                .ParseOrThrow(str);
-        }
+                    .Select(steps => new ReplaceBuilder(steps))
+                    .ParseOrThrow(str);
     }
 }

@@ -27,19 +27,15 @@ public class ParenthesisedParameter : IRuleParameter
         return string.Format(_template, string.Join(string.Empty, values));
     }
         
-    public override string ToString()
-    {
-        return string.Format(_template, string.Join(string.Empty, _parameters.Select(x=> x.ToString())));
-    }
-    
-    private static string GetTemplate(ParenthesisType parenthesisType)
-    {
-        return parenthesisType switch
+    public override string ToString() 
+        => string.Format(_template, string.Join(string.Empty, _parameters.Select(x=> x.ToString())));
+
+    private static string GetTemplate(ParenthesisType parenthesisType) 
+        => parenthesisType switch
         {
             ParenthesisType.Usual => "({0})",
             ParenthesisType.Square => "[{0}]",
             ParenthesisType.Curly => "{{0}}",
             _ => throw new ArgumentOutOfRangeException(nameof(parenthesisType), parenthesisType, null)
         };
-    }
 }

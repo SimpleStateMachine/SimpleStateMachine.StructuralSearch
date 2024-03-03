@@ -2,13 +2,9 @@
 
 public class EmptySubRule : IRule
 {
-    public bool Execute(ref IParsingContext context)
-    {
-        return true;
-    }
-    
-    public override string ToString()
-    {
-        return $"{Constant.Underscore}";
-    }
+    public bool Execute(ref IParsingContext context) 
+        => true;
+
+    public override string ToString() 
+        => $"{Constant.Underscore}";
 }

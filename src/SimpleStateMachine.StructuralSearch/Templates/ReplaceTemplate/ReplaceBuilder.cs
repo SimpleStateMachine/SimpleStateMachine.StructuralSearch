@@ -28,9 +28,7 @@ namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
             return result;
         }
         
-        public override string ToString()
-        {
-            return $"{string.Join(string.Empty, Steps)}";
-        } 
+        public override string ToString() 
+            => $"{string.Join(string.Empty, Steps)}";
     }
 }

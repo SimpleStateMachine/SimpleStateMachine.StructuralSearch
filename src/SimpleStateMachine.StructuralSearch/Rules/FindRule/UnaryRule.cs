@@ -25,9 +25,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             };
         }
         
-        public override string ToString()
-        {
-            return $"{_type}{Constant.Space}{_parameter}";
-        }
+        public override string ToString() 
+            => $"{_type}{Constant.Space}{_parameter}";
     }
 }

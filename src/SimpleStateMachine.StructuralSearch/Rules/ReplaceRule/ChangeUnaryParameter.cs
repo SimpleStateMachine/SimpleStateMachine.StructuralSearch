@@ -28,8 +28,6 @@ public class ChangeUnaryParameter : IRuleParameter
         };
     }
         
-    public override string ToString()
-    {
-        return $"{_parameter}{Constant.Dote}{_type}{Constant.LeftParenthesis}{_arg}{Constant.RightParenthesis}";
-    }
+    public override string ToString() 
+        => $"{_parameter}{Constant.Dote}{_type}{Constant.LeftParenthesis}{_arg}{Constant.RightParenthesis}";
 }

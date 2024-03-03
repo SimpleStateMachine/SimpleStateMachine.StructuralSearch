@@ -11,15 +11,11 @@ namespace SimpleStateMachine.StructuralSearch
             _input = input;
         }
 
-        public Result<char, T> ParseBy<T>(Parser<char, T> parser)
-        {
-            return parser.Parse(_input);
-        }
+        public Result<char, T> ParseBy<T>(Parser<char, T> parser) 
+            => parser.Parse(_input);
 
-        public void Replace(Match<string> match, string value)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void Replace(Match<string> match, string value) 
+            => throw new System.NotImplementedException();
 
         public string Extension => string.Empty;
         public string Path => string.Empty;

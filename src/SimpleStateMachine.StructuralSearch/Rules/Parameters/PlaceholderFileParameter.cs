@@ -30,9 +30,7 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             };
         }
         
-        public override string ToString()
-        {
-            return $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.File}{Constant.Dote}{_property}";
-        }
+        public override string ToString() 
+            => $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.File}{Constant.Dote}{_property}";
     }
 }

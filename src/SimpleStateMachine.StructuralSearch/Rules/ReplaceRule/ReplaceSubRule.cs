@@ -13,8 +13,6 @@ public class ReplaceSubRule
         Parameter = parameter;
     }
         
-    public override string ToString()
-    {
-        return $"{Placeholder}{Constant.Space}{Constant.Should}{Constant.Space}{Parameter}";
-    }
+    public override string ToString() 
+        => $"{Placeholder}{Constant.Space}{Constant.Should}{Constant.Space}{Parameter}";
 }

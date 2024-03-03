@@ -20,16 +20,18 @@
         public IInput Input => _context.Input;
 
         public static Placeholder CreateEmpty(IParsingContext context, string name, string value)
-        {
-            return new Placeholder(
-                context: ref context,
-                name: name,
-                new Match<string>(
-                    value, 
-                    value.Length, 
-                    ColumnPosition.Empty, 
-                    LinePosition.Empty, 
-                    OffsetPosition.Empty));
-        }
+            => new
+        (
+            context: ref context,
+            name: name,
+            match: new Match<string>
+            (
+                Value: value, 
+                Lenght: value.Length, 
+                Column: ColumnPosition.Empty, 
+                Line: LinePosition.Empty, 
+                Offset: OffsetPosition.Empty
+            )
+        );
     }
 }

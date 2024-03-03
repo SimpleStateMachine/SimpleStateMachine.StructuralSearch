@@ -10,15 +10,12 @@ namespace SimpleStateMachine.StructuralSearch.Rules
         {
             _value = value;
         }
-        public string GetValue(ref IParsingContext context)
-        {
-            return _value;
-        }
-        
+        public string GetValue(ref IParsingContext context) 
+            => _value;
+
         public override string ToString()
         {
             var value = EscapeHelper.EscapeChars(_value, c => $"{Constant.BackSlash}{c}", Constant.Parameter.Escape);
-            
             return $"{value}";
         }
     }

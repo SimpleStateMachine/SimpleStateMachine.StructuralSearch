@@ -6,12 +6,12 @@ namespace SimpleStateMachine.StructuralSearch
 {
     public static class ReplaceRuleParser
     {
-        internal static readonly Parser<char, string> Then =
+        private static readonly Parser<char, string> Then =
             Parser.CIString(Constant.Then)
                 .Try()
                 .TrimStart();
-        
-        internal static readonly Parser<char, ReplaceSubRule> ReplaceSubRule =
+
+        private static readonly Parser<char, ReplaceSubRule> ReplaceSubRule =
             Parser.Map((placeholder, _, parameter) => new ReplaceSubRule(placeholder, parameter),
                     ParametersParser.PlaceholderParameter.TrimStart(),
                     CommonTemplateParser.Should.TrimStart(),
@@ -19,24 +19,22 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try()
                 .TrimStart();
 
-        internal static readonly Parser<char, IRule> EmptySubRule =
+        private static readonly Parser<char, IRule> EmptySubRule =
             CommonParser.Underscore.ThenReturn(new EmptySubRule())
                 .As<char, EmptySubRule, IRule>()
                 .Try()
                 .TrimStart();
-        
-        internal static readonly Parser<char, ReplaceRule> ReplaceRule =
+
+        private static readonly Parser<char, ReplaceRule> ReplaceRule =
             Parser.Map((rule, subRules) => new ReplaceRule(rule, subRules),
                     Parser.OneOf(EmptySubRule, FindRuleParser.Expr),
                     Then.Then(ReplaceSubRule.SeparatedAtLeastOnce(CommonParser.Comma)))
                 .Try()
                 .TrimStart();
 
-        internal static IReplaceRule ParseTemplate(string? str)
-        {
-            return string.IsNullOrEmpty(str)
+        internal static IReplaceRule ParseTemplate(string? str) 
+            => string.IsNullOrEmpty(str)
                 ? SimpleStateMachine.StructuralSearch.ReplaceRule.Empty
                 : ReplaceRule.Before(CommonParser.EOF).ParseOrThrow(str);
-        }
     }
 }

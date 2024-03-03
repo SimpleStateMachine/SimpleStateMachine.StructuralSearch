@@ -10,9 +10,7 @@ namespace SimpleStateMachine.StructuralSearch
     
     public class EmptyFindParser: IFindParser
     {
-        public IEnumerable<FindParserResult> Parse(ref IParsingContext context)
-        {
-            return Array.Empty<FindParserResult>();
-        }
+        public IEnumerable<FindParserResult> Parse(ref IParsingContext context) 
+            => Array.Empty<FindParserResult>();
     }
 }
