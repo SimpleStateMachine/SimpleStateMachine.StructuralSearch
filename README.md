@@ -6,7 +6,7 @@ StructuralSearch - An easy-to-use library for structural search and replace in t
 If you like or are using this project please give it a star. Thanks!
 
 ## Documentation📄
-Documentation here: https://github.com/SimpleStateMachine/SimpleStateMachine.StructuralSearch/wiki
+Documentation here: [wiki](https://github.com/SimpleStateMachine/SimpleStateMachine.StructuralSearch/wiki]
 
 ## FAQ❔
 If you think you have found a bug, create a github [issue](https://github.com/SimpleStateMachine/SimpleStateMachine.StructuralSearch/issues).
