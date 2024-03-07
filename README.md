@@ -5,6 +5,12 @@ StructuralSearch - An easy-to-use library for structural search and replace in t
 ## Give a Star! :star:
 If you like or are using this project please give it a star. Thanks!
 
+## Getting Started📂
+Install from Nuget:
+```sh
+ Install-Package SimpleStateMachine.StructuralSearch
+```
+
 ## Documentation📄
 Documentation here: [wiki](https://github.com/SimpleStateMachine/SimpleStateMachine.StructuralSearch/wiki)
 
