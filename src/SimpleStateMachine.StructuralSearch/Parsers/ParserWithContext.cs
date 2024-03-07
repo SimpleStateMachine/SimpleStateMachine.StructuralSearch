@@ -1,6 +1,4 @@
-﻿using Pidgin;
-
-namespace SimpleStateMachine.StructuralSearch;
+﻿namespace SimpleStateMachine.StructuralSearch;
 
 // public abstract class ParserWithContext<TToken, T> : Parser<TToken, T>
 // {
