@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
+﻿using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
 using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
