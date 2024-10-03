@@ -26,7 +26,7 @@ var results = template.ParseString("void MyMethodName(int value1, double value2)
 parseResult.Match.Value // void MyMethodName(int value1, double value2)
 
 // The exact coordinates of the match
-parseResult.Match.Columnt // Start 1, End 45
+parseResult.Match.Column // Start 1, End 45
 parseResult.Match.Line // Start 1, End 1
 parseResult.Match.Offset // Start 0, End 44
     
