@@ -45,7 +45,7 @@ public static class FindTemplateTests
     [InlineData("( $var$")]
     public static void FindTemplateParsingShouldBeFail(string templateStr)
     {
-        Assert.Throws<ParseException>(() => StructuralSearch.ParseFindTemplate(templateStr));
+        Assert.Throws<ParseException<char>>(() => StructuralSearch.ParseFindTemplate(templateStr));
     }
         
     [Theory]
