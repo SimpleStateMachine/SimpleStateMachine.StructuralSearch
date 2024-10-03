@@ -39,6 +39,6 @@ public static class ReplaceRuleParserTests
     [InlineData("$var1$ equals $var2$ then ($var1$) => \"test $var3$\"")]
     public static void ReplaceRuleParsingShouldBeFail(string replaceRuleStr)
     {
-        Assert.Throws<ParseException>(() => StructuralSearch.ParseReplaceRule(replaceRuleStr));
+        Assert.Throws<ParseException<char>>(() => StructuralSearch.ParseReplaceRule(replaceRuleStr));
     }
 }

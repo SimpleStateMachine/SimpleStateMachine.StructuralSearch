@@ -27,7 +27,7 @@ public static class ParameterParserTests
     [InlineData("( )(")]
     public static void StringParameterParsingShouldBeFail(string str)
     {
-        Assert.Throws<ParseException>(() =>
+        Assert.Throws<ParseException<char>>(() =>
         {
             var result = ParametersParser.StringParameter.Before(CommonParser.EOF).ParseOrThrow(str);
             return result;
@@ -53,7 +53,7 @@ public static class ParameterParserTests
     [InlineData("\\\"132\\\"")]
     public static void StringFormatParameterParsingShouldBeFail(string str)
     {
-        Assert.Throws<ParseException>(() => ParametersParser.StringFormatParameter.ParseOrThrow(str));
+        Assert.Throws<ParseException<char>>(() => ParametersParser.StringFormatParameter.ParseOrThrow(str));
     }
     
     [Theory]

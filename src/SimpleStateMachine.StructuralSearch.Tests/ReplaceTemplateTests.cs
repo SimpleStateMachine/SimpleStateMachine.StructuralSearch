@@ -85,6 +85,6 @@ public static class ReplaceTemplateTests
     [InlineData("test ( ")]
     public static void ReplaceTemplateParsingShouldBeFail(string templateStr)
     {
-        Assert.Throws<ParseException>(() => StructuralSearch.ParseReplaceTemplate(templateStr));
+        Assert.Throws<ParseException<char>>(() => StructuralSearch.ParseReplaceTemplate(templateStr));
     }
 }
