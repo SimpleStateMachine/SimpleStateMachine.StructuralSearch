@@ -10,17 +10,17 @@ If you like or are using this project please give it a star. Thanks!
 # Why SimpleStateMachine?
 **Forget** about regular expressions and **enjoy searching**
 
-1. Describe search pattern:
+1. Describe search pattern🔎
 ```C#
 // Just text and placeholders
 var template = StructuralSearch.ParseFindTemplate("void $methodName$($params$)")
 ```
-2. Find it in any text:
+2. Find it in any text📄
 ```C#
 // All the matches are already here
 var results = template.ParseString("void MyMethodName(int value1, double value2)"
 ``` 
-3. Enjoy the search results
+3. Enjoy the search results📋
 ```C#
 // The found text part
 parseResult.Match.Value // void MyMethodName(int value1, double value2)
