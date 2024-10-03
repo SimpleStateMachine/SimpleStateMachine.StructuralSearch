@@ -20,7 +20,7 @@ var template = StructuralSearch.ParseFindTemplate("void $methodName$($params$)")
 // All the matches are already here
 var results = template.ParseString("void MyMethodName(int value1, double value2)"
 ``` 
-3. Enjoy the search results📋
+3. Enjoy the search results📑
 ```C#
 // The found text part
 parseResult.Match.Value // void MyMethodName(int value1, double value2)
