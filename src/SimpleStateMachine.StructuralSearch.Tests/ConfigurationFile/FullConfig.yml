@@ -20,7 +20,6 @@
           $var$ = $value1$;
     FindRules:
       - $sign$ In ("is", "==", "!=", "is not")
-      - $value$ In ($value1$, $value2$)
     ReplaceTemplate: |-
       $var$ = $value1$ ?? $value2$;
     ReplaceRules:

@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using SimpleStateMachine.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using Xunit;
 
@@ -37,4 +40,26 @@ public class StructuralSearchTests
             }
         }
     };
+
+
+    [Theory]
+    [InlineData("ExamplesInput/Methods.cs")]
+    public static void StructuralSearchShouldBeSuccess2(string filePath)
+    {
+        var configuration = new Configuration()
+        {
+            FindTemplate = "$Modificator$ $ReturnType$ $MethodName$($params$)",
+            FindRules = new List<string>
+            {
+                "$Modificator$ in (\"public\", \"private\", \"internal\")",
+                "$ReturnType$ is var",
+                "$MethodName$ is var"
+            }
+        };
+
+        var parser = new StructuralSearchParser(configuration);
+        IParsingContext context = new ParsingContext(new FileInput(new FileInfo(filePath)));
+        var results = parser.Parse(ref context).ToList();
+        // parser.ApplyFindRule(results);
+    }
 }

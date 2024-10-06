@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class PlaceholderOffsetParameter : IRuleParameter
+    public class PlaceholderOffsetParameter : IPlaceholderRelatedRuleParameter
     {
         private readonly PlaceholderParameter _placeholderParameter;
         private readonly OffsetProperty _property;
@@ -13,6 +13,9 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _placeholderParameter = parameter;
             _property = property;
         }
+        
+        public string Name => _placeholderParameter.Name;
+        
         public string GetValue(ref IParsingContext context)
         {
             var placeHolder = _placeholderParameter.GetPlaceholder(ref context);

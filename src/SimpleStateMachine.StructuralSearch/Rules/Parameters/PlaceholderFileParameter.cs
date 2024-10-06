@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class PlaceholderFileParameter : IRuleParameter
+    public class PlaceholderFileParameter : IPlaceholderRelatedRuleParameter
     {
         private readonly PlaceholderParameter _placeholderParameter;
         private readonly FileProperty _property;
@@ -13,6 +13,8 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _placeholderParameter = parameter;
             _property = property;
         }
+        
+        public string Name => _placeholderParameter.Name;
 
         public string GetValue(ref IParsingContext context)
         {

@@ -9,31 +9,31 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             Parser.CIEnum<SubRuleType>()
                 .Trim();
 
-        public static Parser<char, IRule> BinarySubRule(IRuleParameter left, SubRuleType ruleType) =>
+        public static Parser<char, IFindRule> BinarySubRule(IRuleParameter left, SubRuleType ruleType) =>
             ParametersParser.Parameter
                 .TrimStart()
                 .Select(right => new BinarySubRule(ruleType, left, right))
-                .As<char, BinarySubRule, IRule>()
+                .As<char, BinarySubRule, IFindRule>()
                 .Try();
 
         public static readonly Parser<char, PlaceholderType> PlaceholderType =
             Parser.CIEnum<PlaceholderType>()
                 .TrimStart();
 
-        public static Parser<char, IRule> IsSubRule(IRuleParameter left, SubRuleType ruleType) =>
+        public static Parser<char, IFindRule> IsSubRule(IRuleParameter left, SubRuleType ruleType) =>
             PlaceholderType.Select(arg => new IsSubRule(left, arg))
-                .As<char, IsSubRule, IRule>()
+                .As<char, IsSubRule, IFindRule>()
                 .Try();
 
-        public static Parser<char, IRule> InSubRule(IRuleParameter left, SubRuleType ruleType) =>
+        public static Parser<char, IFindRule> InSubRule(IRuleParameter left, SubRuleType ruleType) =>
             ParametersParser.Parameters
                 .ParenthesisedOptional(x => Parser.Char(x).Trim())
                 .TrimStart()
                 .Select(args => new InSubRule(left, args))
-                .As<char, InSubRule, IRule>()
+                .As<char, InSubRule, IFindRule>()
                 .Try();
 
-        public static readonly Parser<char, IRule> OneOfSubRule =
+        public static readonly Parser<char, IFindRule> OneOfSubRule =
             Parser.Map((left, ruleType) => (left, ruleType), 
                     ParametersParser.Parameter.Trim(), SubRuleType)
                 .Then(x => x.ruleType switch

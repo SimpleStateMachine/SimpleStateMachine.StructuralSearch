@@ -22,6 +22,11 @@ namespace SimpleStateMachine.StructuralSearch
             _placeholders[placeholder.Name] = placeholder;
         }
 
+        public void RemovePlaceholder(IPlaceholder placeholder)
+        {
+            _placeholders.Remove(placeholder.Name);
+        }
+
         public IPlaceholder GetPlaceholder(string name) 
             => _placeholders[name];
 

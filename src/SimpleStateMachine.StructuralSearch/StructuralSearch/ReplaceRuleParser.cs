@@ -19,9 +19,9 @@ namespace SimpleStateMachine.StructuralSearch
                 .Try()
                 .TrimStart();
 
-        private static readonly Parser<char, IRule> EmptySubRule =
+        private static readonly Parser<char, IFindRule> EmptySubRule =
             CommonParser.Underscore.ThenReturn(new EmptySubRule())
-                .As<char, EmptySubRule, IRule>()
+                .As<char, EmptySubRule, IFindRule>()
                 .Try()
                 .TrimStart();
 

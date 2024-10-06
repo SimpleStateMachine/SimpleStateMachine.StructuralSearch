@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class BinarySubRule : IRule
+    public class BinarySubRule : IFindRule
     {
         private readonly SubRuleType _type;
         private readonly IRuleParameter _left;
@@ -16,6 +16,9 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _left = left;
             _right = right;
         }
+
+        public bool IsApplicableForPlaceholder(string placeholderName)
+            => _left.IsApplicableForPlaceholder(placeholderName) || _right.IsApplicableForPlaceholder(placeholderName);
 
         public bool Execute(ref IParsingContext context)
         {

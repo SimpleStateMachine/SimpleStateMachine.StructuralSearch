@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class PlaceholderLenghtParameter: IRuleParameter
+    public class PlaceholderLenghtParameter: IPlaceholderRelatedRuleParameter
     {
         private readonly PlaceholderParameter _placeholderParameter;
         private readonly PlaceholderProperty _property;
@@ -10,6 +10,8 @@
             _placeholderParameter = parameter;
             _property = property;
         }
+        
+        public string Name => _placeholderParameter.Name;
         
         public string GetValue(ref IParsingContext context)
         {

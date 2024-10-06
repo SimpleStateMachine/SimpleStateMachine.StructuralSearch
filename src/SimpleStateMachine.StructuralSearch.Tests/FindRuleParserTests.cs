@@ -62,7 +62,7 @@ public static class FindRuleParserTests
     }
 
     [Theory]
-    [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"",  "$value$ In $value1$,$value2$")]
+    [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"")]
     [InlineData("FindRule/AssignmentNullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"")]
     public static void FindRuleParsingFromFileShouldBeSuccess(string filePath, params string[] customResult)
     {

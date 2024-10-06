@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch
 {
     public class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
     {
         private readonly string _name;
+        private readonly IReadOnlyList<IFindRule> _findRules;
         private IParsingContext? _context;
-        private IParsingContext Context => _context ?? throw new ArgumentNullException(nameof(_context));
         
-        public PlaceholderParser(string name)
+        public PlaceholderParser(string name, IReadOnlyList<IFindRule> findRules)
         {
             _name = name;
+            _findRules = findRules;
         }
+        
+        private IParsingContext Context => _context ?? throw new ArgumentNullException(nameof(_context));
 
         protected override Parser<char, string> BuildParser(Func<Parser<char, string>?> next,
             Func<Parser<char, string>?> nextNext)
@@ -28,7 +33,6 @@ namespace SimpleStateMachine.StructuralSearch
             Parser<char, Unit> lookahead;
             if (nextNextParser is not null)
             {
-            
                 lookahead = Parser.Lookahead(nextParser.Then(nextNextParser, (s1, s2) =>
                 {
                     OnLookahead = () => new List<LookaheadResult<char, string>>
@@ -90,10 +94,19 @@ namespace SimpleStateMachine.StructuralSearch
                 result = match.Value;
                 if (res)
                 {
-                    Context.AddPlaceholder(new Placeholder(
+                    var placeholderObj = new Placeholder
+                    (
                         context: ref _context!,
                         name: _name,
-                        match: match));
+                        match: match
+                    );
+                    
+                    Context.AddPlaceholder(placeholderObj);
+
+                    res = _findRules.All(r => r.Execute(ref _context));
+                    
+                    if (!res)
+                        Context.RemovePlaceholder(placeholderObj);
                 }
             }
             
