@@ -10,17 +10,6 @@ If you like or are using this project please give it a star. Thanks!
 # Why SimpleStateMachine?
 **Forget** about regular expressions and **enjoy searching*
 
-# Grammar
-```C#
-grammar = term EOF
-term = '(' term ')' | '{' term '}' | '[' term ']' | term + | token
-token = placeholder | string_literal | whitespaces | comment
-placeholder = '$' identifier '$'
-string_literal = <escaped string>
-whitespace = [“\n\r” | '\n' | ' '] +
-comment = <single or multiline comment>
-```
-
 1. Describe search pattern🔎
 ```C#
 // Just text and placeholders
@@ -49,6 +38,17 @@ parseResult.Placeholders[0].Column // Start 6, End 18
 parseResult.Placeholders[0].Line // Start 1, End 1
 parseResult.Placeholders[0].Offset // Start 5, End 17
 
+```
+
+# Grammar
+```C#
+grammar = term EOF
+term = '(' term ')' | '{' term '}' | '[' term ']' | term + | token
+token = placeholder | string_literal | whitespaces | comment
+placeholder = '$' identifier '$'
+string_literal = <escaped string>
+whitespace = [“\n\r” | '\n' | ' '] +
+comment = <single or multiline comment>
 ```
 
 ## Getting Started📂
