@@ -8,7 +8,18 @@ StructuralSearch - An easy-to-use library for structural search and replace in t
 If you like or are using this project please give it a star. Thanks!
 
 # Why SimpleStateMachine?
-**Forget** about regular expressions and **enjoy searching**
+**Forget** about regular expressions and **enjoy searching*
+
+# Grammar
+```C#
+grammar = term EOF
+term = '(' term ')' | '{' term '}' | '[' term ']' | term + | token
+token = placeholder | string_literal | whitespaces | comment
+placeholder = '$' identifier '$'
+string_literal = <escaped string>
+whitespace = [“\n\r” | '\n' | ' '] +
+comment = <single or multiline comment>
+```
 
 1. Describe search pattern🔎
 ```C#
