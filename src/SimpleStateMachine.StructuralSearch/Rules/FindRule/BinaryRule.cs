@@ -2,18 +2,21 @@
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class BinaryRule : IRule
+    public class BinaryRule : IFindRule
     {
         private readonly BinaryRuleType _type;
-        private readonly IRule _left;
-        private readonly IRule _right;
+        private readonly IFindRule _left;
+        private readonly IFindRule _right;
 
-        public BinaryRule(BinaryRuleType type, IRule left, IRule right)
+        public BinaryRule(BinaryRuleType type, IFindRule left, IFindRule right)
         {
             _type = type;
             _left = left;
             _right = right;
         }
+
+        public bool IsApplicableForPlaceholder(string placeholderName)
+            => _left.IsApplicableForPlaceholder(placeholderName) || _right.IsApplicableForPlaceholder(placeholderName);
 
         public bool Execute(ref IParsingContext context)
         {

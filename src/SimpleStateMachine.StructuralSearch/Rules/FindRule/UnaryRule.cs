@@ -3,12 +3,12 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class UnaryRule : IRule
+    public class UnaryRule : IFindRule
     {
         private readonly UnaryRuleType _type;
-        private readonly IRule _parameter;
+        private readonly IFindRule _parameter;
 
-        public UnaryRule(UnaryRuleType type, IRule parameter)
+        public UnaryRule(UnaryRuleType type, IFindRule parameter)
         {
             _type = type;
             _parameter = parameter;
@@ -24,6 +24,9 @@ namespace SimpleStateMachine.StructuralSearch.Rules
                 _ => throw new ArgumentOutOfRangeException(nameof(_type).FormatPrivateVar(), _type, null)
             };
         }
+
+        public bool IsApplicableForPlaceholder(string placeholderName)
+            => _parameter.IsApplicableForPlaceholder(placeholderName);
         
         public override string ToString() 
             => $"{_type}{Constant.Space}{_parameter}";

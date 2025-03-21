@@ -1,10 +1,11 @@
 ﻿using System;
+using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class IsSubRule : IRule
+    public class IsSubRule : IFindRule
     {
         private readonly PlaceholderType _argument;
         private readonly IRuleParameter _parameter;
@@ -15,13 +16,16 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             _argument = argument;
         }
 
+        public bool IsApplicableForPlaceholder(string placeholderName)
+            => _parameter.IsApplicableForPlaceholder(placeholderName);
+
         public bool Execute(ref IParsingContext context)
         {
             var value = _parameter.GetValue(ref context);
             
             return _argument switch
             {
-                PlaceholderType.Var => CommonParser.Identifier.TryParse(value, out _),
+                PlaceholderType.Var => CommonParser.Identifier.Before(CommonParser.EOF).TryParse(value, out _),
                 PlaceholderType.Int => int.TryParse(value, out _),
                 PlaceholderType.Double => double.TryParse(value, out _),
                 PlaceholderType.DateTime => DateTime.TryParse(value, out _),

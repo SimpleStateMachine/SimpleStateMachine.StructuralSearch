@@ -8,9 +8,9 @@ namespace SimpleStateMachine.StructuralSearch
         public static readonly EmptyReplaceRule Empty = new ();
         
         public IEnumerable<ReplaceSubRule> Rules { get; }
-        public IRule ConditionRule { get; }
+        public IFindRule ConditionRule { get; }
 
-        public ReplaceRule(IRule conditionRule, IEnumerable<ReplaceSubRule> rules)
+        public ReplaceRule(IFindRule conditionRule, IEnumerable<ReplaceSubRule> rules)
         {
             ConditionRule = conditionRule;
             Rules = rules;

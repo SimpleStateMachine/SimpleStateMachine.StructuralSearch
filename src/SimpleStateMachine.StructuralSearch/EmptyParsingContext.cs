@@ -17,6 +17,9 @@ namespace SimpleStateMachine.StructuralSearch
         public void AddPlaceholder(IPlaceholder placeholder) 
             => throw new System.NotImplementedException();
 
+        public void RemovePlaceholder(IPlaceholder placeholder)
+            => throw new System.NotImplementedException();
+
         public IPlaceholder GetPlaceholder(string name) 
             => Placeholder.CreateEmpty(this, name, string.Empty);
 

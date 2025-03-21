@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch.Rules
 {
-    public class InSubRule : IRule
+    public class InSubRule : IFindRule
     {
         private readonly IRuleParameter _parameter;
 
@@ -30,6 +30,9 @@ namespace SimpleStateMachine.StructuralSearch.Rules
             
             return false;
         }
+        
+        public bool IsApplicableForPlaceholder(string placeholderName)
+            => _parameter.IsApplicableForPlaceholder(placeholderName) || _arguments.Any(p => p.IsApplicableForPlaceholder(placeholderName));
         
         public override string ToString() 
             => $"{_parameter}{Constant.Space}{SubRuleType.In}{Constant.Space}{string.Join(Constant.Comma, _arguments.Select(x=>x.ToString()))}";

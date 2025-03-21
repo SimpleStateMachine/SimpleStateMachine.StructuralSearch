@@ -8,6 +8,7 @@ namespace SimpleStateMachine.StructuralSearch
         
         bool TryGetPlaceholder(string name, out IPlaceholder value);
         void AddPlaceholder(IPlaceholder placeholder);
+        void RemovePlaceholder(IPlaceholder placeholder);
         IPlaceholder GetPlaceholder(string name);
         
         void Fill(IReadOnlyDictionary<string, IPlaceholder>placeholders);
