@@ -1,11 +1,10 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿namespace SimpleStateMachine.StructuralSearch.Rules;
+
+public enum PlaceholderType
 {
-    public enum PlaceholderType
-    {
-        Var = 0,
-        Int,
-        Double,
-        DateTime,
-        Guid
-    }
+    Var = 0,
+    Int,
+    Double,
+    DateTime,
+    Guid
 }

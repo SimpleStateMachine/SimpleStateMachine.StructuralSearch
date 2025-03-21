@@ -1,11 +1,10 @@
-﻿namespace SimpleStateMachine.StructuralSearch
+﻿namespace SimpleStateMachine.StructuralSearch;
+
+public enum ChangeType
 {
-    public enum ChangeType
-    {
-        Trim = 0,
-        TrimEnd,
-        TrimStart,
-        ToUpper,
-        ToLower
-    }
+    Trim = 0,
+    TrimEnd,
+    TrimStart,
+    ToUpper,
+    ToLower
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using SimpleStateMachine.StructuralSearch.Rules;
 
-namespace SimpleStateMachine.StructuralSearch.Helper
+namespace SimpleStateMachine.StructuralSearch.Helper;
+
+public static class LogicalHelper
 {
-    public static class LogicalHelper
-    {
-        public static bool Calculate(BinaryRuleType type, bool left, bool right) 
-            => type switch
+    public static bool Calculate(BinaryRuleType type, bool left, bool right) 
+        => type switch
         {
             BinaryRuleType.And => left && right,
             BinaryRuleType.Or => left || right,
@@ -16,5 +16,4 @@ namespace SimpleStateMachine.StructuralSearch.Helper
             BinaryRuleType.XNOR => left ==  right,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
-    }
 }

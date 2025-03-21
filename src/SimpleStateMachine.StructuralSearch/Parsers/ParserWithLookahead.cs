@@ -4,38 +4,37 @@ using Pidgin;
 
 #pragma warning disable CS9074 // The 'scoped' modifier of parameter doesn't match overridden or implemented member.
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch;
+
+public abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
 {
-    public abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
-    {
-        private Lazy<Parser<TToken, T>>? _lookaheadParser;
-        protected Lazy<Parser<TToken, T>> LookaheadParser => _lookaheadParser ?? throw new ArgumentNullException(nameof(Lookahead));
+    private Lazy<Parser<TToken, T>>? _lookaheadParser;
+    protected Lazy<Parser<TToken, T>> LookaheadParser => _lookaheadParser ?? throw new ArgumentNullException(nameof(Lookahead));
         
-        public Func<IEnumerable<LookaheadResult<TToken, T>>>? OnLookahead { get; protected set; }
+    public Func<IEnumerable<LookaheadResult<TToken, T>>>? OnLookahead { get; protected set; }
 
-        protected abstract Parser<TToken, T> BuildParser(Func<Parser<TToken, T>?> next,
-            Func<Parser<TToken, T>?> nextNext);
+    protected abstract Parser<TToken, T> BuildParser(Func<Parser<TToken, T>?> next,
+        Func<Parser<TToken, T>?> nextNext);
 
-        public void Lookahead(Func<Parser<TToken, T>?> next, Func<Parser<TToken, T>?> nextNext)
-        {
-            _lookaheadParser = new Lazy<Parser<TToken, T>>(() => BuildParser(next, nextNext));
-        }
-
-        public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected, out T result)
-            => LookaheadParser.Value.TryParse(ref state, ref expected, out result!);
+    public void Lookahead(Func<Parser<TToken, T>?> next, Func<Parser<TToken, T>?> nextNext)
+    {
+        _lookaheadParser = new Lazy<Parser<TToken, T>>(() => BuildParser(next, nextNext));
     }
 
-    public class LookaheadResult<TToken, T>
-    {
-        public T Result { get; }
-        public int TokensCount { get; }
-        public readonly Parser<TToken, T> Parser;
+    public override bool TryParse(ref ParseState<TToken> state, ref PooledList<Expected<TToken>> expected, out T result)
+        => LookaheadParser.Value.TryParse(ref state, ref expected, out result!);
+}
+
+public class LookaheadResult<TToken, T>
+{
+    public T Result { get; }
+    public int TokensCount { get; }
+    public readonly Parser<TToken, T> Parser;
         
-        public LookaheadResult(Parser<TToken, T> parser, T result, int tokensCount)
-        {
-            Parser = parser;
-            Result = result;
-            TokensCount = tokensCount;
-        }
+    public LookaheadResult(Parser<TToken, T> parser, T result, int tokensCount)
+    {
+        Parser = parser;
+        Result = result;
+        TokensCount = tokensCount;
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace SimpleStateMachine.StructuralSearch
+﻿namespace SimpleStateMachine.StructuralSearch;
+
+public enum PlaceholderProperty
 {
-    public enum PlaceholderProperty
-    {
-        Lenght = 0,
-        File,
-        Offset,
-        Line,
-        Column,
-    }
+    Lenght = 0,
+    File,
+    Offset,
+    Line,
+    Column,
 }

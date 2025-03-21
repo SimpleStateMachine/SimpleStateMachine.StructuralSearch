@@ -2,33 +2,32 @@
 using System.Text;
 using SimpleStateMachine.StructuralSearch.Rules;
 
-namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
+namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate;
+
+public class ReplaceBuilder : IReplaceBuilder
 {
-    public class ReplaceBuilder : IReplaceBuilder
+    public static readonly EmptyReplaceBuilder Empty = new ();
+        
+    public IEnumerable<IRuleParameter> Steps { get; }
+
+    public ReplaceBuilder(IEnumerable<IRuleParameter> steps)
     {
-        public static readonly EmptyReplaceBuilder Empty = new ();
-        
-        public IEnumerable<IRuleParameter> Steps { get; }
-
-        public ReplaceBuilder(IEnumerable<IRuleParameter> steps)
-        {
-            Steps = steps;
-        }
-
-        public string Build(ref IParsingContext context)
-        {
-            var stringBuilder = new StringBuilder();
-            
-            foreach (var step in Steps)
-            {
-                stringBuilder.Append(step.GetValue(ref context));
-            }
-
-            var result = stringBuilder.ToString();
-            return result;
-        }
-        
-        public override string ToString() 
-            => $"{string.Join(string.Empty, Steps)}";
+        Steps = steps;
     }
+
+    public string Build(ref IParsingContext context)
+    {
+        var stringBuilder = new StringBuilder();
+            
+        foreach (var step in Steps)
+        {
+            stringBuilder.Append(step.GetValue(ref context));
+        }
+
+        var result = stringBuilder.ToString();
+        return result;
+    }
+        
+    public override string ToString() 
+        => $"{string.Join(string.Empty, Steps)}";
 }

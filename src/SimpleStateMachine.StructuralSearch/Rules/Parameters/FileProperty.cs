@@ -1,11 +1,10 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿namespace SimpleStateMachine.StructuralSearch.Rules;
+
+public enum FileProperty
 {
-    public enum FileProperty
-    {
-        Path = 0,
-        Data,
-        Extension,
-        Name,
-        Lenght
-    }
+    Path = 0,
+    Data,
+    Extension,
+    Name,
+    Lenght
 }

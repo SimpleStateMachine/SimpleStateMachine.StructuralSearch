@@ -1,142 +1,141 @@
 ﻿using System.Collections.Immutable;
 
-namespace SimpleStateMachine.StructuralSearch.Sandbox
+namespace SimpleStateMachine.StructuralSearch.Sandbox;
+
+public interface IExpr
 {
-   public interface IExpr
+    public double Invoke();
+}
+
+public class Identifier : IExpr
+{
+    public string Name { get; }
+
+    public Identifier(string name)
     {
-        public double Invoke();
+        Name = name;
     }
 
-    public class Identifier : IExpr
+    public bool Equals(IExpr? other)
+        => other is Identifier i && this.Name == i.Name;
+
+    public double Invoke()
     {
-        public string Name { get; }
+        return 0;
+    }
+}
 
-        public Identifier(string name)
-        {
-            Name = name;
-        }
+public class Literal : IExpr
+{
+    public double Value { get; }
 
-        public bool Equals(IExpr? other)
-            => other is Identifier i && this.Name == i.Name;
-
-        public double Invoke()
-        {
-            return 0;
-        }
+    public Literal(double value)
+    {
+        Value = value;
     }
 
-    public class Literal : IExpr
+    public bool Equals(IExpr? other)
+        => other is Literal l && this.Value == l.Value;
+
+    public double Invoke()
     {
-        public double Value { get; }
+        return Value;
+    }
+}
 
-        public Literal(double value)
-        {
-            Value = value;
-        }
+public class Call : IExpr
+{
+    public IExpr Expr { get; }
+    public ImmutableArray<IExpr> Arguments { get; }
 
-        public bool Equals(IExpr? other)
-            => other is Literal l && this.Value == l.Value;
-
-        public double Invoke()
-        {
-            return Value;
-        }
+    public Call(IExpr expr, ImmutableArray<IExpr> arguments)
+    {
+        Expr = expr;
+        Arguments = arguments;
     }
 
-    public class Call : IExpr
+    public bool Equals(IExpr? other)
+        => other is Call c
+           && ((Object)this.Expr).Equals(c.Expr)
+           && this.Arguments.SequenceEqual(c.Arguments);
+
+    public double Invoke()
     {
-        public IExpr Expr { get; }
-        public ImmutableArray<IExpr> Arguments { get; }
+        throw new NotImplementedException();
+    }
+}
 
-        public Call(IExpr expr, ImmutableArray<IExpr> arguments)
-        {
-            Expr = expr;
-            Arguments = arguments;
-        }
+public enum UnaryOperatorType
+{
+    Increment,
+    Decrement,
+    Plus,
+    Minus
+}
+public class UnaryOp : IExpr
+{
+    public UnaryOperatorType Type { get; }
+    public IExpr Expr { get; }
 
-        public bool Equals(IExpr? other)
-            => other is Call c
-            && ((Object)this.Expr).Equals(c.Expr)
-            && this.Arguments.SequenceEqual(c.Arguments);
-
-        public double Invoke()
-        {
-            throw new NotImplementedException();
-        }
+    public UnaryOp(UnaryOperatorType type, IExpr expr)
+    {
+        Type = type;
+        Expr = expr;
     }
 
-    public enum UnaryOperatorType
+    public bool Equals(IExpr? other)
+        => other is UnaryOp u
+           && this.Type == u.Type
+           && ((Object)this.Expr).Equals(u.Expr);
+
+    public double Invoke()
     {
-        Increment,
-        Decrement,
-        Plus,
-        Minus
+        return Type switch
+        {
+            UnaryOperatorType.Increment => Expr.Invoke() + 1,
+            UnaryOperatorType.Decrement => Expr.Invoke() - 1,
+            UnaryOperatorType.Plus => - Expr.Invoke(),
+            UnaryOperatorType.Minus => + Expr.Invoke(),
+            _ => throw new ArgumentOutOfRangeException(nameof(Type), Type, null)
+        };
     }
-    public class UnaryOp : IExpr
+}
+
+public enum BinaryOperatorType
+{
+    Add, // +
+    Sub, // -
+    Mul, // *
+    Div, // /
+}
+public class BinaryOp : IExpr
+{
+    public BinaryOperatorType Type { get; }
+    public IExpr Left { get; }
+    public IExpr Right { get; }
+
+    public BinaryOp(BinaryOperatorType type, IExpr left, IExpr right)
     {
-        public UnaryOperatorType Type { get; }
-        public IExpr Expr { get; }
-
-        public UnaryOp(UnaryOperatorType type, IExpr expr)
-        {
-            Type = type;
-            Expr = expr;
-        }
-
-        public bool Equals(IExpr? other)
-            => other is UnaryOp u
-            && this.Type == u.Type
-            && ((Object)this.Expr).Equals(u.Expr);
-
-        public double Invoke()
-        {
-            return Type switch
-            {
-                UnaryOperatorType.Increment => Expr.Invoke() + 1,
-                UnaryOperatorType.Decrement => Expr.Invoke() - 1,
-                UnaryOperatorType.Plus => - Expr.Invoke(),
-                UnaryOperatorType.Minus => + Expr.Invoke(),
-                _ => throw new ArgumentOutOfRangeException(nameof(Type), Type, null)
-            };
-        }
+        Type = type;
+        Left = left;
+        Right = right;
     }
 
-    public enum BinaryOperatorType
+    public bool Equals(IExpr? other)
+        => other is BinaryOp b
+           && this.Type == b.Type
+           && ((Object)this.Left).Equals(b.Left)
+           && ((Object)this.Right).Equals(b.Right);
+
+    public double Invoke()
     {
-        Add, // +
-        Sub, // -
-        Mul, // *
-        Div, // /
-    }
-    public class BinaryOp : IExpr
-    {
-        public BinaryOperatorType Type { get; }
-        public IExpr Left { get; }
-        public IExpr Right { get; }
-
-        public BinaryOp(BinaryOperatorType type, IExpr left, IExpr right)
+        return Type switch
         {
-            Type = type;
-            Left = left;
-            Right = right;
-        }
-
-        public bool Equals(IExpr? other)
-            => other is BinaryOp b
-            && this.Type == b.Type
-            && ((Object)this.Left).Equals(b.Left)
-            && ((Object)this.Right).Equals(b.Right);
-
-        public double Invoke()
-        {
-            return Type switch
-            {
-                BinaryOperatorType.Add => Left.Invoke() + Right.Invoke(),
-                BinaryOperatorType.Mul => Left.Invoke() * Right.Invoke(),
-                BinaryOperatorType.Div => Left.Invoke() / Right.Invoke(),
-                BinaryOperatorType.Sub => Left.Invoke() - Right.Invoke(),
-                _ => throw new ArgumentOutOfRangeException(nameof(Type), Type, null)
-            };
-        }
+            BinaryOperatorType.Add => Left.Invoke() + Right.Invoke(),
+            BinaryOperatorType.Mul => Left.Invoke() * Right.Invoke(),
+            BinaryOperatorType.Div => Left.Invoke() / Right.Invoke(),
+            BinaryOperatorType.Sub => Left.Invoke() - Right.Invoke(),
+            _ => throw new ArgumentOutOfRangeException(nameof(Type), Type, null)
+        };
     }
 }

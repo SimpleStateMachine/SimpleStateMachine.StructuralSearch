@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch;
+
+public interface IParsingContext
 {
-    public interface IParsingContext
-    {
-        IInput Input { get; }
+    IInput Input { get; }
         
-        bool TryGetPlaceholder(string name, out IPlaceholder value);
-        void AddPlaceholder(IPlaceholder placeholder);
-        void RemovePlaceholder(IPlaceholder placeholder);
-        IPlaceholder GetPlaceholder(string name);
+    bool TryGetPlaceholder(string name, out IPlaceholder value);
+    void AddPlaceholder(IPlaceholder placeholder);
+    void RemovePlaceholder(IPlaceholder placeholder);
+    IPlaceholder GetPlaceholder(string name);
         
-        void Fill(IReadOnlyDictionary<string, IPlaceholder>placeholders);
-        IReadOnlyDictionary<string, IPlaceholder> Clear();
-    }
+    void Fill(IReadOnlyDictionary<string, IPlaceholder>placeholders);
+    IReadOnlyDictionary<string, IPlaceholder> Clear();
 }

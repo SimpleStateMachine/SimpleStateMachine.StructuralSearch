@@ -1,8 +1,7 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿namespace SimpleStateMachine.StructuralSearch.Rules;
+
+public enum ColumnProperty
 {
-    public enum ColumnProperty
-    {
-        Start = 0,
-        End
-    }
+    Start = 0,
+    End
 }

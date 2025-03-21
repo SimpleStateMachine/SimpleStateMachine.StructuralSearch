@@ -1,12 +1,11 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿namespace SimpleStateMachine.StructuralSearch.Rules;
+
+public enum BinaryRuleType
 {
-    public enum BinaryRuleType
-    {
-        And = 0,
-        Or,
-        NAND,
-        NOR,
-        XOR,
-        XNOR
-    }
+    And = 0,
+    Or,
+    NAND,
+    NOR,
+    XOR,
+    XNOR
 }

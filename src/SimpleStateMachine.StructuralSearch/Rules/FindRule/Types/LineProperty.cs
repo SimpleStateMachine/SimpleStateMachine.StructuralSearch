@@ -1,8 +1,7 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿namespace SimpleStateMachine.StructuralSearch.Rules;
+
+public enum LineProperty
 {
-    public enum LineProperty
-    {
-        Start = 0,
-        End
-    }
+    Start = 0,
+    End
 }

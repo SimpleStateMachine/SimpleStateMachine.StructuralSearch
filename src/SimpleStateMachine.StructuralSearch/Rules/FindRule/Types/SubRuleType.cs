@@ -1,13 +1,12 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules
+﻿namespace SimpleStateMachine.StructuralSearch.Rules;
+
+public enum SubRuleType
 {
-    public enum SubRuleType
-    {
-        Equals = 0,
-        Contains,
-        StartsWith,
-        EndsWith,
-        In,
-        Match,
-        Is
-    }
+    Equals = 0,
+    Contains,
+    StartsWith,
+    EndsWith,
+    In,
+    Match,
+    Is
 }

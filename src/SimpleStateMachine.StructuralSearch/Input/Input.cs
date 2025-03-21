@@ -1,11 +1,10 @@
 ﻿using System.IO;
 
-namespace SimpleStateMachine.StructuralSearch
+namespace SimpleStateMachine.StructuralSearch;
+
+public static class Input
 {
-    public static class Input
-    {
-        public static readonly EmptyInput Empty = new ();
-        public static StringInput String(string input) => new (input);
-        public static FileInput File(FileInfo fileInfo) => new (fileInfo);
-    }
+    public static readonly EmptyInput Empty = new ();
+    public static StringInput String(string input) => new (input);
+    public static FileInput File(FileInfo fileInfo) => new (fileInfo);
 }

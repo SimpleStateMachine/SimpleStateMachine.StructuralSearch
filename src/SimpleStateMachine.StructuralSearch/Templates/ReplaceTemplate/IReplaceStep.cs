@@ -1,7 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate
+﻿namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate;
+
+public interface IReplaceStep
 {
-    public interface IReplaceStep
-    {
-        string GetValue(ref IParsingContext context);
-    }
+    string GetValue(ref IParsingContext context);
 }
