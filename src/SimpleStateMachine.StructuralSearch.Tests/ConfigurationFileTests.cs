@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;

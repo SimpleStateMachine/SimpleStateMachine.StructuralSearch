@@ -1,7 +1,9 @@
 ﻿using System;
+using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Helper;
+using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
 
-namespace SimpleStateMachine.StructuralSearch.Rules;
+namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
 internal class PlaceholderColumnParameter : IPlaceholderRelatedRuleParameter
 {

@@ -17,7 +17,7 @@ public static class ReplaceRuleParserTests
     [InlineData("$var1$ equals $var$.Lenght and Not $var1$ StartsWith \"\\\"Test\" then $var1$ => $var$.offset.Start.ToUpper")]
     public static void ReplaceRuleParsingShouldBeSuccess(string replaceRule)
     {
-        var rule = StructuralSearch.ParseReplaceRule(replaceRule);
+        var rule = StructuralSearch.StructuralSearch.ParseReplaceRule(replaceRule);
         var ruleStr = rule.ToString()?.ToLower();
         Assert.NotNull(rule);
         Assert.Equal(ruleStr, replaceRule.ToLower());
@@ -27,7 +27,7 @@ public static class ReplaceRuleParserTests
     [InlineData("($var1$ equals $var2$) then $var1$ => \"test $var3$\"", "$var1$ equals $var2$ then $var1$ => \"test $var3$\"")]
     public static void ReplaceRuleShouldBeEqualsString(string replaceRule, string customResult)
     {
-        var rule = StructuralSearch.ParseReplaceRule(replaceRule);
+        var rule = StructuralSearch.StructuralSearch.ParseReplaceRule(replaceRule);
         var ruleStr = rule.ToString()?.ToLower();
         Assert.NotNull(rule);
         Assert.Equal(ruleStr, customResult.ToLower());
@@ -39,6 +39,6 @@ public static class ReplaceRuleParserTests
     [InlineData("$var1$ equals $var2$ then ($var1$) => \"test $var3$\"")]
     public static void ReplaceRuleParsingShouldBeFail(string replaceRuleStr)
     {
-        Assert.Throws<ParseException<char>>(() => StructuralSearch.ParseReplaceRule(replaceRuleStr));
+        Assert.Throws<ParseException<char>>(() => StructuralSearch.StructuralSearch.ParseReplaceRule(replaceRuleStr));
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
-using SimpleStateMachine.StructuralSearch.Rules;
+using SimpleStateMachine.StructuralSearch.Rules.FindRules;
+using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
+using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class StructuralSearch
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SimpleStateMachine.StructuralSearch.Input;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Output;
 
 internal interface IOutput
 {

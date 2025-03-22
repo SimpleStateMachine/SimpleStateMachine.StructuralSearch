@@ -1,16 +1,10 @@
-﻿using Pidgin;
-using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Helper;
-using static Pidgin.Parser;
-
-namespace SimpleStateMachine.StructuralSearch.Sandbox;
+﻿namespace SimpleStateMachine.StructuralSearch.Sandbox;
 
 internal static class Program
 {
     static void Main(string[] args)
     {
         //StructuralSearch.ParseFindTemplate()
-
 
         var path = "Test.txt";
         var oldText = "0123456789";

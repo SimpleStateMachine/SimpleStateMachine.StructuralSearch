@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules;
+﻿namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
 internal interface IPlaceholderRelatedRuleParameter : IRuleParameter
 {

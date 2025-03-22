@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate;
+﻿using SimpleStateMachine.StructuralSearch.Context;
+
+namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 
 internal class PlaceholderReplace : IReplaceStep
 {

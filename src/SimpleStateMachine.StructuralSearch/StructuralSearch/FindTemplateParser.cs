@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Rules;
+using SimpleStateMachine.StructuralSearch.Parsers;
+using SimpleStateMachine.StructuralSearch.Rules.FindRules;
+using SimpleStateMachine.StructuralSearch.Templates.FindTemplate;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class FindTemplateParser
 {
@@ -36,9 +38,9 @@ internal static class FindTemplateParser
         => Parser.OneOf(Parenthesised(findRules), Token(findRules)).Many().MergerMany();
         
     internal static Parser<char, IEnumerable<Parser<char, string>>> Parenthesised(IReadOnlyList<IFindRule> findRules)
-        => Parsers.BetweenOneOfChars(x => ParserToParser.CiChar(x).Select(x => x.AsString()),
+        => Parsers.Parsers.BetweenOneOfChars(x => ParserToParser.CiChar(x).Select(x => x.AsString()),
             Parser.Rec(() => Term(findRules) ?? throw new ArgumentNullException(nameof(Term))),
-            Constant.AllParenthesised);
+            Constant.AllParentheses);
         
     private static Parser<char, IEnumerable<Parser<char, string>>> TemplateParser(IReadOnlyList<IFindRule> findRules)
         => Parser.OneOf(Parenthesised(findRules), Token(findRules)).AtLeastOnceUntil(CommonParser.EOF).MergerMany();

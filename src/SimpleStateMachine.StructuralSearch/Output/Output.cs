@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Output;
 
 internal static class Output
 {

@@ -1,4 +1,7 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules;
+﻿using SimpleStateMachine.StructuralSearch.Context;
+using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
+
+namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
 internal class PlaceholderFileParameter : IPlaceholderRelatedRuleParameter
 {

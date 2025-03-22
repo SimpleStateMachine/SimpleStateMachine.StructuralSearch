@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace SimpleStateMachine.StructuralSearch.Tests.Examples;
+namespace SimpleStateMachine.StructuralSearch.Tests.ExamplesInput;
 
 public class Test
 {

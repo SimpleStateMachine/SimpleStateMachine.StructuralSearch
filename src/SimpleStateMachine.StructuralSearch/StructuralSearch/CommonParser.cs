@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using Pidgin;
 using static Pidgin.Parser;
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class CommonParser
 {
     internal static readonly Parser<char, string> Empty
-        = Parsers.String(Constant.EmptyString, false);
+        = Parsers.Parsers.String(Constant.EmptyString, false);
         
     internal static readonly Parser<char, char> AnyChar
         = AnyCharExcept(Constant.FindTemplate.All);
@@ -58,6 +59,6 @@ internal static class CommonParser
             custom(Constant.RightParenthesis)
         );
 
-    internal static Parser<char, char> Escaped(params char [] chars)
+    internal static Parser<char, char> Escaped(IEnumerable<char> chars)
         => Char(Constant.BackSlash).Then(OneOf(chars));
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using SimpleStateMachine.StructuralSearch.Configurations;
 
 namespace SimpleStateMachine.StructuralSearch.Tests.Mock;
 

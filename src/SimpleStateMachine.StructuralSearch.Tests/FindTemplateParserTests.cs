@@ -15,7 +15,7 @@ public static class FindTemplateTests
     public static void FindTemplateFromFileParsingShouldBeSuccess(string templatePath)
     {
         var findTemplate = File.ReadAllText(templatePath);
-        var template = StructuralSearch.ParseFindTemplate(findTemplate);
+        var template = StructuralSearch.StructuralSearch.ParseFindTemplate(findTemplate);
            
         Assert.NotNull(template);
     }
@@ -30,7 +30,7 @@ public static class FindTemplateTests
         var findTemplate = File.ReadAllText(templatePath);
         var source = File.ReadAllText(sourcePath);
         var input = Input.Input.String(source);
-        var findParser = StructuralSearch.ParseFindTemplate(findTemplate);
+        var findParser = StructuralSearch.StructuralSearch.ParseFindTemplate(findTemplate);
         var matches = findParser.Parse(input);
         Assert.Single(matches);
             
@@ -44,13 +44,13 @@ public static class FindTemplateTests
     [InlineData("( $var$")]
     public static void FindTemplateParsingShouldBeFail(string templateStr)
     {
-        Assert.Throws<ParseException<char>>(() => StructuralSearch.ParseFindTemplate(templateStr));
+        Assert.Throws<ParseException<char>>(() => StructuralSearch.StructuralSearch.ParseFindTemplate(templateStr));
     }
         
     [Theory]
     [InlineData("( $var$ )")]
     public static void FindTemplateParsingShouldBeSuccess(string templateStr)
     {
-        var template = StructuralSearch.ParseFindTemplate(templateStr);
+        var template = StructuralSearch.StructuralSearch.ParseFindTemplate(templateStr);
     }
 }

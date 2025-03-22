@@ -3,9 +3,8 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
-#pragma warning disable CS9074 // The 'scoped' modifier of parameter doesn't match overridden or implemented member.
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsers;
 
 internal class EnumParser<TEnum> : Parser<char, TEnum>
     where TEnum : struct, Enum

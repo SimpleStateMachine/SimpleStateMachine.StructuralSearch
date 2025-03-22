@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using SimpleStateMachine.StructuralSearch;
-using SimpleStateMachine.StructuralSearch.Configurations;
-using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
 using Xunit;
 
@@ -15,7 +12,7 @@ public class StructuralSearchTests
     [MemberData(nameof(TestCases))]
     public static void StructuralSearchShouldBeSuccess(string inputText, string template, Dictionary<string, string> expectedResult)
     {
-        var results = StructuralSearch.ParseFindTemplate(template).ParseString(inputText).ToList();
+        var results = StructuralSearch.StructuralSearch.ParseFindTemplate(template).ParseString(inputText).ToList();
         Assert.Single(results);
         var parseResult = results.Single();
 

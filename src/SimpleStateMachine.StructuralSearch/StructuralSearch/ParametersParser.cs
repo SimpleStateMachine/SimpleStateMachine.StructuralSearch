@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Rules;
+using SimpleStateMachine.StructuralSearch.Rules.Parameters;
+using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class ParametersParser
 {
     static ParametersParser()
     {
         // TODO optimize
-        Parenthesised = Parsers.BetweenOneOfChars(x => Parser.Char(x).Try(),
+        Parenthesised = Parsers.Parsers.BetweenOneOfChars(x => Parser.Char(x).Try(),
                 Parser.Rec(() => StringWithParenthesised ?? throw new ArgumentNullException(nameof(StringWithParenthesised))),
-                Constant.AllParenthesised)
+                Constant.AllParentheses)
             .Try()
             .Labelled($"{nameof(ParametersParser)}.{nameof(Parenthesised)}");
 
         StringWithParenthesised = Parser.OneOf(Parenthesised, String)
             .Optional()
-            .Select(x => x.HasValue ? x.Value : Enumerable.Empty<char>())
+            .Select(x => x.HasValue ? x.Value : [])
             .Try();
 
         StringParameter = Parser.OneOf(Parenthesised, String)

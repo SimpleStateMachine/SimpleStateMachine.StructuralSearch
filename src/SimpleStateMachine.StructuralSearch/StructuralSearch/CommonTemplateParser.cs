@@ -1,20 +1,21 @@
-﻿using Pidgin;
+﻿using System.Linq;
+using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using static Pidgin.Parser<char>;
 using static Pidgin.Parser;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class CommonTemplateParser
 {
-    internal static readonly Parser<char, char> AnyCharWithPlshd =
-        AnyCharExcept(Constant.FindTemplate.AllExclude(Constant.PlaceholderSeparator));
+    internal static readonly Parser<char, char> AnyCharWithPlaceholder =
+        AnyCharExcept(Constant.FindTemplate.All.Except([Constant.PlaceholderSeparator]));
         
     internal static readonly Parser<char, string> Placeholder
         = CommonParser.Identifier.Between(Char(Constant.PlaceholderSeparator));
         
-    internal static readonly Parser<char, string> StringWithPlshd
-        = AnyCharWithPlshd.AtLeastOnceString();
+    internal static readonly Parser<char, string> StringWithPlaceholder
+        = AnyCharWithPlaceholder.AtLeastOnceString();
         
     internal static readonly Parser<char, string> Should
         = String(Constant.Should);
@@ -26,6 +27,5 @@ internal static class CommonTemplateParser
     internal static readonly Parser<char, string> Token
         = OneOf(Placeholder.Try(),
             CommonParser.WhiteSpaces.Try(),
-            ParsingConfiguration.Comment.Try(),
             CommonParser.AnyString.Try());
 }

@@ -21,7 +21,7 @@ public class FileInput : IInput
 
         return lower switch
         {
-            "path" => System.IO.Path.GetFullPath(_fileInfo.FullName),
+            "path" => Path.GetFullPath(_fileInfo.FullName),
             "extension" => _fileInfo.Extension,
             "name" => _fileInfo.Name,
             "length" => _fileInfo.Length.ToString(),

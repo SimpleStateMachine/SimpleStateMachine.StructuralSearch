@@ -2,38 +2,35 @@
 using System.Collections.Generic;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Helper;
-using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
-using SimpleStateMachine.StructuralSearch.Rules;
 using SimpleStateMachine.StructuralSearch.Rules.Parameters;
+using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
+using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class ReplaceTemplateParser
 {
     static ReplaceTemplateParser()
     {
-        ParenthesisedParameter = Parsers.BetweenOneOfChars((c1, c2) =>
-                    MatchHelper.GetParenthesisType((c1, c2)),
+        ParenthesisedParameter = Parsers.Parsers.BetweenOneOfChars((c1, c2) => GetParenthesisType((c1, c2)),
                 Parser.Rec(() => Parameter ?? throw new ArgumentNullException(nameof(Parameter))),
-                Constant.AllParenthesised)
-            .Select(x => new ParenthesisedParameter(x.Item1, new[] { x.Item2 }))
+                Constant.AllParentheses)
+            .Select(x => new ParenthesisedParameter(x.Item1, [x.Item2]))
             .As<char, ParenthesisedParameter, IRuleParameter>()
             .Try();
 
         Parameter = Parser.OneOf(ParenthesisedParameter, ParametersParser.Parameter, ParametersParser.StringParameter)
             .Then(ParametersParser.Change, (parameter, func) => func(parameter))
             .Try();
-
-
+        
         Parenthesised = Parameter.AtLeastOnce().Try();
 
-        ParenthesisedParameters = Parsers.BetweenOneOfChars(
+        ParenthesisedParameters = Parsers.Parsers.BetweenOneOfChars(
                 x => Parser.Char(x).Try()
                     .Select(x => new StringParameter(x.ToString()))
                     .As<char, StringParameter, IRuleParameter>(),
                 Parser.Rec(() => Parenthesised),
-                Constant.AllParenthesised)
+                Constant.AllParentheses)
             .Try();
             
 
@@ -54,4 +51,13 @@ internal static class ReplaceTemplateParser
             : Parameters
                 .Select(steps => new ReplaceBuilder(steps))
                 .ParseOrThrow(str);
+    
+    public static ParenthesisType GetParenthesisType((char c1, char c2) parenthesis)
+        => parenthesis switch
+        {
+            (Constant.LeftParenthesis, Constant.RightParenthesis) => ParenthesisType.Usual,
+            (Constant.LeftSquareParenthesis, Constant.RightSquareParenthesis) => ParenthesisType.Square,
+            (Constant.LeftCurlyParenthesis, Constant.RightCurlyParenthesis) => ParenthesisType.Curly,
+            _ => throw new ArgumentOutOfRangeException(nameof(parenthesis), parenthesis, null)
+        };
 }

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SimpleStateMachine.StructuralSearch.Context;
 
-namespace SimpleStateMachine.StructuralSearch.Rules;
+namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
 internal class StringFormatParameter : IRuleParameter
 {

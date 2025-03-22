@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using SimpleStateMachine.StructuralSearch.Configurations;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 

@@ -4,7 +4,7 @@ using Pidgin;
 
 #pragma warning disable CS9074 // The 'scoped' modifier of parameter doesn't match overridden or implemented member.
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsers;
 
 internal abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
 {

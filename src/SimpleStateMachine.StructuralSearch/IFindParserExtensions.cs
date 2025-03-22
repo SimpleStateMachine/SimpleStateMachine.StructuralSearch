@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace SimpleStateMachine.StructuralSearch.Extensions;
+namespace SimpleStateMachine.StructuralSearch;
 
 public static class FindParserExtensions
 {

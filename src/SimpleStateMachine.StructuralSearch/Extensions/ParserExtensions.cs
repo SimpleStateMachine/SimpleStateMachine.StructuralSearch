@@ -1,6 +1,7 @@
 ﻿using System;
 using Pidgin;
 using System.Collections.Generic;
+using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch.Extensions;

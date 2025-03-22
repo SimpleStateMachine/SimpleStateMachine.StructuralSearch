@@ -1,4 +1,5 @@
 ﻿using Pidgin;
+using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;

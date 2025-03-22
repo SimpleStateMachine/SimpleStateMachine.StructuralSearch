@@ -1,33 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
-using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
-using SimpleStateMachine.StructuralSearch.Rules;
+using SimpleStateMachine.StructuralSearch.Rules.FindRules;
+using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
+using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 
 namespace SimpleStateMachine.StructuralSearch;
 
 public class StructuralSearchParser
 {
     private readonly IFindParser _findParser;
-    private readonly IReadOnlyList<IFindRule> _findRules;
     private readonly IReplaceBuilder _replaceBuilder;
     private readonly IReadOnlyList<IReplaceRule> _replaceRules;
 
     public StructuralSearchParser(Configuration configuration)
     {
-        _findRules = configuration.FindRules
+        IReadOnlyList<IFindRule> findRules = configuration.FindRules
             .EmptyIfNull()
-            .Select(StructuralSearch.ParseFindRule).ToList();
+            .Select(StructuralSearch.StructuralSearch.ParseFindRule).ToList();
             
-        _findParser = StructuralSearch.ParseFindTemplate(configuration.FindTemplate, _findRules);
+        _findParser = StructuralSearch.StructuralSearch.ParseFindTemplate(configuration.FindTemplate, findRules);
             
-        _replaceBuilder = StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
+        _replaceBuilder = StructuralSearch.StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
             
         _replaceRules = configuration.ReplaceRules
             .EmptyIfNull()
-            .Select(StructuralSearch.ParseReplaceRule).ToList();
+            .Select(StructuralSearch.StructuralSearch.ParseReplaceRule).ToList();
     }
 
     public IEnumerable<FindParserResult> Parse(IInput input)

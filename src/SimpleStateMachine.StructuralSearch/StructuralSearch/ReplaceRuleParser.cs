@@ -1,8 +1,9 @@
 ﻿using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Rules;
+using SimpleStateMachine.StructuralSearch.Rules.FindRules;
+using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class ReplaceRuleParser
 {
@@ -34,6 +35,6 @@ internal static class ReplaceRuleParser
 
     internal static IReplaceRule ParseTemplate(string? str) 
         => string.IsNullOrEmpty(str)
-            ? SimpleStateMachine.StructuralSearch.ReplaceRule.Empty
+            ? Rules.ReplaceRules.ReplaceRule.Empty
             : ReplaceRule.Before(CommonParser.EOF).ParseOrThrow(str);
 }

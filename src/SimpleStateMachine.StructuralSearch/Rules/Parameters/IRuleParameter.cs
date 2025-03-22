@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Rules;
+﻿using SimpleStateMachine.StructuralSearch.Context;
+
+namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
 internal interface IRuleParameter
 {

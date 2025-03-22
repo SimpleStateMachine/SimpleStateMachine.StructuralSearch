@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Tests.Examples;
+﻿namespace SimpleStateMachine.StructuralSearch.Tests.ExamplesInput;
 
 public class Common2
 {

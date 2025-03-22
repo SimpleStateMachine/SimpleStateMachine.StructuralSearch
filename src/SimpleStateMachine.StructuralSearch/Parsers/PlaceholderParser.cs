@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Rules;
+using SimpleStateMachine.StructuralSearch.Rules.FindRules;
+using SimpleStateMachine.StructuralSearch.StructuralSearch;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsers;
 
 internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
 {
@@ -55,16 +57,16 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
             }).Try());  
         }
         
-        var anyString = CommonTemplateParser.AnyCharWithPlshd
+        var anyString = CommonTemplateParser.AnyCharWithPlaceholder
             .AtLeastOnceAsStringUntil(lookahead);
 
-        var simpleString = CommonTemplateParser.StringWithPlshd;
+        var simpleString = CommonTemplateParser.StringWithPlaceholder;
         var token = Parser.OneOf(simpleString, CommonParser.WhiteSpaces).Try();
         Parser<char, string>? term = null;
 
         var parenthesised = Parsers.BetweenOneOfChars(x => Parser.Char(x).AsString(),
             expr: Parser.Rec(() => term ?? throw new ArgumentNullException(nameof(term))),
-            Constant.AllParenthesised).JoinToString();
+            Constant.AllParentheses).JoinToString();
 
         term = Parser.OneOf(parenthesised, token).Many().JoinToString();
 
@@ -93,16 +95,15 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
             result = match.Value;
             if (res)
             {
-                var placeholderObj = new Placeholder
+                var placeholderObj = new Placeholder.Placeholder
                 (
-                    context: ref _context!,
                     name: _name,
                     match: match
                 );
   
                 Context.Add(_name, placeholderObj);
 
-                res = _findRules.All(r => r.Execute(ref _context));
+                res = _findRules.All(r => r.Execute(ref _context!));
 
                 if (!res)
                     Context.Remove(_name);

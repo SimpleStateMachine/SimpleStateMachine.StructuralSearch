@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch;
+﻿using SimpleStateMachine.StructuralSearch.Context;
+
+namespace SimpleStateMachine.StructuralSearch.Parsers;
 
 internal interface IContextDependent
 {

@@ -5,7 +5,7 @@ using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using static Pidgin.Parser;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsers;
 
 internal static class Parsers
 {
@@ -16,28 +16,22 @@ internal static class Parsers
         where TEnum : struct, Enum 
         => String(value.ToString(), ignoreCase).AsEnum<TEnum>(ignoreCase);
 
-    public static Parser<TToken, IEnumerable<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1,
+    private static Parser<TToken, IEnumerable<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1,
         Parser<TToken, T> parser2, Parser<TToken, T> parser3)
     {
-        if (parser1 == null)
-            throw new ArgumentNullException(nameof(parser1));
-        if (parser2 == null)
-            throw new ArgumentNullException(nameof(parser2));
-        if (parser3 == null)
-            throw new ArgumentNullException(nameof(parser3));
+        ArgumentNullException.ThrowIfNull(parser1);
+        ArgumentNullException.ThrowIfNull(parser2);
+        ArgumentNullException.ThrowIfNull(parser3);
 
         return Map((arg1, arg2, arg3) => (IEnumerable<T>)new List<T> { arg1, arg2, arg3 }, parser1, parser2, parser3);
     }
 
-    public static Parser<TToken, IEnumerable<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1,
+    private static Parser<TToken, IEnumerable<T>> MapToMany<TToken, T>(Parser<TToken, T> parser1,
         Parser<TToken, IEnumerable<T>> parser2, Parser<TToken, T> parser3)
     {
-        if (parser1 == null)
-            throw new ArgumentNullException(nameof(parser1));
-        if (parser2 == null)
-            throw new ArgumentNullException(nameof(parser2));
-        if (parser3 == null)
-            throw new ArgumentNullException(nameof(parser3));
+        ArgumentNullException.ThrowIfNull(parser1);
+        ArgumentNullException.ThrowIfNull(parser2);
+        ArgumentNullException.ThrowIfNull(parser3);
 
         return Map((arg1, arg2, arg3) =>
         {

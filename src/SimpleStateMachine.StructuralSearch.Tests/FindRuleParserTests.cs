@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
@@ -68,7 +69,7 @@ public static class FindRuleParserTests
     {
         var ruleStr = File.ReadAllText(filePath);
         var rules = ruleStr.Split(Constant.LineFeed)
-            .Select(StructuralSearch.ParseFindRule);
+            .Select(StructuralSearch.StructuralSearch.ParseFindRule);
         var rulesAsStr = rules.Select(x => x.ToString()).ToArray();
             
         Assert.True(customResult.SequenceEqual(rulesAsStr));
