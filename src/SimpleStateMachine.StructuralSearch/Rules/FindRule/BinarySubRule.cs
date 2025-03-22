@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class BinarySubRule : IFindRule
+internal class BinarySubRule : IFindRule
 {
     private readonly SubRuleType _type;
     private readonly IRuleParameter _left;

@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate;
 
-public static class ParserToReplace
+internal static class ParserToReplace
 {
     public static Parser<char, IReplaceStep> ResultAsReplace(Parser<char, string> parser)
         => parser.Select(result => new TokenReplace(result))

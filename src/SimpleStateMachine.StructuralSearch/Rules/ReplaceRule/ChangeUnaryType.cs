@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch;
 
-public enum ChangeUnaryType
+internal enum ChangeUnaryType
 {
     RemoveSubStr = 0
 }

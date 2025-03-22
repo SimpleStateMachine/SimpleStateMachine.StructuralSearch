@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public enum LineProperty
+internal enum LineProperty
 {
     Start = 0,
     End

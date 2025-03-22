@@ -5,7 +5,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class IsSubRule : IFindRule
+internal class IsSubRule : IFindRule
 {
     private readonly PlaceholderType _argument;
     private readonly IRuleParameter _parameter;

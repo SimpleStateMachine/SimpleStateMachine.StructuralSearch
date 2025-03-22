@@ -4,7 +4,7 @@ using Pidgin;
 
 namespace SimpleStateMachine.StructuralSearch.Extensions;
 
-public static class EnumerableCharExtensions
+internal static class EnumerableCharExtensions
 {
     public static Parser<TToken, string> AsString<TToken>(this Parser<TToken, IEnumerable<char>> parser) 
         => parser.Select(x => new string(x.ToArray()));

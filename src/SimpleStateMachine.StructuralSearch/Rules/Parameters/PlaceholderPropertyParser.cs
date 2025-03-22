@@ -5,7 +5,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public static class PlaceholderPropertyParser
+internal static class PlaceholderPropertyParser
 {
     public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> File =
         Parsers.EnumValue(PlaceholderProperty.File, true)

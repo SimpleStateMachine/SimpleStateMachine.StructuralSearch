@@ -33,7 +33,7 @@ public class StructuralSearchTests
             // Template
             "void $methodName$($params$)",
             // Result placeholders
-            new Dictionary<string, string>()
+            new Dictionary<string, string>
             {
                 { "methodName", "MyMethodName" },
                 { "params", "int value1, double value2" }
@@ -46,7 +46,7 @@ public class StructuralSearchTests
     [InlineData("ExamplesInput/Methods.cs")]
     public static void StructuralSearchShouldBeSuccess2(string filePath)
     {
-        var configuration = new Configuration()
+        var configuration = new Configuration
         {
             FindTemplate = "$Modificator$ $ReturnType$ $MethodName$($params$)",
             FindRules = new List<string>
@@ -58,8 +58,7 @@ public class StructuralSearchTests
         };
 
         var parser = new StructuralSearchParser(configuration);
-        IParsingContext context = new ParsingContext(new FileInput(new FileInfo(filePath)));
-        var results = parser.Parse(ref context).ToList();
+        var results = parser.Parse(new FileInput(new FileInfo(filePath))).ToList();
         // parser.ApplyFindRule(results);
     }
 }

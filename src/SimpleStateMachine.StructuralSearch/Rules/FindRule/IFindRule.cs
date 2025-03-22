@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public interface IFindRule
+internal interface IFindRule
 {
     bool IsApplicableForPlaceholder(string placeholderName);
     bool Execute(ref IParsingContext context);

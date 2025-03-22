@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class StringFormatParameter : IRuleParameter
+internal class StringFormatParameter : IRuleParameter
 {
     private readonly IEnumerable<IRuleParameter> _parameters;
 

@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch;
 
-public class ReplacedPlaceholder : IPlaceholder
+internal class ReplacedPlaceholder : IPlaceholder
 {
     public ReplacedPlaceholder(IPlaceholder placeholder, string value)
     {

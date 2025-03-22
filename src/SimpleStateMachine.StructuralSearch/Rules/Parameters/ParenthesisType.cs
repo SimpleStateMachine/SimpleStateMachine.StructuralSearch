@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-public enum ParenthesisType
+internal enum ParenthesisType
 {
     Usual,
     Square,

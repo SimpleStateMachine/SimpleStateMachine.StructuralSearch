@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public enum FileProperty
+internal enum FileProperty
 {
     Path = 0,
     Data,

@@ -7,7 +7,7 @@ using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public static class Parsers
+internal static class Parsers
 {
     public static Parser<char, string> String(string value, bool ignoreCase) 
         => ignoreCase ? CIString(value): Parser.String(value);

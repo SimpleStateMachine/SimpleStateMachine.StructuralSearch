@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch.Helper;
 
-public static class LogicalHelper
+internal static class LogicalHelper
 {
     public static bool Calculate(BinaryRuleType type, bool left, bool right) 
         => type switch

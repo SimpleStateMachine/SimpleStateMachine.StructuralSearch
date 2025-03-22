@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
 namespace SimpleStateMachine.StructuralSearch.Helper;
 
-public static class MatchHelper
+internal static class MatchHelper
 {
     public static ParenthesisType GetParenthesisType((char c1, char c2) parenthesis)
         => parenthesis switch

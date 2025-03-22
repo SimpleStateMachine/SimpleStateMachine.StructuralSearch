@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class PlaceholderLenghtParameter: IPlaceholderRelatedRuleParameter
+internal class PlaceholderLenghtParameter: IPlaceholderRelatedRuleParameter
 {
     private readonly PlaceholderParameter _placeholderParameter;
     private readonly PlaceholderProperty _property;

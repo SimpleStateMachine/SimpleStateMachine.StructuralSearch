@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate;
 
-public class TokenReplace : IReplaceStep
+internal class TokenReplace : IReplaceStep
 {
     private readonly string _token;
         

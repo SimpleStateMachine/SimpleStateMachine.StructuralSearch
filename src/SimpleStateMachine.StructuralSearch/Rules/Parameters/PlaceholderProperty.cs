@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch;
 
-public enum PlaceholderProperty
+internal enum PlaceholderProperty
 {
     Lenght = 0,
     File,

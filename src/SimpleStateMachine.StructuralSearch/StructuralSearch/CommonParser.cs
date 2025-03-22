@@ -3,7 +3,7 @@ using Pidgin;
 using static Pidgin.Parser;
 namespace SimpleStateMachine.StructuralSearch;
 
-public static class CommonParser
+internal static class CommonParser
 {
     internal static readonly Parser<char, string> Empty
         = Parsers.String(Constant.EmptyString, false);

@@ -1,31 +1,29 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Tests.Examples
+﻿namespace SimpleStateMachine.StructuralSearch.Tests.Examples;
+
+public class TernaryOperator
 {
-    public class TernaryOperator
+    public int Test1()
     {
-        public int Test1()
-        {
-            var temp = 1;
-            
-            return temp == 2? 3 : 4;
-        }
-        
-        public int Test2()
-        {
-            var temp = 5;
-            
-            return temp == 6? 7 : 8;
-        }
-        
-        public int Test3()
-        {
-            var temp2 = 1;
-            
-            return temp2 == 2? 3 : 4; 
-        }
-        
-        public static void Test5()
-        {
-            
-        }
+        var temp = 1;
+
+        return temp == 2? 3 : 4;
+    }
+
+    public int Test2()
+    {
+        var temp = 5;
+
+        return temp == 6? 7 : 8;
+    }
+
+    public int Test3()
+    {
+        var temp2 = 1;
+
+        return temp2 == 2? 3 : 4;
+    }
+
+    public static void Test5()
+    {
     }
 }

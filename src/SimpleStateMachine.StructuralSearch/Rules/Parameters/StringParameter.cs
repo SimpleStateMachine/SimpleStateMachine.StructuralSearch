@@ -2,7 +2,7 @@
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class StringParameter : IRuleParameter
+internal class StringParameter : IRuleParameter
 {
     private readonly string _value;
         

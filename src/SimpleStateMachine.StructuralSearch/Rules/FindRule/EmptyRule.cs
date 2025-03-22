@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class EmptyRule: IFindRule
+internal class EmptyRule: IFindRule
 {
     public bool Execute(ref IParsingContext context) 
         => true;
@@ -9,7 +9,7 @@ public class EmptyRule: IFindRule
         => false;
 }
 
-public static class Rule
+internal static class Rule
 {
     public static readonly EmptyRule Empty = new();
 }

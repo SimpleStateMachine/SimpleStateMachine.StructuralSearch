@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public enum SubRuleType
+internal enum SubRuleType
 {
     Equals = 0,
     Contains,

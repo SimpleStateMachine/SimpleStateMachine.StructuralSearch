@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate;
 
-public class ReplaceBuilder : IReplaceBuilder
+internal class ReplaceBuilder : IReplaceBuilder
 {
     public static readonly EmptyReplaceBuilder Empty = new ();
         

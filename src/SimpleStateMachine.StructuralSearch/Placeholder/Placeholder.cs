@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch;
 
-public readonly struct Placeholder : IPlaceholder
+internal readonly struct Placeholder : IPlaceholder
 {
     private readonly Match<string> _match;
     private readonly IParsingContext _context;

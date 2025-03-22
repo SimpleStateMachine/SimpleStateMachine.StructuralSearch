@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public static class SubRuleParser
+internal static class SubRuleParser
 {
     public static readonly Parser<char, SubRuleType> SubRuleType =
         Parser.CIEnum<SubRuleType>()

@@ -4,13 +4,13 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public interface IReplaceRule
+internal interface IReplaceRule
 {
     IEnumerable<ReplaceSubRule> Rules { get; }
     bool IsMatch(ref IParsingContext context);
 }
 
-public class EmptyReplaceRule : IReplaceRule
+internal class EmptyReplaceRule : IReplaceRule
 {
     public IEnumerable<ReplaceSubRule> Rules { get; } = Array.Empty<ReplaceSubRule>();
     

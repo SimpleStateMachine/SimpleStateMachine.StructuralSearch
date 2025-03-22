@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class PlaceholderFileParameter : IPlaceholderRelatedRuleParameter
+internal class PlaceholderFileParameter : IPlaceholderRelatedRuleParameter
 {
     private readonly PlaceholderParameter _placeholderParameter;
     private readonly FileProperty _property;

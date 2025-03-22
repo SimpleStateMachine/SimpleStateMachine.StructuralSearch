@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public static class StructuralSearch
+internal static class StructuralSearch
 {
     public static IFindParser ParseFindTemplate(string? template) 
         => FindTemplateParser.ParseTemplate(template, System.Array.Empty<IFindRule>());
@@ -18,6 +18,6 @@ public static class StructuralSearch
     public static IFindRule ParseFindRule(string? template) 
         => FindRuleParser.ParseTemplate(template);
         
-    public static IReplaceRule ParseReplaceRule(string? template) 
+    internal static IReplaceRule ParseReplaceRule(string? template) 
         => ReplaceRuleParser.ParseTemplate(template);
 }

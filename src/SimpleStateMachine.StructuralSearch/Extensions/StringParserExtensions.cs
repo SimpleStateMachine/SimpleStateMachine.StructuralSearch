@@ -5,7 +5,7 @@ using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch.Extensions;
 
-public static class StringParserExtensions
+internal static class StringParserExtensions
 {
     public static Parser<TToken, string> BetweenAsThen<TToken>(this Parser<TToken, string> parser,
         Parser<TToken, char> parser1,
@@ -34,7 +34,8 @@ public static class StringParserExtensions
             (before, str, after) => before + str + after,
             parser1, parser, parser2);
     }
-        
+    // public static Parser<TToken, IEnumerable<string>> ToMany<TToken>(this Parser<TToken, string> parser)
+    //     => parser.Select(x => new List<string> { x }).As<TToken, List<string>, IEnumerable<string>>();
     public static Parser<TToken, IEnumerable<string>> ToMany<TToken>(this Parser<TToken, string> parser) 
         => parser.Select(x => new List<string>() { x }).ToIEnumerable();
 

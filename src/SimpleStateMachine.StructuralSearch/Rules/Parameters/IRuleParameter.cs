@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public interface IRuleParameter
+internal interface IRuleParameter
 {
     string GetValue(ref IParsingContext context);
 }

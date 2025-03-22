@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class ChangeUnaryParameter : IRuleParameter
+internal class ChangeUnaryParameter : IRuleParameter
 {
     private readonly IRuleParameter _parameter;
     private readonly ChangeUnaryType _type;
