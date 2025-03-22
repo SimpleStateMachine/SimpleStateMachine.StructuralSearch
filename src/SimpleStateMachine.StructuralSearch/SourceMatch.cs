@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch;
 
-public readonly struct SourceMatch
+internal readonly struct SourceMatch
 {
     public readonly string Value;
     public readonly int Start;

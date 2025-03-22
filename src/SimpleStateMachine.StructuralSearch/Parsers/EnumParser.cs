@@ -7,7 +7,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class EnumParser<TEnum> : Parser<char, TEnum>
+internal class EnumParser<TEnum> : Parser<char, TEnum>
     where TEnum : struct, Enum
 {
     private readonly Parser<char, TEnum> _parser;

@@ -2,7 +2,7 @@
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class ReplaceSubRule
+internal class ReplaceSubRule
 {
     public readonly PlaceholderParameter Placeholder;
     public readonly IRuleParameter Parameter;

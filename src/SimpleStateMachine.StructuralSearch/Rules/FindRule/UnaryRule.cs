@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class UnaryRule : IFindRule
+internal class UnaryRule : IFindRule
 {
     private readonly UnaryRuleType _type;
     private readonly IFindRule _parameter;

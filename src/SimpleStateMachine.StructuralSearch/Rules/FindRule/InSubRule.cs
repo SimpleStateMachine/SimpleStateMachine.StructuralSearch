@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class InSubRule : IFindRule
+internal class InSubRule : IFindRule
 {
     private readonly IRuleParameter _parameter;
 

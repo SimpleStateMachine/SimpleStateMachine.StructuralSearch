@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch.Helper;
 
-public static class EnumerableHelper
+internal static class EnumerableHelper
 {
     public static bool SequenceNullableEqual<TSource>(IEnumerable<TSource>? first, IEnumerable<TSource>? second)
     {

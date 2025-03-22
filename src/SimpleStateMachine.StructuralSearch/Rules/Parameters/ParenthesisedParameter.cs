@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-public class ParenthesisedParameter : IRuleParameter
+internal class ParenthesisedParameter : IRuleParameter
 {
     private readonly IEnumerable<IRuleParameter> _parameters;
     private readonly ParenthesisType _parenthesisType;

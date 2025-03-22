@@ -5,7 +5,7 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace SimpleStateMachine.StructuralSearch.Helper;
 
-public static class YmlHelper
+internal static class YmlHelper
 {
     private static readonly IDeserializer Deserializer = new DeserializerBuilder()
         .WithNamingConvention(PascalCaseNamingConvention.Instance)

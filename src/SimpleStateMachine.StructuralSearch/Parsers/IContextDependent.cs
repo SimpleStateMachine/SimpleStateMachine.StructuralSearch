@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch;
 
-public interface IContextDependent
+internal interface IContextDependent
 {
     void SetContext(ref IParsingContext context);
 }

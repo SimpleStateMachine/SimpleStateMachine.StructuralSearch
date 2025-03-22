@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class PlaceholderLineParameter : IPlaceholderRelatedRuleParameter
+internal class PlaceholderLineParameter : IPlaceholderRelatedRuleParameter
 {
     private readonly PlaceholderParameter _placeholderParameter;
     private readonly LineProperty _property;
@@ -14,7 +14,7 @@ public class PlaceholderLineParameter : IPlaceholderRelatedRuleParameter
         _property = property;
     }
         
-    public string Name => _placeholderParameter.Name;
+    public string PlaceholderName => _placeholderParameter.PlaceholderName;
         
     public string GetValue(ref IParsingContext context)
     {

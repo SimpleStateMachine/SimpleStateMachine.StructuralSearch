@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SimpleStateMachine.StructuralSearch.Input;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class FileOutput : IOutput
+internal class FileOutput : IOutput
 {
     private readonly FileInfo _fileInfo;
     
@@ -15,11 +17,12 @@ public class FileOutput : IOutput
     
     public void Replace(IInput input, IEnumerable<ReplaceMatch> replaceMatches)
     {
-        var text = replaceMatches
-            .Aggregate(input.Data, (current, replaceMatch) => 
-                current.Replace(replaceMatch.Match.Value, replaceMatch.Value));
-        
-        File.WriteAllText(Path, text);
+        throw new NotImplementedException();
+        // var text = replaceMatches
+        //     .Aggregate(input.Data, (current, replaceMatch) => 
+        //         current.Replace(replaceMatch.Match.Value, replaceMatch.Value));
+        //
+        // File.WriteAllText(Path, text);
     }
     
     public string Extension => _fileInfo.Extension;

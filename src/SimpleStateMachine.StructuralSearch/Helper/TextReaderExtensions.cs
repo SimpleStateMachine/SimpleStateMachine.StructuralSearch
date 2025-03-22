@@ -3,7 +3,7 @@ using System.IO;
 
 namespace SimpleStateMachine.StructuralSearch.Helper;
 
-public static class TextReaderExtensions
+internal static class TextReaderExtensions
 {
     /// <summary>
     /// Copies a specific number of bytes from the current position of the

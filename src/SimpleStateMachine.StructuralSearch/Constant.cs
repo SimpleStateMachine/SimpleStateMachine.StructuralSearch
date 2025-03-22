@@ -1,6 +1,8 @@
-﻿namespace SimpleStateMachine.StructuralSearch;
+﻿using System.Collections.Generic;
 
-public static partial class Constant
+namespace SimpleStateMachine.StructuralSearch;
+
+internal static partial class Constant
 {
     /// <summary>
     /// Parenthesis empty string
@@ -140,7 +142,7 @@ public static partial class Constant
     /// <summary>
     /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
     /// </summary>
-    public static readonly char[] AllParenthesisArray = 
+    public static readonly IReadOnlySet<char> AllParenthesisArray = new HashSet<char>
     {
         LeftParenthesis,
         RightParenthesis,

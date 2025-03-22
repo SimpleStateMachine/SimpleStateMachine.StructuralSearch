@@ -29,10 +29,9 @@ public static class FindTemplateTests
     {
         var findTemplate = File.ReadAllText(templatePath);
         var source = File.ReadAllText(sourcePath);
-        var input = Input.String(source);
+        var input = Input.Input.String(source);
         var findParser = StructuralSearch.ParseFindTemplate(findTemplate);
-        IParsingContext parsingContext = new ParsingContext(input);
-        var matches = findParser.Parse(ref parsingContext);
+        var matches = findParser.Parse(input);
         Assert.Single(matches);
             
         var match = matches.First();

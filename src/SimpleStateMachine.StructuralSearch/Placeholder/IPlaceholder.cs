@@ -8,5 +8,4 @@ public interface IPlaceholder
     LinePosition Line { get; }
     ColumnPosition Column { get; }
     OffsetPosition Offset { get; }
-    IInput Input { get; }
 }

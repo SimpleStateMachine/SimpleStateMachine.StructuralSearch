@@ -7,7 +7,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public static class ParametersParser
+internal static class ParametersParser
 {
     static ParametersParser()
     {

@@ -2,7 +2,7 @@
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class BinaryRule : IFindRule
+internal class BinaryRule : IFindRule
 {
     private readonly BinaryRuleType _type;
     private readonly IFindRule _left;

@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public enum PlaceholderType
+internal enum PlaceholderType
 {
     Var = 0,
     Int,

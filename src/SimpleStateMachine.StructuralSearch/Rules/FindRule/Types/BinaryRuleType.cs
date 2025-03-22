@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public enum BinaryRuleType
+internal enum BinaryRuleType
 {
     And = 0,
     Or,

@@ -6,7 +6,7 @@ using Pidgin;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class SeriesParser : Parser<char, IEnumerable<string>>, IContextDependent
+internal class SeriesParser : Parser<char, IEnumerable<string>>, IContextDependent
 {
     private readonly IEnumerable<Parser<char, string>> _parsers;
 

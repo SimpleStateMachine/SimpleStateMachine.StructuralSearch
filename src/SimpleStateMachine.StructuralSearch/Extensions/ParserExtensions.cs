@@ -5,7 +5,7 @@ using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch.Extensions;
 
-public static class ParserExtensions
+internal static class ParserExtensions
 {
     public static Parser<TToken, T> Try<TToken, T>(this Parser<TToken, T> parser) 
         => Parser.Try(parser);

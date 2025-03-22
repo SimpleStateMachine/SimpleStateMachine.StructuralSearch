@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class ReplaceRule : IReplaceRule
+internal class ReplaceRule : IReplaceRule
 {
     public static readonly EmptyReplaceRule Empty = new ();
         

@@ -4,12 +4,12 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class BinarySubRule : IFindRule
+internal class BinarySubRule : IFindRule
 {
     private readonly SubRuleType _type;
     private readonly IRuleParameter _left;
     private readonly IRuleParameter _right;
-        
+
     public BinarySubRule(SubRuleType type, IRuleParameter left, IRuleParameter right)
     {
         _type = type;
@@ -24,7 +24,7 @@ public class BinarySubRule : IFindRule
     {
         var left = _left.GetValue(ref context);
         var right = _right.GetValue(ref context);
-            
+
         return _type switch
         {
             SubRuleType.Equals => left.Equals(right),

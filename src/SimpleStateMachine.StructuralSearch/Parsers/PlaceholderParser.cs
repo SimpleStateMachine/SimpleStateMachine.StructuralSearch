@@ -7,7 +7,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
+internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
 {
     private readonly string _name;
     private readonly IReadOnlyList<IFindRule> _findRules;
@@ -54,8 +54,7 @@ public class PlaceholderParser : ParserWithLookahead<char, string>, IContextDepe
                 return Unit.Value;
             }).Try());  
         }
-
-
+        
         var anyString = CommonTemplateParser.AnyCharWithPlshd
             .AtLeastOnceAsStringUntil(lookahead);
 
@@ -84,7 +83,7 @@ public class PlaceholderParser : ParserWithLookahead<char, string>, IContextDepe
         bool res;
 
         // No use look-ahead if placeholder is already defined
-        if (Context.TryGetPlaceholder(_name, out var placeholder))
+        if (Context.TryGetValue(_name, out var placeholder))
         {
             res = Parser.String(placeholder.Value).TryParse(ref state, ref expected, out result!);
         }
@@ -100,13 +99,13 @@ public class PlaceholderParser : ParserWithLookahead<char, string>, IContextDepe
                     name: _name,
                     match: match
                 );
-                    
-                Context.AddPlaceholder(placeholderObj);
+  
+                Context.Add(_name, placeholderObj);
 
                 res = _findRules.All(r => r.Execute(ref _context));
-                    
+
                 if (!res)
-                    Context.RemovePlaceholder(placeholderObj);
+                    Context.Remove(_name);
             }
         }
             

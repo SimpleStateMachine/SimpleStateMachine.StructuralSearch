@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch;
 
-public enum ChangeType
+internal enum ChangeType
 {
     Trim = 0,
     TrimEnd,

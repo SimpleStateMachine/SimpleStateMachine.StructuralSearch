@@ -1,38 +1,31 @@
-﻿using System.IO;
-using Pidgin;
+﻿using System;
+using System.IO;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Input;
 
 public class FileInput : IInput
 {
-    public readonly FileInfo FileInfo;
-        
+    private readonly FileInfo _fileInfo;
+
     public FileInput(FileInfo fileInfo)
     {
-        FileInfo = fileInfo;
+        _fileInfo = fileInfo;
     }
 
-    public Result<char, T> ParseBy<T>(Parser<char, T> parser) 
-        => parser.Parse(FileInfo.OpenText());
+    public TextReader ReadData()
+        => _fileInfo.OpenText();
 
-    public void Replace(Match<string> match, string value)
+    public string GetProperty(string propertyName)
     {
-        var text = File.ReadAllText(Path);
-        text = text.Replace(match.Value, value);
-        File.WriteAllText(Path, text);
+        var lower = propertyName.ToLower();
 
-        // using var valueReader = new StringReader(value);
-        // using var streamWriter = new StreamWriter(FileInfo.FullName);
-        // var emptyStart = match.Offset.Start + match.Lenght;
-        // var emptyEnd = match.Offset.End;
-        // valueReader.CopyPartTo(streamWriter, match.Offset.Start, match.Lenght);
-
-        //return (emptyStart, emptyEnd);
+        return lower switch
+        {
+            "path" => System.IO.Path.GetFullPath(_fileInfo.FullName),
+            "extension" => _fileInfo.Extension,
+            "name" => _fileInfo.Name,
+            "length" => _fileInfo.Length.ToString(),
+            _ => throw new ArgumentOutOfRangeException(propertyName)
+        };
     }
-
-    public string Extension => FileInfo.Extension;
-    public string Path => System.IO.Path.GetFullPath(FileInfo.FullName);
-    public string Name => System.IO.Path.GetFileNameWithoutExtension(FileInfo.Name);
-    public string Data => FileInfo.OpenText().ReadToEnd();
-    public long Lenght => FileInfo.Length;
 }

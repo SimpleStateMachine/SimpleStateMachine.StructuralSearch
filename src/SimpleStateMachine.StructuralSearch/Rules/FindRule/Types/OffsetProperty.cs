@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public enum OffsetProperty
+internal enum OffsetProperty
 {
     Start = 0,
     End

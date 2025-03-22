@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public class EmptySubRule : IFindRule
+internal class EmptySubRule : IFindRule
 {
     public bool Execute(ref IParsingContext context) 
         => true;

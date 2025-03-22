@@ -3,9 +3,9 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public static class ParserToParser
+internal static class ParserToParser
 {
-    public static Parser<char, Parser<char, char>> CIChar(char token) 
+    public static Parser<char, Parser<char, char>> CiChar(char token) 
         => Parser.CIChar(token).Select(Parser.CIChar);
 
     public static Parser<char, Parser<char, string>> ResultAsParser(Parser<char, string> parser, bool ignoreCase = false) 

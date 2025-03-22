@@ -36,7 +36,7 @@ internal static class FindTemplateParser
         => Parser.OneOf(Parenthesised(findRules), Token(findRules)).Many().MergerMany();
         
     internal static Parser<char, IEnumerable<Parser<char, string>>> Parenthesised(IReadOnlyList<IFindRule> findRules)
-        => Parsers.BetweenOneOfChars(x => ParserToParser.CIChar(x).Select(x => x.AsString()),
+        => Parsers.BetweenOneOfChars(x => ParserToParser.CiChar(x).Select(x => x.AsString()),
             Parser.Rec(() => Term(findRules) ?? throw new ArgumentNullException(nameof(Term))),
             Constant.AllParenthesised);
         
@@ -45,9 +45,9 @@ internal static class FindTemplateParser
         
     private static Parser<char, SeriesParser> SeriesParser(IReadOnlyList<IFindRule> findRules)
         => TemplateParser(findRules).Select(parsers => new SeriesParser(parsers));
-        
+
     internal static IFindParser ParseTemplate(string? str, IReadOnlyList<IFindRule> findRules)
         => string.IsNullOrEmpty(str)
-            ? FindParser.Empty 
+            ? EmptyFindParser.Value 
             : SeriesParser(findRules).Select(parser => new FindParser(parser)).ParseOrThrow(str);
 }

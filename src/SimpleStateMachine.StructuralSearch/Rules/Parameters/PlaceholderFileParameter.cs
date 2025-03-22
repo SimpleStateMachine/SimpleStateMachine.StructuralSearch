@@ -1,37 +1,21 @@
-﻿using System;
-using SimpleStateMachine.StructuralSearch.Helper;
+﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-namespace SimpleStateMachine.StructuralSearch.Rules;
-
-public class PlaceholderFileParameter : IPlaceholderRelatedRuleParameter
+internal class PlaceholderFileParameter : IPlaceholderRelatedRuleParameter
 {
     private readonly PlaceholderParameter _placeholderParameter;
-    private readonly FileProperty _property;
+    private readonly string _propertyName;
 
-    public PlaceholderFileParameter(PlaceholderParameter parameter, FileProperty property)
+    public PlaceholderFileParameter(PlaceholderParameter parameter, string propertyName)
     {
         _placeholderParameter = parameter;
-        _property = property;
+        _propertyName = propertyName;
     }
-        
-    public string Name => _placeholderParameter.Name;
+
+    public string PlaceholderName => _placeholderParameter.PlaceholderName;
 
     public string GetValue(ref IParsingContext context)
-    {
-        var placeHolder = _placeholderParameter.GetPlaceholder(ref context);
-        var input = placeHolder.Input;
-            
-        return _property switch
-        {
-            FileProperty.Path => input.Path,
-            FileProperty.Data => input.Data,
-            FileProperty.Extension => input.Extension,
-            FileProperty.Name => input.Name,
-            FileProperty.Lenght => input.Lenght.ToString(),
-            _ => throw new ArgumentOutOfRangeException(nameof(_property).FormatPrivateVar(), _property, null)
-        };
-    }
-        
+        => context.Input.GetProperty(_propertyName);
+
     public override string ToString() 
-        => $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.File}{Constant.Dote}{_property}";
+        => $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.File}{Constant.Dote}{_propertyName}";
 }

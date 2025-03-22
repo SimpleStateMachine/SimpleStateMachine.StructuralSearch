@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public static class ReplaceRuleParser
+internal static class ReplaceRuleParser
 {
     private static readonly Parser<char, string> Then =
         Parser.CIString(Constant.Then)

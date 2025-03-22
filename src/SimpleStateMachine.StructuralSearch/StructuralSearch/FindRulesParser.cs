@@ -6,7 +6,7 @@ using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public static class FindRuleParser
+internal static class FindRuleParser
 {
     internal static Parser<char, Func<IFindRule, IFindRule, IFindRule>> Binary(Parser<char, BinaryRuleType> op)
         => op.Select<Func<IFindRule, IFindRule, IFindRule>>(type => (l, r) => new BinaryRule(type, l, r));

@@ -6,7 +6,7 @@ using Pidgin;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
+internal abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
 {
     private Lazy<Parser<TToken, T>>? _lookaheadParser;
     protected Lazy<Parser<TToken, T>> LookaheadParser => _lookaheadParser ?? throw new ArgumentNullException(nameof(Lookahead));
@@ -25,7 +25,7 @@ public abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
         => LookaheadParser.Value.TryParse(ref state, ref expected, out result!);
 }
 
-public class LookaheadResult<TToken, T>
+internal class LookaheadResult<TToken, T>
 {
     public T Result { get; }
     public int TokensCount { get; }

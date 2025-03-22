@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch;
 
-public enum ChangeBinaryType
+internal enum ChangeBinaryType
 {
     Replace = 0
 }

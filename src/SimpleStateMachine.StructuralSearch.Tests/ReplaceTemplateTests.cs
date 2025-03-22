@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
@@ -15,11 +16,9 @@ public static class ReplaceTemplateTests
     {
         var replaceTemplate = File.ReadAllText(templatePath);
         var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
-        IParsingContext context = ParsingContext.Empty;
-        var result = replaceBuilder.Build(ref context);
 
         Assert.NotNull(replaceTemplate);
-        Assert.Equal(replaceBuilder.Steps.Count(), stepsCount);
+        Assert.Equal(((ReplaceBuilder)replaceBuilder).Steps.Count(), stepsCount);
     }
 
     [Theory]
@@ -38,12 +37,12 @@ public static class ReplaceTemplateTests
         var replaceResult = File.ReadAllText(resultPath);
         var replaceBuilder = StructuralSearch.ParseReplaceTemplate(replaceTemplate);
             
-        IParsingContext parsingContext = new ParsingContext(Input.Empty);
+        IParsingContext parsingContext = new ParsingContext(Input.Input.Empty);
         for (int i = 0; i < keys.Length; i++)
         {
-            parsingContext.AddPlaceholder(Placeholder.CreateEmpty(parsingContext, keys[i], values[i]));
+            parsingContext[keys[i]] = Placeholder.CreateEmpty(parsingContext, keys[i], values[i]);
         }
-            
+
         var result = replaceBuilder.Build(ref parsingContext);
 
         Assert.NotNull(replaceTemplate);

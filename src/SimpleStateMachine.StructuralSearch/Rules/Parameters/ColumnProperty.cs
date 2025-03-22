@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public enum ColumnProperty
+internal enum ColumnProperty
 {
     Start = 0,
     End

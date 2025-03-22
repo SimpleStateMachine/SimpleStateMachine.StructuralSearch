@@ -2,7 +2,7 @@
 
 namespace SimpleStateMachine.StructuralSearch.Helper;
 
-public static class StringHelper
+internal static class StringHelper
 {
     public static string FormatPrivateVar(this string str)
     {

@@ -3,7 +3,7 @@
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class EmptyStringParser : Parser<char, string>
+internal class EmptyStringParser : Parser<char, string>
 {
     private readonly bool _value;
 

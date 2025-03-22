@@ -12,10 +12,9 @@ public static class PlaceholderParserTests
     [InlineData("($test$)", "(value (test) )", "value (test) ")]
     public static void TemplateParsingShouldBeSuccess(string template, string source, string result)
     {
-        var input = Input.String(source);
-        IParsingContext parsingContext = new ParsingContext(input);
+        var input = Input.Input.String(source);
         var templateParser = StructuralSearch.ParseFindTemplate(template);
-        var matches = templateParser.Parse(ref parsingContext);
+        var matches = templateParser.Parse(input);
 
         Assert.Single(matches);
         var match = matches.First();
@@ -30,10 +29,9 @@ public static class PlaceholderParserTests
     [InlineData("$var$;.", "test;;;.", "test;;")]
     public static void TemplateParsingShouldBeSuccess2(string template, string source, params string[] values)
     {
-        var input = Input.String(source);
-        IParsingContext parsingContext = new ParsingContext(input);
+        var input = Input.Input.String(source);
         var templateParser = StructuralSearch.ParseFindTemplate(template);
-        var matches = templateParser.Parse(ref parsingContext);
+        var matches = templateParser.Parse(input);
         Assert.Single(matches);
         var match = matches.First();
         Assert.Equal(match.Placeholders.Count, values.Length);

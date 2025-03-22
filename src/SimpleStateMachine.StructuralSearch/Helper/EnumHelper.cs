@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SimpleStateMachine.StructuralSearch.Helper;
 
-public static class EnumHelper
+internal static class EnumHelper
 {
     public static bool IsEnumType(Type? enumType) 
         => enumType is { IsEnum: true };

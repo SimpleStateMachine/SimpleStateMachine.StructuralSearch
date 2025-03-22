@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Rules;
 
-public enum UnaryRuleType
+internal enum UnaryRuleType
 {
     Not = 0,
 }
