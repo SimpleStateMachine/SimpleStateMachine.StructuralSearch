@@ -2,6 +2,7 @@
 using System.Linq;
 using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Input;
 using SimpleStateMachine.StructuralSearch.ReplaceTemplate;
 using SimpleStateMachine.StructuralSearch.Rules;
 

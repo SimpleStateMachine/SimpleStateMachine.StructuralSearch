@@ -4,6 +4,7 @@ using System.Linq;
 using SimpleStateMachine.StructuralSearch;
 using SimpleStateMachine.StructuralSearch.Configurations;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Input;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;

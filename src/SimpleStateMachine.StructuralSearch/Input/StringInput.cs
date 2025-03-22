@@ -1,25 +1,28 @@
-﻿using Pidgin;
+﻿using System;
+using System.IO;
 
-namespace SimpleStateMachine.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Input;
 
 public class StringInput : IInput
 {
-    private readonly string _input;
-        
-    public StringInput(string input)
+    private readonly string _str;
+
+    public StringInput(string str)
     {
-        _input = input;
+        _str = str;
     }
 
-    public Result<char, T> ParseBy<T>(Parser<char, T> parser) 
-        => parser.Parse(_input);
+    public TextReader ReadData()
+        => new StringReader(_str);
 
-    public void Replace(Match<string> match, string value) 
-        => throw new System.NotImplementedException();
+    public string GetProperty(string propertyName)
+    {
+        var lower = propertyName.ToLower();
 
-    public string Extension => string.Empty;
-    public string Path => string.Empty;
-    public string Name => string.Empty;
-    public string Data => string.Empty;
-    public long Lenght => _input.Length;
+        return lower switch
+        {
+            "length" => _str.Length.ToString(),
+            _ => throw new ArgumentOutOfRangeException(propertyName)
+        };
+    }
 }

@@ -10,7 +10,6 @@ internal class ReplacedPlaceholder : IPlaceholder
         Line = placeholder.Line;
         Column = placeholder.Column;
         Offset = placeholder.Offset;
-        Input = placeholder.Input;
     }
     
     public string Name { get; }
@@ -19,5 +18,4 @@ internal class ReplacedPlaceholder : IPlaceholder
     public LinePosition Line { get; }
     public ColumnPosition Column { get; }
     public OffsetPosition Offset { get; }
-    public IInput Input { get; }
 }

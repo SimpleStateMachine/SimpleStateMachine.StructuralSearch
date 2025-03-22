@@ -10,9 +10,9 @@ internal static class PlaceholderPropertyParser
     public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> File =
         Parsers.EnumValue(PlaceholderProperty.File, true)
             .Then(CommonParser.Dote)
-            .Then(Parser.CIEnum<FileProperty>())
-            .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
-                new PlaceholderFileParameter(placeholder, property)))
+            .Then(CommonParser.Identifier)
+            .Select(propertyName => new Func<PlaceholderParameter, IRuleParameter>(placeholder => 
+                new PlaceholderFileParameter(placeholder, propertyName)))
             .Try();
         
     public static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> Column =

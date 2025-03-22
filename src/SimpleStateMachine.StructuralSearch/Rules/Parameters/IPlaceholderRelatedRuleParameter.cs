@@ -2,5 +2,5 @@
 
 internal interface IPlaceholderRelatedRuleParameter : IRuleParameter
 {
-    string Name { get; }
+    string PlaceholderName { get; }
 }

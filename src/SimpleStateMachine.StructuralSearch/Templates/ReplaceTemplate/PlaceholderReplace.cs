@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.ReplaceTemplate;
 
-public class PlaceholderReplace : IReplaceStep
+internal class PlaceholderReplace : IReplaceStep
 {
     private readonly string _name;
 
@@ -11,7 +11,7 @@ public class PlaceholderReplace : IReplaceStep
 
     public string GetValue(ref IParsingContext context)
     {
-        var placeHolder = context.GetPlaceholder(_name);
+        var placeHolder = context[_name];
         return placeHolder.Value;
     }
         

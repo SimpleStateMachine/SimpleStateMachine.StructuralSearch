@@ -3,37 +3,39 @@ using System.Linq;
 using System.Text;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Input;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class FindParser : IFindParser
+internal class FindParser : IFindParser
 {
-    public static readonly EmptyFindParser Empty = new ();
-        
     private SeriesParser Parser { get; }
+
     public FindParser(SeriesParser parser)    
     {
         Parser = parser;
     }
 
-    public IEnumerable<FindParserResult> Parse(ref IParsingContext context)
+    public List<FindParserResult> Parse(IInput input)
     {
         List<FindParserResult> matches = new();
         StringBuilder res = new();
 
+        IParsingContext context = new ParsingContext(input);
         Parser.SetContext(ref context);
-            
+
         var parsingContext = context;
         var parser = Parser.Select(x => string.Join(string.Empty, x))
             .Match()
             .ThenInvoke(match =>
             {
-                var placeholders = parsingContext.Clear();
+                var placeholders = context.ToDictionary();
+                context.Clear();
                 matches.Add(new FindParserResult(match, placeholders));
             })
             .ThenReturn(Unit.Value)
             .Try();
-            
+
         var empty = Parser<char>.Any
             .ThenInvoke(x =>
             {
@@ -41,9 +43,9 @@ public class FindParser : IFindParser
                 parsingContext.Clear();
             })
             .ThenReturn(Unit.Value);
-            
-        context.Input.ParseBy(Pidgin.Parser.OneOf(parser, empty).Many());
-            
-        return matches.OrderBy(x=> x.Match.Offset.Start);
+
+        using var textReader = context.Input.ReadData();
+        Pidgin.Parser.OneOf(parser, empty).Many().Parse(textReader);
+        return matches.OrderBy(x=> x.Match.Offset.Start).ToList();
     }
 }

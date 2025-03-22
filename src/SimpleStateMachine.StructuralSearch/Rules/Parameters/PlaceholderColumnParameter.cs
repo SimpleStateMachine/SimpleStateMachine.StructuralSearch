@@ -14,7 +14,7 @@ internal class PlaceholderColumnParameter : IPlaceholderRelatedRuleParameter
         _property = property;
     }
         
-    public string Name => _placeholderParameter.Name;
+    public string PlaceholderName => _placeholderParameter.PlaceholderName;
         
     public string GetValue(ref IParsingContext context)
     {

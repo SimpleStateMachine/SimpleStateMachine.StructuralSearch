@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SimpleStateMachine.StructuralSearch.Input;
 
 namespace SimpleStateMachine.StructuralSearch;
 
 public interface IFindParser
 {
-    IEnumerable<FindParserResult> Parse(ref IParsingContext context);
-}
-    
-public class EmptyFindParser: IFindParser
-{
-    public IEnumerable<FindParserResult> Parse(ref IParsingContext context) 
-        => Array.Empty<FindParserResult>();
+    List<FindParserResult> Parse(IInput input);
 }

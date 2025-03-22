@@ -4,17 +4,17 @@ internal class PlaceholderParameter : IPlaceholderRelatedRuleParameter
 {
     public PlaceholderParameter(string name)
     {
-        Name = name;
+        PlaceholderName = name;
     }
         
-    public string Name { get; }
+    public string PlaceholderName { get; }
         
     public string GetValue(ref IParsingContext context) 
         => GetPlaceholder(ref context).Value;
 
     public IPlaceholder GetPlaceholder(ref IParsingContext context)
-        => context[Name];
+        => context[PlaceholderName];
 
     public override string ToString() 
-        => $"{Constant.PlaceholderSeparator}{Name}{Constant.PlaceholderSeparator}";
+        => $"{Constant.PlaceholderSeparator}{PlaceholderName}{Constant.PlaceholderSeparator}";
 }
