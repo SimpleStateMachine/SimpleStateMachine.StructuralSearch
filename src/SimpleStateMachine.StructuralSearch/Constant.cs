@@ -153,26 +153,24 @@ internal static class Constant
         RightCurlyParenthesis
     };
 
-    public static class FindTemplate
+    public static readonly IReadOnlySet<char> InvalidStringLiteralChars = new HashSet<char>(AllParenthesis)
     {
-        public static readonly IReadOnlySet<char> All = new HashSet<char>(AllParenthesis)
-        {
-            PlaceholderSeparator,
-            CarriageReturn,
-            LineFeed,
-            Space
-        };
-    }
+        CarriageReturn,
+        LineFeed,
+        Space
+    };
 
-    public static class Parameter
+    public static readonly IReadOnlySet<char> All = new HashSet<char>(InvalidStringLiteralChars)
     {
-        public static readonly IReadOnlySet<char> Escape = new HashSet<char>
-        {
-            DoubleQuotes,
-            PlaceholderSeparator,
-            Dote
-        };
+        PlaceholderSeparator,
+    };
 
-        public static readonly IReadOnlySet<char> Excluded = AllParenthesis.Union(Escape).ToHashSet();
-    }
+    public static readonly IReadOnlySet<char> CharsToEscape = new HashSet<char>
+    {
+        DoubleQuotes,
+        PlaceholderSeparator,
+        Dote
+    };
+
+    public static readonly IReadOnlySet<char> LanguageSyntaxChars = AllParenthesis.Union(CharsToEscape).ToHashSet();
 }

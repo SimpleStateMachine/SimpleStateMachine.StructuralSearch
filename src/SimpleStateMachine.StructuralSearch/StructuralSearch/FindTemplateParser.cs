@@ -16,7 +16,8 @@ internal static class FindTemplateParser
         ParserToParser.ParserAsParser(CommonParser.WhiteSpaces).Try();
 
     private static readonly Parser<char, Parser<char, string>> Placeholder =
-        CommonTemplateParser.Placeholder.Select(name => new PlaceholderParser(name))
+        CommonTemplateParser.Placeholder
+            .Select(name => new PlaceholderParser(name))
             .As<char, PlaceholderParser, Parser<char, string>>();
 
     private static readonly Parser<char, IEnumerable<Parser<char, string>>> Token =
@@ -30,7 +31,7 @@ internal static class FindTemplateParser
             values: Constant.AllParentheses
         );
 
-    internal static Parser<char, IEnumerable<Parser<char, string>>> Term =
+    private static readonly Parser<char, IEnumerable<Parser<char, string>>> Term =
         Parser.OneOf(Parenthesised, Token).Many().SelectMany();
 
     private static readonly Parser<char, IEnumerable<Parser<char, string>>> TemplateParser =

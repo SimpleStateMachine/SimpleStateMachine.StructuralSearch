@@ -53,10 +53,10 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
             }).Try());
         }
 
-        var anyString = CommonTemplateParser.AnyCharWithPlaceholder
+        var anyString = CommonTemplateParser.StringLiteralChar
             .AtLeastOnceAsStringUntil(lookahead);
 
-        var simpleString = CommonTemplateParser.StringWithPlaceholder;
+        var simpleString = CommonTemplateParser.StringLiteral;
         var token = Parser.OneOf(simpleString, CommonParser.WhiteSpaces).Try();
         Parser<char, string>? term = null;
 

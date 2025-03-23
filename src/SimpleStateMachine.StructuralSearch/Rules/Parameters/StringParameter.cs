@@ -16,7 +16,7 @@ internal class StringParameter : IRuleParameter
 
     public override string ToString()
     {
-        var value = EscapeHelper.EscapeChars(_value, c => $"{Constant.BackSlash}{c}", Constant.Parameter.Escape);
+        var value = EscapeHelper.EscapeChars(_value, c => $"{Constant.BackSlash}{c}", Constant.CharsToEscape);
         return $"{value}";
     }
 }

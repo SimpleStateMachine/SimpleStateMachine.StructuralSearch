@@ -9,24 +9,15 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class FindRuleParser
 {
-    private static Parser<char, Func<IFindRule, IFindRule>> UnaryOperation(UnaryRuleType ruleType)
-        => Parsers.Parsers.EnumValue(ruleType, true).Trim().Try()
-            .Select<Func<IFindRule, IFindRule>>(type => param => new UnaryRule(type, param));
-
-    private static Parser<char, Func<IFindRule, IFindRule, IFindRule>> BinaryOperation(BinaryRuleType ruleType)
-        => Parsers.Parsers.EnumValue(ruleType, true).Trim().Try()
-            .Select<Func<IFindRule, IFindRule, IFindRule>>(type => (left, right) => new BinaryRule(type, left, right));
-
     private static readonly Parser<char, Func<IFindRule, IFindRule, IFindRule>> And = BinaryOperation(BinaryRuleType.And);
     private static readonly Parser<char, Func<IFindRule, IFindRule, IFindRule>> Or = BinaryOperation(BinaryRuleType.Or);
     private static readonly Parser<char, Func<IFindRule, IFindRule, IFindRule>> NOR = BinaryOperation(BinaryRuleType.NOR);
     private static readonly Parser<char, Func<IFindRule, IFindRule, IFindRule>> XOR = BinaryOperation(BinaryRuleType.XOR);
     private static readonly Parser<char, Func<IFindRule, IFindRule, IFindRule>> NAND = BinaryOperation(BinaryRuleType.NAND);
     private static readonly Parser<char, Func<IFindRule, IFindRule, IFindRule>> XNOR = BinaryOperation(BinaryRuleType.XNOR);
-
     private static readonly Parser<char, Func<IFindRule, IFindRule>> Not = UnaryOperation(UnaryRuleType.Not);
 
-    public static readonly Parser<char, IFindRule> Expr = ExpressionParser.Build<char, IFindRule>
+    internal static readonly Parser<char, IFindRule> Expr = ExpressionParser.Build<char, IFindRule>
     (
         rule =>
         (
@@ -51,4 +42,12 @@ internal static class FindRuleParser
         => string.IsNullOrEmpty(str)
             ? Rule.Empty
             : Expr.Before(CommonParser.Eof).ParseOrThrow(str);
+
+    private static Parser<char, Func<IFindRule, IFindRule>> UnaryOperation(UnaryRuleType ruleType)
+        => Parsers.Parsers.EnumValue(ruleType, true).Trim().Try()
+            .Select<Func<IFindRule, IFindRule>>(type => param => new UnaryRule(type, param));
+
+    private static Parser<char, Func<IFindRule, IFindRule, IFindRule>> BinaryOperation(BinaryRuleType ruleType)
+        => Parsers.Parsers.EnumValue(ruleType, true).Trim().Try()
+            .Select<Func<IFindRule, IFindRule, IFindRule>>(type => (left, right) => new BinaryRule(type, left, right));
 }

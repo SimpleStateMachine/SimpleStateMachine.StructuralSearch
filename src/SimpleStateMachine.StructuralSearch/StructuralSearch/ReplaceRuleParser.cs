@@ -20,7 +20,8 @@ internal static class ReplaceRuleParser
         ).Try().TrimStart();
 
     private static readonly Parser<char, IFindRule> EmptySubRule =
-        CommonParser.Underscore.ThenReturn(new EmptySubRule())
+        CommonParser.Underscore
+            .ThenReturn(new EmptySubRule())
             .As<char, EmptySubRule, IFindRule>().Try().TrimStart();
 
     private static readonly Parser<char, ReplaceRule> ReplaceRule =

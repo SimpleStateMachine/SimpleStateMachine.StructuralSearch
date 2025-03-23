@@ -47,12 +47,12 @@ public class StructuralSearchTests
         var configuration = new Configuration
         {
             FindTemplate = "$Modificator$ $ReturnType$ $MethodName$($params$)",
-            FindRules = new List<string>
-            {
+            FindRules =
+            [
                 "$Modificator$ in (\"public\", \"private\", \"internal\")",
                 "$ReturnType$ is var",
                 "$MethodName$ is var"
-            }
+            ]
         };
 
         var parser = new StructuralSearchParser(configuration);

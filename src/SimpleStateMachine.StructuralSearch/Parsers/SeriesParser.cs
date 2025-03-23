@@ -3,8 +3,6 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
 
-#pragma warning disable CS9074 // The 'scoped' modifier of parameter doesn't match overridden or implemented member.
-
 namespace SimpleStateMachine.StructuralSearch.Parsers;
 
 internal class SeriesParser : Parser<char, IEnumerable<string>>, IContextDependent

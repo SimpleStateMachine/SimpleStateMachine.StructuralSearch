@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pidgin;
-using static Pidgin.Parser;
 
 namespace SimpleStateMachine.StructuralSearch.Extensions;
 
@@ -16,7 +15,7 @@ internal static class StringParserExtensions
         if (parser2 == null)
             throw new ArgumentNullException(nameof(parser2));
 
-        return Map<TToken, char, string, char, string>(
+        return Parser.Map<TToken, char, string, char, string>(
             (before, str, after) => before + str + after,
             parser1, parser, parser2);
     }
@@ -30,7 +29,7 @@ internal static class StringParserExtensions
         if (parser2 == null)
             throw new ArgumentNullException(nameof(parser2));
 
-        return Map<TToken, string, string, string, string>(
+        return Parser.Map<TToken, string, string, string, string>(
             (before, str, after) => before + str + after,
             parser1, parser, parser2);
     }
@@ -56,13 +55,13 @@ internal static class StringParserExtensions
         => parser.Then(Parser<TToken>.CurrentOffset, (s, offset) => new SourceMatch(s, offset - s.Length, offset));
 
     public static Parser<char, T> TrimEnd<T>(this Parser<char, T> parser)
-        => parser.Before(SkipWhitespaces);
+        => parser.Before(Parser.SkipWhitespaces);
 
     public static Parser<char, T> TrimStart<T>(this Parser<char, T> parser)
-        => parser.After(SkipWhitespaces);
+        => parser.After(Parser.SkipWhitespaces);
 
     public static Parser<char, T> Trim<T>(this Parser<char, T> parser)
-        => parser.Between(SkipWhitespaces);
+        => parser.Between(Parser.SkipWhitespaces);
 
     public static Parser<char, TEnum> AsEnum<TEnum>(this Parser<char, string> parser, bool ignoreCase)
         where TEnum : struct, Enum
