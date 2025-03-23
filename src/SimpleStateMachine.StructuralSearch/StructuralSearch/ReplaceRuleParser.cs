@@ -8,33 +8,31 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 internal static class ReplaceRuleParser
 {
     private static readonly Parser<char, string> Then =
-        Parser.CIString(Constant.Then)
-            .Try()
-            .TrimStart();
+        Parser.CIString(Constant.Then).Try().TrimStart();
 
     private static readonly Parser<char, ReplaceSubRule> ReplaceSubRule =
-        Parser.Map((placeholder, _, parameter) => new ReplaceSubRule(placeholder, parameter),
-                ParametersParser.PlaceholderParameter.TrimStart(),
-                CommonTemplateParser.Should.TrimStart(),
-                ParametersParser.Parameter.TrimStart())
-            .Try()
-            .TrimStart();
+        Parser.Map
+        (
+            func: (placeholder, _, parameter) => new ReplaceSubRule(placeholder, parameter),
+            parser1: ParametersParser.PlaceholderParameter.TrimStart(),
+            parser2: CommonTemplateParser.Should.TrimStart(),
+            parser3: ParametersParser.Parameter.TrimStart()
+        ).Try().TrimStart();
 
     private static readonly Parser<char, IFindRule> EmptySubRule =
         CommonParser.Underscore.ThenReturn(new EmptySubRule())
-            .As<char, EmptySubRule, IFindRule>()
-            .Try()
-            .TrimStart();
+            .As<char, EmptySubRule, IFindRule>().Try().TrimStart();
 
     private static readonly Parser<char, ReplaceRule> ReplaceRule =
-        Parser.Map((rule, subRules) => new ReplaceRule(rule, subRules),
-                Parser.OneOf(EmptySubRule, FindRuleParser.Expr),
-                Then.Then(ReplaceSubRule.SeparatedAtLeastOnce(CommonParser.Comma)))
-            .Try()
-            .TrimStart();
+        Parser.Map
+        (
+            func: (rule, subRules) => new ReplaceRule(rule, subRules),
+            parser1: Parser.OneOf(EmptySubRule, FindRuleParser.Expr),
+            parser2: Then.Then(ReplaceSubRule.SeparatedAtLeastOnce(CommonParser.Comma))
+        ).Try().TrimStart();
 
-    internal static IReplaceRule ParseTemplate(string? str) 
+    internal static IReplaceRule ParseTemplate(string? str)
         => string.IsNullOrEmpty(str)
             ? Rules.ReplaceRules.ReplaceRule.Empty
-            : ReplaceRule.Before(CommonParser.EOF).ParseOrThrow(str);
+            : ReplaceRule.Before(CommonParser.Eof).ParseOrThrow(str);
 }

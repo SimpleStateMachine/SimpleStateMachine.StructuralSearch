@@ -30,7 +30,7 @@ public static class ParameterParserTests
     {
         Assert.Throws<ParseException<char>>(() =>
         {
-            var result = ParametersParser.StringParameter.Before(CommonParser.EOF).ParseOrThrow(str);
+            var result = ParametersParser.StringParameter.Before(CommonParser.Eof).ParseOrThrow(str);
             return result;
         });
     }

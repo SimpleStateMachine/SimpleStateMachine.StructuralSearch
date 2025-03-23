@@ -37,8 +37,8 @@ public static class ReplaceTemplateTests
         var replaceTemplate = File.ReadAllText(templatePath);
         var replaceResult = File.ReadAllText(resultPath);
         var replaceBuilder = StructuralSearch.StructuralSearch.ParseReplaceTemplate(replaceTemplate);
-            
-        IParsingContext parsingContext = new ParsingContext(Input.Input.Empty);
+
+        IParsingContext parsingContext = new ParsingContext(Input.Input.Empty, []);
         for (int i = 0; i < keys.Length; i++)
         {
             parsingContext[keys[i]] = Placeholder.Placeholder.CreateEmpty(keys[i], values[i]);

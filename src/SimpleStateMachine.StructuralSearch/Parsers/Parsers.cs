@@ -61,8 +61,7 @@ internal static class Parsers
         Func<char, Parser<char, T>> leftRight,
         Parser<char, IEnumerable<T>> expr)
         => MapToMany(leftRight(left), expr, leftRight(right));
-
-
+    
     public static Parser<char, IEnumerable<T>> BetweenOneOfChars<T>(Func<char, Parser<char, T>> leftRight, Parser<char, IEnumerable<T>> expr, params (char, char)[] values) 
         => OneOf(values.Select(x => MapToMany(leftRight(x.Item1), expr, leftRight(x.Item2))));
 

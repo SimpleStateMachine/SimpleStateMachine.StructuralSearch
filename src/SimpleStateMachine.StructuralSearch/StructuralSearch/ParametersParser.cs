@@ -10,127 +10,75 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class ParametersParser
 {
-    static ParametersParser()
-    {
-        // TODO optimize
-        Parenthesised = Parsers.Parsers.BetweenOneOfChars(x => Parser.Char(x).Try(),
-                Parser.Rec(() => StringWithParenthesised ?? throw new ArgumentNullException(nameof(StringWithParenthesised))),
-                Constant.AllParentheses)
-            .Try()
-            .Labelled($"{nameof(ParametersParser)}.{nameof(Parenthesised)}");
-
-        StringWithParenthesised = Parser.OneOf(Parenthesised, String)
-            .Optional()
-            .Select(x => x.HasValue ? x.Value : [])
-            .Try();
-
-        StringParameter = Parser.OneOf(Parenthesised, String)
-            .AtLeastOnce()
-            .MergerMany()
-            .AsString()
-            .Select(x => new StringParameter(x))
-            .As<char, StringParameter, IRuleParameter>()
-            .Try()
-            .Labelled($"{nameof(ParametersParser)}.{nameof(StringParameter)}");
-
-        var placeholderOrPropertyRuleParameter = Parser.Rec(() => PlaceholderOrPropertyRuleParameter ?? throw new ArgumentNullException(nameof(PlaceholderOrPropertyRuleParameter)));
-
-        StringFormatParameter =
-            Parser.OneOf(placeholderOrPropertyRuleParameter, StringParameter)
-                .AtLeastOnce()
-                .Between(CommonParser.DoubleQuotes)
-                .Select(parameters => new StringFormatParameter(parameters))
-                .As<char, StringFormatParameter, IRuleParameter>()
-                // .TrimStart()
-                .Try();
-
-        Parameter = Parser.OneOf(StringFormatParameter, placeholderOrPropertyRuleParameter)
-            // .TrimStart()
-            .Try();
-
-        Parameters = Parameter.Trim().SeparatedAtLeastOnce(CommonParser.Comma.Trim());
-
-        ChangeUnaryParameter = Parser.Map((type, arg) => (type, arg),
-                    Parser.CIEnum<ChangeUnaryType>(),
-                    CommonParser.Parenthesised(Parameter, Parser.Char))
-                .Select(pair => new Func<IRuleParameter, IRuleParameter>(placeholder =>
-                    new ChangeUnaryParameter(placeholder, pair.type, pair.arg)))
-                .Try()
-                .Labelled($"{nameof(ParametersParser)}.{nameof(ChangeUnaryParameter)}")
-            ;
-
-        Change = CommonParser.Dote.Then(Parser.OneOf(ChangeParameter, ChangeUnaryParameter))
-            .Many()
-            .Select(funcs => 
-                new Func<IRuleParameter, IRuleParameter>(placeholder => 
-                    funcs.Aggregate(placeholder, (parameter, func) => func(parameter)))); ;
-
-        PlaceholderOrPropertyRuleParameter = PlaceholderParameter
-            .Then(PlaceholderPropertyParser.PlaceholderPropertyParameter, (placeholder, func) => func(placeholder))
-            .Then(Change, (parameter, func) => func(parameter))
-            .Try();
-    }
-
-    public static readonly Parser<char, IEnumerable<char>> String =
+    private static readonly Parser<char, IEnumerable<char>> String =
         CommonParser.Escaped(Constant.Parameter.Escape)
             .Or(Parser.AnyCharExcept(Constant.Parameter.Excluded))
-            .AtLeastOnce()
-            .Labelled($"{nameof(ParametersParser)}.{nameof(String)}");
+            .AtLeastOnce();
 
-    public static readonly Parser<char, IRuleParameter> StringParameter;
+    public static readonly Parser<char, IRuleParameter> StringParameter = 
+        Parser.OneOf(Parser.Rec(() => Parenthesised ?? throw new ArgumentNullException()), String)
+        .AtLeastOnce()
+        .SelectMany()
+        .AsString()
+        .Select(x => new StringParameter(x))
+        .As<char, StringParameter, IRuleParameter>()
+        .Try();
 
     public static readonly Parser<char, PlaceholderParameter> PlaceholderParameter =
         CommonTemplateParser.Placeholder
             .Select(x => new PlaceholderParameter(x))
             // .TrimStart()
-            .Try()
-            .Labelled($"{nameof(ParametersParser)}.{nameof(PlaceholderParameter)}");
-
-
-    // public static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeParameter =
-    //     CommonParser.Dote.Then(Parser.CIEnum<ChangeType>())
-    //         .Optional()
-    //         .Select(changeType => new Func<IRuleParameter, IRuleParameter>(placeholder =>
-    //             changeType.HasValue ? new ChangeParameter(placeholder, changeType.Value) : placeholder))
-    //         .Try()
-    //         .Labelled($"{nameof(ParametersParser)}.{nameof(ChangeParameter)}");
-    //
-    // public static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeUnaryParameter =
-    //     CommonParser.Dote.Then(Parser.Map(
-    //             (type, arg) => (type, arg), 
-    //             Parser.CIEnum<ChangeUnaryType>(),
-    //             CommonParser.Parenthesised(Parser.Rec(() => PlaceholderOrPropertyRuleParameter), Parser.Char)))
-    //         .Optional()
-    //         .Select(pair => new Func<IRuleParameter, IRuleParameter>(placeholder =>
-    //             pair.HasValue
-    //                 ? new ChangeUnaryParameter(placeholder, pair.Value.type, pair.Value.arg)
-    //                 : placeholder))
-    //         .Try()
-    //         .Labelled($"{nameof(ParametersParser)}.{nameof(ChangeUnaryParameter)}");
+            .Try();
 
     private static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeParameter =
-            Parser.CIEnum<ChangeType>()
-                .Select(changeType =>
-                    new Func<IRuleParameter, IRuleParameter>(
-                        placeholder => new ChangeParameter(placeholder, changeType)))
-                .Try()
-                .Labelled($"{nameof(ParametersParser)}.{nameof(ChangeParameter)}")
-        ;
+        Parser.CIEnum<ChangeType>()
+            .Select(changeType => new Func<IRuleParameter, IRuleParameter>(placeholder => new ChangeParameter(placeholder, changeType)))
+            .Try();
+    
+    public static readonly Parser<char, IEnumerable<char>> StringWithParenthesised = 
+        Parser.OneOf(Parser.Rec(() => Parenthesised ?? throw new ArgumentNullException()), String)
+            .Optional()
+            .Select(x => x.HasValue ? x.Value : [])
+            .Try();
+    
+    private static readonly Parser<char, IEnumerable<char>> Parenthesised =
+        Parsers.Parsers.BetweenOneOfChars
+            (
+                leftRight: x => Parser.Char(x).Try(),
+                expr: Parser.Rec(() => StringWithParenthesised ?? throw new ArgumentNullException(nameof(StringWithParenthesised))),
+                values: Constant.AllParentheses
+            )
+            .Try();
 
-    private static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeUnaryParameter;
+    private static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeUnaryParameter = Parser.Map
+        (
+            func: (type, arg) => (type, arg),
+            parser1: Parser.CIEnum<ChangeUnaryType>(),
+            parser2: CommonParser.Parenthesised(Parser.Rec(() => Parameter ?? throw new ArgumentNullException()), Parser.Char)
+        )
+        .Select(pair => new Func<IRuleParameter, IRuleParameter>(placeholder => new ChangeUnaryParameter(placeholder, pair.type, pair.arg)))
+        .Try();
 
-    public static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> Change;
+    public static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> Change = 
+        CommonParser.Dote.Then(Parser.OneOf(ChangeParameter, ChangeUnaryParameter))
+        .Many()
+        .Select(funcs => new Func<IRuleParameter, IRuleParameter>(placeholder => funcs.Aggregate(placeholder, (parameter, func) => func(parameter))));
 
-    public static readonly Parser<char, IRuleParameter> PlaceholderOrPropertyRuleParameter;
+    private static readonly Parser<char, IRuleParameter> PlaceholderOrPropertyRuleParameter = 
+        PlaceholderParameter
+        .Then(PlaceholderPropertyParser.PlaceholderPropertyParameter, (placeholder, func) => func(placeholder))
+        .Then(Change, (parameter, func) => func(parameter))
+        .Try();
+    
+    public static readonly Parser<char, IRuleParameter> StringFormatParameter = 
+        Parser.OneOf(Parser.Rec(() => PlaceholderOrPropertyRuleParameter ?? throw new ArgumentNullException()), StringParameter)
+            .AtLeastOnce()
+            .Between(CommonParser.DoubleQuotes)
+            .Select(parameters => new StringFormatParameter(parameters))
+            .As<char, StringFormatParameter, IRuleParameter>()
+            // .TrimStart()
+            .Try();
 
-
-    public static readonly Parser<char, IEnumerable<char>> StringWithParenthesised;
-
-    public static readonly Parser<char, IEnumerable<char>> Parenthesised;
-
-    public static readonly Parser<char, IRuleParameter> StringFormatParameter;
-
-    public static readonly Parser<char, IRuleParameter> Parameter;
-
-    public static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters;
+    public static readonly Parser<char, IRuleParameter> Parameter = Parameter = Parser.OneOf(StringFormatParameter, Parser.Rec(() => PlaceholderOrPropertyRuleParameter ?? throw new ArgumentNullException())).Try();
+    public static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters = Parameter.Trim().SeparatedAtLeastOnce(CommonParser.Comma.Trim());
 }

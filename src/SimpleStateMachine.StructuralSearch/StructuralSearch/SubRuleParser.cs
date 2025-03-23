@@ -8,9 +8,8 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class SubRuleParser
 {
-    private static readonly Parser<char, SubRuleType> SubRuleType =
-        Parser.CIEnum<SubRuleType>()
-            .Trim();
+    private static readonly Parser<char, SubRuleType> SubRuleType = Parser.CIEnum<SubRuleType>().Trim();
+    private static readonly Parser<char, PlaceholderType> PlaceholderType = Parser.CIEnum<PlaceholderType>().TrimStart();
 
     private static Parser<char, IFindRule> BinarySubRule(IRuleParameter left, SubRuleType ruleType) =>
         ParametersParser.Parameter
@@ -18,10 +17,6 @@ internal static class SubRuleParser
             .Select(right => new BinarySubRule(ruleType, left, right))
             .As<char, BinarySubRule, IFindRule>()
             .Try();
-
-    private static readonly Parser<char, PlaceholderType> PlaceholderType =
-        Parser.CIEnum<PlaceholderType>()
-            .TrimStart();
 
     private static Parser<char, IFindRule> IsSubRule(IRuleParameter left, SubRuleType ruleType) =>
         PlaceholderType.Select(arg => new IsSubRule(left, arg))
@@ -37,8 +32,12 @@ internal static class SubRuleParser
             .Try();
 
     public static readonly Parser<char, IFindRule> OneOfSubRule =
-        Parser.Map((left, ruleType) => (left, ruleType), 
-                ParametersParser.Parameter.Trim(), SubRuleType)
+        Parser.Map
+            (
+                func: (left, ruleType) => (left, ruleType),
+                parser1: ParametersParser.Parameter.Trim(),
+                parser2: SubRuleType
+            )
             .Then(x => x.ruleType switch
             {
                 Rules.FindRules.Types.SubRuleType.In => InSubRule(x.left, x.ruleType),

@@ -4,7 +4,6 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 namespace SimpleStateMachine.StructuralSearch.Parsers;
@@ -12,26 +11,23 @@ namespace SimpleStateMachine.StructuralSearch.Parsers;
 internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
 {
     private readonly string _name;
-    private readonly IReadOnlyList<IFindRule> _findRules;
     private IParsingContext? _context;
-        
-    public PlaceholderParser(string name, IReadOnlyList<IFindRule> findRules)
+
+    public PlaceholderParser(string name)
     {
         _name = name;
-        _findRules = findRules;
     }
-        
+
     private IParsingContext Context => _context ?? throw new ArgumentNullException(nameof(_context));
 
-    protected override Parser<char, string> BuildParser(Func<Parser<char, string>?> next,
-        Func<Parser<char, string>?> nextNext)
+    protected override Parser<char, string> BuildParser(Func<Parser<char, string>?> next, Func<Parser<char, string>?> nextNext)
     {
         var nextParser = next();
         var nextNextParser = nextNext();
 
         if (nextParser is null)
             return EmptyParser.AlwaysNotCorrectString;
-            
+
         Parser<char, Unit> lookahead;
         if (nextNextParser is not null)
         {
@@ -54,9 +50,9 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
                     new(nextParser, s, s.Length)
                 };
                 return Unit.Value;
-            }).Try());  
+            }).Try());
         }
-        
+
         var anyString = CommonTemplateParser.AnyCharWithPlaceholder
             .AtLeastOnceAsStringUntil(lookahead);
 
@@ -64,9 +60,12 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
         var token = Parser.OneOf(simpleString, CommonParser.WhiteSpaces).Try();
         Parser<char, string>? term = null;
 
-        var parenthesised = Parsers.BetweenOneOfChars(x => Parser.Char(x).AsString(),
+        var parenthesised = Parsers.BetweenOneOfChars
+        (
+            leftRight: x => Parser.Char(x).AsString(),
             expr: Parser.Rec(() => term ?? throw new ArgumentNullException(nameof(term))),
-            Constant.AllParentheses).JoinToString();
+            values: Constant.AllParentheses
+        ).JoinToString();
 
         term = Parser.OneOf(parenthesised, token).Many().JoinToString();
 
@@ -80,7 +79,8 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
         return parser;
     }
 
-    public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected, out string result)
+    public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected,
+        out string result)
     {
         bool res;
 
@@ -100,19 +100,21 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
                     name: _name,
                     match: match
                 );
-  
+
                 Context.Add(_name, placeholderObj);
 
-                res = _findRules.All(r => r.Execute(ref _context!));
+                res = Context.FindRules
+                    .Where(r => r.IsApplicableForPlaceholder(_name))
+                    .All(r => r.Execute(ref _context!));
 
                 if (!res)
                     Context.Remove(_name);
             }
         }
-            
+
         return res;
     }
-        
+
     public void SetContext(ref IParsingContext context)
     {
         _context = context;

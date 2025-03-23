@@ -12,8 +12,6 @@ internal interface IReplaceBuilder
     
 internal class EmptyReplaceBuilder: IReplaceBuilder
 {
-    public IEnumerable<IRuleParameter> Steps { get; } = Array.Empty<IRuleParameter>();
-        
     public string Build(ref IParsingContext context) 
         => string.Empty;
 }

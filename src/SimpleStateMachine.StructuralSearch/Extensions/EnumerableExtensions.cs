@@ -2,7 +2,7 @@
 
 namespace SimpleStateMachine.StructuralSearch.Extensions;
 
-internal static class IEnumerableExtensions
+internal static class EnumerableExtensions
 {
     public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T>? enumerable) 
         => enumerable ?? [];

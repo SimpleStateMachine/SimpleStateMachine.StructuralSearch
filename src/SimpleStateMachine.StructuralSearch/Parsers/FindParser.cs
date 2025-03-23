@@ -5,6 +5,7 @@ using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
+using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 
 namespace SimpleStateMachine.StructuralSearch.Parsers;
 
@@ -17,12 +18,12 @@ internal class FindParser : IFindParser
         Parser = parser;
     }
 
-    public List<FindParserResult> Parse(IInput input)
+    public List<FindParserResult> Parse(IInput input, params IFindRule[] findRules)
     {
         List<FindParserResult> matches = [];
         StringBuilder res = new();
 
-        IParsingContext context = new ParsingContext(input);
+        IParsingContext context = new ParsingContext(input, findRules);
         Parser.SetContext(ref context);
 
         var parsingContext = context;

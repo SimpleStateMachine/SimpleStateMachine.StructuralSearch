@@ -11,16 +11,17 @@ namespace SimpleStateMachine.StructuralSearch;
 public class StructuralSearchParser
 {
     private readonly IFindParser _findParser;
+    private readonly IFindRule[] _findRules;
     private readonly IReplaceBuilder _replaceBuilder;
     private readonly IReadOnlyList<IReplaceRule> _replaceRules;
 
     public StructuralSearchParser(Configuration configuration)
     {
-        IReadOnlyList<IFindRule> findRules = configuration.FindRules
+        _findRules = configuration.FindRules
             .EmptyIfNull()
-            .Select(StructuralSearch.StructuralSearch.ParseFindRule).ToList();
+            .Select(StructuralSearch.StructuralSearch.ParseFindRule).ToArray();
             
-        _findParser = StructuralSearch.StructuralSearch.ParseFindTemplate(configuration.FindTemplate, findRules);
+        _findParser = StructuralSearch.StructuralSearch.ParseFindTemplate(configuration.FindTemplate);
             
         _replaceBuilder = StructuralSearch.StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
             
@@ -30,7 +31,7 @@ public class StructuralSearchParser
     }
 
     public IEnumerable<FindParserResult> Parse(IInput input)
-        => _findParser.Parse(input);
+        => _findParser.Parse(input, _findRules);
 
     // public IEnumerable<FindParserResult> ApplyReplaceRule(IEnumerable<FindParserResult> matches)
     // {
