@@ -11,16 +11,16 @@ internal static class PlaceholderPropertyParser
 {
     private static Parser<char, Func<PlaceholderParameter, IRuleParameter>> PlaceholderSubProperty<TEnum>(PlaceholderProperty property, Func<PlaceholderParameter, TEnum, IRuleParameter> func)
         where TEnum : struct, Enum
-        => Parsers.Parsers.EnumValue(property, true)
+        => Parsers.Parsers.EnumValue(property)
             .Then(CommonParser.Dote)
             .Then(Parser.CIEnum<TEnum>())
             .Select(enumValue => new Func<PlaceholderParameter, IRuleParameter>(placeholder => func(placeholder, enumValue)))
             .Try();
 
     private static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> File =
-        Parsers.Parsers.EnumValue(PlaceholderProperty.File, true)
+        Parsers.Parsers.EnumValue(PlaceholderProperty.File)
             .Then(CommonParser.Dote)
-            .Then(CommonParser.Identifier)
+            .Then(Grammar.Identifier)
             .Select(propertyName => new Func<PlaceholderParameter, IRuleParameter>(placeholder => new PlaceholderFileParameter(placeholder, propertyName)))
             .Try();
 
@@ -37,7 +37,7 @@ internal static class PlaceholderPropertyParser
             => new PlaceholderOffsetParameter(placeholder, property));
 
     private static readonly Parser<char, Func<PlaceholderParameter, IRuleParameter>> Lenght =
-        Parsers.Parsers.EnumValue(PlaceholderProperty.Lenght, true)
+        Parsers.Parsers.EnumValue(PlaceholderProperty.Lenght)
             .Select(property => new Func<PlaceholderParameter, IRuleParameter>(placeholder => new PlaceholderLenghtParameter(placeholder, property)))
             .Try();
 

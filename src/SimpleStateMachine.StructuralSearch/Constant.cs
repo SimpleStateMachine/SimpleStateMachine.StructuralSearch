@@ -6,16 +6,6 @@ namespace SimpleStateMachine.StructuralSearch;
 internal static class Constant
 {
     /// <summary>
-    /// Parenthesis empty string
-    /// </summary>
-    public static readonly string EmptyString = string.Empty;
-
-    /// <summary>
-    /// String: "Not"
-    /// </summary>
-    public const string Not = "Not";
-
-    /// <summary>
     /// String: "Then"
     /// </summary>
     public const string Then = "Then";
@@ -76,11 +66,6 @@ internal static class Constant
     public const char Comma = ',';
 
     /// <summary>
-    /// Char: '\''
-    /// </summary>
-    public const char SingleQuotes = '\'';
-
-    /// <summary>
     /// Char: '\"'
     /// </summary>
     public const char DoubleQuotes = '\"';
@@ -109,11 +94,6 @@ internal static class Constant
     /// Char: '_'
     /// </summary>
     public const char Underscore = '_';
-
-    /// <summary>
-    /// Char: ':'
-    /// </summary>
-    public const char Colon = ':';
 
     /// <summary>
     /// String: "=>"
@@ -158,11 +138,6 @@ internal static class Constant
         CarriageReturn,
         LineFeed,
         Space
-    };
-
-    public static readonly IReadOnlySet<char> All = new HashSet<char>(InvalidStringLiteralChars)
-    {
-        PlaceholderSeparator,
     };
 
     public static readonly IReadOnlySet<char> CharsToEscape = new HashSet<char>

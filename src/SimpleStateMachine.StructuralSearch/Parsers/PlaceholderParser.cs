@@ -53,19 +53,18 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
             }).Try());
         }
 
-        var anyString = CommonTemplateParser.StringLiteralChar
+        var anyString = Grammar.StringLiteralChar
             .AtLeastOnceAsStringUntil(lookahead);
 
-        var simpleString = CommonTemplateParser.StringLiteral;
-        var token = Parser.OneOf(simpleString, CommonParser.WhiteSpaces).Try();
+        var simpleString = Grammar.StringLiteral;
+        var token = Parser.OneOf(simpleString, Grammar.WhiteSpaces).Try();
         Parser<char, string>? term = null;
 
-        var parenthesised = Parsers.BetweenOneOfChars
+        var parenthesised = Parsers.BetweenParentheses
         (
-            leftRight: x => Parser.Char(x).AsString(),
             expr: Parser.Rec(() => term ?? throw new ArgumentNullException(nameof(term))),
-            values: Constant.AllParentheses
-        ).JoinToString();
+            mapFunc: (c1, s, c2) => $"{c1}{s}{c2}"
+        );
 
         term = Parser.OneOf(parenthesised, token).Many().JoinToString();
 

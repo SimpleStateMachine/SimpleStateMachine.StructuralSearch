@@ -9,7 +9,7 @@ public class NullUnionOperator
         int? temp2 = 5; 
         
         if (temp1 is null)
-            result = temp2;
+            result = temp1 ?? temp2;
         else
             result =  temp1;
     }

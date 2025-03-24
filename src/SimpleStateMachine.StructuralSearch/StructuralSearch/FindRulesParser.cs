@@ -44,10 +44,10 @@ internal static class FindRuleParser
             : Expr.Before(CommonParser.Eof).ParseOrThrow(str);
 
     private static Parser<char, Func<IFindRule, IFindRule>> UnaryOperation(UnaryRuleType ruleType)
-        => Parsers.Parsers.EnumValue(ruleType, true).Trim().Try()
+        => Parsers.Parsers.EnumValue(ruleType).Trim().Try()
             .Select<Func<IFindRule, IFindRule>>(type => param => new UnaryRule(type, param));
 
     private static Parser<char, Func<IFindRule, IFindRule, IFindRule>> BinaryOperation(BinaryRuleType ruleType)
-        => Parsers.Parsers.EnumValue(ruleType, true).Trim().Try()
+        => Parsers.Parsers.EnumValue(ruleType).Trim().Try()
             .Select<Func<IFindRule, IFindRule, IFindRule>>(type => (left, right) => new BinaryRule(type, left, right));
 }

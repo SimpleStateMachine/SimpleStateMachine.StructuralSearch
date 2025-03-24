@@ -28,7 +28,7 @@ internal class IsSubRule : IFindRule
             
         return _argument switch
         {
-            PlaceholderType.Var => CommonParser.Identifier.Before(CommonParser.Eof).TryParse(value, out _),
+            PlaceholderType.Var => Grammar.Identifier.Before(CommonParser.Eof).TryParse(value, out _),
             PlaceholderType.Int => int.TryParse(value, out _),
             PlaceholderType.Double => double.TryParse(value, out _),
             PlaceholderType.DateTime => DateTime.TryParse(value, out _),

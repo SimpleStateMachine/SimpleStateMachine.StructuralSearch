@@ -3,45 +3,38 @@ using System.Collections.Generic;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Parsers;
-using SimpleStateMachine.StructuralSearch.Templates.FindTemplate;
 
 namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class FindTemplateParser
 {
-    private static readonly Parser<char, Parser<char, string>> AnyString =
-        ParserToParser.ResultAsParser(CommonParser.AnyString).Try();
+    private static readonly Parser<char, Parser<char, string>> Placeholder =
+        Grammar.Placeholder.Select(Parser<char, string> (name) => new PlaceholderParser(name));
+
+    private static readonly Parser<char, Parser<char, string>> StringLiteral =
+        Grammar.StringLiteral.SelectToParser((value, _) => Parser.String(value)).Try();
 
     private static readonly Parser<char, Parser<char, string>> WhiteSpaces =
-        ParserToParser.ParserAsParser(CommonParser.WhiteSpaces).Try();
+        Grammar.WhiteSpaces.SelectToParser((_, parser) => parser).Try();
 
-    private static readonly Parser<char, Parser<char, string>> Placeholder =
-        CommonTemplateParser.Placeholder
-            .Select(name => new PlaceholderParser(name))
-            .As<char, PlaceholderParser, Parser<char, string>>();
+    private static readonly Parser<char, Parser<char, string>> Token =
+        Parser.OneOf(Placeholder, StringLiteral, WhiteSpaces);
 
-    private static readonly Parser<char, IEnumerable<Parser<char, string>>> Token =
-        Parser.OneOf(AnyString, Placeholder, WhiteSpaces).AsMany();
+    private static readonly Parser<char, Parser<char, string>> Parenthesised =
+        Parsers.Parsers.BetweenParentheses(Parser.Rec(() => Term ?? throw new ArgumentNullException(nameof(Term))), (_, result, _) => result);
 
-    private static readonly Parser<char, IEnumerable<Parser<char, string>>> Parenthesised =
-        Parsers.Parsers.BetweenOneOfChars
-        (
-            leftRight: x => ParserToParser.CiChar(x).Select(p => p.AsString()),
-            expr: Parser.Rec(() => Term ?? throw new ArgumentNullException(nameof(Term))),
-            values: Constant.AllParentheses
-        );
+    // HOw to handle many?
+    private static readonly Parser<char, Parser<char, string>> Term =
+        Parser.OneOf(Parenthesised, Token);
 
-    private static readonly Parser<char, IEnumerable<Parser<char, string>>> Term =
-        Parser.OneOf(Parenthesised, Token).Many().SelectMany();
+    private static readonly Parser<char, IEnumerable<Parser<char, string>>> TemplateParsers =
+        Parser.OneOf(Parenthesised, Token).AsMany().AtLeastOnceUntil(CommonParser.Eof).SelectMany();
 
-    private static readonly Parser<char, IEnumerable<Parser<char, string>>> TemplateParser =
-        Parser.OneOf(Parenthesised, Token).AtLeastOnceUntil(CommonParser.Eof).SelectMany();
-
-    private static readonly Parser<char, SeriesParser> SeriesParser =
-        TemplateParser.Select(parsers => new SeriesParser(parsers));
+    private static readonly Parser<char, Parsers.FindTemplateParser> TemplateParser =
+        TemplateParsers.Select(parsers => new Parsers.FindTemplateParser(parsers));
 
     internal static IFindParser ParseTemplate(string? str) =>
         string.IsNullOrEmpty(str)
             ? EmptyFindParser.Value
-            : SeriesParser.Select(parser => new FindParser(parser)).ParseOrThrow(str);
+            : TemplateParser.Select(parser => new FindParser(parser)).ParseOrThrow(str);
 }

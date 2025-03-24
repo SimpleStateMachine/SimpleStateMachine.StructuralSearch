@@ -11,17 +11,19 @@ internal static class ParserExtensions
         => Parser.Try(parser);
 
     public static Parser<TToken, IEnumerable<T>> AsMany<TToken, T>(this Parser<TToken, T> parser)
-        => parser.Select(IEnumerable<T> (x) => new List<T> { x });
+        => parser.Select(IEnumerable<T> (x) => [x]);
 
     public static Parser<TToken, T> AsLazy<TToken, T>(this Func<Parser<TToken, T>> parser)
         => Parser.Rec(() => parser() ?? throw new ArgumentNullException(nameof(parser)));
 
-    public static Parser<TToken, IEnumerable<T>> AtLeastOnceUntilNot<TToken, T, U>(this Parser<TToken, T> parser, Parser<TToken, U> terminator) =>
+    public static Parser<TToken, IEnumerable<T>> AtLeastOnceUntilNot<TToken, T, U>(this Parser<TToken, T> parser,
+        Parser<TToken, U> terminator) =>
         parser != null
             ? parser.AtLeastOnceUntil(Parser.Not(terminator))
             : throw new ArgumentNullException(nameof(parser));
 
-    public static Parser<TToken, IEnumerable<T>> UntilNot<TToken, T, U>(this Parser<TToken, T> parser, Parser<TToken, U> terminator)
+    public static Parser<TToken, IEnumerable<T>> UntilNot<TToken, T, U>(this Parser<TToken, T> parser,
+        Parser<TToken, U> terminator)
     {
         ArgumentNullException.ThrowIfNull(parser);
 
@@ -79,10 +81,16 @@ internal static class ParserExtensions
     public static Parser<TToken, TInterface> As<TToken, TClass, TInterface>(this Parser<TToken, TClass> parser)
         where TClass : TInterface => parser.Select(x => (TInterface)x);
 
-    public static Parser<TToken, T> After<TToken, T, TNextToken>(this Parser<TToken, T> parser, Parser<TToken, TNextToken> parserAfter)
+    public static Parser<TToken, T> After<TToken, T, TNextToken>(this Parser<TToken, T> parser,
+        Parser<TToken, TNextToken> parserAfter)
         => parserAfter.Then(parser, (_, t) => t);
 
     // TODO optimization
-    public static Parser<char, T> ParenthesisedOptional<T, TResult>(this Parser<char, T> parser, Func<char, Parser<char, TResult>> custom)
+    public static Parser<char, T> ParenthesisedOptional<T, TResult>(this Parser<char, T> parser,
+        Func<char, Parser<char, TResult>> custom)
         => Parser.OneOf(CommonParser.Parenthesised(parser, custom).Try(), parser);
+
+    public static Parser<TToken, Parser<TToken, T>> SelectToParser<TToken, T>(this Parser<TToken, T> parser,
+        Func<T, Parser<TToken, T>, Parser<TToken, T>> selectFunc)
+        => parser.Select(value => selectFunc(value, parser));
 }

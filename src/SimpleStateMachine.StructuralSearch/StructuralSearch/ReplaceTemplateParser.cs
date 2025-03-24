@@ -11,13 +11,11 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 internal static class ReplaceTemplateParser
 {
     private static readonly Parser<char, IRuleParameter> ParenthesisedParameter =
-        Parsers.Parsers.BetweenOneOfChars
+        Parsers.Parsers.BetweenParentheses
             (
-                resultFunc: (c1, c2) => GetParenthesisType((c1, c2)),
                 expr: Parser.Rec(() => Parameter ?? throw new ArgumentNullException(nameof(Parameter))),
-                values: Constant.AllParentheses
+                mapFunc: (c1, value, c2) => new ParenthesisedParameter(GetParenthesisType((c1, c2)), value)
             )
-            .Select(x => new ParenthesisedParameter(x.Item1, x.Item2))
             .As<char, ParenthesisedParameter, IRuleParameter>()
             .Try();
 
@@ -26,19 +24,10 @@ internal static class ReplaceTemplateParser
             .Then(ParametersParser.Change, (parameter, func) => func(parameter))
             .Try();
 
-    private static readonly Parser<char, IEnumerable<IRuleParameter>> Parenthesised = Parameter.AtLeastOnce().Try();
-
-    private static readonly Parser<char, IEnumerable<IRuleParameter>> ParenthesisedParameters =
-        Parsers.Parsers.BetweenOneOfChars
-            (
-                leftRight: c => Parser.Char(c).Try().Select(x => new StringParameter(x.ToString())).As<char, StringParameter, IRuleParameter>(),
-                expr: Parser.Rec(() => Parenthesised),
-                values: Constant.AllParentheses
-            )
-            .Try();
+    // private static readonly Parser<char, IRuleParameter> Parenthesised = Parameter.AtLeastOnce().Try();
 
     private static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters =
-        Parser.OneOf(ParenthesisedParameters, Parenthesised).AtLeastOnceUntil(CommonParser.Eof).SelectMany().Try();
+        Parser.OneOf(ParenthesisedParameter, Parameter).AtLeastOnceUntil(CommonParser.Eof);
 
     internal static IReplaceBuilder ParseTemplate(string? str)
         => string.IsNullOrEmpty(str)

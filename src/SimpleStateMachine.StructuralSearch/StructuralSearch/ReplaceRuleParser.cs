@@ -15,7 +15,7 @@ internal static class ReplaceRuleParser
         (
             func: (placeholder, _, parameter) => new ReplaceSubRule(placeholder, parameter),
             parser1: ParametersParser.PlaceholderParameter.TrimStart(),
-            parser2: CommonTemplateParser.Should.TrimStart(),
+            parser2: CommonParser.Should.TrimStart(),
             parser3: ParametersParser.Parameter.TrimStart()
         ).Try().TrimStart();
 
