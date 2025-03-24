@@ -22,14 +22,6 @@ internal static class ParserExtensions
             ? parser.AtLeastOnceUntil(Parser.Not(terminator))
             : throw new ArgumentNullException(nameof(parser));
 
-    public static Parser<TToken, IEnumerable<T>> UntilNot<TToken, T, U>(this Parser<TToken, T> parser,
-        Parser<TToken, U> terminator)
-    {
-        ArgumentNullException.ThrowIfNull(parser);
-
-        return parser.Until(Parser.Not(terminator));
-    }
-
     public static bool TryParse(this Parser<char, string> parser, string value, out string? result)
     {
         ArgumentNullException.ThrowIfNull(parser);
@@ -45,11 +37,6 @@ internal static class ParserExtensions
             action.Invoke(x);
             return x;
         });
-
-    public static Parser<TToken, bool> Contains<TToken, T>(this Parser<TToken, T> parser)
-        => parser != null
-            ? parser.Optional().Select(x => x.HasValue)
-            : throw new ArgumentNullException(nameof(parser));
 
     public static Parser<char, Match<T>> Match<T>(this Parser<char, T> parser)
         => Parser.Map((oldPos, oldOffset, result, newPos, newOffset) =>

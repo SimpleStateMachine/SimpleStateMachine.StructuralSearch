@@ -10,74 +10,73 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class ParametersParser
 {
-    private static readonly Parser<char, string> String =
+    internal delegate IRuleParameter BuildParameter(IRuleParameter parameter);
+    
+    internal static readonly Parser<char, string> String =
         Parser.OneOf(CommonParser.EscapedChar, Grammar.NonLanguageSyntaxChar).AtLeastOnceString();
 
+    internal static readonly Parser<char, string> StringInParentheses =
+        Parsers.Parsers.BetweenParentheses
+        (
+            expr: Parser.OneOf
+            (
+                // Recursive
+                Parser.Rec(() => StringInParentheses ?? throw new ArgumentNullException(nameof(StringInParentheses))),
+                // Optional string
+                String.Optional().Select(x => x.GetValueOrDefault())
+            ),
+            mapFunc: (left, result, right) => $"{left}{result}{right}"
+        );
+
     internal static readonly Parser<char, IRuleParameter> StringParameter =
-        Parser.OneOf(Parser.Rec(() => Parenthesised ?? throw new ArgumentNullException()), String)
-            .Select(x => new StringParameter(x))
-            .As<char, StringParameter, IRuleParameter>()
-            .Try();
+        Parser.OneOf(StringInParentheses, String)
+            .AtLeastOnce()
+            .Select<IRuleParameter>(x => new StringParameter(string.Join(string.Empty, x)));
 
     internal static readonly Parser<char, PlaceholderParameter> PlaceholderParameter =
         Grammar.Placeholder.Select(x => new PlaceholderParameter(x)).Try();
 
-    private static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeParameter =
+    private static readonly Parser<char, BuildParameter> ChangeParameter =
         Parser.CIEnum<ChangeType>()
-            .Select(changeType =>
-                new Func<IRuleParameter, IRuleParameter>(placeholder => new ChangeParameter(placeholder, changeType)))
-            .Try();
+            .Select<BuildParameter>(changeType => 
+                placeholder => new ChangeParameter(placeholder, changeType));
 
-    internal static readonly Parser<char, string> StringWithParenthesised =
-        Parser.OneOf(Parser.Rec(() => Parenthesised ?? throw new ArgumentNullException()), String)
-            .Optional()
-            .Select(x => x.HasValue ? x.Value : string.Empty)
-            .Try();
-
-    private static readonly Parser<char, string> Parenthesised =
-        Parsers.Parsers.BetweenParentheses
-        (
-            expr: Parser.Rec(() => StringWithParenthesised ?? throw new ArgumentNullException(nameof(StringWithParenthesised))),
-            mapFunc: (_, res, _) => res
-        ).Try();
-
-    private static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> ChangeUnaryParameter = Parser.Map
+    private static readonly Parser<char, BuildParameter> ChangeUnaryParameter = Parser.Map
         (
             func: (type, arg) => (type, arg),
             parser1: Parser.CIEnum<ChangeUnaryType>(),
-            parser2: CommonParser.Parenthesised(Parser.Rec(() => Parameter ?? throw new ArgumentNullException()),
-                Parser.Char)
+            parser2: CommonParser.Parenthesised(Parser.Rec(() => Parameter ?? throw new ArgumentNullException()), Parser.Char)
         )
-        .Select(pair =>
-            new Func<IRuleParameter, IRuleParameter>(placeholder =>
-                new ChangeUnaryParameter(placeholder, pair.type, pair.arg)))
-        .Try();
+        .Select<BuildParameter>(pair => 
+            placeholder => new ChangeUnaryParameter(placeholder, pair.type, pair.arg));
 
-    internal static readonly Parser<char, Func<IRuleParameter, IRuleParameter>> Change =
-        CommonParser.Dote.Then(Parser.OneOf(ChangeParameter, ChangeUnaryParameter))
+    internal static readonly Parser<char, BuildParameter> Change =
+        CommonParser.Dote.Then(Parser.OneOf(ChangeParameter, ChangeUnaryParameter.Try()))
             .Many()
-            .Select(funcs => new Func<IRuleParameter, IRuleParameter>(placeholder =>
-                funcs.Aggregate(placeholder, (parameter, func) => func(parameter))));
+            .Select<BuildParameter>(funcList => 
+                placeholder => funcList.Aggregate(placeholder, (parameter, func) => func(parameter)));
 
     private static readonly Parser<char, IRuleParameter> PlaceholderOrPropertyRuleParameter =
         PlaceholderParameter
             .Then(PlaceholderPropertyParser.PlaceholderPropertyParameter, (placeholder, func) => func(placeholder))
-            .Then(Change, (parameter, func) => func(parameter))
-            .Try();
+            .Then(Change, (parameter, func) => func(parameter));
 
     public static readonly Parser<char, IRuleParameter> StringFormatParameter =
-        Parser.OneOf(Parser.Rec(() => PlaceholderOrPropertyRuleParameter ?? throw new ArgumentNullException()),
-                StringParameter)
+        Parser.OneOf
+            (
+                Parser.Rec(() => PlaceholderOrPropertyRuleParameter ?? throw new ArgumentNullException()).Try(), 
+                StringParameter
+            )
             .AtLeastOnce()
             .Between(CommonParser.DoubleQuotes)
-            .Select(parameters => new StringFormatParameter(parameters))
-            .As<char, StringFormatParameter, IRuleParameter>()
-            // .TrimStart()
-            .Try();
+            .Select(IRuleParameter (parameters)=> new StringFormatParameter(parameters));
 
-    public static readonly Parser<char, IRuleParameter> Parameter = Parameter = Parser.OneOf(StringFormatParameter,
-        Parser.Rec(() => PlaceholderOrPropertyRuleParameter ?? throw new ArgumentNullException())).Try();
+    public static readonly Parser<char, IRuleParameter> Parameter = Parameter = Parser.OneOf
+    (
+        StringFormatParameter.Try(),
+        Parser.Rec(() => PlaceholderOrPropertyRuleParameter ?? throw new ArgumentNullException())
+    );
 
     public static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters =
-        Parameter.Trim().SeparatedAtLeastOnce(CommonParser.Comma.Trim());
+        Parameter.Try().Trim().SeparatedAtLeastOnce(CommonParser.Comma.Trim());
 }

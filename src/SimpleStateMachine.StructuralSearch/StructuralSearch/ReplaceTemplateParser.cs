@@ -10,7 +10,7 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class ReplaceTemplateParser
 {
-    private static readonly Parser<char, IRuleParameter> ParenthesisedParameter =
+    private static readonly Parser<char, IRuleParameter> ParameterInParentheses =
         Parsers.Parsers.BetweenParentheses
             (
                 expr: Parser.Rec(() => Parameter ?? throw new ArgumentNullException(nameof(Parameter))),
@@ -20,14 +20,12 @@ internal static class ReplaceTemplateParser
             .Try();
 
     public static readonly Parser<char, IRuleParameter> Parameter =
-        Parser.OneOf(ParenthesisedParameter, ParametersParser.Parameter, ParametersParser.StringParameter)
+        Parser.OneOf(ParameterInParentheses, ParametersParser.Parameter, ParametersParser.StringParameter)
             .Then(ParametersParser.Change, (parameter, func) => func(parameter))
             .Try();
 
-    // private static readonly Parser<char, IRuleParameter> Parenthesised = Parameter.AtLeastOnce().Try();
-
     private static readonly Parser<char, IEnumerable<IRuleParameter>> Parameters =
-        Parser.OneOf(ParenthesisedParameter, Parameter).AtLeastOnceUntil(CommonParser.Eof);
+        Parser.OneOf(ParameterInParentheses, Parameter).AtLeastOnceUntil(CommonParser.Eof);
 
     internal static IReplaceBuilder ParseTemplate(string? str)
         => string.IsNullOrEmpty(str)

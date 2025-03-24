@@ -1,4 +1,5 @@
 ﻿using Pidgin;
+using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
 
@@ -7,6 +8,32 @@ namespace SimpleStateMachine.StructuralSearch.Tests;
 public static class ParameterParserTests
 {
     [Theory]
+    [InlineData("\\\"132\\\"")]
+    [InlineData("132")]
+    [InlineData(" ")]
+    public static void OptionalStringParsingShouldBeSuccess(string str)
+    {
+        var result = ParametersParser.String.ParseOrThrow(str);
+        result = EscapeHelper.Escape(result);
+        Assert.Equal(result.ToLower(), str.ToLower());
+    }
+
+    [Theory]
+    [InlineData("(\\\"132\\\")")]
+    [InlineData("(132)")]
+    [InlineData("[(132)]")]
+    [InlineData("{(())}")]
+    [InlineData("()")]
+    [InlineData("( )")]
+    public static void StringInParenthesesParsingShouldBeSuccess(string str)
+    {
+        var result = ParametersParser.StringInParentheses.ParseOrThrow(str);
+        result = EscapeHelper.Escape(result);
+        Assert.Equal(result.ToLower(), str.ToLower());
+    }
+
+    [Theory]
+    [InlineData("(\\\"132\\\")")]
     [InlineData("\\\"132\\\"")]
     [InlineData("\\\"()(132)\\\"")]
     [InlineData("()(132)")]
@@ -21,7 +48,7 @@ public static class ParameterParserTests
         var parameterStr = parameter.ToString()?.ToLower();
         Assert.Equal(parameterStr?.ToLower(), str.ToLower());
     }
-    
+
     [Theory]
     [InlineData("\"132\"")]
     [InlineData("( ")]
@@ -34,7 +61,16 @@ public static class ParameterParserTests
             return result;
         });
     }
-    
+
+    [Theory]
+    [InlineData("$var$")]
+    public static void PlaceholderParameterParsingShouldBeSuccess(string str)
+    {
+        var parameter = ParametersParser.PlaceholderParameter.ParseOrThrow(str);
+        var parameterStr = parameter.ToString().ToLower();
+        Assert.Equal(parameterStr.ToLower(), str.ToLower());
+    }
+
     [Theory]
     [InlineData("\"132\"")]
     [InlineData("\"132$var1$\"")]
@@ -49,14 +85,14 @@ public static class ParameterParserTests
         var parameterStr = parameter.ToString()?.ToLower();
         Assert.Equal(parameterStr?.ToLower(), str.ToLower());
     }
-    
+
     [Theory]
     [InlineData("\\\"132\\\"")]
     public static void StringFormatParameterParsingShouldBeFail(string str)
     {
         Assert.Throws<ParseException<char>>(() => ParametersParser.StringFormatParameter.ParseOrThrow(str));
     }
-    
+
     [Theory]
     [InlineData("$var$")]
     [InlineData("$var$.Trim")]
@@ -71,5 +107,4 @@ public static class ParameterParserTests
         var parameterStr = parameter.ToString()?.ToLower();
         Assert.Equal(parameterStr?.ToLower(), str.ToLower());
     }
-    
 }

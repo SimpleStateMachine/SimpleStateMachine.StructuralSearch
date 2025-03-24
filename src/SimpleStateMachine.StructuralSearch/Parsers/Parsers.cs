@@ -36,7 +36,7 @@ internal static class Parsers
 
     public static Parser<char, TResult> BetweenParentheses<T, TResult>(Parser<char, T> expr, Func<char, T, char, TResult> mapFunc)
     {
-        var parsers = Constant.AllParentheses.Select(pair => Parser.Map(mapFunc, Parser.Char(pair.Item1), expr, Parser.Char(pair.Item1)));
+        var parsers = Constant.AllParentheses.Select(pair => Parser.Map(mapFunc, Parser.Char(pair.Item1), expr, Parser.Char(pair.Item2)));
         return Parser.OneOf(parsers);
     }
 

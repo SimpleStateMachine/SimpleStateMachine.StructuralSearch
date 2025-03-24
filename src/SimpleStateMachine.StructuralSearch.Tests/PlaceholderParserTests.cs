@@ -8,6 +8,7 @@ public static class PlaceholderParserTests
     [Theory]
     [InlineData("($test$)", "(value )", "value ")]
     [InlineData("($test$ )", "(value )", "value")]
+    [InlineData("($test$123)", "(value123)", "value")]
     [InlineData("($test$)", "(value (test))", "value (test)")]
     [InlineData("($test$)", "(value (test) )", "value (test) ")]
     public static void TemplateParsingShouldBeSuccess(string template, string source, string result)

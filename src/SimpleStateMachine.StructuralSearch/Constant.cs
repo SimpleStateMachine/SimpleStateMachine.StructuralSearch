@@ -103,22 +103,22 @@ internal static class Constant
     /// <summary>
     /// Parenthesis chars: '(' and ')'
     /// </summary>
-    public static readonly (char, char) Parenthesis = (LeftParenthesis, RightParenthesis);
+    public static readonly (char, char) Parentheses = (LeftParenthesis, RightParenthesis);
 
     /// <summary>
     /// Parenthesis chars: '[' and ']'
     /// </summary>
-    public static readonly (char, char) SquareParenthesis = (LeftSquareParenthesis, RightSquareParenthesis);
+    public static readonly (char, char) SquareParentheses = (LeftSquareParenthesis, RightSquareParenthesis);
 
     /// <summary>
     /// Parenthesis chars: '{ and '}'
     /// </summary>
-    public static readonly (char, char) CurlyParenthesis = (LeftCurlyParenthesis, RightCurlyParenthesis);
+    public static readonly (char, char) CurlyParentheses = (LeftCurlyParenthesis, RightCurlyParenthesis);
 
     /// <summary>
     /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
     /// </summary>
-    public static readonly (char, char)[] AllParentheses = [Parenthesis, SquareParenthesis, CurlyParenthesis];
+    public static readonly (char, char)[] AllParentheses = [Parentheses, SquareParentheses, CurlyParentheses];
 
     /// <summary>
     /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
