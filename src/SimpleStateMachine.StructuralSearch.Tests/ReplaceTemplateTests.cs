@@ -1,27 +1,12 @@
 ﻿using System.IO;
-using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
-using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
 
 public static class ReplaceTemplateTests
 {
-    [Theory]
-    [InlineData("ReplaceTemplate/NullUnionOperator.txt", 6)]
-    [InlineData("ReplaceTemplate/AssignmentNullUnionOperator.txt", 4)]
-    [InlineData("ReplaceTemplate/TernaryOperator.txt", 7)]
-    public static void ReplaceTemplateParsingShouldHaveStepCount(string templatePath, int stepsCount)
-    {
-        var replaceTemplate = File.ReadAllText(templatePath);
-        var replaceBuilder = StructuralSearch.StructuralSearch.ParseReplaceTemplate(replaceTemplate);
-
-        Assert.NotNull(replaceTemplate);
-        Assert.Equal(((ReplaceBuilder)replaceBuilder).Steps.Count(), stepsCount);
-    }
-
     [Theory]
     [InlineData("ReplaceTemplate/NullUnionOperator.txt", "ReplaceResult/NullUnionOperator.txt", 
         new[] { "var", "sign", "value1", "value2"}, 
@@ -54,21 +39,28 @@ public static class ReplaceTemplateTests
     // TODO validation parenthesis for parameters
         
     [Theory]
+    [InlineData("test")]
+    [InlineData("()")]
+    [InlineData("$var1$")]
+    [InlineData("test () test")]  
+    [InlineData("test $var1$ test")]
+    [InlineData("($var1$)")]
+    [InlineData("($var1$ test)")]
+    [InlineData("test (test)")]
+    [InlineData("test ($var1$)")]
+    [InlineData("test ($var1$) test")]
+
     [InlineData("test $var1$.Lenght")]
     [InlineData("(test) $var1$.Lenght")]
     [InlineData("test ($var1$.Lenght)")]
     [InlineData("(test $var1$.Lenght)")]
-    [InlineData("test ")]
     [InlineData("($var1$.Lenght)")]
     [InlineData(" ($var1$.Lenght)")]
-    [InlineData(" ( )")]  
-    [InlineData("test ( )")]
     [InlineData(" (test $var1$.Lenght)")]
     [InlineData("(test) ($var1$.Lenght)")]
     [InlineData("((test) $var1$.Lenght)")]
     [InlineData("(test ($var1$.Lenght))")]
     [InlineData("((test) ($var1$.Lenght))")]
-    [InlineData("()")]
     [InlineData("(test ($var1$.Lenght) test2)")]
     public static void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
     {

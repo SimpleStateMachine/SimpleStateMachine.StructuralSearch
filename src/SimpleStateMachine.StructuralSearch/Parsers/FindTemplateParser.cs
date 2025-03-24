@@ -7,9 +7,9 @@ namespace SimpleStateMachine.StructuralSearch.Parsers;
 
 internal class FindTemplateParser : Parser<char, IEnumerable<string>>, IContextDependent
 {
-    private readonly IEnumerable<Parser<char, string>> _parsers;
+    private readonly List<Parser<char, string>> _parsers;
 
-    public FindTemplateParser(IEnumerable<Parser<char, string>> parsers)
+    public FindTemplateParser(List<Parser<char, string>> parsers)
     {
         _parsers = parsers;
             
@@ -18,7 +18,7 @@ internal class FindTemplateParser : Parser<char, IEnumerable<string>>, IContextD
 
     private void InitializeLookaheadParsers()
     {
-        var count = _parsers.Count();
+        var count = _parsers.Count;
             
         for (var i = count-1; i >= 0 ; i--)
         {
@@ -34,7 +34,7 @@ internal class FindTemplateParser : Parser<char, IEnumerable<string>>, IContextD
     public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected, out IEnumerable<string> result)
     {
         var results = new List<string>();
-        var count = _parsers.Count();
+        var count = _parsers.Count;
 
         for (int i = 0; i < count; i++)
         {

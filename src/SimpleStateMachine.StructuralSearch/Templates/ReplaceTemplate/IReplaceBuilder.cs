@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using SimpleStateMachine.StructuralSearch.Context;
-using SimpleStateMachine.StructuralSearch.Rules.Parameters;
+﻿using SimpleStateMachine.StructuralSearch.Context;
 
 namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 

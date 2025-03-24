@@ -43,7 +43,7 @@ internal static class FindTemplateParser
         Parser.OneOf(TokenInParentheses, Token.AsMany())
             .AtLeastOnceUntil(CommonParser.Eof)
             .Select(x => x.SelectMany(y => y))
-            .Select(parsers => new Parsers.FindTemplateParser(parsers));
+            .Select(parsers => new Parsers.FindTemplateParser(parsers.ToList()));
 
     internal static IFindParser ParseTemplate(string? str) =>
         string.IsNullOrEmpty(str)

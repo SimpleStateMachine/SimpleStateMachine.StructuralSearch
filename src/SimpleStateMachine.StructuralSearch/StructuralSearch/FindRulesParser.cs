@@ -23,7 +23,7 @@ internal static class FindRuleParser
         (
             Parser.OneOf
             (
-                SubRuleParser.OneOfSubRule,
+                FindSubRuleParser.OneOfSubRule,
                 CommonParser.Parenthesised(rule, x => Parser.Char(x).Trim())
             ),
             [

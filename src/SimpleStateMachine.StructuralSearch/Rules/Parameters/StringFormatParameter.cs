@@ -6,22 +6,17 @@ namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
 internal class StringFormatParameter : IRuleParameter
 {
-    private readonly IEnumerable<IRuleParameter> _parameters;
+    private readonly List<IRuleParameter> _parameters;
 
-    public StringFormatParameter(IEnumerable<IRuleParameter> parameters)
+    public StringFormatParameter(List<IRuleParameter> parameters)
     {
         _parameters = parameters;
     }
 
     public string GetValue(ref IParsingContext context)
     {
-        var values = new List<string>();
-        foreach (var parameter in _parameters)
-        {
-            values.Add(parameter.GetValue(ref context));
-        }
-        
-        return string.Join(string.Empty, values);
+        var localContext = context;
+        return string.Join(string.Empty, _parameters.Select(parameter => parameter.GetValue(ref localContext)));
     }
         
     public override string ToString() 

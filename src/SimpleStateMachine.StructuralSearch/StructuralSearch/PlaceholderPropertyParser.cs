@@ -2,10 +2,10 @@
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules.Types;
+using SimpleStateMachine.StructuralSearch.Rules.Parameters;
 using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
-using SimpleStateMachine.StructuralSearch.StructuralSearch;
 
-namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class PlaceholderPropertyParser
 {
