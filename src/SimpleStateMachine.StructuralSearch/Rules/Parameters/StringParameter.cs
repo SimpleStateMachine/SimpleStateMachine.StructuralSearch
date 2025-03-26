@@ -3,7 +3,7 @@ using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-internal class StringParameter : IRuleParameter
+internal class StringParameter : IStringRuleParameter
 {
     private readonly string _value;
         

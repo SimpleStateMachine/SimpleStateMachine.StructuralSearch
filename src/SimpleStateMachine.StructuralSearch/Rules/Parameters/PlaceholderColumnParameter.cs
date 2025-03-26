@@ -5,22 +5,21 @@ using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-internal class PlaceholderColumnParameter : IPlaceholderRelatedRuleParameter
+internal class PlaceholderColumnParameter : IPlaceholderPropertyRuleParameter
 {
-    private readonly PlaceholderParameter _placeholderParameter;
     private readonly ColumnProperty _property;
 
     public PlaceholderColumnParameter(PlaceholderParameter parameter, ColumnProperty property)
     {
-        _placeholderParameter = parameter;
+        Placeholder = parameter;
         _property = property;
     }
         
-    public string PlaceholderName => _placeholderParameter.PlaceholderName;
+    public PlaceholderParameter Placeholder { get; }
         
     public string GetValue(ref IParsingContext context)
     {
-        var placeHolder = _placeholderParameter.GetPlaceholder(ref context);
+        var placeHolder = Placeholder.GetPlaceholder(ref context);
         var column = placeHolder.Column;
             
         var value = _property switch
@@ -34,5 +33,5 @@ internal class PlaceholderColumnParameter : IPlaceholderRelatedRuleParameter
     }
         
     public override string ToString() 
-        => $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Column}{Constant.Dote}{_property}";
+        => $"{Placeholder}{Constant.Dote}{PlaceholderProperty.Column}{Constant.Dote}{_property}";
 }

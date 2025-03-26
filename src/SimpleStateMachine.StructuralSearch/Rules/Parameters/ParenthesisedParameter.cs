@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-internal class ParenthesisedParameter : IRuleParameter
+internal class ParenthesisedParameter : IStringRuleParameter
 {
     private readonly ParenthesisType _parenthesisType;
     private readonly IRuleParameter _ruleParameter;

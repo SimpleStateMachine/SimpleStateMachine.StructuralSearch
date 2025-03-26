@@ -2,5 +2,9 @@
 
 internal enum ChangeUnaryType
 {
-    RemoveSubStr = 0
+    Trim = 0,
+    TrimEnd,
+    TrimStart,
+    ToUpper,
+    ToLower
 }

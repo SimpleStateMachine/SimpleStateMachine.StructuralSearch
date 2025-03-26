@@ -6,24 +6,23 @@ using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-internal class PlaceholderLineParameter : IPlaceholderRelatedRuleParameter
+internal class PlaceholderLineParameter : IPlaceholderPropertyRuleParameter
 {
-    private readonly PlaceholderParameter _placeholderParameter;
     private readonly LineProperty _property;
 
-    public PlaceholderLineParameter(PlaceholderParameter parameter, LineProperty property)
+    public PlaceholderLineParameter(PlaceholderParameter placeholder, LineProperty property)
     {
-        _placeholderParameter = parameter;
+        Placeholder = placeholder;
         _property = property;
     }
-        
-    public string PlaceholderName => _placeholderParameter.PlaceholderName;
-        
+
+    public PlaceholderParameter Placeholder { get; }
+
     public string GetValue(ref IParsingContext context)
     {
-        var placeHolder = _placeholderParameter.GetPlaceholder(ref context);
+        var placeHolder = Placeholder.GetPlaceholder(ref context);
         var line = placeHolder.Line;
-            
+
         var value = _property switch
         {
             LineProperty.Start => line.Start,
@@ -33,7 +32,7 @@ internal class PlaceholderLineParameter : IPlaceholderRelatedRuleParameter
 
         return value.ToString();
     }
-        
+
     public override string ToString()
-        => $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Line}{Constant.Dote}{_property}";
+        => $"{Placeholder}{Constant.Dote}{PlaceholderProperty.Line}{Constant.Dote}{_property}";
 }

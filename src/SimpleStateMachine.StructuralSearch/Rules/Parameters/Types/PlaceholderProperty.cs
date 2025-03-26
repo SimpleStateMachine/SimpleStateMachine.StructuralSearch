@@ -3,7 +3,7 @@
 internal enum PlaceholderProperty
 {
     Lenght = 0,
-    File,
+    Input,
     Offset,
     Line,
     Column,

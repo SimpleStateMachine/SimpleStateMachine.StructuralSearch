@@ -3,25 +3,24 @@ using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-internal class PlaceholderLenghtParameter: IPlaceholderRelatedRuleParameter
+internal class PlaceholderLenghtParameter : IPlaceholderPropertyRuleParameter
 {
-    private readonly PlaceholderParameter _placeholderParameter;
     private readonly PlaceholderProperty _property;
 
-    public PlaceholderLenghtParameter(PlaceholderParameter parameter, PlaceholderProperty property)
+    public PlaceholderLenghtParameter(PlaceholderParameter placeholder, PlaceholderProperty property)
     {
-        _placeholderParameter = parameter;
+        Placeholder = placeholder;
         _property = property;
     }
-        
-    public string PlaceholderName => _placeholderParameter.PlaceholderName;
-        
+
+    public PlaceholderParameter Placeholder { get; }
+
     public string GetValue(ref IParsingContext context)
     {
-        var placeHolder = _placeholderParameter.GetPlaceholder(ref context);
+        var placeHolder = Placeholder.GetPlaceholder(ref context);
         return placeHolder.Lenght.ToString();
     }
-        
-    public override string ToString() 
-        => $"{_placeholderParameter}{Constant.Dote}{_property}";
+
+    public override string ToString()
+        => $"{Placeholder}{Constant.Dote}{_property}";
 }

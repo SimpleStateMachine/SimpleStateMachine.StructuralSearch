@@ -4,11 +4,11 @@ using SimpleStateMachine.StructuralSearch.Context;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-internal class StringJoinParameter : IRuleParameter
+internal class StringJoinParameter : IStringRuleParameter
 {
-    private readonly List<IRuleParameter> _parameters;
+    private readonly List<IStringRuleParameter> _parameters;
 
-    public StringJoinParameter(List<IRuleParameter> parameters)
+    public StringJoinParameter(List<IStringRuleParameter> parameters)
     {
         _parameters = parameters;
     }

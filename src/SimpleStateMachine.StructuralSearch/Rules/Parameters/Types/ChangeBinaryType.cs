@@ -2,5 +2,5 @@
 
 internal enum ChangeBinaryType
 {
-    Replace = 0
+    RemoveSubStr = 0
 }

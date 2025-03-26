@@ -15,18 +15,18 @@ internal static class ReplaceTemplateParser
     //     Parser.OneOf(ParametersParser.Parameter, ParametersParser.StringParameter)
     //         .Then(ParametersParser.Change, (parameter, func) => func(parameter));
 
-    private static readonly Parser<char, IRuleParameter> StringParameter =
-        ParametersParser.String.Select<IRuleParameter>(v => new StringParameter(v));
+    private static readonly Parser<char, IStringRuleParameter> StringParameter =
+        StringParameterParser.String.Select<IStringRuleParameter>(v => new StringParameter(v));
 
-    private static readonly Parser<char, IRuleParameter> StringOptionalParameter =
-        ParametersParser.StringOptional.Select<IRuleParameter>(v => new StringParameter(v));
+    private static readonly Parser<char, IStringRuleParameter> StringOptionalParameter =
+        StringParameterParser.StringOptional.Select<IStringRuleParameter>(v => new StringParameter(v));
     
-    private static readonly Parser<char, IRuleParameter> StringJoinParameter =
-        Parser.OneOf(ParametersParser.PlaceholderParameter.Cast<IRuleParameter>(), StringParameter)
+    private static readonly Parser<char, IStringRuleParameter> StringJoinParameter =
+        Parser.OneOf(ParametersParser.PlaceholderParameter.Cast<IStringRuleParameter>(), StringParameter)
             .AtLeastOnce()
             .Select(JoinParameters);
 
-    private static readonly Parser<char, IRuleParameter> ParameterInParentheses =
+    private static readonly Parser<char, IStringRuleParameter> ParameterInParentheses =
         Parsers.Parsers.BetweenParentheses
             (
                 expr: Parser.OneOf
@@ -37,9 +37,9 @@ internal static class ReplaceTemplateParser
                 ),
                 mapFunc: (c1, value, c2) => new ParenthesisedParameter(GetParenthesisType((c1, c2)), value)
             )
-            .As<char, ParenthesisedParameter, IRuleParameter>();
+            .As<char, ParenthesisedParameter, IStringRuleParameter>();
 
-    private static readonly Parser<char, IRuleParameter> ReplaceParser =
+    private static readonly Parser<char, IStringRuleParameter> ReplaceParser =
         Parser.OneOf(ParameterInParentheses, StringJoinParameter)
             .AtLeastOnceUntil(CommonParser.Eof)
             .Select(JoinParameters);
@@ -60,7 +60,7 @@ internal static class ReplaceTemplateParser
             _ => throw new ArgumentOutOfRangeException(nameof(parenthesis), parenthesis, null)
         };
 
-    private static IRuleParameter JoinParameters(IEnumerable<IRuleParameter> parameters)
+    private static IStringRuleParameter JoinParameters(IEnumerable<IStringRuleParameter> parameters)
     {
         var list = parameters.ToList();
         return list.Count == 1 ? list[0] : new StringJoinParameter(list);

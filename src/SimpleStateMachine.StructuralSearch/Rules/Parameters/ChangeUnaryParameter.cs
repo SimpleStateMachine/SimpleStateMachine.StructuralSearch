@@ -5,30 +5,31 @@ using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-internal class ChangeUnaryParameter : IRuleParameter
+internal class ChangeUnaryParameter : IStringRuleParameter
 {
-    private readonly IRuleParameter _parameter;
-    private readonly ChangeUnaryType _type;
-    private readonly IRuleParameter _arg;
-    
-    public ChangeUnaryParameter(IRuleParameter parameter, ChangeUnaryType type, IRuleParameter arg)
+    private readonly IStringRuleParameter _parameter;
+    private readonly ChangeUnaryType _unaryType;
+
+    public ChangeUnaryParameter(IStringRuleParameter parameter, ChangeUnaryType unaryType)
     {
         _parameter = parameter;
-        _type = type;
-        _arg = arg;
+        _unaryType = unaryType;
     }
 
     public string GetValue(ref IParsingContext context)
     {
         var parameter = _parameter.GetValue(ref context);
-        var arg = _arg.GetValue(ref context);
-        return _type switch
+        return _unaryType switch
         {
-            ChangeUnaryType.RemoveSubStr => parameter.Replace(arg, string.Empty),
-            _ => throw new ArgumentOutOfRangeException(nameof(_type).FormatPrivateVar(), _type, null)
+            ChangeUnaryType.Trim => parameter.Trim(),
+            ChangeUnaryType.TrimEnd => parameter.TrimEnd(),
+            ChangeUnaryType.TrimStart => parameter.TrimStart(),
+            ChangeUnaryType.ToUpper => parameter.ToUpper(),
+            ChangeUnaryType.ToLower => parameter.ToLower(),
+            _ => throw new ArgumentOutOfRangeException(nameof(_unaryType).FormatPrivateVar(), _unaryType, null)
         };
     }
-        
-    public override string ToString() 
-        => $"{_parameter}{Constant.Dote}{_type}{Constant.LeftParenthesis}{_arg}{Constant.RightParenthesis}";
+
+    public override string ToString()
+        => $"{_parameter}{Constant.Dote}{_unaryType}";
 }

@@ -6,24 +6,23 @@ using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-internal class PlaceholderOffsetParameter : IPlaceholderRelatedRuleParameter
+internal class PlaceholderOffsetParameter : IPlaceholderPropertyRuleParameter
 {
-    private readonly PlaceholderParameter _placeholderParameter;
     private readonly OffsetProperty _property;
 
-    public PlaceholderOffsetParameter(PlaceholderParameter parameter, OffsetProperty property)
+    public PlaceholderOffsetParameter(PlaceholderParameter placeholder, OffsetProperty property)
     {
-        _placeholderParameter = parameter;
+        Placeholder = placeholder;
         _property = property;
     }
-        
-    public string PlaceholderName => _placeholderParameter.PlaceholderName;
-        
+
+    public PlaceholderParameter Placeholder { get; }
+
     public string GetValue(ref IParsingContext context)
     {
-        var placeHolder = _placeholderParameter.GetPlaceholder(ref context);
+        var placeHolder = Placeholder.GetPlaceholder(ref context);
         var offset = placeHolder.Offset;
-            
+
         var value = _property switch
         {
             OffsetProperty.Start => offset.Start,
@@ -33,7 +32,7 @@ internal class PlaceholderOffsetParameter : IPlaceholderRelatedRuleParameter
 
         return value.ToString();
     }
-        
-    public override string ToString() 
-        => $"{_placeholderParameter}{Constant.Dote}{PlaceholderProperty.Offset}{Constant.Dote}{_property}";
+
+    public override string ToString()
+        => $"{Placeholder}{Constant.Dote}{PlaceholderProperty.Offset}{Constant.Dote}{_property}";
 }
