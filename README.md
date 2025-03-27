@@ -41,80 +41,65 @@ parseResult.Placeholders[0].Offset // Start 5, End 17
 ```
 
 # Grammar
-### Core Expressions
-
 ```ebnf
-expression = logical_expr | term
+logic_expr =
+    binary_op
+  | not_expr
+  | string_cmp_op
+  | is_op
+  | match_op
+  | in_op
+  | '(' logic_expr ')'
 
-logical_expr =
-    logic_expr
-  | comparison_expr
-  | is_operation
-  | match_operation
-  | in_operation
-  | not_operation
+binary_op =
+    logic_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logic_expr
 
-comparison_expr = string_argument ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_argument
+string_cmp_op =
+    string_expr ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_expr
 
-logic_expr = logical_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logical_expr
+not_expr = 'Not' logic_expr
+is_op = string_expr 'Is' ('Var' | 'Int' | 'Double' | 'DateTime' | 'Guid')
+match_op = string_expr 'Match' '"' <regex> '"'
+in_op = string_expr 'In' [ '(' ] string_expr { ',' string_expr } [ ')' ]
 
-not_operation = 'Not' logical_term
+string_expr =
+    grouped_string
+  | property_access
+  | atomic_token
 
-match_operation = string_argument 'Match' '"' <any valid regex> '"'
+grouped_string =
+    '(' string_expr ')'
+  | '{' string_expr '}'
+  | '[' string_expr ']'
 
-in_operation = string_argument 'In' [ '(' ] string_argument { ',' string_argument } [ ')' ]
-
-is_operation = string_argument 'Is' ('Var' | 'Int' | 'Double' | 'DateTime' | 'Guid')
-
-logical_term = '(' expression ')' | term
-```
-
-### Values and Properties
-
-```ebnf
-string_argument = term | property_operation
-
-property_operation =
+property_access =
     placeholder '.' (
         'Length'
       | complex_property
-      | input_property [ string_property_chain ]
+      | input_property [ chainable_string_ops ]
     )
-  | placeholder [ string_property_chain ]
+  | placeholder [ chainable_string_ops ]
 
-string_property_chain = { '.' chainable_operation }
+chainable_string_ops = { '.' chainable_operation }
 
 chainable_operation = 'Trim' | 'TrimEnd' | 'TrimStart' | 'ToUpper' | 'ToLower'
-
 input_property = 'Input.' identifier
-
 complex_property = ('Offset' | 'Line' | 'Column') '.' ('Start' | 'End')
-```
 
-### Terms and Tokens
-
-```ebnf
-term =
-    '(' expression ')'
-  | '{' expression '}'
-  | '[' expression ']'
-  | term '+'
-  | token
-
-token = placeholder | string_literal | whitespace | comment
-
+atomic_token = placeholder | string_literal | whitespace | comment
 placeholder = '$' identifier '$'
-
 string_literal = <escaped string>
-
 whitespace = (' ' | '\n' | '\r')+
-
 comment = <single or multiline comment>
-```
 
-### Template Matching
+find_rule = logic_expr
 
-```ebnf
+replace_rule =
+    'if' logic_expr 'then' assignment
+  | assignment
+
+assignment = placeholder '=>' string_expr
+
 template_component = placeholder | string_literal | whitespace
 
 template =
@@ -122,18 +107,6 @@ template =
   | '{' template '}'
   | '[' template ']'
   | template_component+
-```
-
-### Rule Definitions
-
-```ebnf
-find_rule = expression
-
-replace_rule =
-    'if' expression 'then' placeholder_should
-  | placeholder_should
-
-placeholder_should = placeholder '=>' string_argument
 ```
 
 ## Getting Started📂
