@@ -43,20 +43,20 @@ parseResult.Placeholders[0].Offset // Start 5, End 17
 # Grammar
 ```ebnf
 logic_expr =
-    binary_op
-  | not_expr
-  | string_cmp_op
-  | is_op
-  | match_op
-  | in_op
+    binary_operation
+  | not_operation
+  | string_comparison_operation
+  | type_check_operation
+  | match_operation
+  | in_operation
   | '(' logic_expr ')'
 
-binary_op = logic_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logic_expr
-string_cmp_op = string_expr ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_expr
-not_expr = 'Not' logic_expr
-is_op = string_expr 'Is' ('Var' | 'Int' | 'Double' | 'DateTime' | 'Guid')
-match_op = string_expr 'Match' '"' <regex> '"'
-in_op = string_expr 'In' [ '(' ] string_expr { ',' string_expr } [ ')' ]
+binary_operation = logic_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logic_expr
+string_comparison_operation = string_expr ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_expr
+not_operation = 'Not' logic_expr
+type_check_operation = string_expr 'Is' ('Var' | 'Int' | 'Double' | 'DateTime' | 'Guid')
+match_operation = string_expr 'Match' '"' <regex> '"'
+in_operation = string_expr 'In' [ '(' ] string_expr { ',' string_expr } [ ')' ]
 
 string_expr =
     grouped_string
@@ -72,13 +72,12 @@ property_access =
     placeholder '.' (
         'Length'
       | complex_property
-      | input_property [ chainable_string_ops ]
+      | input_property [ chainable_string ]
     )
-  | placeholder [ chainable_string_ops ]
+  | placeholder [ chainable_string ]
 
-chainable_string_ops = { '.' chainable_operation }
+chainable_string = { '.' ('Trim' | 'TrimEnd' | 'TrimStart' | 'ToUpper' | 'ToLower') }
 
-chainable_operation = 'Trim' | 'TrimEnd' | 'TrimStart' | 'ToUpper' | 'ToLower'
 input_property = 'Input.' identifier
 complex_property = ('Offset' | 'Line' | 'Column') '.' ('Start' | 'End')
 
@@ -87,22 +86,6 @@ placeholder = '$' identifier '$'
 string_literal = <escaped string>
 whitespace = (' ' | '\n' | '\r')+
 comment = <single or multiline comment>
-
-find_rule = logic_expr
-
-replace_rule =
-    'if' logic_expr 'then' assignment
-  | assignment
-
-assignment = placeholder '=>' string_expr
-
-template_component = placeholder | string_literal | whitespace
-
-template =
-    '(' template ')'
-  | '{' template '}'
-  | '[' template ']'
-  | template_component+
 ```
 
 ## Getting Started📂
