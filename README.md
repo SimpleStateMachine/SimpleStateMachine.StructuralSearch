@@ -51,12 +51,8 @@ logic_expr =
   | in_op
   | '(' logic_expr ')'
 
-binary_op =
-    logic_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logic_expr
-
-string_cmp_op =
-    string_expr ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_expr
-
+binary_op = logic_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logic_expr
+string_cmp_op = string_expr ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_expr
 not_expr = 'Not' logic_expr
 is_op = string_expr 'Is' ('Var' | 'Int' | 'Double' | 'DateTime' | 'Guid')
 match_op = string_expr 'Match' '"' <regex> '"'
