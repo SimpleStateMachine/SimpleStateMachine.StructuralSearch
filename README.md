@@ -41,14 +41,99 @@ parseResult.Placeholders[0].Offset // Start 5, End 17
 ```
 
 # Grammar
-```C#
-grammar = term EOF
-term = '(' term ')' | '{' term '}' | '[' term ']' | term + | token
-token = placeholder | string_literal | whitespaces | comment
+### Core Expressions
+
+```ebnf
+expression = logical_expr | term
+
+logical_expr =
+    logic_expr
+  | comparison_expr
+  | is_operation
+  | match_operation
+  | in_operation
+  | not_operation
+
+comparison_expr = string_argument ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_argument
+
+logic_expr = logical_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logical_expr
+
+not_operation = 'Not' logical_term
+
+match_operation = string_argument 'Match' '"' <any valid regex> '"'
+
+in_operation = string_argument 'In' [ '(' ] string_argument { ',' string_argument } [ ')' ]
+
+is_operation = string_argument 'Is' ('Var' | 'Int' | 'Double' | 'DateTime' | 'Guid')
+
+logical_term = '(' expression ')' | term
+```
+
+### Values and Properties
+
+```ebnf
+string_argument = term | property_operation
+
+property_operation =
+    placeholder '.' (
+        'Length'
+      | complex_property
+      | input_property [ string_property_chain ]
+    )
+  | placeholder [ string_property_chain ]
+
+string_property_chain = { '.' chainable_operation }
+
+chainable_operation = 'Trim' | 'TrimEnd' | 'TrimStart' | 'ToUpper' | 'ToLower'
+
+input_property = 'Input.' identifier
+
+complex_property = ('Offset' | 'Line' | 'Column') '.' ('Start' | 'End')
+```
+
+### Terms and Tokens
+
+```ebnf
+term =
+    '(' expression ')'
+  | '{' expression '}'
+  | '[' expression ']'
+  | term '+'
+  | token
+
+token = placeholder | string_literal | whitespace | comment
+
 placeholder = '$' identifier '$'
+
 string_literal = <escaped string>
-whitespace = [“\n\r” | '\n' | ' '] +
+
+whitespace = (' ' | '\n' | '\r')+
+
 comment = <single or multiline comment>
+```
+
+### Template Matching
+
+```ebnf
+template_component = placeholder | string_literal | whitespace
+
+template =
+    '(' template ')'
+  | '{' template '}'
+  | '[' template ']'
+  | template_component+
+```
+
+### Rule Definitions
+
+```ebnf
+find_rule = expression
+
+replace_rule =
+    'if' expression 'then' placeholder_should
+  | placeholder_should
+
+placeholder_should = placeholder '=>' string_argument
 ```
 
 ## Getting Started📂
