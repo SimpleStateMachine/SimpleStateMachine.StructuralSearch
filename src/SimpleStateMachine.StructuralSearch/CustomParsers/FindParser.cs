@@ -7,7 +7,7 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 
-namespace SimpleStateMachine.StructuralSearch.Parsers;
+namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
 internal class FindParser : IFindParser
 {

@@ -1,6 +1,6 @@
 ﻿using Pidgin;
 
-namespace SimpleStateMachine.StructuralSearch.Parsers;
+namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
 internal class EmptyStringParser : Parser<char, string>
 {

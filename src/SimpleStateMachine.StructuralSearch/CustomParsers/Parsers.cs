@@ -3,7 +3,7 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 
-namespace SimpleStateMachine.StructuralSearch.Parsers;
+namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
 internal static class Parsers
 {

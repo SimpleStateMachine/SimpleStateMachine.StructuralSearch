@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Rules.Parameters;
 using SimpleStateMachine.StructuralSearch.Rules.Parameters.Types;
@@ -27,7 +28,7 @@ internal static class ReplaceTemplateParser
             .Select(JoinParameters);
 
     private static readonly Parser<char, IStringRuleParameter> ParameterInParentheses =
-        Parsers.Parsers.BetweenParentheses
+        Parsers.BetweenParentheses
             (
                 expr: Parser.OneOf
                 (

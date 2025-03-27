@@ -1,5 +1,6 @@
 ﻿using System;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules.Types;
 using SimpleStateMachine.StructuralSearch.Rules.Parameters;
@@ -12,7 +13,7 @@ internal static class PlaceholderPropertyParser
     private delegate IPlaceholderPropertyRuleParameter PlaceholderPropertyFactory(PlaceholderParameter parameter);
 
     private static readonly Parser<char, PlaceholderPropertyFactory> Input =
-        Parsers.Parsers.EnumValue(PlaceholderProperty.Input)
+        Parsers.EnumValue(PlaceholderProperty.Input)
             .Then(CommonParser.Dote)
             .Then(Grammar.Identifier)
             .Select<PlaceholderPropertyFactory>(propertyName =>
@@ -31,7 +32,7 @@ internal static class PlaceholderPropertyParser
             => new PlaceholderOffsetParameter(placeholder, property));
 
     private static readonly Parser<char, PlaceholderPropertyFactory> Lenght =
-        Parsers.Parsers.EnumValue(PlaceholderProperty.Lenght)
+        Parsers.EnumValue(PlaceholderProperty.Lenght)
             .Select<PlaceholderPropertyFactory>(property =>
                 placeholder => new PlaceholderLenghtParameter(placeholder, property));
 
@@ -45,7 +46,7 @@ internal static class PlaceholderPropertyParser
     private static Parser<char, PlaceholderPropertyFactory> PlaceholderSubProperty<TEnum>(PlaceholderProperty property,
         Func<PlaceholderParameter, TEnum, IPlaceholderPropertyRuleParameter> func)
         where TEnum : struct, Enum
-        => Parsers.Parsers.EnumValue(property)
+        => Parsers.EnumValue(property)
             .Then(CommonParser.Dote)
             .Then(Parser.CIEnum<TEnum>())
             .Select<PlaceholderPropertyFactory>(enumValue => placeholder => func(placeholder, enumValue));

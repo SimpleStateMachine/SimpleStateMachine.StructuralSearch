@@ -2,16 +2,16 @@
 
 namespace SimpleStateMachine.StructuralSearch.Rules.FindRules;
 
-internal class EmptyRule: IFindRule
+internal class EmptyFindRule: IFindRule
 {
+    public static readonly EmptyFindRule Instance = new();
+    
     public bool Execute(ref IParsingContext context) 
         => true;
 
     public bool IsApplicableForPlaceholder(string placeholderName)
         => false;
-}
 
-internal static class Rule
-{
-    public static readonly EmptyRule Empty = new();
+    public override string ToString()
+        => string.Empty;
 }

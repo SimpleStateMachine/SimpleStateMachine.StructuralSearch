@@ -1,24 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SimpleStateMachine.StructuralSearch.Context;
+﻿using SimpleStateMachine.StructuralSearch.Context;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.Parameters;
 
-internal class StringFormatParameter : IRuleParameter
+internal class StringFormatParameter : IStringRuleParameter
 {
-    private readonly List<IRuleParameter> _parameters;
+    private readonly string _str;
 
-    public StringFormatParameter(List<IRuleParameter> parameters)
+    public StringFormatParameter(string str)
     {
-        _parameters = parameters;
+        _str = str;
     }
 
-    public string GetValue(ref IParsingContext context)
-    {
-        var localContext = context;
-        return string.Join(string.Empty, _parameters.Select(parameter => parameter.GetValue(ref localContext)));
-    }
-        
-    public override string ToString() 
-        => $"{Constant.DoubleQuotes}{string.Join(string.Empty, _parameters.Select(x=> x.ToString()))}{Constant.DoubleQuotes}";
+    public string GetValue(ref IParsingContext context) => _str;
+
+    public override string ToString()
+        => $"{Constant.DoubleQuotes}{_str}{Constant.DoubleQuotes}";
 }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Parsers;
 
 namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
@@ -22,7 +22,7 @@ internal static class FindTemplateParser
         Parser.OneOf(Placeholder, StringLiteral, WhiteSpaces);
 
     private static readonly Parser<char, IEnumerable<Parser<char, string>>> TokenInParentheses =
-        Parsers.Parsers.BetweenParentheses
+        Parsers.BetweenParentheses
         (
             expr: Parser.OneOf
             (
@@ -39,11 +39,11 @@ internal static class FindTemplateParser
             }
         );
 
-    private static readonly Parser<char, Parsers.FindTemplateParser> Term =
+    private static readonly Parser<char, CustomParsers.FindTemplateParser> Term =
         Parser.OneOf(TokenInParentheses, Token.AsMany())
             .AtLeastOnceUntil(CommonParser.Eof)
             .Select(x => x.SelectMany(y => y))
-            .Select(parsers => new Parsers.FindTemplateParser(parsers.ToList()));
+            .Select(parsers => new CustomParsers.FindTemplateParser(parsers.ToList()));
 
     internal static IFindParser ParseTemplate(string? str) =>
         string.IsNullOrEmpty(str)

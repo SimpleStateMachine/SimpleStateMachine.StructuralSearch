@@ -8,7 +8,7 @@ namespace SimpleStateMachine.StructuralSearch.Extensions;
 internal static class ParserExtensions
 {
     public static Parser<TToken, T> Try<TToken, T>(this Parser<TToken, T> parser)
-        => Parser.Try(parser);
+        => Parser.Try(parser ?? throw new ArgumentNullException(nameof(parser)));
 
     public static Parser<TToken, IEnumerable<T>> AsMany<TToken, T>(this Parser<TToken, T> parser)
         => parser.Select(IEnumerable<T> (x) => [x]);

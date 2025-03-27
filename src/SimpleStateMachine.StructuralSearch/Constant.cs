@@ -9,6 +9,11 @@ internal static class Constant
     /// String: "Then"
     /// </summary>
     public const string Then = "Then";
+    
+    /// <summary>
+    /// String: "If"
+    /// </summary>
+    public const string If = "If";
 
     /// <summary>
     /// Parenthesis char: '('

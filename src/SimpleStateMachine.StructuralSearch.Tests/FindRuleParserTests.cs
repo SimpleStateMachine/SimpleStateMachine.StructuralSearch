@@ -10,12 +10,11 @@ public static class FindRuleParserTests
 {
     [Theory]
     [InlineData("$var$ equals $var$")]
-    [InlineData("$var$ equals \"\\$\"")]
+    [InlineData("$var$ equals \"$\"")]
     [InlineData("Not $var$ equals $var$.Lenght")]
     [InlineData("Not $var$ equals $var$.offset.Start")]
     [InlineData("$var$ equals $var$.Lenght and Not $var$ StartsWith \"123\"")]
     [InlineData("Not $var$ equals $var$.Lenght and $var$ StartsWith \"123\"")]
-    [InlineData("$var$ equals $var$.Lenght and Not $var$ StartsWith \"\\\"Test\"")]
     [InlineData("$var$ Contains $var$.Lenght")]
     [InlineData("not $var$ Contains \"123\"")]
     [InlineData("$var1$.Lenght Contains $var2$.Lenght")]
@@ -28,13 +27,13 @@ public static class FindRuleParserTests
     [InlineData("$var$ Is Int")]
     [InlineData("$var$ Is DateTime")]
     [InlineData("$var$ equals $var1$ or $var2$ equals $var1$")]
-    [InlineData("$var$ match \"[a-b]+\"")]
+    [InlineData("$var$ match [a-b]+")]
     public static void FindRuleExprParsingShouldBeSuccess(string ruleStr)
     {
-        var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);
+        var rule = FindRuleParser.Expr.Before(CommonParser.Eof).ParseOrThrow(ruleStr);
         var _ruleStr = rule.ToString()?.ToLower();
         Assert.NotNull(rule);
-        Assert.Equal(_ruleStr, ruleStr.ToLower());
+        Assert.Equal(ruleStr.ToLower(), _ruleStr);
     }
         
     [Theory]

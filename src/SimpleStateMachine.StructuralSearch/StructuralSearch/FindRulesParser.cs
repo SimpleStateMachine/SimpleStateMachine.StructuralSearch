@@ -1,6 +1,7 @@
 ﻿using System;
 using Pidgin;
 using Pidgin.Expression;
+using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules.Types;
@@ -40,14 +41,14 @@ internal static class FindRuleParser
 
     internal static IFindRule ParseTemplate(string? str)
         => string.IsNullOrEmpty(str)
-            ? Rule.Empty
+            ? EmptyFindRule.Instance
             : Expr.Before(CommonParser.Eof).ParseOrThrow(str);
 
     private static Parser<char, Func<IFindRule, IFindRule>> UnaryOperation(UnaryRuleType ruleType)
-        => Parsers.Parsers.EnumValue(ruleType).Trim().Try()
+        => Parsers.EnumValue(ruleType).Trim().Try()
             .Select(Func<IFindRule, IFindRule> (type) => param => new UnaryRule(type, param));
 
     private static Parser<char, Func<IFindRule, IFindRule, IFindRule>> BinaryOperation(BinaryRuleType ruleType)
-        => Parsers.Parsers.EnumValue(ruleType).Trim().Try()
+        => Parsers.EnumValue(ruleType).Trim().Try()
             .Select<Func<IFindRule, IFindRule, IFindRule>>(type => (left, right) => new BinaryRule(type, left, right));
 }

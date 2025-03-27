@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 
@@ -20,6 +21,15 @@ internal class ReplaceRule : IReplaceRule
     public bool IsMatch(ref IParsingContext context) 
         => ConditionRule.Execute(ref context);
 
-    public override string ToString() 
-        => $"{ConditionRule}{Constant.Space}{Constant.Then}{Constant.Space}{string.Join(Constant.Comma, Rules)}";
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        var conditionStr = ConditionRule.ToString();
+
+        if (!string.IsNullOrEmpty(conditionStr))
+            builder.Append(conditionStr).Append(Constant.Space);
+
+        builder.AppendJoin(Constant.Comma, Rules);
+        return builder.ToString();
+    }
 }

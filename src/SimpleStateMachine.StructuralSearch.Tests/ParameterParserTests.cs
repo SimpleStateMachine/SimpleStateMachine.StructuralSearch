@@ -42,6 +42,7 @@ public static class ParameterParserTests
     [InlineData(" ")]
     [InlineData("( )")]
     [InlineData("( )( )")]
+    [InlineData("\"132\"")]
     public static void StringParameterParsingShouldBeSuccess(string str)
     {
         var parameter = StringParameterParser.StringParameter.Before(CommonParser.Eof).ParseOrThrow(str);
@@ -50,7 +51,6 @@ public static class ParameterParserTests
     }
 
     [Theory]
-    [InlineData("\"132\"")]
     [InlineData("( ")]
     [InlineData("( )(")]
     public static void StringParameterParsingShouldBeFail(string str)
@@ -71,27 +71,27 @@ public static class ParameterParserTests
         Assert.Equal(str.ToLower(), parameterStr.ToLower());
     }
 
-    // [Theory]
-    // [InlineData("\"132\"")]
-    // [InlineData("\"132$var1$\"")]
+    [Theory]
+    [InlineData("\"132\"")]
+    [InlineData("\"132$var1$\"")]
     // [InlineData("\"132 $var1$\"")]
     // [InlineData("\"132 $var1$ \"")]
-    // [InlineData("\"123$var1$.Lenght456\"")]
+    [InlineData("\"123$var1$.Lenght456\"")]
     // [InlineData("\" \\\"132\\\" \"")]
     // [InlineData("\" \"")]
-    // public static void StringFormatParameterParsingShouldBeSuccess(string str)
-    // {
-    //     var parameter = StringRuleParameterParser.StringFormatParameter.ParseOrThrow(str);
-    //     var parameterStr = parameter.ToString()?.ToLower();
-    //     Assert.Equal(parameterStr?.ToLower(), str.ToLower());
-    // }
-    //
-    // [Theory]
-    // [InlineData("\\\"132\\\"")]
-    // public static void StringFormatParameterParsingShouldBeFail(string str)
-    // {
-    //     Assert.Throws<ParseException<char>>(() => StringRuleParameterParser.StringFormatParameter.ParseOrThrow(str));
-    // }
+    public static void StringFormatParameterParsingShouldBeSuccess(string str)
+    {
+        var parameter = StringParameterParser.StringFormatParameter.ParseOrThrow(str);
+        var parameterStr = parameter.ToString()?.ToLower();
+        Assert.Equal(parameterStr?.ToLower(), str.ToLower());
+    }
+    
+    [Theory]
+    [InlineData("\\\"132\\\"")]
+    public static void StringFormatParameterParsingShouldBeFail(string str)
+    {
+        Assert.Throws<ParseException<char>>(() => StringParameterParser.StringFormatParameter.ParseOrThrow(str));
+    }
 
     [Theory]
     [InlineData("$var$")]

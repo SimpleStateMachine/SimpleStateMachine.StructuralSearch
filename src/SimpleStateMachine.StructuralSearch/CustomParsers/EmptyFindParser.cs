@@ -4,7 +4,7 @@ using System.Linq;
 using SimpleStateMachine.StructuralSearch.Input;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 
-namespace SimpleStateMachine.StructuralSearch.Parsers;
+namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
 internal sealed class EmptyFindParser : IFindParser
 {

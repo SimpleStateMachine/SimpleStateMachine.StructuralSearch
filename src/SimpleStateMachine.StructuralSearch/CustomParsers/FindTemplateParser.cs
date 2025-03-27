@@ -3,7 +3,7 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
 
-namespace SimpleStateMachine.StructuralSearch.Parsers;
+namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
 internal class FindTemplateParser : Parser<char, IEnumerable<string>>, IContextDependent
 {
