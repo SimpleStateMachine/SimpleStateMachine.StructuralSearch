@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.CustomParsers;
@@ -7,7 +8,6 @@ using SimpleStateMachine.StructuralSearch.Operator.String;
 using SimpleStateMachine.StructuralSearch.Operator.String.Type;
 using SimpleStateMachine.StructuralSearch.Parameters;
 using SimpleStateMachine.StructuralSearch.Parameters.Types;
-using SimpleStateMachine.StructuralSearch.Rules;
 
 namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
@@ -66,18 +66,14 @@ internal static class ParametersParser
             .Then(Parser.OneOf(PlaceholderLength, PlaceholderInput, PlaceholderPosition), (placeholder, buildPropertyFunc) => buildPropertyFunc(placeholder))
             .Then(ChainableString.Optional(), (placeholderProperty, chainableStringFunc) => chainableStringFunc.HasValue ? chainableStringFunc.Value(placeholderProperty) : placeholderProperty);
 
-    internal static readonly Parser<char, IParameter> StringExpression = 
-        Parsers.BetweenParentheses
+    internal static readonly Parser<char, IParameter> StringExpression =
+        Parser.OneOf(Parsers.BetweenParentheses
             (
-                expr: Parser.OneOf
-                (
-                    Parser.Rec(() => StringExpression ?? throw new ArgumentNullException(nameof(StringExpression))),
-                    PropertyAccess,
-                    AtomicToken
-                ),
-                mapFunc: (c1, value, c2) => new ParenthesisedParameter(GetParenthesisType((c1, c2)), value)
-            )
-            .As<char, ParenthesisedParameter, IParameter>();
+                expr: Parser.Rec(() => StringExpression ?? throw new ArgumentNullException(nameof(StringExpression))),
+                mapFunc: IParameter (c1, value, c2) => new ParenthesisedParameter(GetParenthesisType((c1, c2)), value)
+            ), PropertyAccess, AtomicToken)
+            .AtLeastOnce()
+            .Select<IParameter>(parameters => new StringJoinParameter(parameters.ToList()));
 
     private static ParenthesisType GetParenthesisType((char c1, char c2) parenthesis)
         => parenthesis switch

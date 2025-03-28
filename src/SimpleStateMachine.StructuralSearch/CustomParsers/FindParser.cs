@@ -6,7 +6,6 @@ using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
-using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 
 namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 

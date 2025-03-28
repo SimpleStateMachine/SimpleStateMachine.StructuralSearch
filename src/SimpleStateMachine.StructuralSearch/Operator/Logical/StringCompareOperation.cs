@@ -1,6 +1,5 @@
 ﻿using System;
 using SimpleStateMachine.StructuralSearch.Context;
-using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 using SimpleStateMachine.StructuralSearch.Parameters;

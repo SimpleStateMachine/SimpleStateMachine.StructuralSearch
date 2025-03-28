@@ -1,5 +1,4 @@
 ﻿using Pidgin;
-using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
 
@@ -11,6 +10,22 @@ public static class ParameterParserTests
     [InlineData("\\\"132\\\"")]
     [InlineData("132")]
     [InlineData(" ")]
+    
+    [InlineData("(132)")]
+    [InlineData("[(132)]")]
+    [InlineData("{(())}")]
+    [InlineData("()")]
+    [InlineData("( )")]
+    [InlineData("$var$")]
+    [InlineData("$var$.Lenght")]
+    [InlineData("$var$.Column.Start")]
+    [InlineData("$var$.Column.End")]
+    [InlineData("$var$.Offset.Start")]
+    [InlineData("$var$.Offset.End")]
+    [InlineData("$var$.Line.Start")]
+    [InlineData("$var$.Line.End")]
+    [InlineData("$var$.Trim")]
+    [InlineData("$var$.Trim.Trim")]
     public static void OptionalStringParsingShouldBeSuccess(string str)
     {
         var result = ParametersParser.StringExpression.Before(CommonParser.Eof).ParseOrThrow(str);

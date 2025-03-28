@@ -3,7 +3,6 @@ using System.Linq;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
-using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
 using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 

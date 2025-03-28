@@ -3,7 +3,6 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
-using TemplateParser = SimpleStateMachine.StructuralSearch.CustomParsers.TemplateParser;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
 
