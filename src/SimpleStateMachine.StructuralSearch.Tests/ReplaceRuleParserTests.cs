@@ -14,8 +14,8 @@ public static class ReplaceRuleParserTests
     [InlineData("if $var1$ equals $var$.Lenght and Not $var1$ StartsWith \"Test\" then")]
     public static void ReplaceConditionParsingShouldBeSuccess(string replaceRule)
     {
-        var rule = ReplaceRuleParser.ReplaceCondition.Before(CommonParser.Eof).ParseOrThrow(replaceRule);
-        var ruleStr = rule.ToString()?.ToLower();
+        var rule = ReplaceRuleParser.ReplaceRule.Before(CommonParser.Eof).ParseOrThrow(replaceRule);
+        var ruleStr = rule.ToString().ToLower();
         Assert.NotNull(rule);
         Assert.Equal(replaceRule.ToLower(), ruleStr);
     }

@@ -7,14 +7,14 @@ namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
 
 internal interface IReplaceRule
 {
-    IEnumerable<ReplaceSubRule> Rules { get; }
+    IEnumerable<Assignment> Assignments { get; }
     bool IsMatch(ref IParsingContext context);
 }
 
 internal class EmptyReplaceRule : IReplaceRule
 {
-    public IEnumerable<ReplaceSubRule> Rules { get; } = Array.Empty<ReplaceSubRule>();
-    
-    public bool IsMatch(ref IParsingContext context) 
+    public IEnumerable<Assignment> Assignments { get; } = Array.Empty<Assignment>();
+
+    public bool IsMatch(ref IParsingContext context)
         => EmptyFindRule.Instance.Execute(ref context);
 }

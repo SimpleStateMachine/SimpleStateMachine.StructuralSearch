@@ -2,6 +2,7 @@
 using System.Linq;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
+using SimpleStateMachine.StructuralSearch.Operator.Logical;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
 using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
@@ -11,7 +12,7 @@ namespace SimpleStateMachine.StructuralSearch;
 public class StructuralSearchParser
 {
     private readonly IFindParser _findParser;
-    private readonly IFindRule[] _findRules;
+    private readonly ILogicalOperation[] _findRules;
     private readonly IReplaceBuilder _replaceBuilder;
     private readonly IReadOnlyList<IReplaceRule> _replaceRules;
 

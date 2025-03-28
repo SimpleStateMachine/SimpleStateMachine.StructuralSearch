@@ -1,0 +1,78 @@
+﻿using System;
+using System.Linq;
+using Pidgin;
+using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Operator.Logical;
+using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
+using SimpleStateMachine.StructuralSearch.Parameters;
+
+namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
+
+public static class LogicalExpressionParser
+{
+    // string_compare_operation = ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_expr
+    private static readonly Parser<char, Func<IParameter, ILogicalOperation>> StringCompareOperation = 
+        Parser.CIEnum<StringCompareOperator>().Then(ParametersParser.StringExpression, (@operator, right) => (@operator, right))
+            .Select<Func<IParameter, ILogicalOperation>>(x => 
+                left => new StringCompareOperation(left, x.@operator, x.right));
+
+    // is_operation ='Is' ('Var' | 'Int' | 'Double' | 'DateTime' | 'Guid' | 'Bool')
+    private static readonly Parser<char, Func<IParameter, ILogicalOperation>> IsOperation = 
+        CommonParser.Is.Then(Parser.CIEnum<ParameterType>())
+            .Select<Func<IParameter, ILogicalOperation>>(type => parameter => new IsOperation(parameter, type));
+
+    // match_operation ='Match' '"' <regex> '"'
+    private static readonly Parser<char, Func<IParameter, ILogicalOperation>> MatchOperation = 
+        CommonParser.Match.Then(Grammar.StringLiteral) // TODO support regex
+            .Select<Func<IParameter, ILogicalOperation>>(regex => parameter => new MatchOperation(parameter, regex));
+
+    // in_operation ='In' [ '(' ] string_expr { ',' string_expr } [ ')' ]
+    private static readonly Parser<char, Func<IParameter, ILogicalOperation>> InOperation = 
+        CommonParser.In.Then(ParametersParser.StringExpression.SeparatedAtLeastOnce(CommonParser.Comma)) // TODO support Parentheses
+            .Select<Func<IParameter, ILogicalOperation>>(arguments => 
+                parameter => new InOperation(parameter, arguments.ToList()));
+
+    // string_logic_operation = string_expr (string_compare_operation | is_operation | match_operation| in_operation )
+    private static readonly Parser<char, ILogicalOperation> StringLogicOperation = 
+        ParametersParser.StringExpression.Then(Parser.OneOf(StringCompareOperation, IsOperation, MatchOperation, InOperation), 
+            (parameter, buildOperationFunc) => buildOperationFunc(parameter));
+
+    // binary_operation = logic_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logic_expr
+    private static readonly Parser<char, Func<ILogicalOperation, ILogicalOperation>> BinaryOperation = 
+        Parser.CIEnum<LogicalBinaryOperator>()
+            .Then(Parser.Rec(() => LogicalExpression ?? throw new ArgumentNullException(nameof(LogicalExpression))), (@operator, right) => (@operator, right))
+            .Select<Func<ILogicalOperation, BinaryOperation>>(x => left => new BinaryOperation(left, x.@operator, x.right))
+            .AtLeastOnce().Select<Func<ILogicalOperation, ILogicalOperation>>(funcList =>
+                placeholder => funcList.Aggregate(placeholder, (parameter, func) => func(parameter)));
+
+    // not_operation = 'Not' logic_expr
+    private static readonly Parser<char, NotOperation> NotOperation = 
+        CommonParser.Not.Then(Parser.Rec(() => LogicalExpression ?? throw new ArgumentNullException(nameof(LogicalExpression))))
+            .Select(operation => new NotOperation(operation));
+
+    internal static readonly Parser<char, ILogicalOperation> LogicalExpressionTerm =
+        Parser.OneOf
+        (
+            NotOperation.Cast<ILogicalOperation>(),
+            StringLogicOperation,
+            Parser.Rec(() => LogicalExpression ?? throw new ArgumentNullException(nameof(LogicalExpression)))
+                .After(CommonParser.LeftParenthesis)
+                .Before(CommonParser.RightParenthesis)
+        );
+    
+    // logic_expr = binary_operation| not_operation | string_logic_operation| '(' logic_expr ')'
+    internal static readonly Parser<char, ILogicalOperation> LogicalExpression =
+        LogicalExpressionTerm.Then(BinaryOperation.Optional(),
+            (operation, optionalBinaryOperation) =>
+                optionalBinaryOperation.HasValue ? optionalBinaryOperation.Value(operation) : operation);
+    // Parser.OneOf
+    // (
+    //     LogicalExpression,
+    //     
+    //     StringLogicOperation,
+    //     BinaryOperation.Cast<ILogicalOperation>(),
+    //     Parser.Rec(() => LogicalExpression ?? throw new ArgumentNullException(nameof(LogicalExpression)))
+    //         .After(CommonParser.LeftParenthesis)
+    //         .Before(CommonParser.RightParenthesis)
+    // );
+}

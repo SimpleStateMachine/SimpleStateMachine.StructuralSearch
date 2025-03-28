@@ -1,5 +1,5 @@
 ﻿using SimpleStateMachine.StructuralSearch.Context;
-using SimpleStateMachine.StructuralSearch.Rules.Parameters;
+using SimpleStateMachine.StructuralSearch.Parameters;
 
 namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 
@@ -7,9 +7,9 @@ internal class ReplaceBuilder : IReplaceBuilder
 {
     public static readonly EmptyReplaceBuilder Empty = new ();
     
-    private readonly IRuleParameter _parameter;
+    private readonly IParameter _parameter;
 
-    public ReplaceBuilder(IRuleParameter parameter)
+    public ReplaceBuilder(IParameter parameter)
     {
         _parameter = parameter;
     }

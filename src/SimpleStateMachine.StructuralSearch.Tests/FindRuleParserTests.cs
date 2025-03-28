@@ -3,6 +3,7 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
+using TemplateParser = SimpleStateMachine.StructuralSearch.CustomParsers.TemplateParser;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
 
@@ -30,7 +31,8 @@ public static class FindRuleParserTests
     [InlineData("$var$ match [a-b]+")]
     public static void FindRuleExprParsingShouldBeSuccess(string ruleStr)
     {
-        var rule = FindRuleParser.Expr.Before(CommonParser.Eof).ParseOrThrow(ruleStr);
+        var t = TemplatesParser.Template;
+        var rule = LogicalExpressionParser.LogicalExpression.Before(CommonParser.Eof).ParseOrThrow(ruleStr);
         var _ruleStr = rule.ToString()?.ToLower();
         Assert.NotNull(rule);
         Assert.Equal(ruleStr.ToLower(), _ruleStr);
@@ -55,7 +57,7 @@ public static class FindRuleParserTests
     [InlineData("Not ($var$ equals $var$.Lenght)", "Not $var$ equals $var$.Lenght")]
     public static void FindRuleExprParsingShouldBeEqualsCustomResult(string ruleStr, string customResult)
     {
-        var rule = FindRuleParser.Expr.ParseOrThrow(ruleStr);
+        var rule = LogicalExpressionParser.LogicalExpression.ParseOrThrow(ruleStr);
         var ruleAsStr = rule.ToString()?.ToLower();
         Assert.NotNull(rule);
         Assert.Equal(ruleAsStr, customResult.ToLower());

@@ -5,20 +5,21 @@ using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
+using SimpleStateMachine.StructuralSearch.Operator.Logical;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 
 namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
 internal class FindParser : IFindParser
 {
-    private FindTemplateParser Parser { get; }
+    private TemplateParser Parser { get; }
 
-    public FindParser(FindTemplateParser parser)    
+    public FindParser(TemplateParser parser)    
     {
         Parser = parser;
     }
 
-    public List<FindParserResult> Parse(IInput input, params IFindRule[] findRules)
+    public List<FindParserResult> Parse(IInput input, params ILogicalOperation[] findRules)
     {
         List<FindParserResult> matches = [];
         StringBuilder res = new();

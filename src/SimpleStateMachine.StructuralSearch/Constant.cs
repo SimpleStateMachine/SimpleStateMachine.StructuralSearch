@@ -6,14 +6,44 @@ namespace SimpleStateMachine.StructuralSearch;
 internal static class Constant
 {
     /// <summary>
+    /// String: "If"
+    /// </summary>
+    public const string If = "If";
+    
+    /// <summary>
     /// String: "Then"
     /// </summary>
     public const string Then = "Then";
     
     /// <summary>
-    /// String: "If"
+    /// String: "Not"
     /// </summary>
-    public const string If = "If";
+    public const string Not = "Not";
+    
+    /// <summary>
+    /// String: "Is"
+    /// </summary>
+    public const string Is = "Is";
+    
+    /// <summary>
+    /// String: "Match"
+    /// </summary>
+    public const string Match = "Match";
+    
+    /// <summary>
+    /// String: "In"
+    /// </summary>
+    public const string In = "In";
+    
+    /// <summary>
+    /// String: "Length"
+    /// </summary>
+    public const string Length = "Length";
+    
+    /// <summary>
+    /// String: "Input"
+    /// </summary>
+    public const string Input = "Input";
 
     /// <summary>
     /// Parenthesis char: '('

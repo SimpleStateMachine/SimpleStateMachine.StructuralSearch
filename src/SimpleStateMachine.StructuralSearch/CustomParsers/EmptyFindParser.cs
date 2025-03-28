@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SimpleStateMachine.StructuralSearch.Input;
+using SimpleStateMachine.StructuralSearch.Operator.Logical;
 using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 
 namespace SimpleStateMachine.StructuralSearch.CustomParsers;
@@ -10,6 +11,6 @@ internal sealed class EmptyFindParser : IFindParser
 {
     public static readonly EmptyFindParser Value = new();
 
-    public List<FindParserResult> Parse(IInput input, params IFindRule[] findRules)
+    public List<FindParserResult> Parse(IInput input, params ILogicalOperation[] findRules)
         => Array.Empty<FindParserResult>().ToList();
 }

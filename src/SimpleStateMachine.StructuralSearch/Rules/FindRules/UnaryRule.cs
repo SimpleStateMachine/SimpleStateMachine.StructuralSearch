@@ -1,16 +1,16 @@
 ﻿using System;
 using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Helper;
-using SimpleStateMachine.StructuralSearch.Rules.FindRules.Types;
+using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.FindRules;
 
 internal class UnaryRule : IFindRule
 {
-    private readonly UnaryRuleType _type;
+    private readonly LogicalUnaryOperator _type;
     private readonly IFindRule _parameter;
 
-    public UnaryRule(UnaryRuleType type, IFindRule parameter)
+    public UnaryRule(LogicalUnaryOperator type, IFindRule parameter)
     {
         _type = type;
         _parameter = parameter;
@@ -22,7 +22,7 @@ internal class UnaryRule : IFindRule
             
         return _type switch
         {
-            UnaryRuleType.Not => !result,
+            LogicalUnaryOperator.Not => !result,
             _ => throw new ArgumentOutOfRangeException(nameof(_type).FormatPrivateVar(), _type, null)
         };
     }

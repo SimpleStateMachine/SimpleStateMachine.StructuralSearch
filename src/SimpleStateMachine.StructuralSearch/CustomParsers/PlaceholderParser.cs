@@ -103,7 +103,6 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
                 Context[_name] = placeholderObj;
 
                 res = Context.FindRules
-                    .Where(r => r.IsApplicableForPlaceholder(_name))
                     .All(r => r.Execute(ref _context!));
 
                 if (!res)
