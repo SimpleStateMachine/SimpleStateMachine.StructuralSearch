@@ -11,24 +11,24 @@ namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 public static class LogicalExpressionParser
 {
     // string_compare_operation = ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_expr
-    private static readonly Parser<char, Func<IParameter, ILogicalOperation>> StringCompareOperation = 
+    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> StringCompareOperation = 
         Parser.CIEnum<StringCompareOperator>().Then(ParametersParser.StringExpression, (@operator, right) => (@operator, right))
             .Select<Func<IParameter, ILogicalOperation>>(x => 
                 left => new StringCompareOperation(left, x.@operator, x.right));
 
     // is_operation ='Is' ('Var' | 'Int' | 'Double' | 'DateTime' | 'Guid' | 'Bool')
-    private static readonly Parser<char, Func<IParameter, ILogicalOperation>> IsOperation = 
-        CommonParser.Is.Then(Parser.CIEnum<ParameterType>())
+    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> IsOperation = 
+        CommonParser.Is.Then(CommonParser.Spaces).Then(Parser.CIEnum<ParameterType>())
             .Select<Func<IParameter, ILogicalOperation>>(type => parameter => new IsOperation(parameter, type));
 
     // match_operation ='Match' '"' <regex> '"'
-    private static readonly Parser<char, Func<IParameter, ILogicalOperation>> MatchOperation = 
+    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> MatchOperation = 
         CommonParser.Match.Then(Grammar.StringLiteral) // TODO support regex
             .Select<Func<IParameter, ILogicalOperation>>(regex => parameter => new MatchOperation(parameter, regex));
 
     // in_operation ='In' [ '(' ] string_expr { ',' string_expr } [ ')' ]
-    private static readonly Parser<char, Func<IParameter, ILogicalOperation>> InOperation = 
-        CommonParser.In.Then(ParametersParser.StringExpression.SeparatedAtLeastOnce(CommonParser.Comma)) // TODO support Parentheses
+    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> InOperation = 
+        CommonParser.In.Then(ParametersParser.StringExpression.SeparatedAtLeastOnce(CommonParser.Comma.Then(CommonParser.Spaces.Optional()))) // TODO support Parentheses
             .Select<Func<IParameter, ILogicalOperation>>(arguments => 
                 parameter => new InOperation(parameter, arguments.ToList()));
 
@@ -46,11 +46,11 @@ public static class LogicalExpressionParser
                 placeholder => funcList.Aggregate(placeholder, (parameter, func) => func(parameter)));
 
     // not_operation = 'Not' logic_expr
-    private static readonly Parser<char, NotOperation> NotOperation = 
+    internal static readonly Parser<char, NotOperation> NotOperation = 
         CommonParser.Not.Then(Parser.Rec(() => LogicalExpression ?? throw new ArgumentNullException(nameof(LogicalExpression))))
             .Select(operation => new NotOperation(operation));
 
-    internal static readonly Parser<char, ILogicalOperation> LogicalExpressionTerm =
+    private static readonly Parser<char, ILogicalOperation> LogicalExpressionTerm =
         Parser.OneOf
         (
             NotOperation.Cast<ILogicalOperation>(),
@@ -59,7 +59,7 @@ public static class LogicalExpressionParser
                 .After(CommonParser.LeftParenthesis)
                 .Before(CommonParser.RightParenthesis)
         );
-    
+
     // logic_expr = binary_operation| not_operation | string_logic_operation| '(' logic_expr ')'
     internal static readonly Parser<char, ILogicalOperation> LogicalExpression =
         LogicalExpressionTerm.Then(BinaryOperation.Optional(),

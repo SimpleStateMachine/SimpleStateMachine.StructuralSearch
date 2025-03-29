@@ -2,9 +2,9 @@
 
 internal enum StringUnaryOperator
 {
-    Trim = 0,
-    TrimEnd,
+    TrimEnd = 0,
     TrimStart,
     ToUpper,
-    ToLower
+    ToLower,
+    Trim
 }

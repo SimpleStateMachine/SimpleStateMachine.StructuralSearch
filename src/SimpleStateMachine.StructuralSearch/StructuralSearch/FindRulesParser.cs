@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
-internal static class FindRuleParser
+internal static class FindRulesParser
 {
     // private static readonly Parser<char, Func<IFindRule, IFindRule, IFindRule>> And = BinaryOperation(LogicalBinaryOperator.And);
     // private static readonly Parser<char, Func<IFindRule, IFindRule, IFindRule>> Or = BinaryOperation(LogicalBinaryOperator.Or);
