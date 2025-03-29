@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
@@ -10,75 +11,126 @@ namespace SimpleStateMachine.StructuralSearch.Tests;
 
 public static class LogicalExpressionParserTests
 {
+    public static IEnumerable<string> StringCompareOperationCases()
+    {
+        // var parameters = ["$var$", "\"123\"", "$var$.Len"]
+        foreach (var @operator in Enum.GetNames<StringCompareOperator>())
+        {
+            yield return $"{@operator} $var$";
+            yield return $"{@operator}   $var$";
+            yield return $"{@operator} \"123\"";
+            yield return $"{@operator}   \"123\"";
+            yield return $"{@operator} $var$";
+        }
+    }
+
     [Theory]
-    [InlineData("Equals $var$")]
-    [InlineData("Contains $var$")]
-    [InlineData("StartsWith $var$")]
-    [InlineData("EndsWith $var$")]
+    [StringMemberData(nameof(StringCompareOperationCases))]
     public static void StringCompareOperationParsingShouldBeSuccess(string input)
     {
         LogicalExpressionParser.StringCompareOperation.Before(CommonParser.Eof).ParseOrThrow(input);
     }
 
-    public static IEnumerable<object[]> GetParameterTypeNames() 
-        => Enum.GetNames<ParameterType>().Select(x => new object[] { $"Is {x}" });
+    public static IEnumerable<string> IsOperationCases()
+    {
+        foreach (var type in Enum.GetNames<ParameterType>())
+        {
+            yield return $"Is {type}";
+            yield return $"Is    {type}";
+        }
+    }
 
     [Theory]
-    [MemberData(nameof(GetParameterTypeNames))]
+    [StringMemberData(nameof(IsOperationCases))]
     public static void IsOperationParsingShouldBeSuccess(string input)
     {
         LogicalExpressionParser.IsOperation.Before(CommonParser.Eof).ParseOrThrow(input);
     }
 
     [Theory]
-    [InlineData("Match [a-z]")]
+    [InlineData("Match \"[a-z]\"")]
     public static void MatchOperationParsingShouldBeSuccess(string input)
     {
         LogicalExpressionParser.MatchOperation.Before(CommonParser.Eof).ParseOrThrow(input);
     }
 
     [Theory]
-    [InlineData("In 123, 456, 789")]
-    [InlineData("In 123,456,789")]
+    [InlineData("In \"123\",\"456\",\"789\"")]
+    [InlineData("In   \"123\",\"456\",\"789\"")]
+    [InlineData("In \"123\", \"456\", \"789\"")]
+    [InlineData("In \"123\",  \"456\",  \"789\"")]
+    [InlineData("In   \"123\", \"456\", \"789\"")]
+    [InlineData("In   \"123\",  \"456\",  \"789\"")]
     public static void InOperationParsingShouldBeSuccess(string input)
     {
         LogicalExpressionParser.InOperation.Before(CommonParser.Eof).ParseOrThrow(input);
     }
-    
+
     [Theory]
-    [InlineData("Not 123 Equals 789")]
+    [InlineData("Not \"123\" Equals \"789\"")]
     public static void NotOperationParsingShouldBeSuccess(string input)
     {
         LogicalExpressionParser.NotOperation.Before(CommonParser.Eof).ParseOrThrow(input);
     }
 
+    public static IEnumerable<string> BinaryOperationCases()
+    {
+        foreach (var @operator in Enum.GetNames<LogicalBinaryOperator>())
+        {
+            yield return $"{@operator} $var$ Equals $var$";
+            yield return $"{@operator}    $var$ Equals $var$";
+            yield return $"{@operator} $var$ Equals    $var$";
+            yield return $"{@operator}    $var$ Equals    $var$";
+        }
+    }
+
+    [Theory]
+    [StringMemberData(nameof(BinaryOperationCases))]
+    public static void BinaryOperationParsingShouldBeSuccess(string input)
+    {
+        LogicalExpressionParser.BinaryOperation.Before(CommonParser.Eof).ParseOrThrow(input);
+    }
+    
+    // public static IEnumerable<string> BinaryOperationCases()
+    // {
+    //     foreach (var access in ParametersParserTests.PropertyAccessCases())
+    //     {
+    //         foreach (var VARIABLE in COLLECTION)
+    //         {
+    //             
+    //         }
+    //         yield return $"{@operator} $var$ Equals $var$";
+    //         yield return $"{@operator}    $var$ Equals $var$";
+    //         yield return $"{@operator} $var$ Equals    $var$";
+    //         yield return $"{@operator}    $var$ Equals    $var$";
+    //     }
+    // }
+
     [Theory]
     [InlineData("$var$ equals $var$")]
     [InlineData("$var$ equals \"$\"")]
-    [InlineData("Not $var$ equals $var$.Lenght")]
+    [InlineData("Not $var$ equals $var$.Length")]
     [InlineData("Not $var$ equals $var$.offset.Start")]
-    [InlineData("$var$ equals $var$.Lenght and Not $var$ StartsWith \"123\"")]
-    [InlineData("Not $var$ equals $var$.Lenght and $var$ StartsWith \"123\"")]
-    [InlineData("$var$ Contains $var$.Lenght")]
+    [InlineData("$var$ equals $var$.Length and Not $var$ StartsWith \"123\"")]
+    [InlineData("Not $var$ equals $var$.Length and $var$ StartsWith \"123\"")]
+    [InlineData("$var$ Contains $var$.Length")]
     [InlineData("not $var$ Contains \"123\"")]
-    [InlineData("$var1$.Lenght Contains $var2$.Lenght")]
+    [InlineData("$var1$.Length Contains $var2$.Length")]
     [InlineData("$var$ Contains \"123\"")]
-    [InlineData("$var$ StartsWith $var$.Lenght")]
-    [InlineData("$var$.Lenght Equals $var$.Lenght")]
+    [InlineData("$var$ StartsWith $var$.Length")]
+    [InlineData("$var$.Length Equals $var$.Length")]
     [InlineData("$var$ StartsWith \"123\"")]
-    [InlineData("$var$ EndsWith $var$.Lenght")]
+    [InlineData("$var$ EndsWith $var$.Length")]
     [InlineData("$var$ EndsWith \"123\"")]
     [InlineData("$var$ Is Int")]
     [InlineData("$var$ Is DateTime")]
     [InlineData("$var$ equals $var1$ or $var2$ equals $var1$")]
-    [InlineData("$var$ match [a-b]+")]
-    public static void FindRuleExprParsingShouldBeSuccess(string input)
+    [InlineData("$var$ match \"[a-b]+\"")]
+    public static void LogicalExpressionParsingShouldBeSuccess(string input)
     {
-        var t = TemplatesParser.Template;
-        var rule = LogicalExpressionParser.LogicalExpression.Before(CommonParser.Eof).ParseOrThrow(input);
-        var _ruleStr = rule.ToString()?.ToLower();
-        Assert.NotNull(rule);
-        Assert.Equal(input.ToLower(), _ruleStr);
+        var operation = LogicalExpressionParser.LogicalExpression.Before(CommonParser.Eof).ParseOrThrow(input);
+        var result = operation.ToString()!;
+        Assert.Equal(input.ToLower(), result.ToLower());
     }
         
     // [Theory]
@@ -96,8 +148,8 @@ public static class LogicalExpressionParserTests
     // [InlineData("$var$ In( \"Is\",\"==\",\"!=\",\"is not\" ) ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
     // [InlineData("$var$ In( \"Is\",\"==\",\"!=\",\"is not\" )", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
     // [InlineData("$var$ In( \"Is\",\"==\",\"!=\",\"is not\") ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("Not ($var$ equals $var$.Lenght and $var$ StartsWith \"123\")", "Not $var$ equals $var$.Lenght and $var$ StartsWith \"123\"")]
-    // [InlineData("Not ($var$ equals $var$.Lenght)", "Not $var$ equals $var$.Lenght")]
+    // [InlineData("Not ($var$ equals $var$.Length and $var$ StartsWith \"123\")", "Not $var$ equals $var$.Length and $var$ StartsWith \"123\"")]
+    // [InlineData("Not ($var$ equals $var$.Length)", "Not $var$ equals $var$.Length")]
     // public static void FindRuleExprParsingShouldBeEqualsCustomResult(string ruleStr, string customResult)
     // {
     //     var rule = LogicalExpressionParser.LogicalExpression.ParseOrThrow(ruleStr);

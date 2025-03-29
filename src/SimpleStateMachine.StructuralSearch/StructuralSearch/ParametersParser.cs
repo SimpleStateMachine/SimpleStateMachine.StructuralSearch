@@ -25,13 +25,12 @@ internal static class ParametersParser
     internal static readonly Parser<char, StringParameter> WhiteSpaces =
         Grammar.WhiteSpaces.Select(x => new StringParameter(x));
 
-    // atomic_token = placeholder | string_literal | whitespace
+    // atomic_token = placeholder | string_literal
     private static readonly Parser<char, IParameter> AtomicToken =
         Parser.OneOf
         (
             PlaceholderParameter.Cast<IParameter>(), 
-            StringLiteral.Cast<IParameter>(),
-            WhiteSpaces.Cast<IParameter>()
+            StringLiteral.Cast<IParameter>()
         );
 
     // 'Length'

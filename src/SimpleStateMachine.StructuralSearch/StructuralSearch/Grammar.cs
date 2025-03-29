@@ -10,7 +10,13 @@ internal static class Grammar
     internal static readonly Parser<char, char> StringLiteralChar = Parser.AnyCharExcept(Constant.InvalidStringLiteralChars);
     internal static readonly Parser<char, string> WhiteSpaces = Parser.OneOf(CommonParser.Spaces, CommonParser.LineEnds, CommonParser.LineEnds).AtLeastOnceString();
     internal static readonly Parser<char, string> StringNonLanguageSyntaxChar = NonLanguageSyntaxChar.AtLeastOnceString();
-    internal static readonly Parser<char, string> StringLiteral = StringLiteralChar.AtLeastOnceString();
+
+    internal static readonly Parser<char, string> StringLiteral = Parser.OneOf
+    (
+        Parser.AnyCharExcept(Constant.StringLiteralCharsToEscape),
+        CommonParser.Escaped(Constant.StringLiteralCharsToEscape)
+    ).AtLeastOnceString().Between(CommonParser.DoubleQuotes);
+
     internal static readonly Parser<char, string> Identifier = Parser.Letter.Then(Parser.OneOf(Parser.Letter, Parser.Digit, CommonParser.Underscore).AtLeastOnce(), BuildString);
     internal static readonly Parser<char, string> Placeholder = Identifier.Between(Parser.Char(Constant.PlaceholderSeparator));
 

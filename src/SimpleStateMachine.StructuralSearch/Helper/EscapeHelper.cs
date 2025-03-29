@@ -20,10 +20,7 @@ internal static class EscapeHelper
     // public static string EscapeExclude(string str, Func<char, string> replaceRule, params char[] excluded) 
     //     => string.Join(string.Empty, str.Select(c => excluded.Contains(c) ? c.ToString() : replaceRule(c)));
 
-    internal static string Escape(ReadOnlySpan<char> input)
-        => Escape(input, Constant.CharsToEscape);
-
-    private static string Escape(ReadOnlySpan<char> input, IReadOnlySet<char> charsToEscape)
+    internal static string Escape(ReadOnlySpan<char> input, IReadOnlySet<char> charsToEscape)
     {
         // Precalculate string size
         var extraLength = 0;

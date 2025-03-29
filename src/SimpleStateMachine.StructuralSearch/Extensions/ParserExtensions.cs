@@ -44,8 +44,8 @@ internal static class ParserExtensions
                 var line = new LinePosition(oldPos.Line, newPos.Line);
                 var column = new ColumnPosition(oldPos.Col, newPos.Col);
                 var offset = new OffsetPosition(oldOffset, newOffset);
-                var lenght = newOffset - oldOffset;
-                return new Match<T>(result, lenght, column, line, offset);
+                var Length = newOffset - oldOffset;
+                return new Match<T>(result, Length, column, line, offset);
             },
             Parser<char>.CurrentPos, Parser<char>.CurrentOffset,
             parser,

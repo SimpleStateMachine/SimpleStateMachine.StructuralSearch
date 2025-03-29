@@ -40,6 +40,6 @@ internal static class CommonParser
             custom(Constant.RightParenthesis)
         );
 
-    internal static Parser<char, char> Escaped(IEnumerable<char> chars) =>
+    internal static Parser<char, char> Escaped(IReadOnlySet<char> chars) =>
         Parser.Char(Constant.BackSlash).Then(Parser.OneOf(chars));
 }

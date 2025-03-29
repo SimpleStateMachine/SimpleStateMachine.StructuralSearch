@@ -36,5 +36,5 @@ internal class IsOperation : ILogicalOperation
     }
 
     public override string ToString()
-        => $"{_parameter}{Constant.Space}{Constant.Is}{Constant.Space}{_parameter}";
+        => $"{_parameter}{Constant.Space}{Constant.Is}{Constant.Space}{_type}";
 }

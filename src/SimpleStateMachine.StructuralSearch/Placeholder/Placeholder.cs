@@ -12,7 +12,7 @@ internal readonly struct Placeholder : IPlaceholder
 
     public string Name { get; }
     public string Value => _match.Value;
-    public int Lenght => _match.Lenght;
+    public int Length => _match.Length;
     public LinePosition Line => _match.Line;
     public ColumnPosition Column => _match.Column;
     public OffsetPosition Offset => _match.Offset;
@@ -24,7 +24,7 @@ internal readonly struct Placeholder : IPlaceholder
             match: new Match<string>
             (
                 Value: value,
-                Lenght: value.Length,
+                Length: value.Length,
                 Column: ColumnPosition.Empty,
                 Line: LinePosition.Empty,
                 Offset: OffsetPosition.Empty

@@ -6,7 +6,7 @@ internal class ReplacedPlaceholder : IPlaceholder
     {
         Name = placeholder.Name;
         Value = value;
-        Lenght = value.Length;
+        Length = value.Length;
         Line = placeholder.Line;
         Column = placeholder.Column;
         Offset = placeholder.Offset;
@@ -14,7 +14,7 @@ internal class ReplacedPlaceholder : IPlaceholder
     
     public string Name { get; }
     public string Value { get; }
-    public int Lenght { get; }
+    public int Length { get; }
     public LinePosition Line { get; }
     public ColumnPosition Column { get; }
     public OffsetPosition Offset { get; }

@@ -22,5 +22,5 @@ internal class MatchOperation : ILogicalOperation
     }
 
     public override string ToString()
-        => $"{_stringParameter}{Constant.Space}{Constant.Match}{Constant.Space}{_regex}";
+        => $"{_stringParameter}{Constant.Space}{Constant.Match}{Constant.Space}{Constant.DoubleQuotes}{_regex}{Constant.DoubleQuotes}";
 }

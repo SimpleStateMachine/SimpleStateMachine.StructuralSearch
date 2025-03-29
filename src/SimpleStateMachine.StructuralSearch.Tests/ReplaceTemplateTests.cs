@@ -50,18 +50,18 @@ public static class ReplaceTemplateTests
     [InlineData("test ($var1$)")]
     [InlineData("test ($var1$) test")]
 
-    [InlineData("test $var1$.Lenght")]
-    [InlineData("(test) $var1$.Lenght")]
-    [InlineData("test ($var1$.Lenght)")]
-    [InlineData("(test $var1$.Lenght)")]
-    [InlineData("($var1$.Lenght)")]
-    [InlineData(" ($var1$.Lenght)")]
-    [InlineData(" (test $var1$.Lenght)")]
-    [InlineData("(test) ($var1$.Lenght)")]
-    [InlineData("((test) $var1$.Lenght)")]
-    [InlineData("(test ($var1$.Lenght))")]
-    [InlineData("((test) ($var1$.Lenght))")]
-    [InlineData("(test ($var1$.Lenght) test2)")]
+    [InlineData("test $var1$.Length")]
+    [InlineData("(test) $var1$.Length")]
+    [InlineData("test ($var1$.Length)")]
+    [InlineData("(test $var1$.Length)")]
+    [InlineData("($var1$.Length)")]
+    [InlineData(" ($var1$.Length)")]
+    [InlineData(" (test $var1$.Length)")]
+    [InlineData("(test) ($var1$.Length)")]
+    [InlineData("((test) $var1$.Length)")]
+    [InlineData("(test ($var1$.Length))")]
+    [InlineData("((test) ($var1$.Length))")]
+    [InlineData("(test ($var1$.Length) test2)")]
     public static void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
     {
         var replaceBuilder = StructuralSearch.StructuralSearch.ParseReplaceTemplate(templateStr);
@@ -70,9 +70,9 @@ public static class ReplaceTemplateTests
     }
         
     [Theory]
-    [InlineData("(test $var1$.Lenght")]
-    [InlineData("test ($var1$.Lenght")]
-    [InlineData("test $var1$.Lenght)")]
+    [InlineData("(test $var1$.Length")]
+    [InlineData("test ($var1$.Length")]
+    [InlineData("test $var1$.Length)")]
     [InlineData(" ( ")]  
     [InlineData("test ( ")]
     public static void ReplaceTemplateParsingShouldBeFail(string templateStr)

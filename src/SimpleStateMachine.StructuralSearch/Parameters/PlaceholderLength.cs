@@ -14,7 +14,7 @@ internal class PlaceholderLength : IPlaceholderProperty
     public string GetValue(ref IParsingContext context)
     {
         var placeholder = Placeholder.GetPlaceholder(ref context);
-        return placeholder.Lenght.ToString();
+        return placeholder.Length.ToString();
     }
 
     public override string ToString()

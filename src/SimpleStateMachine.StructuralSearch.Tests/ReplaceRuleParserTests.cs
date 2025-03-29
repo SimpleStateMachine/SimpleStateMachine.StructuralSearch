@@ -8,10 +8,10 @@ public static class ReplaceRuleParserTests
 {
     [Theory]
     [InlineData("if $var1$ equals $var2$ then")]
-    [InlineData("if Not $var1$ equals $var$.Lenght then")]
+    [InlineData("if Not $var1$ equals $var$.Length then")]
     [InlineData("if Not $var1$ equals $var$.offset.Start then")]
-    [InlineData("if $var1$ equals $var$.Lenght and Not $var1$ StartsWith \"123\" then")]
-    [InlineData("if $var1$ equals $var$.Lenght and Not $var1$ StartsWith \"Test\" then")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"123\" then")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"Test\" then")]
     public static void ReplaceConditionParsingShouldBeSuccess(string replaceRule)
     {
         var rule = ReplaceRuleParser.ReplaceRule.Before(CommonParser.Eof).ParseOrThrow(replaceRule);
@@ -23,13 +23,13 @@ public static class ReplaceRuleParserTests
     [Theory]
     [InlineData("if $var1$ equals $var2$ then $var1$ => \"test $var3$\"")]
     [InlineData("if $var1$ equals \"\\$\" then $var1$ => \"\\$\",$var2$ => \"132\"")]
-    [InlineData("$var1$ => \"test $var3$.Lenght\"")]
+    [InlineData("$var1$ => \"test $var3$.Length\"")]
     [InlineData("$var1$ => \"$\",$var2$ => \"132\"")]
-    [InlineData("if Not $var1$ equals $var$.Lenght then $var1$ => $var$.Lenght")]
+    [InlineData("if Not $var1$ equals $var$.Length then $var1$ => $var$.Length")]
     [InlineData("if Not $var1$ equals $var$.offset.Start then $var1$ => $var$.offset.Start")]
-    [InlineData("if $var1$ equals $var$.Lenght and Not $var1$ StartsWith \"123\" then $var1$ => $var$.offset.Start")]
-    [InlineData("if $var1$ equals $var$.Lenght and Not $var1$ StartsWith \"123\" then $var1$ => $var$.offset.Start,$var2$ => $var$.offset.Start")]
-    [InlineData("if $var1$ equals $var$.Lenght and Not $var1$ StartsWith \"Test\" then $var1$ => $var$.offset.Start")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"123\" then $var1$ => $var$.offset.Start")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"123\" then $var1$ => $var$.offset.Start,$var2$ => $var$.offset.Start")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"Test\" then $var1$ => $var$.offset.Start")]
     public static void ReplaceRuleParsingShouldBeSuccess(string replaceRule)
     {
         var rule = StructuralSearch.StructuralSearch.ParseReplaceRule(replaceRule);

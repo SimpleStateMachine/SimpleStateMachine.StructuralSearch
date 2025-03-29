@@ -30,15 +30,15 @@
 //         PlaceholderSubProperty<OffsetProperty>(PlaceholderPositionType.Offset, (placeholder, property)
 //             => new PlaceholderPosition(placeholder, property));
 //
-//     private static readonly Parser<char, PlaceholderPropertyFactory> Lenght =
-//         Parsers.EnumValue(PlaceholderPositionType.Lenght)
+//     private static readonly Parser<char, PlaceholderPropertyFactory> Length =
+//         Parsers.EnumValue(PlaceholderPositionType.Length)
 //             .Select<PlaceholderPropertyFactory>(property =>
-//                 placeholder => new PlaceholderLenghtParameter(placeholder, property));
+//                 placeholder => new PlaceholderLengthParameter(placeholder, property));
 //
 //     public static readonly Parser<char, IParameter> PlaceholderPropertyParameter =
 //         ParametersParser.PlaceholderParameter.Then
 //         (
-//             CommonParser.Dote.Then(Parser.OneOf(Lenght.Try(), Input.Try(), Column.Try(), Offset.Try(), Line)),
+//             CommonParser.Dote.Then(Parser.OneOf(Length.Try(), Input.Try(), Column.Try(), Offset.Try(), Line)),
 //             (placeholder, ruleBuilder) => ruleBuilder(placeholder)
 //         ).Cast<IParameter>();
 //

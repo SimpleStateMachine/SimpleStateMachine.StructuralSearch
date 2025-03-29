@@ -37,7 +37,7 @@ public static class FindTemplateTests
         var match = matches.First();
 
         Assert.NotNull(findParser);
-        Assert.Equal(match.Match.Lenght, source.Length);
+        Assert.Equal(match.Match.Length, source.Length);
     }
 
     [Theory]

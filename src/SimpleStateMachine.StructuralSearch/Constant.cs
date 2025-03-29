@@ -167,6 +167,12 @@ internal static class Constant
         LeftCurlyParenthesis,
         RightCurlyParenthesis
     };
+    
+    public static readonly IReadOnlySet<char> StringLiteralCharsToEscape = new HashSet<char>()
+    {
+        BackSlash,
+        DoubleQuotes
+    };
 
     public static readonly IReadOnlySet<char> InvalidStringLiteralChars = new HashSet<char>(AllParenthesis)
     {
@@ -178,6 +184,7 @@ internal static class Constant
     public static readonly IReadOnlySet<char> CharsToEscape = new HashSet<char>
     {
         DoubleQuotes,
+        BackSlash,
         PlaceholderSeparator,
         Dote
     };

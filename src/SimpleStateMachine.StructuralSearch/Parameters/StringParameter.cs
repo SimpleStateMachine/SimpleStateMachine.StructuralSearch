@@ -15,5 +15,5 @@ internal class StringParameter : IParameter
         => _value;
 
     public override string ToString()
-        => EscapeHelper.Escape(_value);
+        => $"{Constant.DoubleQuotes}{EscapeHelper.Escape(_value, Constant.StringLiteralCharsToEscape)}{Constant.DoubleQuotes}";
 }
