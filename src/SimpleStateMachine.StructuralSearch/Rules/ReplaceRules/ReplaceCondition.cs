@@ -13,7 +13,7 @@ public class ReplaceCondition : IReplaceCondition
     }
 
     public bool IsApplicableForPlaceholder(string placeholderName)
-        => _findRule.IsApplicableForPlaceholder(placeholderName);
+        => false;
 
     public bool Execute(ref IParsingContext context)
         => _findRule.Execute(ref context);

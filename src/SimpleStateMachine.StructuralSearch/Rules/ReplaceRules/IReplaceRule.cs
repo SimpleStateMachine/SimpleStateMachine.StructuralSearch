@@ -16,5 +16,5 @@ internal class EmptyReplaceRule : IReplaceRule
     public IEnumerable<Assignment> Assignments { get; } = Array.Empty<Assignment>();
 
     public bool IsMatch(ref IParsingContext context)
-        => EmptyFindRule.Instance.Execute(ref context);
+        => true;
 }

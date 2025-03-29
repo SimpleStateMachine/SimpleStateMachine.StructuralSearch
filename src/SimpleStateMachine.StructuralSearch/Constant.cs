@@ -136,26 +136,6 @@ internal static class Constant
     public static readonly string Should = $"{Equals}{More}";
 
     /// <summary>
-    /// Parenthesis chars: '(' and ')'
-    /// </summary>
-    public static readonly (char, char) Parentheses = (LeftParenthesis, RightParenthesis);
-
-    /// <summary>
-    /// Parenthesis chars: '[' and ']'
-    /// </summary>
-    public static readonly (char, char) SquareParentheses = (LeftSquareParenthesis, RightSquareParenthesis);
-
-    /// <summary>
-    /// Parenthesis chars: '{ and '}'
-    /// </summary>
-    public static readonly (char, char) CurlyParentheses = (LeftCurlyParenthesis, RightCurlyParenthesis);
-
-    /// <summary>
-    /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
-    /// </summary>
-    public static readonly (char, char)[] AllParentheses = [Parentheses, SquareParentheses, CurlyParentheses];
-
-    /// <summary>
     /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
     /// </summary>
     public static readonly IReadOnlySet<char> AllParenthesis = new HashSet<char>

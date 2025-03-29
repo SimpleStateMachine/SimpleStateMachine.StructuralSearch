@@ -19,20 +19,15 @@ internal static class TemplatesParser
         Grammar.WhiteSpaces.SelectToParser((_, parser) => parser);
 
     internal static readonly Parser<char, IEnumerable<Parser<char, string>>> Template =
-        Parsers.BetweenParentheses
+        Parser.OneOf
         (
-            expr: Parser.OneOf
-            (
-                // Recursive
-                Parser.Rec(() => Template ?? throw new ArgumentNullException(nameof(Template))),
-                Parser.OneOf(Placeholder, StringLiteral, WhiteSpaces).AtLeastOnce()
-            ),
-            // Merge parsers
-            mapFunc: (left, result, right) =>
-            {
-                var leftParser = Parser.Char(left).AsString();
-                var rightParser = Parser.Char(right).AsString();
-                return result.Prepend(leftParser).Append(rightParser);
-            }
-        );
+            // Recursive
+            Parser.Rec(() => Template ?? throw new ArgumentNullException(nameof(Template))),
+            Parser.OneOf(Placeholder, StringLiteral, WhiteSpaces).AtLeastOnce()
+        ).BetweenParentheses((left, result, right) =>
+        {
+            var leftParser = Parser.Char(left).AsString();
+            var rightParser = Parser.Char(right).AsString();
+            return result.Prepend(leftParser).Append(rightParser);
+        });
 }

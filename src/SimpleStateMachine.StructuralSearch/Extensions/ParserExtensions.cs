@@ -10,12 +10,6 @@ internal static class ParserExtensions
     public static Parser<TToken, T> Try<TToken, T>(this Parser<TToken, T> parser)
         => Parser.Try(parser ?? throw new ArgumentNullException(nameof(parser)));
 
-    public static Parser<TToken, IEnumerable<T>> AsMany<TToken, T>(this Parser<TToken, T> parser)
-        => parser.Select(IEnumerable<T> (x) => [x]);
-
-    public static Parser<TToken, T> AsLazy<TToken, T>(this Func<Parser<TToken, T>> parser)
-        => Parser.Rec(() => parser() ?? throw new ArgumentNullException(nameof(parser)));
-
     public static Parser<TToken, IEnumerable<T>> AtLeastOnceUntilNot<TToken, T, U>(this Parser<TToken, T> parser,
         Parser<TToken, U> terminator) =>
         parser != null
@@ -44,8 +38,8 @@ internal static class ParserExtensions
                 var line = new LinePosition(oldPos.Line, newPos.Line);
                 var column = new ColumnPosition(oldPos.Col, newPos.Col);
                 var offset = new OffsetPosition(oldOffset, newOffset);
-                var Length = newOffset - oldOffset;
-                return new Match<T>(result, Length, column, line, offset);
+                var length = newOffset - oldOffset;
+                return new Match<T>(result, length, column, line, offset);
             },
             Parser<char>.CurrentPos, Parser<char>.CurrentOffset,
             parser,
@@ -80,4 +74,12 @@ internal static class ParserExtensions
     public static Parser<TToken, Parser<TToken, T>> SelectToParser<TToken, T>(this Parser<TToken, T> parser,
         Func<T, Parser<TToken, T>, Parser<TToken, T>> selectFunc)
         => parser.Select(value => selectFunc(value, parser));
+    
+    public static Parser<char, TResult> BetweenParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
+    {
+        var parentheses= Parser.Map(mapFunc, CommonParser.LeftParenthesis, parser, CommonParser.RightParenthesis);
+        var curlyParentheses= Parser.Map(mapFunc, CommonParser.LeftCurlyParenthesis, parser, CommonParser.RightCurlyParenthesis);
+        var squareParentheses= Parser.Map(mapFunc, CommonParser.LeftSquareParenthesis, parser, CommonParser.RightSquareParenthesis);
+        return Parser.OneOf(parentheses, curlyParentheses, squareParentheses);
+    }
 }

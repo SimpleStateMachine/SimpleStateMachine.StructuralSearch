@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Placeholder;
+﻿namespace SimpleStateMachine.StructuralSearch;
 
 internal readonly struct Placeholder : IPlaceholder
 {

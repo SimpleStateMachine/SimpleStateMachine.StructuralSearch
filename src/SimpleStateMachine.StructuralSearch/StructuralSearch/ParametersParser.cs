@@ -71,12 +71,14 @@ internal static class ParametersParser
     // | property_access
     // | atomic_token
     // )+
+
+    private static readonly Parser<char, IParameter> StringExpressionBetweenParentheses =
+        Parser.Rec(() => StringExpression ?? throw new ArgumentNullException(nameof(StringExpression)))
+            .BetweenParentheses(IParameter (c1, value, c2) =>
+                new ParenthesisedParameter(GetParenthesisType((c1, c2)), value));
+
     internal static readonly Parser<char, IParameter> StringExpression =
-        Parser.OneOf(Parsers.BetweenParentheses
-            (
-                expr: Parser.Rec(() => StringExpression ?? throw new ArgumentNullException(nameof(StringExpression))),
-                mapFunc: IParameter (c1, value, c2) => new ParenthesisedParameter(GetParenthesisType((c1, c2)), value)
-            ), PropertyAccess, AtomicToken)
+        Parser.OneOf(StringExpressionBetweenParentheses, PropertyAccess, AtomicToken)
             .AtLeastOnce()
             .Select<IParameter>(parameters =>
             {

@@ -33,8 +33,4 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Rules\FindRules\Types\" />
-  </ItemGroup>
 </Project>

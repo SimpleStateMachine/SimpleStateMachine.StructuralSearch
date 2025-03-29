@@ -60,11 +60,8 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
         var token = Parser.OneOf(simpleString, Grammar.WhiteSpaces).Try();
         Parser<char, string>? term = null;
 
-        var parenthesised = Parsers.BetweenParentheses
-        (
-            expr: Parser.Rec(() => term ?? throw new ArgumentNullException(nameof(term))),
-            mapFunc: (c1, s, c2) => $"{c1}{s}{c2}"
-        );
+        var parenthesised = Parser.Rec(() => term ?? throw new ArgumentNullException(nameof(term)))
+            .BetweenParentheses((c1, s, c2) => $"{c1}{s}{c2}");
 
         term = Parser.OneOf(parenthesised, token).Many().JoinToString();
 
@@ -94,7 +91,7 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
             result = match.Value;
             if (res)
             {
-                var placeholderObj = new Placeholder.Placeholder
+                var placeholderObj = new Placeholder
                 (
                     name: _name,
                     match: match

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using SimpleStateMachine.StructuralSearch.Placeholder;
 
 namespace SimpleStateMachine.StructuralSearch;
 

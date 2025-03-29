@@ -1,5 +1,4 @@
 ﻿using SimpleStateMachine.StructuralSearch.Context;
-using SimpleStateMachine.StructuralSearch.Placeholder;
 
 namespace SimpleStateMachine.StructuralSearch.Parameters;
 
