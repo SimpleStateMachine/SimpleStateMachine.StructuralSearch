@@ -6,8 +6,8 @@ public class NullUnionOperator
     {
         int? result;
         int? temp1 = 5;
-        int? temp2 = 5; 
-        
+        int? temp2 = 5;
+
         if (temp1 is null)
             result = temp1 ?? temp2;
         else
