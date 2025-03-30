@@ -2,7 +2,7 @@
 
 namespace SimpleStateMachine.StructuralSearch.Parameters;
 
-public class StringParameter : IParameter
+internal class StringParameter : IParameter
 {
     public static StringParameter Empty = new StringParameter(string.Empty);
 

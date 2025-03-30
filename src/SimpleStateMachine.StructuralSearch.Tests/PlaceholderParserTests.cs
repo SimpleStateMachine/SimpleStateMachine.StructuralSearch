@@ -23,7 +23,7 @@ public static class PlaceholderParserTests
     public static void PlaceholderParsingShouldBeSuccess(string template, string source, string expectedResult)
     {
         var input = Input.Input.String(source);
-        var templateParser = StructuralSearch.StructuralSearch.ParseFindTemplate(template);
+        var templateParser = Parsing.StructuralSearch.ParseFindTemplate(template);
         var matches = templateParser.Parse(input);
         Assert.Single(matches);
         var match = matches.First();

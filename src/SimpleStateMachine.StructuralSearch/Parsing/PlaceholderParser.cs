@@ -4,9 +4,9 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Parsing;
 
-namespace SimpleStateMachine.StructuralSearch.CustomParsers;
+namespace SimpleStateMachine.StructuralSearch.Parsers;
 
 internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
 {
@@ -34,13 +34,10 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
         var nextParser = next();
         var nextNextParser = nextNext();
 
-        if (nextParser is null)
-            return EmptyParser.AlwaysNotCorrectString;
-
         Parser<char, Unit> lookahead;
-        if (nextNextParser is not null)
+        if (nextNextParser is not null && nextParser is not null)
         {
-            lookahead = Parser.Lookahead(nextParser.Then(nextNextParser, (s1, s2) =>
+            lookahead = nextParser.Then(nextNextParser, (s1, s2) =>
             {
                 OnLookahead = () => new List<LookaheadResult<char, string>>
                 {
@@ -48,18 +45,22 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
                     new(nextNextParser, s2, s2.Length),
                 };
                 return Unit.Value;
-            }).Try());
+            }).Try().Lookahead();
         }
-        else
+        else if (nextParser is not null)
         {
-            lookahead = Parser.Lookahead(nextParser.Select(s =>
+            lookahead = nextParser.Select(s =>
             {
                 OnLookahead = () => new List<LookaheadResult<char, string>>
                 {
                     new(nextParser, s, s.Length)
                 };
                 return Unit.Value;
-            }).Try());
+            }).Try().Lookahead();
+        }
+        else
+        {
+            lookahead = Parser.EndOfLine.Select(x => Unit.Value);
         }
 
         return CreateParser(lookahead);

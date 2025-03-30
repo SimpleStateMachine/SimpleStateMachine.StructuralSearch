@@ -3,9 +3,9 @@ using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Parameters;
 
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsing;
 
-public class ReplaceTemplateParser
+internal static class ReplaceTemplateParser
 {
     private static readonly Parser<char, IParameter> StringLiteral =
         Grammar.TemplateStringLiteral.AtLeastOnceString()

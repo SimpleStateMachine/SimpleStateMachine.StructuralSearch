@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SimpleStateMachine.StructuralSearch.Helper;
+using System.IO;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
@@ -12,7 +12,8 @@ public static class ConfigurationFileParserTests
     [InlineData("ConfigurationFile/FullConfig.yml")]
     public static void ConfigurationFileParsingShouldBeSuccess(string filePath)
     {
-        var cfg = YmlHelper.Parse(filePath);
+        using var reader = new StreamReader(filePath);
+        var cfg = ConfigurationFile.ParseYaml(reader);
         var mock = Mock();
         Assert.Equal(mock, cfg);
     }

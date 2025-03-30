@@ -1,6 +1,6 @@
 ﻿using Pidgin;
-using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Parsers;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
@@ -26,7 +26,7 @@ public static class Tests
     [InlineData("test;;.", ".", "test;;")]
     public static void PlaceholderParsingShouldBeSuccess2(string input, string terminator, string expectedResult)
     {
-        var terminatorParser = Parser.Lookahead(Parser.String(terminator)).WithDebug("terminator").Select(x => Unit.Value);
+        var terminatorParser = Parser.String(terminator).Lookahead().WithDebug("terminator").Select(x => Unit.Value);
         var result = PlaceholderParser.CreateParser(terminatorParser).ParseOrThrow(input);
         Assert.Equal(expectedResult, result);
     }

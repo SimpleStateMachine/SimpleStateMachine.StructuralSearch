@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
-using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.Parsers;
 
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsing;
 
 internal static class FindTemplateParser
 {

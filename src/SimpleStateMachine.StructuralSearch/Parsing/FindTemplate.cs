@@ -3,13 +3,13 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
 
-namespace SimpleStateMachine.StructuralSearch.CustomParsers;
+namespace SimpleStateMachine.StructuralSearch.Parsers;
 
-internal class FindTemplateParser : Parser<char, List<string>>, IContextDependent
+internal class FindTemplate : Parser<char, List<string>>, IContextDependent
 {
     private readonly List<Parser<char, string>> _parsers;
 
-    public FindTemplateParser(List<Parser<char, string>> parsers)
+    public FindTemplate(List<Parser<char, string>> parsers)
     {
         _parsers = parsers;
             

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Pidgin;
 
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsing;
 
 internal static class CommonParser
 {

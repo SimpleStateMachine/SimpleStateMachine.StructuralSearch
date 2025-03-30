@@ -12,7 +12,7 @@ public class StructuralSearchTests
     [MemberData(nameof(TestCases))]
     public static void StructuralSearchShouldBeSuccess(string inputText, string template, Dictionary<string, string> expectedResult)
     {
-        var results = StructuralSearch.StructuralSearch.ParseFindTemplate(template).ParseString(inputText).ToList();
+        var results = Parsing.StructuralSearch.ParseFindTemplate(template).ParseString(inputText).ToList();
         Assert.Single(results);
         var parseResult = results.Single();
 

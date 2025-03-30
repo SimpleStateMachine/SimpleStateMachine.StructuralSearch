@@ -1,9 +1,9 @@
 ﻿using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
 
-namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
+namespace SimpleStateMachine.StructuralSearch.Replace;
 
-public class ReplaceCondition : IReplaceCondition
+internal class ReplaceCondition : IReplaceCondition
 {
     private readonly ILogicalOperation? _logicalOperation;
 

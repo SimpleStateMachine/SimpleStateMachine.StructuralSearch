@@ -7,13 +7,13 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
 
-namespace SimpleStateMachine.StructuralSearch.CustomParsers;
+namespace SimpleStateMachine.StructuralSearch.Parsers;
 
 internal class FindParser : IFindParser
 {
-    private FindTemplateParser Parser { get; }
+    private FindTemplate Parser { get; }
 
-    public FindParser(FindTemplateParser parser)    
+    public FindParser(FindTemplate parser)    
     {
         Parser = parser;
     }

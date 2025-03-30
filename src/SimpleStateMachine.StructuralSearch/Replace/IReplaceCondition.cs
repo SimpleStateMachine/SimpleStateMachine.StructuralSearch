@@ -1,6 +1,6 @@
 ﻿using SimpleStateMachine.StructuralSearch.Context;
 
-namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
+namespace SimpleStateMachine.StructuralSearch.Replace;
 
 internal interface IReplaceCondition
 {

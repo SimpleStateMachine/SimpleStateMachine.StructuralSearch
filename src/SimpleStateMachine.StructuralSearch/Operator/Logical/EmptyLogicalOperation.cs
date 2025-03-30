@@ -2,7 +2,7 @@
 
 namespace SimpleStateMachine.StructuralSearch.Operator.Logical;
 
-public class EmptyLogicalOperation : ILogicalOperation
+internal class EmptyLogicalOperation : ILogicalOperation
 {
     public bool IsApplicableForPlaceholder(string placeholderName)
         => false;

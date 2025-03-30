@@ -1,6 +1,6 @@
 ﻿using SimpleStateMachine.StructuralSearch.Context;
 
-namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
+namespace SimpleStateMachine.StructuralSearch;
 
 internal interface IReplaceBuilder
 {

@@ -3,8 +3,7 @@ using System.Linq;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
-using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
-using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
+using SimpleStateMachine.StructuralSearch.Replace;
 
 namespace SimpleStateMachine.StructuralSearch;
 
@@ -19,15 +18,15 @@ public class StructuralSearchParser
     {
         _findRules = configuration.FindRules
             .EmptyIfNull()
-            .Select(StructuralSearch.StructuralSearch.ParseFindRule).ToArray();
+            .Select(Parsing.StructuralSearch.ParseFindRule).ToArray();
             
-        _findParser = StructuralSearch.StructuralSearch.ParseFindTemplate(configuration.FindTemplate);
+        _findParser = Parsing.StructuralSearch.ParseFindTemplate(configuration.FindTemplate);
             
-        _replaceBuilder = StructuralSearch.StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
+        _replaceBuilder = Parsing.StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
             
         _replaceRules = configuration.ReplaceRules
             .EmptyIfNull()
-            .Select(StructuralSearch.StructuralSearch.ParseReplaceRule).ToList();
+            .Select(Parsing.StructuralSearch.ParseReplaceRule).ToList();
     }
 
     public IEnumerable<FindParserResult> Parse(IInput input)

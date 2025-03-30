@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Parsing;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
@@ -22,7 +22,7 @@ public static class ReplaceTemplateTests
     {
         var replaceTemplate = File.ReadAllText(templatePath);
         var replaceResult = File.ReadAllText(resultPath);
-        var replaceBuilder = StructuralSearch.StructuralSearch.ParseReplaceTemplate(replaceTemplate);
+        var replaceBuilder = Parsing.StructuralSearch.ParseReplaceTemplate(replaceTemplate);
 
         IParsingContext parsingContext = new ParsingContext(Input.Input.Empty, []);
         for (int i = 0; i < keys.Length; i++)

@@ -7,9 +7,9 @@ using SimpleStateMachine.StructuralSearch.Operator.Logical;
 using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 using SimpleStateMachine.StructuralSearch.Parameters;
 
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsing;
 
-public static class LogicalExpressionParser
+internal static class LogicalExpressionParser
 {
     // string_compare_operation = ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_expr
     internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> StringCompareOperation = 

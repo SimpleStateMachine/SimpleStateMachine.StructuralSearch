@@ -8,7 +8,7 @@ using SimpleStateMachine.StructuralSearch.Operator.String.Type;
 using SimpleStateMachine.StructuralSearch.Parameters;
 using SimpleStateMachine.StructuralSearch.Parameters.Types;
 
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsing;
 
 internal static class ParametersParser
 {

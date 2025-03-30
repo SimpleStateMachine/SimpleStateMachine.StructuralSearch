@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Parsing;
 using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 

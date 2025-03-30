@@ -1,6 +1,6 @@
 ﻿using SimpleStateMachine.StructuralSearch.Parameters;
 
-namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
+namespace SimpleStateMachine.StructuralSearch.Replace;
 
 internal class Assignment
 {

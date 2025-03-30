@@ -4,7 +4,7 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 using SimpleStateMachine.StructuralSearch.Parameters;
-using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Parsing;
 
 namespace SimpleStateMachine.StructuralSearch.Operator.Logical;
 

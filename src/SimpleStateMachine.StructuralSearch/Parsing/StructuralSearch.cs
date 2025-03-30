@@ -1,12 +1,11 @@
 ﻿using System.Linq;
-using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
 using SimpleStateMachine.StructuralSearch.Parameters;
-using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
-using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
+using SimpleStateMachine.StructuralSearch.Parsers;
+using SimpleStateMachine.StructuralSearch.Replace;
 
-namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
+namespace SimpleStateMachine.StructuralSearch.Parsing;
 
 internal static class StructuralSearch
 {
@@ -16,7 +15,7 @@ internal static class StructuralSearch
             ? [] 
             : FindTemplateParser.Template.ParseToEnd(template).ToList();
 
-        var templateParser = new CustomParsers.FindTemplateParser(parsers);
+        var templateParser = new Parsers.FindTemplate(parsers);
         return new FindParser(templateParser);
     }
 
