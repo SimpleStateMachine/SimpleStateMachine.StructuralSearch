@@ -5,7 +5,7 @@ using SimpleStateMachine.StructuralSearch.Context;
 
 namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
-internal class FindTemplateParser : Parser<char, IEnumerable<string>>, IContextDependent
+internal class FindTemplateParser : Parser<char, List<string>>, IContextDependent
 {
     private readonly List<Parser<char, string>> _parsers;
 
@@ -31,7 +31,7 @@ internal class FindTemplateParser : Parser<char, IEnumerable<string>>, IContextD
         }
     }
 
-    public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected, out IEnumerable<string> result)
+    public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected, out List<string> result)
     {
         var results = new List<string>();
         var count = _parsers.Count;

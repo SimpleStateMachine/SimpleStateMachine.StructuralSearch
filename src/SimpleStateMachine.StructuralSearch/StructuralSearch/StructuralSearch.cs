@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Pidgin;
 using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
