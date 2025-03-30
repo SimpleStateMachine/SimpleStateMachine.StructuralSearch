@@ -1,39 +1,46 @@
-﻿using Pidgin;
+﻿using System.Linq;
+using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Rules.FindRules;
 using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
 
 namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class ReplaceRuleParser
 {
-    private static readonly Parser<char, string> Then =
-        Parser.CIString(Constant.Then).Try().TrimStart();
+    internal static readonly Parser<char, Assignment> Assignment =
+        ParametersParser.PlaceholderParameter.TrimEnd().Before(CommonParser.Should).TrimEnd()
+            .Then(ParametersParser.StringExpression, (placeholder, value) => new Assignment(placeholder, value));
 
-    private static readonly Parser<char, ReplaceSubRule> ReplaceSubRule =
-        Parser.Map
-        (
-            func: (placeholder, _, parameter) => new ReplaceSubRule(placeholder, parameter),
-            parser1: ParametersParser.PlaceholderParameter.TrimStart(),
-            parser2: CommonTemplateParser.Should.TrimStart(),
-            parser3: ParametersParser.Parameter.TrimStart()
-        ).Try().TrimStart();
+    internal static readonly Parser<char, IReplaceCondition> ReplaceRuleCondition =
+        CommonParser.If.TrimEnd().Then(LogicalExpressionParser.LogicalExpression)
+            .Before(CommonParser.Then.TrimEnd()).Optional()
+            .Select<IReplaceCondition>(operation =>
+            {
+                var op = operation.HasValue ? operation.Value : null;
+                return new ReplaceCondition(op);
+            });
+    
+    internal static readonly Parser<char, ReplaceRule> ReplaceRule = Parser.Map
+    (
+        (condition, assignments) => new ReplaceRule(condition, assignments.ToList()),
+        ReplaceRuleCondition,
+        Assignment.SeparatedAtLeastOnce(CommonParser.Comma.TrimEnd())
+    );
 
-    private static readonly Parser<char, IFindRule> EmptySubRule =
-        CommonParser.Underscore
-            .ThenReturn(new EmptySubRule())
-            .As<char, EmptySubRule, IFindRule>().Try().TrimStart();
-
-    private static readonly Parser<char, ReplaceRule> ReplaceRule =
-        Parser.Map
-        (
-            func: (rule, subRules) => new ReplaceRule(rule, subRules),
-            parser1: Parser.OneOf(EmptySubRule, FindRuleParser.Expr),
-            parser2: Then.Then(ReplaceSubRule.SeparatedAtLeastOnce(CommonParser.Comma))
-        ).Try().TrimStart();
-
-    internal static IReplaceRule ParseTemplate(string? str)
-        => string.IsNullOrEmpty(str)
-            ? Rules.ReplaceRules.ReplaceRule.Empty
-            : ReplaceRule.Before(CommonParser.Eof).ParseOrThrow(str);
+    // private static readonly Parser<char, Assignment> ReplaceSubRule =
+    //     Parser.Map
+    //     (
+    //         func: (placeholder, _, parameter) => new Assignment(placeholder, parameter),
+    //         parser1: ParametersParser.PlaceholderParameter.TrimStart(),
+    //         parser2: CommonParser.Should.TrimStart(),
+    //         parser3: ParametersParser.Parameter.TrimStart()
+    //     ).Try().TrimStart();
+    //
+    // private static readonly Parser<char, ReplaceRule> ReplaceRule =
+    //     Parser.Map
+    //     (
+    //         func: (rule, subRules) => new ReplaceRule(rule, subRules),
+    //         parser1: ReplaceCondition.Optional().Select<IFindRule>(r => r.HasValue ? r.Value : EmptyFindRule.Instance),
+    //         parser2: ReplaceSubRule.SeparatedAtLeastOnce(CommonParser.Comma)
+    //     ).Try().TrimStart();
 }

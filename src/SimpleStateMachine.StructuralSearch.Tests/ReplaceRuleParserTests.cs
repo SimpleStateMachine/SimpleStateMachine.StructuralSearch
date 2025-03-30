@@ -1,4 +1,7 @@
-﻿using Pidgin;
+﻿using System.IO;
+using SimpleStateMachine.StructuralSearch.Extensions;
+using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
@@ -6,39 +9,61 @@ namespace SimpleStateMachine.StructuralSearch.Tests;
 public static class ReplaceRuleParserTests
 {
     [Theory]
-    [InlineData("$var1$ equals $var2$ then $var1$ => \"test $var3$\"")]
-    [InlineData("$var1$ equals \"\\$\" then $var1$ => \"\\$\",$var2$ => \"132\"")]
-    [InlineData("_ then $var1$ => \"test $var3$.Lenght\"")]
-    [InlineData("_ then $var1$ => \"\\$\",$var2$ => \"132\"")]
-    [InlineData("Not $var1$ equals $var$.Lenght then $var1$ => $var$.Lenght")]
-    [InlineData("Not $var1$ equals $var$.offset.Start then $var1$ => $var$.offset.Start")]
-    [InlineData("$var1$ equals $var$.Lenght and Not $var1$ StartsWith \"123\" then $var1$ => $var$.offset.Start.Trim")]
-    [InlineData("$var1$ equals $var$.Lenght and Not $var1$ StartsWith \"123\" then $var1$ => $var$.offset.Start.Trim,$var2$ => $var$.offset.Start.Trim")]
-    [InlineData("$var1$ equals $var$.Lenght and Not $var1$ StartsWith \"\\\"Test\" then $var1$ => $var$.offset.Start.ToUpper")]
-    public static void ReplaceRuleParsingShouldBeSuccess(string replaceRule)
+    [InlineData("if $var1$ equals $var2$ then")]
+    [InlineData("if $var1$ equals \"123\" then")]
+    [InlineData("if Not $var1$ equals $var$.Length then")]
+    [InlineData("if Not $var1$ equals $var$.offset.Start then")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"123\" then")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"Test\" then")]
+    public static void ReplaceRuleConditionParsingShouldBeSuccess(string condition)
     {
-        var rule = StructuralSearch.StructuralSearch.ParseReplaceRule(replaceRule);
-        var ruleStr = rule.ToString()?.ToLower();
-        Assert.NotNull(rule);
-        Assert.Equal(ruleStr, replaceRule.ToLower());
+        var logicalOperation = ReplaceRuleParser.ReplaceRuleCondition.ParseToEnd(condition);
+        var result = logicalOperation.ToString()!;
+        Assert.Equal(condition.ToLower(), result.ToLower());
     }
-        
+
     [Theory]
-    [InlineData("($var1$ equals $var2$) then $var1$ => \"test $var3$\"", "$var1$ equals $var2$ then $var1$ => \"test $var3$\"")]
-    public static void ReplaceRuleShouldBeEqualsString(string replaceRule, string customResult)
+    [InlineData("$var1$ => \"132\"")]
+    [InlineData("$var1$ => $var3$")]
+    [InlineData("$var1$ => $var3$.Length")]
+    public static void AssignmentParsingShouldBeSuccess(string assignmentStr)
     {
-        var rule = StructuralSearch.StructuralSearch.ParseReplaceRule(replaceRule);
-        var ruleStr = rule.ToString()?.ToLower();
-        Assert.NotNull(rule);
-        Assert.Equal(ruleStr, customResult.ToLower());
+        var assignment = ReplaceRuleParser.Assignment.ParseToEnd(assignmentStr);
+        var result = assignment.ToString().ToLower();
+        Assert.Equal(assignmentStr.ToLower(), result.ToLower());
     }
-        
+
     [Theory]
-    [InlineData("$var1$ equals $var2$ then $var1$ => (\"test $var3$\"")]
-    [InlineData("($var1$ equals $var2$ then $var1$ => \"test $var3$\"")]
-    [InlineData("$var1$ equals $var2$ then ($var1$) => \"test $var3$\"")]
-    public static void ReplaceRuleParsingShouldBeFail(string replaceRuleStr)
+    [InlineData("if $var1$ equals $var2$ then $var1$ => \"test $var3$\"")]
+    [InlineData("if $var1$ equals \"$\" then $var1$ => \"$\",$var2$ => \"132\"")]
+    [InlineData("$var1$ => \"test $var3$.Length\"")]
+    [InlineData("$var1$ => \"$\",$var2$ => \"132\"")]
+    [InlineData("if Not $var1$ equals $var$.Length then $var1$ => $var$.Length")]
+    [InlineData("if Not $var1$ equals $var$.offset.Start then $var1$ => $var$.offset.Start")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"123\" then $var1$ => $var$.offset.Start")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"123\" then $var1$ => $var$.offset.Start,$var2$ => $var$.offset.Start")]
+    [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"Test\" then $var1$ => $var$.offset.Start")]
+    public static void ReplaceRuleParsingShouldBeSuccess(string replaceRuleStr)
     {
-        Assert.Throws<ParseException<char>>(() => StructuralSearch.StructuralSearch.ParseReplaceRule(replaceRuleStr));
+        var rule = ReplaceRuleParser.ReplaceRule.ParseToEnd(replaceRuleStr);
+        var result = rule.ToString().ToLower();
+        Assert.Equal(replaceRuleStr.ToLower(), result);
+    }
+
+    [Theory]
+    [FilesData("ReplaceTemplate")]
+    public static void FindTemplateFileParsingShouldBeSuccess(string filePath)
+    {
+        var templateStr = File.ReadAllText(filePath);
+        var parsers = FindTemplateParser.Template.ParseToEnd(templateStr);
+        Assert.NotEmpty(parsers);
+    }
+    
+    [Theory]
+    [FilesData("ReplaceRule")]
+    public static void ReplaceRuleFileParsingShouldBeSuccess(string filePath)
+    {
+        var ruleStr = File.ReadAllText(filePath);
+        ReplaceRuleParser.ReplaceRule.ParseToEnd(ruleStr);
     }
 }

@@ -1,47 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Parsers;
-using SimpleStateMachine.StructuralSearch.Templates.FindTemplate;
 
 namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class FindTemplateParser
 {
-    private static readonly Parser<char, Parser<char, string>> AnyString =
-        ParserToParser.ResultAsParser(CommonParser.AnyString).Try();
+    private static readonly Parser<char, Parser<char, string>> Placeholder =
+        Grammar.Placeholder.Select(Parser<char, string> (name) => new PlaceholderParser(name));
+
+    private static readonly Parser<char, Parser<char, string>> TemplateStringLiteral =
+        Grammar.TemplateStringLiteral.AtLeastOnceString()
+            .Select(Parser.String);
 
     private static readonly Parser<char, Parser<char, string>> WhiteSpaces =
-        ParserToParser.ParserAsParser(CommonParser.WhiteSpaces).Try();
+        Grammar.WhiteSpaces.SelectToParser((_, parser) => parser);
 
-    private static readonly Parser<char, Parser<char, string>> Placeholder =
-        CommonTemplateParser.Placeholder
-            .Select(name => new PlaceholderParser(name))
-            .As<char, PlaceholderParser, Parser<char, string>>();
+    // template_component = placeholder | template_string_literal | whitespace
+    private static readonly Parser<char, Parser<char, string>> TemplateComponent
+        = Parser.OneOf(Placeholder, TemplateStringLiteral, WhiteSpaces);
 
-    private static readonly Parser<char, IEnumerable<Parser<char, string>>> Token =
-        Parser.OneOf(AnyString, Placeholder, WhiteSpaces).AsMany();
+    // template_between_parentheses = '(' template ')' | '{' template '}' | '[' template ']
+    private static readonly Parser<char, IEnumerable<Parser<char, string>>> TemplateBetweenParentheses
+        = Parser.Rec(() => Template ?? throw new ArgumentNullException(nameof(Template)))
+            .Optional() // To support empty Parentheses
+            .BetweenAnyParentheses((left, result, right) =>
+            {
+                var leftParser = Parser.Char(left).AsString();
+                var rightParser = Parser.Char(right).AsString();
+                var inner = result.GetValueOrDefault([]);
+                return inner.Prepend(leftParser).Append(rightParser);
+            });
 
-    private static readonly Parser<char, IEnumerable<Parser<char, string>>> Parenthesised =
-        Parsers.Parsers.BetweenOneOfChars
+    // template = (template_component | template_between_parentheses)+
+    internal static readonly Parser<char, IEnumerable<Parser<char, string>>> Template =
+        Parser.OneOf
         (
-            leftRight: x => ParserToParser.CiChar(x).Select(p => p.AsString()),
-            expr: Parser.Rec(() => Term ?? throw new ArgumentNullException(nameof(Term))),
-            values: Constant.AllParentheses
-        );
-
-    private static readonly Parser<char, IEnumerable<Parser<char, string>>> Term =
-        Parser.OneOf(Parenthesised, Token).Many().SelectMany();
-
-    private static readonly Parser<char, IEnumerable<Parser<char, string>>> TemplateParser =
-        Parser.OneOf(Parenthesised, Token).AtLeastOnceUntil(CommonParser.Eof).SelectMany();
-
-    private static readonly Parser<char, SeriesParser> SeriesParser =
-        TemplateParser.Select(parsers => new SeriesParser(parsers));
-
-    internal static IFindParser ParseTemplate(string? str) =>
-        string.IsNullOrEmpty(str)
-            ? EmptyFindParser.Value
-            : SeriesParser.Select(parser => new FindParser(parser)).ParseOrThrow(str);
+            TemplateBetweenParentheses, 
+            TemplateComponent.Select<IEnumerable<Parser<char, string>>>(x => new List<Parser<char, string>> { x })
+        ).AtLeastOnce().Select(list => list.SelectMany(x => x));
 }

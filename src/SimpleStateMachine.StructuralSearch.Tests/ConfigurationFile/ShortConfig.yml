@@ -22,7 +22,7 @@
     ReplaceTemplate: |-
       $var$ = $value1$ ?? $value2$;
     ReplaceRules:
-      - $sign$ In ("!=", "is not") then $value2$ => $value1$, $value1$ => $value2$
+      - if $sign$ In ("!=", "is not") then $value2$ => $value1$, $value1$ => $value2$
       
 #  TernaryOperator   
   

@@ -8,8 +8,8 @@ namespace SimpleStateMachine.StructuralSearch.Tests;
 public static class StructuralSearchParserTests
 {
     [Theory]
-    [InlineData("NullUnionOperator", "ExamplesInput/NullUnionOperator.cs", 2)]
-    [InlineData("TernaryOperator", "ExamplesInput/TernaryOperator.cs", 3)]
+    [InlineData("NullUnionOperator", "ExamplesInput/NullUnionOperator.txt", 2)]
+    [InlineData("TernaryOperator", "ExamplesInput/TernaryOperator.txt", 3)]
     public static void StructuralSearchShouldBeSuccess(string exampleName, string exampleFilePath, int matchesCount)
     {
         var config = ConfigurationMock.GetConfigurationFromFiles(exampleName);
@@ -18,7 +18,7 @@ public static class StructuralSearchParserTests
         var fileInfo = new FileInfo(exampleFilePath);
         var input = Input.Input.File(fileInfo);
         var matches = parser.Parse(input);
-        Assert.Equal(matches.Count(), matchesCount);
+        Assert.Equal(matchesCount, matches.Count());
     }
         
     // [Theory]

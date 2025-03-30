@@ -6,19 +6,44 @@ namespace SimpleStateMachine.StructuralSearch;
 internal static class Constant
 {
     /// <summary>
-    /// Parenthesis empty string
+    /// String: "If"
     /// </summary>
-    public static readonly string EmptyString = string.Empty;
-
-    /// <summary>
-    /// String: "Not"
-    /// </summary>
-    public const string Not = "Not";
-
+    public const string If = "If";
+    
     /// <summary>
     /// String: "Then"
     /// </summary>
     public const string Then = "Then";
+    
+    /// <summary>
+    /// String: "Not"
+    /// </summary>
+    public const string Not = "Not";
+    
+    /// <summary>
+    /// String: "Is"
+    /// </summary>
+    public const string Is = "Is";
+    
+    /// <summary>
+    /// String: "Match"
+    /// </summary>
+    public const string Match = "Match";
+    
+    /// <summary>
+    /// String: "In"
+    /// </summary>
+    public const string In = "In";
+    
+    /// <summary>
+    /// String: "Length"
+    /// </summary>
+    public const string Length = "Length";
+    
+    /// <summary>
+    /// String: "Input"
+    /// </summary>
+    public const string Input = "Input";
 
     /// <summary>
     /// Parenthesis char: '('
@@ -76,11 +101,6 @@ internal static class Constant
     public const char Comma = ',';
 
     /// <summary>
-    /// Char: '\''
-    /// </summary>
-    public const char SingleQuotes = '\'';
-
-    /// <summary>
     /// Char: '\"'
     /// </summary>
     public const char DoubleQuotes = '\"';
@@ -98,7 +118,7 @@ internal static class Constant
     /// <summary>
     /// Char: '='
     /// </summary>
-    private new const char Equals = '=';
+    public new const char Equals = '=';
 
     /// <summary>
     /// Char: '>'
@@ -111,34 +131,9 @@ internal static class Constant
     public const char Underscore = '_';
 
     /// <summary>
-    /// Char: ':'
-    /// </summary>
-    public const char Colon = ':';
-
-    /// <summary>
     /// String: "=>"
     /// </summary>
     public static readonly string Should = $"{Equals}{More}";
-
-    /// <summary>
-    /// Parenthesis chars: '(' and ')'
-    /// </summary>
-    public static readonly (char, char) Parenthesis = (LeftParenthesis, RightParenthesis);
-
-    /// <summary>
-    /// Parenthesis chars: '[' and ']'
-    /// </summary>
-    public static readonly (char, char) SquareParenthesis = (LeftSquareParenthesis, RightSquareParenthesis);
-
-    /// <summary>
-    /// Parenthesis chars: '{ and '}'
-    /// </summary>
-    public static readonly (char, char) CurlyParenthesis = (LeftCurlyParenthesis, RightCurlyParenthesis);
-
-    /// <summary>
-    /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
-    /// </summary>
-    public static readonly (char, char)[] AllParentheses = [Parenthesis, SquareParenthesis, CurlyParenthesis];
 
     /// <summary>
     /// Parenthesis chars: '(' and ')', '{ and '}', '{ and '}'
@@ -153,24 +148,19 @@ internal static class Constant
         RightCurlyParenthesis
     };
 
-    public static readonly IReadOnlySet<char> InvalidStringLiteralChars = new HashSet<char>(AllParenthesis)
+    public static readonly IReadOnlySet<char> StringLiteralCharsToEscape = new HashSet<char>()
+    {
+        BackSlash,
+        DoubleQuotes
+    };
+    
+    public static readonly IReadOnlySet<char> WhitespaceChars = new HashSet<char>
     {
         CarriageReturn,
         LineFeed,
         Space
     };
 
-    public static readonly IReadOnlySet<char> All = new HashSet<char>(InvalidStringLiteralChars)
-    {
-        PlaceholderSeparator,
-    };
-
-    public static readonly IReadOnlySet<char> CharsToEscape = new HashSet<char>
-    {
-        DoubleQuotes,
-        PlaceholderSeparator,
-        Dote
-    };
-
-    public static readonly IReadOnlySet<char> LanguageSyntaxChars = AllParenthesis.Union(CharsToEscape).ToHashSet();
+    public static readonly IReadOnlySet<char> InvalidStringLiteralChars =
+        AllParenthesis.Union(WhitespaceChars).Union([PlaceholderSeparator]).ToHashSet();
 }
