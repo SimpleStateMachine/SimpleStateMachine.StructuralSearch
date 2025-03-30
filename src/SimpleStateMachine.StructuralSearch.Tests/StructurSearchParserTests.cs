@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Linq;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
@@ -17,8 +16,8 @@ public static class StructuralSearchParserTests
 
         var fileInfo = new FileInfo(exampleFilePath);
         var input = Input.Input.File(fileInfo);
-        var matches = parser.Parse(input);
-        Assert.Equal(matchesCount, matches.Count());
+        var matches = parser.StructuralSearch(input);
+        Assert.Equal(matchesCount, matches.Count);
     }
         
     // [Theory]

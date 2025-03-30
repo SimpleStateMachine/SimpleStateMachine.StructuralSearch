@@ -56,7 +56,7 @@ public class StructuralSearchTests
         };
 
         var parser = new StructuralSearchParser(configuration);
-        var results = parser.Parse(new FileInput(new FileInfo(filePath))).ToList();
+        var results = parser.StructuralSearch(new FileInput(new FileInfo(filePath))).ToList();
         // parser.ApplyFindRule(results);
     }
 }
