@@ -74,14 +74,23 @@ internal static class ParserExtensions
     public static Parser<TToken, Parser<TToken, T>> SelectToParser<TToken, T>(this Parser<TToken, T> parser,
         Func<T, Parser<TToken, T>, Parser<TToken, T>> selectFunc)
         => parser.Select(value => selectFunc(value, parser));
-    
-    public static Parser<char, TResult> BetweenParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
+
+    public static Parser<char, TResult> BetweenAnyParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
     {
-        var parentheses= Parser.Map(mapFunc, CommonParser.LeftParenthesis, parser, CommonParser.RightParenthesis);
-        var curlyParentheses= Parser.Map(mapFunc, CommonParser.LeftCurlyParenthesis, parser, CommonParser.RightCurlyParenthesis);
-        var squareParentheses= Parser.Map(mapFunc, CommonParser.LeftSquareParenthesis, parser, CommonParser.RightSquareParenthesis);
+        var parentheses= parser.BetweenParentheses(mapFunc);
+        var curlyParentheses= parser.BetweenCurlyParentheses(mapFunc);
+        var squareParentheses= parser.BetweenSquareParentheses(mapFunc);
         return Parser.OneOf(parentheses, curlyParentheses, squareParentheses);
     }
+
+    public static Parser<char, TResult> BetweenParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
+        => Parser.Map(mapFunc, CommonParser.LeftParenthesis, parser, CommonParser.RightParenthesis);
+
+    public static Parser<char, TResult> BetweenCurlyParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
+        => Parser.Map(mapFunc, CommonParser.LeftCurlyParenthesis, parser, CommonParser.RightCurlyParenthesis);
+
+    public static Parser<char, TResult> BetweenSquareParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
+        => Parser.Map(mapFunc, CommonParser.LeftSquareParenthesis, parser, CommonParser.RightSquareParenthesis);
 
     public static T ParseToEnd<T>(this Parser<char, T> parser, string str)
         => parser.Before(CommonParser.Eof).ParseOrThrow(str);

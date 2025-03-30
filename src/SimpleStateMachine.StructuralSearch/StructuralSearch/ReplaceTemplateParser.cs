@@ -22,7 +22,7 @@ public class ReplaceTemplateParser
     // template_between_parentheses = '(' template ')' | '{' template '}' | '[' template ']
     private static readonly Parser<char, IParameter> TemplateBetweenParentheses
         = Parser.Rec(() => ReplaceTemplate ?? throw new ArgumentNullException(nameof(ReplaceTemplate))).Optional()
-            .BetweenParentheses(IParameter (c1, optionalValue, c2) =>
+            .BetweenAnyParentheses(IParameter (c1, optionalValue, c2) =>
             {
                 var value = optionalValue.GetValueOrDefault(StringParameter.Empty);
                 return new ParenthesisedParameter(Grammar.GetParenthesisType((c1, c2)), value);

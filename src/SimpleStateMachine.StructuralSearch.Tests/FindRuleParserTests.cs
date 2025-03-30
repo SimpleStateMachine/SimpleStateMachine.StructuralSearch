@@ -9,6 +9,13 @@ namespace SimpleStateMachine.StructuralSearch.Tests;
 public class FindRuleParserTests
 {
     [Theory]
+    [InlineData("$sign$ In (\"is\", \"==\", \"!=\", \"is not\")")]
+    public static void FindRuleParsingShouldBeSuccess(string ruleStr)
+    {
+        LogicalExpressionParser.LogicalExpression.ParseToEnd(ruleStr);
+    }
+    
+    [Theory]
     [FilesData("FindRule")]
     public static void FindRuleFileParsingShouldBeSuccess(string filePath)
     {

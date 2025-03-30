@@ -61,7 +61,7 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
         Parser<char, string>? term = null;
 
         var parenthesised = Parser.Rec(() => term ?? throw new ArgumentNullException(nameof(term)))
-            .BetweenParentheses((c1, s, c2) => $"{c1}{s}{c2}");
+            .BetweenAnyParentheses((c1, s, c2) => $"{c1}{s}{c2}");
 
         term = Parser.OneOf(parenthesised, token).Many().JoinToString();
 

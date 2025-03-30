@@ -26,7 +26,7 @@ internal static class FindTemplateParser
     // template_between_parentheses = '(' template ')' | '{' template '}' | '[' template ']
     private static readonly Parser<char, IEnumerable<Parser<char, string>>> TemplateBetweenParentheses
         = Parser.Rec(() => Template ?? throw new ArgumentNullException(nameof(Template))).Optional()
-            .BetweenParentheses((left, result, right) =>
+            .BetweenAnyParentheses((left, result, right) =>
             {
                 var leftParser = Parser.Char(left).AsString();
                 var rightParser = Parser.Char(right).AsString();

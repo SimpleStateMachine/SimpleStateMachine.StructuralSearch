@@ -73,7 +73,7 @@ internal static class ParametersParser
 
     private static readonly Parser<char, IParameter> StringExpressionBetweenParentheses =
         Parser.Rec(() => StringExpression ?? throw new ArgumentNullException(nameof(StringExpression)))
-            .BetweenParentheses(IParameter (c1, value, c2) => new ParenthesisedParameter(Grammar.GetParenthesisType((c1, c2)), value));
+            .BetweenAnyParentheses(IParameter (c1, value, c2) => new ParenthesisedParameter(Grammar.GetParenthesisType((c1, c2)), value));
 
     internal static readonly Parser<char, IParameter> StringExpression =
         Parser.OneOf(StringExpressionBetweenParentheses, PropertyAccess, AtomicToken)

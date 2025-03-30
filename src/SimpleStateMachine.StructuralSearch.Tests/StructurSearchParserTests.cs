@@ -18,7 +18,7 @@ public static class StructuralSearchParserTests
         var fileInfo = new FileInfo(exampleFilePath);
         var input = Input.Input.File(fileInfo);
         var matches = parser.Parse(input);
-        Assert.Equal(matches.Count(), matchesCount);
+        Assert.Equal(matchesCount, matches.Count());
     }
         
     // [Theory]

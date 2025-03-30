@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
@@ -29,14 +30,19 @@ public static class LogicalExpressionParser
     internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> MatchOperation = 
         CommonParser.Match
             .TrimEnd() // Skip whitespaces
-            .Then(Grammar.StringLiteral) // TODO support regex
+            .Then(Grammar.StringLiteral)
             .Select<Func<IParameter, ILogicalOperation>>(regex => parameter => new MatchOperation(parameter, regex));
+
+    // string_expr { ',' string_expr }
+    internal static readonly Parser<char, IEnumerable<IParameter>> InOperationParameters =
+        ParametersParser.StringExpression.SeparatedAtLeastOnce(CommonParser.Comma.TrimEnd());
 
     // in_operation ='In' [ '(' ] string_expr { ',' string_expr } [ ')' ]
     internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> InOperation = 
         CommonParser.In
             .TrimEnd()// Skip whitespaces
-            .Then(ParametersParser.StringExpression.SeparatedAtLeastOnce(CommonParser.Comma.TrimEnd())) // TODO support Parentheses
+            // .Then(InOperationParameters)
+            .Then(Parser.OneOf(InOperationParameters.BetweenParentheses((_, parameters, _) => parameters), InOperationParameters))
             .Select<Func<IParameter, ILogicalOperation>>(arguments => 
                 parameter => new InOperation(parameter, arguments.ToList()));
 
@@ -44,7 +50,7 @@ public static class LogicalExpressionParser
     private static readonly Parser<char, ILogicalOperation> StringLogicOperation = 
         ParametersParser.StringExpression
             .TrimEnd() // skip whitespaces
-            .Then(Parser.OneOf(StringCompareOperation, IsOperation, MatchOperation, InOperation), 
+            .Then(Parser.OneOf(StringCompareOperation.Try(), IsOperation.Try(), MatchOperation.Try(), InOperation), 
             (parameter, buildOperationFunc) => buildOperationFunc(parameter));
 
     // binary_operation = logic_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logic_expr

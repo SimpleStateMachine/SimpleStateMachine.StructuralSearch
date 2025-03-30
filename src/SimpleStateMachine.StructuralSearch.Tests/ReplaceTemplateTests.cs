@@ -36,9 +36,7 @@ public static class ReplaceTemplateTests
         Assert.NotNull(replaceResult);
         Assert.Equal(replaceResult, result);
     }
-        
-    // TODO validation parenthesis for parameters
-        
+
     [Theory]
     [InlineData("test")]
     [InlineData("()")]
