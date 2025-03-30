@@ -5,11 +5,11 @@ using SimpleStateMachine.StructuralSearch.Context;
 
 namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
-internal class TemplateParser : Parser<char, IEnumerable<string>>, IContextDependent
+internal class FindTemplateParser : Parser<char, IEnumerable<string>>, IContextDependent
 {
     private readonly List<Parser<char, string>> _parsers;
 
-    public TemplateParser(List<Parser<char, string>> parsers)
+    public FindTemplateParser(List<Parser<char, string>> parsers)
     {
         _parsers = parsers;
             

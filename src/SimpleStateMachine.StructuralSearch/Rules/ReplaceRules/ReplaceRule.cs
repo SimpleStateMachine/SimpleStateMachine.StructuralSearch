@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using SimpleStateMachine.StructuralSearch.Context;
-using SimpleStateMachine.StructuralSearch.Operator.Logical;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
 
@@ -9,15 +8,15 @@ internal class ReplaceRule : IReplaceRule
 {
     public static readonly EmptyReplaceRule Empty = new();
 
-    private readonly ILogicalOperation _condition;
+    private readonly IReplaceCondition _condition;
 
-    public ReplaceRule(ILogicalOperation condition, List<Assignment> assignments)
+    public ReplaceRule(IReplaceCondition condition, List<Assignment> assignments)
     {
         _condition = condition;
         Assignments = assignments;
     }
 
-    public IEnumerable<Assignment> Assignments { get; }
+    public List<Assignment> Assignments { get; }
 
     public bool IsMatch(ref IParsingContext context)
         => _condition.Execute(ref context);

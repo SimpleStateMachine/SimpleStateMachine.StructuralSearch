@@ -5,8 +5,6 @@ namespace SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 
 internal class ReplaceBuilder : IReplaceBuilder
 {
-    public static readonly EmptyReplaceBuilder Empty = new ();
-    
     private readonly IParameter _parameter;
 
     public ReplaceBuilder(IParameter parameter)

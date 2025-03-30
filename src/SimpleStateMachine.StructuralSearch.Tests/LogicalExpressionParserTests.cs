@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Pidgin;
-using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;

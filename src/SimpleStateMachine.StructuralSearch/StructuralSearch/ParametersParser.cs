@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
-using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.String;
 using SimpleStateMachine.StructuralSearch.Operator.String.Type;
@@ -18,12 +17,12 @@ internal static class ParametersParser
         Grammar.Placeholder.Select(x => new PlaceholderParameter(x)).Try();
     
     // string_literal = <escaped string>
-    internal static readonly Parser<char, StringParameter> StringLiteral =
-        Grammar.StringLiteral.Select(x => new StringParameter(x));
+    internal static readonly Parser<char, StringLiteralParameter> StringLiteral =
+        Grammar.StringLiteral.Select(x => new StringLiteralParameter(x));
     
     // whitespace = (' ' | '\n' | '\r')+
-    internal static readonly Parser<char, StringParameter> WhiteSpaces =
-        Grammar.WhiteSpaces.Select(x => new StringParameter(x));
+    internal static readonly Parser<char, StringLiteralParameter> WhiteSpaces =
+        Grammar.WhiteSpaces.Select(x => new StringLiteralParameter(x));
 
     // atomic_token = placeholder | string_literal
     private static readonly Parser<char, IParameter> AtomicToken =
@@ -74,24 +73,16 @@ internal static class ParametersParser
 
     private static readonly Parser<char, IParameter> StringExpressionBetweenParentheses =
         Parser.Rec(() => StringExpression ?? throw new ArgumentNullException(nameof(StringExpression)))
-            .BetweenParentheses(IParameter (c1, value, c2) =>
-                new ParenthesisedParameter(GetParenthesisType((c1, c2)), value));
+            .BetweenParentheses(IParameter (c1, value, c2) => new ParenthesisedParameter(Grammar.GetParenthesisType((c1, c2)), value));
 
     internal static readonly Parser<char, IParameter> StringExpression =
         Parser.OneOf(StringExpressionBetweenParentheses, PropertyAccess, AtomicToken)
             .AtLeastOnce()
-            .Select<IParameter>(parameters =>
-            {
-                var parametersList = parameters.ToList();
-                return parametersList.Count == 1 ? parametersList[0] : new StringJoinParameter(parametersList);
-            });
+            .Select(JoinParameters);
 
-    private static ParenthesisType GetParenthesisType((char c1, char c2) parenthesis)
-        => parenthesis switch
-        {
-            (Constant.LeftParenthesis, Constant.RightParenthesis) => ParenthesisType.Usual,
-            (Constant.LeftSquareParenthesis, Constant.RightSquareParenthesis) => ParenthesisType.Square,
-            (Constant.LeftCurlyParenthesis, Constant.RightCurlyParenthesis) => ParenthesisType.Curly,
-            _ => throw new ArgumentOutOfRangeException(nameof(parenthesis), parenthesis, null)
-        };
+    internal static IParameter JoinParameters(IEnumerable<IParameter> parameters)
+    {
+        var parametersList = parameters.ToList();
+        return parametersList.Count == 1 ? parametersList[0] : new StringJoinParameter(parametersList);
+    }
 }

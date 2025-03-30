@@ -6,9 +6,3 @@ internal interface IReplaceBuilder
 {
     string Build(ref IParsingContext context);
 }
-    
-internal class EmptyReplaceBuilder: IReplaceBuilder
-{
-    public string Build(ref IParsingContext context) 
-        => string.Empty;
-}

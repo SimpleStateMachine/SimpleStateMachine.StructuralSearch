@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Pidgin;
+using SimpleStateMachine.StructuralSearch.Parameters.Types;
 
 namespace SimpleStateMachine.StructuralSearch.StructuralSearch;
 
 internal static class Grammar
 {
-    internal static readonly Parser<char, char> NonLanguageSyntaxChar = Parser.AnyCharExcept(Constant.LanguageSyntaxChars);
-    internal static readonly Parser<char, char> StringLiteralChar = Parser.AnyCharExcept(Constant.InvalidStringLiteralChars);
-    internal static readonly Parser<char, string> WhiteSpaces = Parser.OneOf(CommonParser.Spaces, CommonParser.LineEnds, CommonParser.LineEnds).AtLeastOnceString();
+    internal static readonly Parser<char, string> WhiteSpaces = Parser.OneOf(Constant.WhitespaceChars).AtLeastOnceString();
+    
+    internal static readonly Parser<char, string> TemplateStringLiteral =
+        Parser.AnyCharExcept(Constant.InvalidStringLiteralChars).AtLeastOnceString();
 
     internal static readonly Parser<char, string> StringLiteral = Parser.OneOf
     (
@@ -29,4 +32,13 @@ internal static class Grammar
 
         return builder.ToString();
     }
+    
+    internal static ParenthesisType GetParenthesisType((char c1, char c2) parenthesis)
+        => parenthesis switch
+    {
+        (Constant.LeftParenthesis, Constant.RightParenthesis) => ParenthesisType.Usual,
+        (Constant.LeftSquareParenthesis, Constant.RightSquareParenthesis) => ParenthesisType.Square,
+        (Constant.LeftCurlyParenthesis, Constant.RightCurlyParenthesis) => ParenthesisType.Curly,
+        _ => throw new ArgumentOutOfRangeException(nameof(parenthesis), parenthesis, null)
+    };
 }

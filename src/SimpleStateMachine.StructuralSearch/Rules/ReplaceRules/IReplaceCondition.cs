@@ -1,5 +1,8 @@
-﻿using SimpleStateMachine.StructuralSearch.Rules.FindRules;
+﻿using SimpleStateMachine.StructuralSearch.Context;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
 
-internal interface IReplaceCondition : IFindRule;
+internal interface IReplaceCondition
+{
+    bool Execute(ref IParsingContext context);
+}

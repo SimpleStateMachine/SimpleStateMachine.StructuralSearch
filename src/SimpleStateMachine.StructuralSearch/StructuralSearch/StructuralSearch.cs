@@ -3,6 +3,7 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.CustomParsers;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
+using SimpleStateMachine.StructuralSearch.Parameters;
 using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
 using SimpleStateMachine.StructuralSearch.Templates.ReplaceTemplate;
 
@@ -14,14 +15,20 @@ internal static class StructuralSearch
     {
         var parsers = string.IsNullOrEmpty(template) 
             ? [] 
-            : TemplatesParser.Template.ParseOrThrow(template).ToList();
+            : FindTemplateParser.Template.ParseOrThrow(template).ToList();
 
-        var templateParser = new TemplateParser(parsers);
+        var templateParser = new CustomParsers.FindTemplateParser(parsers);
         return new FindParser(templateParser);
     }
 
     public static IReplaceBuilder ParseReplaceTemplate(string? template)
-        => throw new NotSupportedException();
+    {
+        var parameter = string.IsNullOrEmpty(template)
+            ? StringParameter.Empty
+            : ReplaceTemplateParser.ReplaceTemplate.ParseOrThrow(template);
+
+        return new ReplaceBuilder(parameter);
+    }
 
     public static ILogicalOperation ParseFindRule(string? template)
         => string.IsNullOrEmpty(template)

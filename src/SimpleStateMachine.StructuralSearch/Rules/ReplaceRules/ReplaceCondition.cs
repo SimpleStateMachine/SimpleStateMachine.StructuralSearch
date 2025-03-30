@@ -1,23 +1,22 @@
 ﻿using SimpleStateMachine.StructuralSearch.Context;
-using SimpleStateMachine.StructuralSearch.Rules.FindRules;
+using SimpleStateMachine.StructuralSearch.Operator.Logical;
 
 namespace SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
 
 public class ReplaceCondition : IReplaceCondition
 {
-    private readonly IFindRule _findRule;
+    private readonly ILogicalOperation? _logicalOperation;
 
-    public ReplaceCondition(IFindRule findRule)
+    public ReplaceCondition(ILogicalOperation? logicalOperation)
     {
-        _findRule = findRule;
+        _logicalOperation = logicalOperation;
     }
 
-    public bool IsApplicableForPlaceholder(string placeholderName)
-        => false;
-
     public bool Execute(ref IParsingContext context)
-        => _findRule.Execute(ref context);
+        => _logicalOperation is null || _logicalOperation.Execute(ref context);
 
-    public override string ToString()
-        => $"{Constant.If}{Constant.Space}{_findRule}{Constant.Space}{Constant.Then}";
+    public override string ToString() => 
+        _logicalOperation is null 
+            ? string.Empty 
+            : $"{Constant.If}{Constant.Space}{_logicalOperation}{Constant.Space}{Constant.Then}";
 }

@@ -11,12 +11,11 @@ internal static class CommonParser
     internal static readonly Parser<char, char> Comma = Parser.Char(Constant.Comma);
     internal static readonly Parser<char, char> DoubleQuotes = Parser.Char(Constant.DoubleQuotes);
     internal static readonly Parser<char, char> Dote = Parser.Char(Constant.Dote);
-    internal static readonly Parser<char, char> EscapedChar = Escaped(Constant.CharsToEscape);
     internal static readonly Parser<char, string> Spaces = Parser.Char(Constant.Space).AtLeastOnceString();
     internal static readonly Parser<char, string> LineEnds = Parser.EndOfLine.AtLeastOnceString();
     internal static readonly Parser<char, string> Should = Parser.CIString(Constant.Should);
 
-    internal static readonly Parser<char, string> If = Parser.String(Constant.If);
+    internal static readonly Parser<char, string> If = Parser.CIString(Constant.If);
     internal static readonly Parser<char, string> Then = Parser.CIString(Constant.Then);
     internal static readonly Parser<char, string> Not = Parser.CIString(Constant.Not);
     internal static readonly Parser<char, string> Is = Parser.CIString(Constant.Is);

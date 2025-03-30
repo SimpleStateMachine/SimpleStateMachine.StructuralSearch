@@ -11,9 +11,9 @@ namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
 internal class FindParser : IFindParser
 {
-    private TemplateParser Parser { get; }
+    private FindTemplateParser Parser { get; }
 
-    public FindParser(TemplateParser parser)    
+    public FindParser(FindTemplateParser parser)    
     {
         Parser = parser;
     }

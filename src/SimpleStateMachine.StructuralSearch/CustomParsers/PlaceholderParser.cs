@@ -53,7 +53,7 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
             }).Try());
         }
 
-        var anyString = Grammar.StringLiteralChar
+        var anyString = Parser.AnyCharExcept(Constant.InvalidStringLiteralChars)
             .AtLeastOnceAsStringUntil(lookahead);
 
         var simpleString = Grammar.StringLiteral;

@@ -118,7 +118,7 @@ internal static class Constant
     /// <summary>
     /// Char: '='
     /// </summary>
-    private new const char Equals = '=';
+    public new const char Equals = '=';
 
     /// <summary>
     /// Char: '>'
@@ -147,27 +147,20 @@ internal static class Constant
         LeftCurlyParenthesis,
         RightCurlyParenthesis
     };
-    
+
     public static readonly IReadOnlySet<char> StringLiteralCharsToEscape = new HashSet<char>()
     {
         BackSlash,
         DoubleQuotes
     };
-
-    public static readonly IReadOnlySet<char> InvalidStringLiteralChars = new HashSet<char>(AllParenthesis)
+    
+    public static readonly IReadOnlySet<char> WhitespaceChars = new HashSet<char>
     {
         CarriageReturn,
         LineFeed,
         Space
     };
 
-    public static readonly IReadOnlySet<char> CharsToEscape = new HashSet<char>
-    {
-        DoubleQuotes,
-        BackSlash,
-        PlaceholderSeparator,
-        Dote
-    };
-
-    public static readonly IReadOnlySet<char> LanguageSyntaxChars = AllParenthesis.Union(CharsToEscape).ToHashSet();
+    public static readonly IReadOnlySet<char> InvalidStringLiteralChars =
+        AllParenthesis.Union(WhitespaceChars).Union([PlaceholderSeparator]).ToHashSet();
 }

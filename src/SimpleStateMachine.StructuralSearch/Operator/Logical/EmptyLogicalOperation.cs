@@ -6,4 +6,7 @@ public class EmptyLogicalOperation : ILogicalOperation
 {
     public bool Execute(ref IParsingContext context)
         => true;
+
+    public override string ToString()
+        => string.Empty;
 }

@@ -1,14 +1,13 @@
 ﻿using SimpleStateMachine.StructuralSearch.Context;
+using SimpleStateMachine.StructuralSearch.Helper;
 
 namespace SimpleStateMachine.StructuralSearch.Parameters;
 
-public class StringParameter : IParameter
+internal class StringLiteralParameter : IParameter
 {
-    public static StringParameter Empty = new StringParameter(string.Empty);
-
     private readonly string _value;
 
-    public StringParameter(string value)
+    public StringLiteralParameter(string value)
     {
         _value = value;
     }
@@ -17,5 +16,5 @@ public class StringParameter : IParameter
         => _value;
 
     public override string ToString()
-        => _value;
+        => $"{Constant.DoubleQuotes}{EscapeHelper.Escape(_value, Constant.StringLiteralCharsToEscape)}{Constant.DoubleQuotes}";
 }
