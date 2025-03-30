@@ -7,24 +7,27 @@ namespace SimpleStateMachine.StructuralSearch.Parameters;
 internal class ParenthesisedParameter : IParameter
 {
     private readonly ParenthesisType _parenthesisType;
-    private readonly IParameter _ruleParameter;
+    private readonly IParameter _parameter;
     private readonly string _template;
 
-    public ParenthesisedParameter(ParenthesisType parenthesisType, IParameter ruleParameter)
+    public ParenthesisedParameter(ParenthesisType parenthesisType, IParameter parameter)
     {
         _parenthesisType = parenthesisType;
-        _ruleParameter = ruleParameter;
+        _parameter = parameter;
         _template = GetTemplate(parenthesisType);
     }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => _parameter.IsApplicableForPlaceholder(placeholderName);
+
     public string GetValue(ref IParsingContext context)
     {
-        var value = _ruleParameter.GetValue(ref context);
+        var value = _parameter.GetValue(ref context);
         return string.Format(_template, value);
     }
 
     public override string ToString()
-        => string.Format(_template, _ruleParameter);
+        => string.Format(_template, _parameter);
 
     private static string GetTemplate(ParenthesisType parenthesisType)
         => parenthesisType switch

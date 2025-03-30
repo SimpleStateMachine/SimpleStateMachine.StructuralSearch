@@ -19,6 +19,9 @@ internal class StringCompareOperation : ILogicalOperation
         _right = right;
     }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => _left.IsApplicableForPlaceholder(placeholderName) || _right.IsApplicableForPlaceholder(placeholderName);
+
     public bool Execute(ref IParsingContext context)
     {
         var left = _left.GetValue(ref context);

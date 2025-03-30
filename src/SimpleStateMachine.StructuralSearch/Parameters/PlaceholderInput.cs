@@ -14,6 +14,9 @@ internal class PlaceholderInput : IPlaceholderProperty
 
     public PlaceholderParameter Placeholder { get; }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => Placeholder.IsApplicableForPlaceholder(placeholderName);
+
     public string GetValue(ref IParsingContext context)
         => context.Input.GetProperty(_propertyName);
 

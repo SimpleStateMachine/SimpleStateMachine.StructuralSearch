@@ -11,6 +11,9 @@ internal class NotOperation : ILogicalOperation
         _parameter = parameter;
     }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => _parameter.IsApplicableForPlaceholder(placeholderName);
+
     public bool Execute(ref IParsingContext context)
     {
         var value = _parameter.Execute(ref context);

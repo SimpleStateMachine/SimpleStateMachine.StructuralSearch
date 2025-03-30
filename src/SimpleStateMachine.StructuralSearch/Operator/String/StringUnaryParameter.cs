@@ -17,6 +17,9 @@ internal class StringUnaryParameter : IParameter
         _type = type;
     }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => _parameter.IsApplicableForPlaceholder(placeholderName);
+
     public string GetValue(ref IParsingContext context)
     {
         var parameter = _parameter.GetValue(ref context);

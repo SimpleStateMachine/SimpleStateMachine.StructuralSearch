@@ -13,6 +13,9 @@ internal class StringJoinParameter : IParameter
         _parameters = parameters;
     }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => _parameters.Any(p => p.IsApplicableForPlaceholder(placeholderName));
+
     public string GetValue(ref IParsingContext context)
     {
         var localContext = context;

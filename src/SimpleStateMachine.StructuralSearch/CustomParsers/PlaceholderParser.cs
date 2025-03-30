@@ -10,6 +10,15 @@ namespace SimpleStateMachine.StructuralSearch.CustomParsers;
 
 internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
 {
+    private static readonly IReadOnlySet<char> InvalidStringLiteralChars = new HashSet<char>(Constant.AllParenthesis)
+    {
+        Constant.CarriageReturn,
+        Constant.LineFeed,
+        Constant.Space
+    };
+
+    internal static readonly Parser<char, char> StringLiteralChar = Parser.AnyCharExcept(Constant.InvalidStringLiteralChars);
+
     private readonly string _name;
     private IParsingContext? _context;
 
@@ -53,10 +62,8 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
             }).Try());
         }
 
-        var anyString = Parser.AnyCharExcept(Constant.InvalidStringLiteralChars)
-            .AtLeastOnceAsStringUntil(lookahead);
-
-        var simpleString = Grammar.StringLiteral;
+        var anyString = StringLiteralChar.AtLeastOnceAsStringUntil(lookahead);
+        var simpleString = StringLiteralChar.AtLeastOnceString();
         var token = Parser.OneOf(simpleString, Grammar.WhiteSpaces).Try();
         Parser<char, string>? term = null;
 
@@ -100,6 +107,7 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
                 Context[_name] = placeholderObj;
 
                 res = Context.FindRules
+                    .Where(r => r.IsApplicableForPlaceholder(_name))
                     .All(r => r.Execute(ref _context!));
 
                 if (!res)

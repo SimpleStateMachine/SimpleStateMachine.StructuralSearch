@@ -19,6 +19,9 @@ internal class PlaceholderPosition : IPlaceholderProperty
 
     public PlaceholderParameter Placeholder { get; }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => Placeholder.IsApplicableForPlaceholder(placeholderName);
+
     public string GetValue(ref IParsingContext context)
     {
         var placeholder = Placeholder.GetPlaceholder(ref context);

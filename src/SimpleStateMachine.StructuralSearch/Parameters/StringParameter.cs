@@ -13,6 +13,9 @@ public class StringParameter : IParameter
         _value = value;
     }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => false;
+
     public string GetValue(ref IParsingContext context) 
         => _value;
 

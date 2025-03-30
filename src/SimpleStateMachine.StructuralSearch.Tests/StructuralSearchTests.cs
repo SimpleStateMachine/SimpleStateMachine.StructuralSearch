@@ -42,7 +42,7 @@ public class StructuralSearchTests
 
     [Theory]
     [InlineData("ExamplesInput/Methods.cs")]
-    public static void StructuralSearchShouldBeSuccess2(string filePath)
+    public static void StructuralSearchFileParsingShouldBeSuccess(string filePath)
     {
         var configuration = new Configuration
         {

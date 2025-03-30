@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Parameters;
 
@@ -14,6 +15,9 @@ internal class InOperation : ILogicalOperation
         _parameter = parameter;
         _arguments = arguments;
     }
+
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => _parameter.IsApplicableForPlaceholder(placeholderName) || _arguments.Any(a => a.IsApplicableForPlaceholder(placeholderName));
 
     public bool Execute(ref IParsingContext context)
     {

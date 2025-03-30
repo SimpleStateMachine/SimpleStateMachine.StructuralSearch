@@ -15,6 +15,9 @@ internal class MatchOperation : ILogicalOperation
         _regex = regex;
     }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => _stringParameter.IsApplicableForPlaceholder(placeholderName);
+
     public bool Execute(ref IParsingContext context)
     {
         var value = _stringParameter.GetValue(ref context);

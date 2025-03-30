@@ -19,6 +19,9 @@ internal class IsOperation : ILogicalOperation
         _type = type;
     }
 
+    public bool IsApplicableForPlaceholder(string placeholderName)
+        => _parameter.IsApplicableForPlaceholder(placeholderName);
+
     public bool Execute(ref IParsingContext context)
     {
         var value = _parameter.GetValue(ref context);
