@@ -1,4 +1,4 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Tests.ExamplesInput;
+﻿﻿namespace SimpleStateMachine.StructuralSearch.Tests.ExamplesInput;
 
 public class NullUnionOperator
 {
@@ -6,10 +6,11 @@ public class NullUnionOperator
     {
         int? result;
         int? temp1 = 5;
-        int? temp2 = 5;
-
+        int? temp2 = 5; 
+        // TODO: try  result = temp1 ?? temp2;
+        
         if (temp1 is null)
-            result = temp1 ?? temp2;
+            result = temp2;
         else
             result =  temp1;
     }
