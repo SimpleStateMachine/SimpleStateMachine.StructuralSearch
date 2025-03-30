@@ -17,7 +17,7 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
         Constant.Space
     };
 
-    internal static readonly Parser<char, char> StringLiteralChar = Parser.AnyCharExcept(InvalidStringLiteralChars);
+    private static readonly Parser<char, char> StringLiteralChar = Parser.AnyCharExcept(InvalidStringLiteralChars);
 
     private readonly string _name;
     private IParsingContext? _context;

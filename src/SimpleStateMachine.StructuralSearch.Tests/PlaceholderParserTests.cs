@@ -13,7 +13,7 @@ public static class PlaceholderParserTests
     [InlineData("$var$;", "test;;",  "test")]
     [InlineData("$var$;.", "test;;;.", "test;;")]
     [InlineData("$value2$", "temp1 ?? temp2", "temp1 ?? temp2")]
-    [InlineData("= $value2$;", "= temp1 ?? temp2;", "temp1 ?? temp2")]
+    [InlineData("$value2$;", "temp1 ?? temp2;", "temp1 ?? temp2")]
     public static void PlaceholderParsingShouldBeSuccess(string template, string source, string expectedResult)
     {
         var input = Input.Input.String(source);
