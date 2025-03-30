@@ -1,5 +1,7 @@
-﻿using Pidgin;
+﻿using System.IO;
+using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
@@ -15,7 +17,7 @@ public static class ReplaceRuleParserTests
     [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"Test\" then")]
     public static void ReplaceRuleConditionParsingShouldBeSuccess(string condition)
     {
-        var logicalOperation = ReplaceRuleParser.ReplaceRuleCondition.Before(CommonParser.Eof).ParseOrThrow(condition);
+        var logicalOperation = ReplaceRuleParser.ReplaceRuleCondition.ParseToEnd(condition);
         var result = logicalOperation.ToString()!;
         Assert.Equal(condition.ToLower(), result.ToLower());
     }
@@ -26,7 +28,7 @@ public static class ReplaceRuleParserTests
     [InlineData("$var1$ => $var3$.Length")]
     public static void AssignmentParsingShouldBeSuccess(string assignmentStr)
     {
-        var assignment = ReplaceRuleParser.Assignment.Before(CommonParser.Eof).ParseOrThrow(assignmentStr);
+        var assignment = ReplaceRuleParser.Assignment.ParseToEnd(assignmentStr);
         var result = assignment.ToString().ToLower();
         Assert.Equal(assignmentStr.ToLower(), result.ToLower());
     }
@@ -43,8 +45,17 @@ public static class ReplaceRuleParserTests
     [InlineData("if $var1$ equals $var$.Length and Not $var1$ StartsWith \"Test\" then $var1$ => $var$.offset.Start")]
     public static void ReplaceRuleParsingShouldBeSuccess(string replaceRuleStr)
     {
-        var rule = ReplaceRuleParser.ReplaceRule.Before(CommonParser.Eof).ParseOrThrow(replaceRuleStr);
+        var rule = ReplaceRuleParser.ReplaceRule.ParseToEnd(replaceRuleStr);
         var result = rule.ToString().ToLower();
         Assert.Equal(replaceRuleStr.ToLower(), result);
+    }
+
+    [Theory]
+    [FilesData("ReplaceTemplate")]
+    public static void FindTemplateFileParsingShouldBeSuccess(string templatePath)
+    {
+        var templateStr = File.ReadAllText(templatePath);
+        var parsers = FindTemplateParser.Template.ParseToEnd(templateStr);
+        Assert.NotEmpty(parsers);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Pidgin;
+﻿using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Helper;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
@@ -15,7 +15,7 @@ public class GrammarTests
     public static void StringLiteralParsingShouldBeSuccess(string input)
     {
         input = $"\"{input}\"";
-        var result = Grammar.StringLiteral.Before(CommonParser.Eof).ParseOrThrow(input);
+        var result = Grammar.StringLiteral.ParseToEnd(input);
         result = $"\"{EscapeHelper.Escape(result, Constant.StringLiteralCharsToEscape)}\"";
         Assert.Equal(input, result);
     }

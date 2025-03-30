@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.CustomParsers;
+using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
 using SimpleStateMachine.StructuralSearch.Parameters;
 using SimpleStateMachine.StructuralSearch.Rules.ReplaceRules;
@@ -15,7 +15,7 @@ internal static class StructuralSearch
     {
         var parsers = string.IsNullOrEmpty(template) 
             ? [] 
-            : FindTemplateParser.Template.ParseOrThrow(template).ToList();
+            : FindTemplateParser.Template.ParseToEnd(template).ToList();
 
         var templateParser = new CustomParsers.FindTemplateParser(parsers);
         return new FindParser(templateParser);
@@ -25,7 +25,7 @@ internal static class StructuralSearch
     {
         var parameter = string.IsNullOrEmpty(template)
             ? StringParameter.Empty
-            : ReplaceTemplateParser.ReplaceTemplate.ParseOrThrow(template);
+            : ReplaceTemplateParser.ReplaceTemplate.ParseToEnd(template);
 
         return new ReplaceBuilder(parameter);
     }
@@ -33,10 +33,10 @@ internal static class StructuralSearch
     public static ILogicalOperation ParseFindRule(string? template)
         => string.IsNullOrEmpty(template)
             ? new EmptyLogicalOperation()
-            : LogicalExpressionParser.LogicalExpression.ParseOrThrow(template);
+            : LogicalExpressionParser.LogicalExpression.ParseToEnd(template);
 
     internal static IReplaceRule ParseReplaceRule(string? template)
         => string.IsNullOrEmpty(template)
             ? ReplaceRule.Empty
-            : ReplaceRuleParser.ReplaceRule.ParseOrThrow(template);
+            : ReplaceRuleParser.ReplaceRule.ParseToEnd(template);
 }

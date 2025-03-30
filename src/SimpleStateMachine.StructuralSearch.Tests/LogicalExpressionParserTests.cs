@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pidgin;
+using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
@@ -26,7 +27,7 @@ public static class LogicalExpressionParserTests
     [StringMemberData(nameof(StringCompareOperationCases))]
     public static void StringCompareOperationParsingShouldBeSuccess(string input)
     {
-        LogicalExpressionParser.StringCompareOperation.Before(CommonParser.Eof).ParseOrThrow(input);
+        LogicalExpressionParser.StringCompareOperation.ParseToEnd(input);
     }
 
     public static IEnumerable<string> IsOperationCases()
@@ -42,14 +43,14 @@ public static class LogicalExpressionParserTests
     [StringMemberData(nameof(IsOperationCases))]
     public static void IsOperationParsingShouldBeSuccess(string input)
     {
-        LogicalExpressionParser.IsOperation.Before(CommonParser.Eof).ParseOrThrow(input);
+        LogicalExpressionParser.IsOperation.ParseToEnd(input);
     }
 
     [Theory]
     [InlineData("Match \"[a-z]\"")]
     public static void MatchOperationParsingShouldBeSuccess(string input)
     {
-        LogicalExpressionParser.MatchOperation.Before(CommonParser.Eof).ParseOrThrow(input);
+        LogicalExpressionParser.MatchOperation.ParseToEnd(input);
     }
 
     [Theory]
@@ -61,14 +62,14 @@ public static class LogicalExpressionParserTests
     [InlineData("In   \"123\",  \"456\",  \"789\"")]
     public static void InOperationParsingShouldBeSuccess(string input)
     {
-        LogicalExpressionParser.InOperation.Before(CommonParser.Eof).ParseOrThrow(input);
+        LogicalExpressionParser.InOperation.ParseToEnd(input);
     }
 
     [Theory]
     [InlineData("Not \"123\" Equals \"789\"")]
     public static void NotOperationParsingShouldBeSuccess(string input)
     {
-        LogicalExpressionParser.NotOperation.Before(CommonParser.Eof).ParseOrThrow(input);
+        LogicalExpressionParser.NotOperation.ParseToEnd(input);
     }
 
     public static IEnumerable<string> BinaryOperationCases()
@@ -86,7 +87,7 @@ public static class LogicalExpressionParserTests
     [StringMemberData(nameof(BinaryOperationCases))]
     public static void BinaryOperationParsingShouldBeSuccess(string input)
     {
-        LogicalExpressionParser.BinaryOperation.Before(CommonParser.Eof).ParseOrThrow(input);
+        LogicalExpressionParser.BinaryOperation.ParseToEnd(input);
     }
     
     // public static IEnumerable<string> BinaryOperationCases()
@@ -126,7 +127,7 @@ public static class LogicalExpressionParserTests
     [InlineData("$var$ match \"[a-b]+\"")]
     public static void LogicalExpressionParsingShouldBeSuccess(string input)
     {
-        var operation = LogicalExpressionParser.LogicalExpression.Before(CommonParser.Eof).ParseOrThrow(input);
+        var operation = LogicalExpressionParser.LogicalExpression.ParseToEnd(input);
         var result = operation.ToString()!;
         Assert.Equal(input.ToLower(), result.ToLower());
     }

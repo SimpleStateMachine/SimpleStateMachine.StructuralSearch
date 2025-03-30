@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using Xunit;
 
-namespace SimpleStateMachine.StructuralSearch.Tests;
+namespace SimpleStateMachine.StructuralSearch.Tests.Attributes;
 
 [CLSCompliant(false)]
 public class StringMemberDataAttribute : MemberDataAttributeBase
@@ -11,7 +11,10 @@ public class StringMemberDataAttribute : MemberDataAttributeBase
     private readonly string _memberName;
 
     public StringMemberDataAttribute(string memberName, params object[] parameters)
-        : base(memberName, parameters) { }
+        : base(memberName, parameters)
+    {
+        _memberName = memberName;
+    }
 
     protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
     {

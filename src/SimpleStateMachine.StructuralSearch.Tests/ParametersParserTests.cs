@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pidgin;
+using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.String.Type;
 using SimpleStateMachine.StructuralSearch.Parameters.Types;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
@@ -15,7 +16,7 @@ public static class ParametersParserTests
     [InlineData("$var$")]
     public static void PlaceholderParsingShouldBeSuccess(string str)
     {
-        var result = ParametersParser.PlaceholderParameter.Before(CommonParser.Eof).ParseOrThrow(str);
+        var result = ParametersParser.PlaceholderParameter.ParseToEnd(str);
         // result = EscapeHelper.Escape(result);
         // Assert.Equal(result.ToLower(), str.ToLower());
     }
@@ -24,7 +25,7 @@ public static class ParametersParserTests
     [InlineData("Length")]
     public static void PlaceholderLengthParsingShouldBeSuccess(string str)
     {
-        ParametersParser.PlaceholderLength.Before(CommonParser.Eof).ParseOrThrow(str);
+        ParametersParser.PlaceholderLength.ParseToEnd(str);
     }
 
     [Theory]
@@ -32,7 +33,7 @@ public static class ParametersParserTests
     [InlineData("Input.Extensions")]
     public static void PlaceholderInputParsingShouldBeSuccess(string str)
     {
-        ParametersParser.PlaceholderInput.Before(CommonParser.Eof).ParseOrThrow(str);
+        ParametersParser.PlaceholderInput.ParseToEnd(str);
     }
 
     public static IEnumerable<string> PlaceholderPositionCases()
@@ -48,7 +49,7 @@ public static class ParametersParserTests
     [StringMemberData(nameof(PlaceholderPositionCases))]
     public static void PlaceholderPositionParsingShouldBeSuccess(string str)
     {
-        ParametersParser.PlaceholderPosition.Before(CommonParser.Eof).ParseOrThrow(str);
+        ParametersParser.PlaceholderPosition.ParseToEnd(str);
     }
 
     public static IEnumerable<string> ChainableStringCases()
@@ -65,7 +66,7 @@ public static class ParametersParserTests
     [StringMemberData(nameof(ChainableStringCases))]
     public static void ChainableStringParsingShouldBeSuccess(string str)
     {
-        ParametersParser.ChainableString.Before(CommonParser.Eof).ParseOrThrow(str);
+        ParametersParser.ChainableString.ParseToEnd(str);
     }
 
     public static IEnumerable<string> PropertyAccessCases()
@@ -101,7 +102,7 @@ public static class ParametersParserTests
     // [InlineData("$var$.Trim.TrimEnd.TrimStart.ToUpper.ToLower")]
     public static void PropertyAccessParsingShouldBeSuccess(string str)
     {
-        var parameter = ParametersParser.PropertyAccess.Before(CommonParser.Eof).ParseOrThrow(str);
+        var parameter = ParametersParser.PropertyAccess.ParseToEnd(str);
         var result = parameter.ToString()!;
         Assert.Equal(result.ToLower(), str.ToLower());
     }
@@ -121,7 +122,7 @@ public static class ParametersParserTests
     [InlineData("$var$.Trim.Trim")]
     public static void StringExpressionParsingShouldBeSuccess(string str)
     {
-        var parameter = ParametersParser.StringExpression.Before(CommonParser.Eof).ParseOrThrow(str);
+        var parameter = ParametersParser.StringExpression.ParseToEnd(str);
         var result = parameter.ToString()!;
         Assert.Equal(result.ToLower(), str.ToLower());
     }

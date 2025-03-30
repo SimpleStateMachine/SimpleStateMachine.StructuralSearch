@@ -1,6 +1,7 @@
 using System.IO;
-using Pidgin;
+using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
+using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
@@ -19,21 +20,18 @@ public static class FindTemplateParserTests
     [InlineData("if ($value$ $sign$ null)")]
     public static void FindTemplateParsingShouldBeSuccess(string templateStr)
     {
-        var template = FindTemplateParser.Template.Before(CommonParser.Eof).ParseOrThrow(templateStr);
+        var template = FindTemplateParser.Template.ParseToEnd(templateStr);
     }
 
     [Theory]
-    [InlineData("FindTemplate/NullUnionOperator.txt")]
-    [InlineData("FindTemplate/AssignmentNullUnionOperator.txt")]
-    [InlineData("FindTemplate/NestedParenthesised.txt")]
-    [InlineData("FindTemplate/TernaryOperator.txt")]
+    [FilesData("FindTemplate")]
     public static void FindTemplateFileParsingShouldBeSuccess(string templatePath)
     {
         var templateStr = File.ReadAllText(templatePath);
-        var parsers = FindTemplateParser.Template.Before(CommonParser.Eof).ParseOrThrow(templateStr);
+        var parsers = FindTemplateParser.Template.ParseToEnd(templateStr);
         Assert.NotEmpty(parsers);
     }
-    
+
     // [Theory]
     // [InlineData("FindTemplate/NullUnionOperator.txt", "Source/NullUnionOperator.txt")]
     // [InlineData("FindTemplate/AssignmentNullUnionOperator.txt", "Source/AssignmentNullUnionOperator.txt")]

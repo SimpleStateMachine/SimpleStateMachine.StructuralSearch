@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
+using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.StructuralSearch;
 using Xunit;
 
@@ -65,7 +65,7 @@ public static class ReplaceTemplateTests
     [InlineData("(test ($var1$.Length) test2)")]
     public static void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
     {
-        var replaceBuilder = ReplaceTemplateParser.ReplaceTemplate.Before(CommonParser.Eof).ParseOrThrow(templateStr);
+        var replaceBuilder = ReplaceTemplateParser.ReplaceTemplate.ParseToEnd(templateStr);
         var replaceStr = replaceBuilder.ToString()?.ToLower();
         Assert.Equal(replaceStr, templateStr.ToLower());
     }

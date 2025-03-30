@@ -82,4 +82,7 @@ internal static class ParserExtensions
         var squareParentheses= Parser.Map(mapFunc, CommonParser.LeftSquareParenthesis, parser, CommonParser.RightSquareParenthesis);
         return Parser.OneOf(parentheses, curlyParentheses, squareParentheses);
     }
+
+    public static T ParseToEnd<T>(this Parser<char, T> parser, string str)
+        => parser.Before(CommonParser.Eof).ParseOrThrow(str);
 }
