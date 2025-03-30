@@ -48,14 +48,14 @@ internal static class ParserExtensions
     public static Parser<TToken, T> WithDebug<TToken, T>(this Parser<TToken, T> parser, string label)
         => Parser.Map((u, t, _) =>
         {
-            Console.WriteLine($"{label} ({t.Col}) : {u} ");
+            Console.WriteLine($"{label}: [{t.Line},{t.Col}] : {u} ");
             return u;
         }, parser, Parser<TToken>.CurrentPos, Parser<TToken>.CurrentSourcePosDelta);
 
     public static Parser<TToken, T> WithDebug<TToken, T>(this Parser<TToken, T> parser) =>
         Parser.Map((u, t, _) =>
         {
-            Console.WriteLine($"({t.Col}) : {u} ");
+            Console.WriteLine($"[{t.Line},{t.Col}] : {u} ");
             return u;
         }, parser, Parser<TToken>.CurrentPos, Parser<TToken>.CurrentSourcePosDelta);
 

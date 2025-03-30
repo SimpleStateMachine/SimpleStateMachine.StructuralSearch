@@ -74,40 +74,72 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
         // var parser = prdsAndTokens.Or(anyString);
     }
 
-    // internal static Parser<char, string> CreateParser(Parser<char, Unit> terminator)
+    // internal static Parser<char, string> GreedyUntil(Parser<char, Unit> terminator)
     // {
-    //     var simpleString = StringLiteralChar.AtLeastOnceAsStringUntil(terminator).Select(x => x);
-    //     var whitespaces = Parser.OneOf(Constant.WhitespaceChars).AtLeastOnceAsStringUntil(terminator).Select(x => x);
-    //     var token = Parser.OneOf(simpleString.Try(), whitespaces).Select(x => x);
+    //     var term = Parser.AnyCharExcept(Constant.AllParenthesis)
+    //         .AtLeastOnceAsStringUntil(terminator)
+    //         .WithDebug("term");
     //
     //     Parser<char, string>? parser = null;
+    //     
+    //     var bracketed = Parser.Rec(() => parser!)
+    //         .ManyString()
+    //         .BetweenAnyParentheses((l, inner, r) => $"{l}{inner}{r}")
+    //         .WithDebug("bracketed");
+    //     
+    //     parser = Parser.OneOf(bracketed.Try(), term);
+    //     
+    //     return parser.AtLeastOnceUntil(terminator).JoinToString();
+    //     
+    //     // var term = Parser.AnyCharExcept(Constant.AllParenthesis).Until(terminator)
+    //     //     .Select(x => new string(x.ToArray()));
+    //     //
+    //     // Parser<char, string>? parser = null;
+    //     //
+    //     // var bracketed = Parser.OneOf(Parser.Rec(() => parser!), term)
+    //     //     .ManyString()
+    //     //     .BetweenAnyParentheses((c1, s, c2) => $"{c1}{s}{c2}").WithDebug();
+    //     //
+    //     // parser = Parser.OneOf(bracketed.Try(), term);
+    //     // return parser.AtLeastOnceUntil(terminator).JoinToString();
+    // }
+    
+    // internal static Parser<char, string> GreedyUntil(Parser<char, Unit> terminator)
+    // {
+    //     var word = StringLiteralChar.AtLeastOnceString().WithDebug();
+    //     var whitespace = Parser.OneOf(Constant.WhitespaceChars).AtLeastOnceString().WithDebug();
+    //     
+    //     // var word = StringLiteralChar.AtLeastOnceAsStringUntil(terminator).WithDebug();
+    //     // var whitespace = Parser.OneOf(Constant.WhitespaceChars).AtLeastOnceAsStringUntil(terminator).WithDebug();
+    //     var term = Parser.OneOf(word.Try(), whitespace);
     //
-    //     // var parserBetweenParentheses = Parser.Rec(() => parser ?? throw new ArgumentNullException(nameof(parser)))
-    //     //     .BetweenAnyParentheses((c1, s, c2) => $"{c1}{s}{c2}");
+    //     Parser<char, string>? parser = null;
+    //     
+    //     var bracketed = Parser.OneOf(Parser.Rec(() => parser!), term)
+    //         .ManyString()
+    //         .BetweenAnyParentheses((c1, s, c2) => $"{c1}{s}{c2}").WithDebug();
     //
-    //     // parser = Parser.OneOf(token, parserBetweenParentheses).AtLeastOnceUntil(terminator).JoinToString();
-    //     parser = token.Try().Many().JoinToString();
-    //     return parser;
+    //     parser = Parser.OneOf(bracketed.Try(), term);
+    //     return parser.ManyString().Before(terminator.Try());
     // }
     
     internal static Parser<char, string> CreateParser(Parser<char, Unit> terminator)
     {
-        var anyString = InvalidStringLiteralChars.AnyCharWithPlshd
-            .AtLeastOnceAsStringUntil(lookahead);
+        var anyString = StringLiteralChar
+            .AtLeastOnceAsStringUntil(terminator);
 
-        var simpleString = CommonTemplateParser.StringWithPlshd;
+        var simpleString = StringLiteralChar.AtLeastOnceString();
         var token = Parser.OneOf(simpleString, Grammar.WhiteSpaces).Try();
         Parser<char, string>? term = null;
 
-        var parenthesised = Parsers.BetweenOneOfChars(x => Parser.Char(x).AsString(),
-            expr: Parser.Rec(() => term ?? throw new ArgumentNullException(nameof(term))),
-            Constant.AllParenthesised).JoinToString();
+        var parenthesised = Parser.Rec(() => term ?? throw new ArgumentNullException(nameof(term)))
+            .BetweenAnyParentheses((l, s, r) => $"{l}{s}{r}");
 
         term = Parser.OneOf(parenthesised, token).Many().JoinToString();
 
         //parenthesised and tokens and whiteSpaces
         var prdsAndTokens = Parser.OneOf(parenthesised, token)
-            .AtLeastOnceUntil(lookahead)
+            .AtLeastOnceUntil(terminator)
             .JoinToString()
             .Try();
 

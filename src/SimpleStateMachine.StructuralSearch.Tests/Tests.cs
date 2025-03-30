@@ -8,28 +8,26 @@ namespace SimpleStateMachine.StructuralSearch.Tests;
 public static class Tests
 {
     [Theory]
-    [InlineData("temp1 ?? temp2;", ";", "temp1 ?? temp2")]
-    [InlineData("(value )", null, "value ")]
-    [InlineData("(value )", null, "value")]
-    [InlineData("(value (test))", null, "value (test)")]
-    [InlineData("(value (test) )", null, "value (test) ")]
-    [InlineData("test;;",  ";", "test;")]
-    [InlineData("test;;;.", ".", "test;;")]
-    [InlineData( "temp1(123)", null,"temp1")]
-    [InlineData("temp1 ?? temp2", null, "temp1 ?? temp2")]
-    public static void PlaceholderParsingShouldBeSuccess(string input, string? terminator, string expectedResult)
+    [InlineData("test;",  ";", "test")]
+    [InlineData("test;;",  ";", "test")]
+    [InlineData("test;;.", ".", "test;;")]
+    [InlineData("(value (test));", ";", "value (test)")]
+    [InlineData("(value (test) );", ";", "value (test) ")]
+    public static void PlaceholderParsingShouldBeSuccess(string input, string terminator, string expectedResult)
     {
-        var terminatorParser = terminator is null ? Parser.EndOfLine : Parser.String(terminator);
-        var result = Parser.AnyCharExcept().AtLeastOnceAsStringUntil(terminatorParser).ParseOrThrow(expectedResult);
+        var terminatorParser = Parser.Lookahead(Parser.String(terminator)).WithDebug("terminator").Select(x => Unit.Value);
+        var result = Parser.AnyCharExcept(Constant.AllParenthesis).AtLeastOnceAsStringUntil(terminatorParser).ParseOrThrow(input);
         Assert.Equal(expectedResult, result);
     }
     
     [Theory]
-    [InlineData("temp1;", ";", "temp1 ?? temp2")]
+    [InlineData("test;",  ";", "test")]
+    [InlineData("test;;",  ";", "test")]
+    [InlineData("test;;.", ".", "test;;")]
     public static void PlaceholderParsingShouldBeSuccess2(string input, string terminator, string expectedResult)
     {
-        var terminatorParser = Parser.String(terminator).Try().Select(x => Unit.Value);
-        var result = PlaceholderParser.CreateParser(terminatorParser).ParseToEnd(input);
+        var terminatorParser = Parser.Lookahead(Parser.String(terminator)).WithDebug("terminator").Select(x => Unit.Value);
+        var result = PlaceholderParser.CreateParser(terminatorParser).ParseOrThrow(input);
         Assert.Equal(expectedResult, result);
     }
 }
