@@ -27,7 +27,7 @@ public static class ReplaceTemplateTests
         IParsingContext parsingContext = new ParsingContext(Input.Input.Empty, []);
         for (int i = 0; i < keys.Length; i++)
         {
-            parsingContext[keys[i]] = Placeholder.CreateEmpty(keys[i], values[i]);
+            parsingContext[keys[i]] = Placeholder.Placeholder.CreateEmpty(keys[i], values[i]);
         }
 
         var result = replaceBuilder.Build(ref parsingContext);

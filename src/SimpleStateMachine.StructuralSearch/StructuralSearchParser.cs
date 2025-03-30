@@ -4,6 +4,7 @@ using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Input;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
+using SimpleStateMachine.StructuralSearch.Placeholder;
 using SimpleStateMachine.StructuralSearch.Replace;
 
 namespace SimpleStateMachine.StructuralSearch;
@@ -39,7 +40,7 @@ public class StructuralSearchParser
         return results.Select(r => Replace(input, r)).ToList();
     }
 
-    public ReplaceResult Replace(IInput input, FindParserResult findResult)
+    private ReplaceResult Replace(IInput input, FindParserResult findResult)
     {
         IParsingContext context = new ParsingContext(input, []);
 

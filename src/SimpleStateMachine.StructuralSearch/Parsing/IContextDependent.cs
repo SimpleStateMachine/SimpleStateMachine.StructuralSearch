@@ -1,6 +1,6 @@
 ﻿using SimpleStateMachine.StructuralSearch.Context;
 
-namespace SimpleStateMachine.StructuralSearch.Parsers;
+namespace SimpleStateMachine.StructuralSearch.Parsing;
 
 internal interface IContextDependent
 {

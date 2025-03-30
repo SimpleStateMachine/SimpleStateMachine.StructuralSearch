@@ -4,9 +4,8 @@ using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Context;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Parsing;
 
-namespace SimpleStateMachine.StructuralSearch.Parsers;
+namespace SimpleStateMachine.StructuralSearch.Parsing;
 
 internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
 {
@@ -164,7 +163,7 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
             result = match.Value;
             if (res)
             {
-                var placeholderObj = new Placeholder
+                var placeholderObj = new Placeholder.Placeholder
                 (
                     name: _name,
                     match: match

@@ -1,6 +1,6 @@
 ﻿using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
-using SimpleStateMachine.StructuralSearch.Parsers;
+using SimpleStateMachine.StructuralSearch.Parsing;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;

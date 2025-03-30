@@ -2,7 +2,6 @@
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical;
 using SimpleStateMachine.StructuralSearch.Parameters;
-using SimpleStateMachine.StructuralSearch.Parsers;
 using SimpleStateMachine.StructuralSearch.Replace;
 
 namespace SimpleStateMachine.StructuralSearch.Parsing;
@@ -15,7 +14,7 @@ internal static class StructuralSearch
             ? [] 
             : FindTemplateParser.Template.ParseToEnd(template).ToList();
 
-        var templateParser = new Parsers.FindTemplate(parsers);
+        var templateParser = new FindTemplate(parsers);
         return new FindParser(templateParser);
     }
 
