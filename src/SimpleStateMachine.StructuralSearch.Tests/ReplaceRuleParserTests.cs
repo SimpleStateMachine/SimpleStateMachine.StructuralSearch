@@ -52,10 +52,18 @@ public static class ReplaceRuleParserTests
 
     [Theory]
     [FilesData("ReplaceTemplate")]
-    public static void FindTemplateFileParsingShouldBeSuccess(string templatePath)
+    public static void FindTemplateFileParsingShouldBeSuccess(string filePath)
     {
-        var templateStr = File.ReadAllText(templatePath);
+        var templateStr = File.ReadAllText(filePath);
         var parsers = FindTemplateParser.Template.ParseToEnd(templateStr);
         Assert.NotEmpty(parsers);
+    }
+    
+    [Theory]
+    [FilesData("ReplaceRule")]
+    public static void ReplaceRuleFileParsingShouldBeSuccess(string filePath)
+    {
+        var ruleStr = File.ReadAllText(filePath);
+        ReplaceRuleParser.ReplaceRule.ParseToEnd(ruleStr);
     }
 }

@@ -25,10 +25,10 @@ public static class FindTemplateParserTests
 
     [Theory]
     [FilesData("FindTemplate")]
-    public static void FindTemplateFileParsingShouldBeSuccess(string templatePath)
+    public static void FindTemplateFileParsingShouldBeSuccess(string filePath)
     {
-        var templateStr = File.ReadAllText(templatePath);
-        var parsers = FindTemplateParser.Template.ParseToEnd(templateStr);
+        var str = File.ReadAllText(filePath);
+        var parsers = FindTemplateParser.Template.ParseToEnd(str);
         Assert.NotEmpty(parsers);
     }
 

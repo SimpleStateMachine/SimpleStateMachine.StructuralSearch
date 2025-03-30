@@ -52,6 +52,19 @@ public static class ParametersParserTests
         ParametersParser.PlaceholderPosition.ParseToEnd(str);
     }
 
+    [Theory]
+    [InlineData("123")]
+    [InlineData("\\\"abc\\\"")]
+    [InlineData("\\\"\\\"")]
+    [InlineData("\\\\\\\"\\\\\\\"")]
+    public static void StringLiteralParsingShouldBeSuccess(string input)
+    {
+        input = $"\"{input}\"";
+        var parameter = ParametersParser.StringLiteral.ParseToEnd(input);
+        var result = parameter.ToString();
+        Assert.Equal(input, result);
+    }
+
     public static IEnumerable<string> ChainableStringCases()
     {
         var template = ".{0}";
@@ -86,20 +99,6 @@ public static class ParametersParserTests
 
     [Theory]
     [StringMemberData(nameof(PropertyAccessCases))]
-    // [InlineData("$var$.Column.Start")]
-    // [InlineData("$var$.Column.End")]
-    // [InlineData("$var$.Offset.Start")]
-    // [InlineData("$var$.Offset.End")]
-    // [InlineData("$var$.Line.Start")]
-    // [InlineData("$var$.Line.End")]
-    // [InlineData("$var$.Column.Start.Trim.TrimEnd.TrimStart.ToUpper.ToLower")]
-    // [InlineData("$var$.Column.End.Trim.TrimEnd.TrimStart.ToUpper.ToLower")]
-    // [InlineData("$var$.Offset.Start.Trim.TrimEnd.TrimStart.ToUpper.ToLower")]
-    // [InlineData("$var$.Offset.End.Trim.TrimEnd.TrimStart.ToUpper.ToLower")]
-    // [InlineData("$var$.Line.Start.Trim.TrimEnd.TrimStart.ToUpper.ToLower")]
-    // [InlineData("$var$.Line.End.Trim.TrimEnd.TrimStart.ToUpper.ToLower")]
-    // [InlineData("$var$.Trim")]
-    // [InlineData("$var$.Trim.TrimEnd.TrimStart.ToUpper.ToLower")]
     public static void PropertyAccessParsingShouldBeSuccess(string str)
     {
         var parameter = ParametersParser.PropertyAccess.ParseToEnd(str);
