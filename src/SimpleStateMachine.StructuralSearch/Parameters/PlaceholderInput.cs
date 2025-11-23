@@ -2,24 +2,16 @@
 
 namespace SimpleStateMachine.StructuralSearch.Parameters;
 
-internal class PlaceholderInput : IPlaceholderProperty
+internal class PlaceholderInput(PlaceholderParameter parameter, string propertyName) : IPlaceholderProperty
 {
-    private readonly string _propertyName;
-
-    public PlaceholderInput(PlaceholderParameter parameter, string propertyName)
-    {
-        Placeholder = parameter;
-        _propertyName = propertyName;
-    }
-
-    public PlaceholderParameter Placeholder { get; }
+    public PlaceholderParameter Placeholder { get; } = parameter;
 
     public bool IsApplicableForPlaceholder(string placeholderName)
         => Placeholder.IsApplicableForPlaceholder(placeholderName);
 
     public string GetValue(ref IParsingContext context)
-        => context.Input.GetProperty(_propertyName);
+        => context.Input.GetProperty(propertyName);
 
     public override string ToString()
-        => $"{Placeholder}{Constant.Dote}{Constant.Input}{Constant.Dote}{_propertyName}";
+        => $"{Placeholder}{Constant.Dote}{Constant.Input}{Constant.Dote}{propertyName}";
 }

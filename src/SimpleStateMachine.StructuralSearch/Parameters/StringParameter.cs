@@ -2,23 +2,16 @@
 
 namespace SimpleStateMachine.StructuralSearch.Parameters;
 
-internal class StringParameter : IParameter
+internal class StringParameter(string value) : IParameter
 {
-    public static StringParameter Empty = new StringParameter(string.Empty);
-
-    private readonly string _value;
-
-    public StringParameter(string value)
-    {
-        _value = value;
-    }
+    public static readonly StringParameter Empty = new(string.Empty);
 
     public bool IsApplicableForPlaceholder(string placeholderName)
         => false;
 
     public string GetValue(ref IParsingContext context) 
-        => _value;
+        => value;
 
     public override string ToString()
-        => _value;
+        => value;
 }

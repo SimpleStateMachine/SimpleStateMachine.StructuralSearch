@@ -6,37 +6,27 @@ using SimpleStateMachine.StructuralSearch.Parameters;
 
 namespace SimpleStateMachine.StructuralSearch.Operator.Logical;
 
-internal class StringCompareOperation : ILogicalOperation
+internal class StringCompareOperation(IParameter left, StringCompareOperator @operator, IParameter right)
+    : ILogicalOperation
 {
-    private readonly StringCompareOperator _operator;
-    private readonly IParameter _left;
-    private readonly IParameter _right;
-
-    public StringCompareOperation(IParameter left, StringCompareOperator @operator, IParameter right)
-    {
-        _operator = @operator;
-        _left = left;
-        _right = right;
-    }
-
     public bool IsApplicableForPlaceholder(string placeholderName)
-        => _left.IsApplicableForPlaceholder(placeholderName) || _right.IsApplicableForPlaceholder(placeholderName);
+        => left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
 
     public bool Execute(ref IParsingContext context)
     {
-        var left = _left.GetValue(ref context);
-        var right = _right.GetValue(ref context);
+        var left1 = left.GetValue(ref context);
+        var right1 = right.GetValue(ref context);
 
-        return _operator switch
+        return @operator switch
         {
-            StringCompareOperator.Equals => left.Equals(right),
-            StringCompareOperator.Contains => left.Contains(right),
-            StringCompareOperator.StartsWith => left.StartsWith(right),
-            StringCompareOperator.EndsWith => left.EndsWith(right),
-            _ => throw new ArgumentOutOfRangeException(nameof(_operator).FormatPrivateVar(), _operator, null)
+            StringCompareOperator.Equals => left1.Equals(right1),
+            StringCompareOperator.Contains => left1.Contains(right1),
+            StringCompareOperator.StartsWith => left1.StartsWith(right1),
+            StringCompareOperator.EndsWith => left1.EndsWith(right1),
+            _ => throw new ArgumentOutOfRangeException(nameof(@operator).FormatPrivateVar(), @operator, null)
         };
     }
 
     public override string ToString()
-        => $"{_left}{Constant.Space}{_operator}{Constant.Space}{_right}";
+        => $"{left}{Constant.Space}{@operator}{Constant.Space}{right}";
 }

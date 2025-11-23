@@ -5,9 +5,9 @@ namespace SimpleStateMachine.StructuralSearch.Tests.Mock;
 
 public static class ConfigurationMock
 {
-    public static Configuration GetConfigurationFromFiles(string name)
+    public static Configuration GetConfigurationFromFiles(string fileName)
     {
-        var fileName = $"{name}.txt";
+        fileName = $"{fileName}.txt";
         var findTemplate = FileOrNull("FindTemplate", fileName);
         var fileRule = FileOrNull("FindRule", fileName) ;
         var replaceTemplate = FileOrNull("ReplaceTemplate", fileName);

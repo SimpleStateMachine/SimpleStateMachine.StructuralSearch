@@ -49,10 +49,11 @@ internal class FindTemplate : Parser<char, List<string>>, IContextDependent
             results.Add(parserResult);
 
             SkipLookedParsers(parser, ref state);
+            continue;
 
-            void SkipLookedParsers(Parser<char, string> parser, ref ParseState<char> state)
+            void SkipLookedParsers(Parser<char, string> parserToCheck, ref ParseState<char> state)
             {
-                if (parser is not ParserWithLookahead<char, string> lookaheadParser ||
+                if (parserToCheck is not ParserWithLookahead<char, string> lookaheadParser ||
                     lookaheadParser is { OnLookahead: null })
                     return;
 

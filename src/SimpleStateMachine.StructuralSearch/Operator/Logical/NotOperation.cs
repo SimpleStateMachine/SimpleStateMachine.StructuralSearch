@@ -2,24 +2,17 @@
 
 namespace SimpleStateMachine.StructuralSearch.Operator.Logical;
 
-internal class NotOperation : ILogicalOperation
+internal class NotOperation(ILogicalOperation parameter) : ILogicalOperation
 {
-    private readonly ILogicalOperation _parameter;
-
-    public NotOperation(ILogicalOperation parameter)
-    {
-        _parameter = parameter;
-    }
-
     public bool IsApplicableForPlaceholder(string placeholderName)
-        => _parameter.IsApplicableForPlaceholder(placeholderName);
+        => parameter.IsApplicableForPlaceholder(placeholderName);
 
     public bool Execute(ref IParsingContext context)
     {
-        var value = _parameter.Execute(ref context);
+        var value = parameter.Execute(ref context);
         return !value;
     }
 
     public override string ToString()
-        => $"{Constant.Not}{Constant.Space}{_parameter}";
+        => $"{Constant.Not}{Constant.Space}{parameter}";
 }

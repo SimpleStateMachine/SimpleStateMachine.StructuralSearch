@@ -5,27 +5,16 @@ using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests.Attributes;
 
-[CLSCompliant(false)]
-public class StringMemberDataAttribute : MemberDataAttributeBase
+public class StringMemberDataAttribute(string memberName, params object[] parameters)
+    : MemberDataAttributeBase(memberName, parameters)
 {
-    private readonly string _memberName;
-
-    public StringMemberDataAttribute(string memberName, params object[] parameters)
-        : base(memberName, parameters)
-    {
-        _memberName = memberName;
-    }
-
     protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
     {
-        if (item == null)
-            return null;
-
-        var str = item as string;
-        if (str == null)
+        if (item is not string str)
             throw new ArgumentException
             (
-                string.Format(
+                string.Format
+                (
                     CultureInfo.CurrentCulture,
                     "Property {0} on {1} yielded an item that is not string",
                     MemberName,

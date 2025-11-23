@@ -1,36 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Authors>SimpleStateMachine</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>structural structural-search structural-search-replace search-replace</PackageTags>
-    <RepositoryUrl>https://github.com/SimpleStateMachine/SimpleStateMachine.StructuralSearch</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/SimpleStateMachine/SimpleStateMachine.StructuralSearch</PackageProjectUrl>
-    <Description>Library for Structural Search and Replace</Description>
-    <PackageIcon>SimpleStateMachine.png</PackageIcon>
-    <Version>1.0.0.2</Version>
-    <AssemblyVersion>1.0.0.2</AssemblyVersion>
-    <FileVersion>1.0.0.2</FileVersion>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Pidgin" Version="3.5.1" />
-    <PackageReference Include="YamlDotNet" Version="16.3.0" />
-  </ItemGroup>
+    <PropertyGroup>
+        <Version>1.0.0.2</Version>
+        <AssemblyVersion>1.0.0.2</AssemblyVersion>
+        <FileVersion>1.0.0.2</FileVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>SimpleStateMachine.StructuralSearch.Tests</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Pidgin"/>
+        <PackageReference Include="YamlDotNet"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="SimpleStateMachine.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>SimpleStateMachine.StructuralSearch.Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 </Project>

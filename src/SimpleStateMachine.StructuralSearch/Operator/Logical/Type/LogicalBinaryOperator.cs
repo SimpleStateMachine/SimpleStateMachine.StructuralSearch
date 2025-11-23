@@ -1,4 +1,6 @@
-﻿namespace SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
+﻿// ReSharper disable InconsistentNaming
+
+namespace SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 
 internal enum LogicalBinaryOperator
 {

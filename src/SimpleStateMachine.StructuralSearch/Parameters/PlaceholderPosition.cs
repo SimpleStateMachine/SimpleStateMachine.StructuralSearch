@@ -5,19 +5,13 @@ using SimpleStateMachine.StructuralSearch.Parameters.Types;
 
 namespace SimpleStateMachine.StructuralSearch.Parameters;
 
-internal class PlaceholderPosition : IPlaceholderProperty
+internal class PlaceholderPosition(
+    PlaceholderParameter placeholder,
+    PlaceholderPositionType property,
+    PlaceholderPositionSubProperty subProperty)
+    : IPlaceholderProperty
 {
-    private readonly PlaceholderPositionType _property;
-    private readonly PlaceholderPositionSubProperty _subProperty;
-
-    public PlaceholderPosition(PlaceholderParameter placeholder, PlaceholderPositionType property, PlaceholderPositionSubProperty subProperty)
-    {
-        _property = property;
-        _subProperty = subProperty;
-        Placeholder = placeholder;
-    }
-
-    public PlaceholderParameter Placeholder { get; }
+    public PlaceholderParameter Placeholder { get; } = placeholder;
 
     public bool IsApplicableForPlaceholder(string placeholderName)
         => Placeholder.IsApplicableForPlaceholder(placeholderName);
@@ -25,25 +19,25 @@ internal class PlaceholderPosition : IPlaceholderProperty
     public string GetValue(ref IParsingContext context)
     {
         var placeholder = Placeholder.GetPlaceholder(ref context);
-        return _property switch
+        return property switch
         {
             PlaceholderPositionType.Offset => GetPositionValue(placeholder.Offset.Start, placeholder.Offset.End),
             PlaceholderPositionType.Column => GetPositionValue(placeholder.Column.Start, placeholder.Column.End),
             PlaceholderPositionType.Line => GetPositionValue(placeholder.Line.Start, placeholder.Line.End),
-            _ => throw new ArgumentOutOfRangeException(nameof(_property).FormatPrivateVar(), _property, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(property).FormatPrivateVar(), property, null)
         };
     }
     
     private string GetPositionValue(int start, int end)
     {
-        return (_subProperty switch
+        return (subProperty switch
         {
             PlaceholderPositionSubProperty.Start => start,
             PlaceholderPositionSubProperty.End => end,
-            _ => throw new ArgumentOutOfRangeException(nameof(_subProperty).FormatPrivateVar(), _subProperty, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(subProperty).FormatPrivateVar(), subProperty, null)
         }).ToString();
     }
 
     public override string ToString()
-        => $"{Placeholder}{Constant.Dote}{_property}{Constant.Dote}{_subProperty}";
+        => $"{Placeholder}{Constant.Dote}{property}{Constant.Dote}{subProperty}";
 }

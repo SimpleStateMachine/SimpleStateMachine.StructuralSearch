@@ -34,7 +34,7 @@ internal static class LogicalExpressionParser
             .Select<Func<IParameter, ILogicalOperation>>(regex => parameter => new MatchOperation(parameter, regex));
 
     // string_expr { ',' string_expr }
-    internal static readonly Parser<char, IEnumerable<IParameter>> InOperationParameters =
+    private static readonly Parser<char, IEnumerable<IParameter>> InOperationParameters =
         ParametersParser.StringExpression.SeparatedAtLeastOnce(CommonParser.Comma.TrimEnd());
 
     // in_operation ='In' [ '(' ] string_expr { ',' string_expr } [ ')' ]

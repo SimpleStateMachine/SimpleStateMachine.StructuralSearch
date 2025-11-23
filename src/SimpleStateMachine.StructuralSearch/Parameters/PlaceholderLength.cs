@@ -2,14 +2,9 @@
 
 namespace SimpleStateMachine.StructuralSearch.Parameters;
 
-internal class PlaceholderLength : IPlaceholderProperty
+internal class PlaceholderLength(PlaceholderParameter placeholder) : IPlaceholderProperty
 {
-    public PlaceholderLength(PlaceholderParameter placeholder)
-    {
-        Placeholder = placeholder;
-    }
-
-    public PlaceholderParameter Placeholder { get; }
+    public PlaceholderParameter Placeholder { get; } = placeholder;
 
     public bool IsApplicableForPlaceholder(string placeholderName)
         => Placeholder.IsApplicableForPlaceholder(placeholderName);

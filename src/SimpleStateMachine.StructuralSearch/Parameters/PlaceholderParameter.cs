@@ -2,14 +2,9 @@
 
 namespace SimpleStateMachine.StructuralSearch.Parameters;
 
-internal class PlaceholderParameter : IPlaceholderProperty
+internal class PlaceholderParameter(string name) : IPlaceholderProperty
 {
-    public PlaceholderParameter(string name)
-    {
-        PlaceholderName = name;
-    }
-
-    public string PlaceholderName { get; }
+    private string PlaceholderName { get; } = name;
 
     public IPlaceholder GetPlaceholder(ref IParsingContext context)
         => context[PlaceholderName];
