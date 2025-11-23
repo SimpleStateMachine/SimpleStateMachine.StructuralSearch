@@ -29,7 +29,5 @@ internal class InOperation(IParameter parameter, List<IParameter> arguments) : I
     }
 
     public override string ToString()
-    {
-        return $"{parameter}{Constant.Space}{Constant.In}{Constant.Space}{string.Join(Constant.Comma, arguments)}";
-    }
+        => $"{parameter}{Constant.Space}{Constant.In}{Constant.Space}{string.Join(Constant.Comma, arguments)}";
 }

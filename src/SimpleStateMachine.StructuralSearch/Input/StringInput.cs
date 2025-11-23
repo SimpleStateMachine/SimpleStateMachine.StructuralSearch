@@ -6,9 +6,7 @@ namespace SimpleStateMachine.StructuralSearch.Input;
 public class StringInput(string str) : IInput
 {
     public TextReader ReadData()
-    {
-        return new StringReader(str);
-    }
+        => new StringReader(str);
 
     public string GetProperty(string propertyName)
     {

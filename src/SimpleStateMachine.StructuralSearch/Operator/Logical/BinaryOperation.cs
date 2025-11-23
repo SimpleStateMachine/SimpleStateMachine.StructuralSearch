@@ -8,9 +8,7 @@ internal class BinaryOperation(ILogicalOperation left, LogicalBinaryOperator typ
     : ILogicalOperation
 {
     public bool IsApplicableForPlaceholder(string placeholderName)
-    {
-        return left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
-    }
+        => left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
 
     public bool Execute(ref IParsingContext context)
     {
@@ -30,7 +28,5 @@ internal class BinaryOperation(ILogicalOperation left, LogicalBinaryOperator typ
     }
 
     public override string ToString()
-    {
-        return $"{left}{Constant.Space}{type}{Constant.Space}{right}";
-    }
+        => $"{left}{Constant.Space}{type}{Constant.Space}{right}";
 }

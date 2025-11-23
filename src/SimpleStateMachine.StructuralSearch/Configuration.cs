@@ -15,9 +15,9 @@ public class Configuration : IEquatable<Configuration>
     {
         if (other is null) return false;
         if (ReferenceEquals(this, other)) return true;
-        return FindTemplate == other.FindTemplate 
-               && NullableSequenceEqual(FindRules, other.FindRules) 
-               && ReplaceTemplate == other.ReplaceTemplate 
+        return FindTemplate == other.FindTemplate
+               && NullableSequenceEqual(FindRules, other.FindRules)
+               && ReplaceTemplate == other.ReplaceTemplate
                && NullableSequenceEqual(ReplaceRules, other.ReplaceRules);
     }
 
@@ -30,9 +30,7 @@ public class Configuration : IEquatable<Configuration>
     }
 
     public override int GetHashCode()
-    {
-        return HashCode.Combine(FindTemplate, FindRules, ReplaceTemplate, ReplaceRules);
-    }
+        => HashCode.Combine(FindTemplate, FindRules, ReplaceTemplate, ReplaceRules);
 
     private static bool NullableSequenceEqual<TSource>(IEnumerable<TSource>? first, IEnumerable<TSource>? second)
     {
