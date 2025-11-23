@@ -4,14 +4,9 @@ using SimpleStateMachine.StructuralSearch.Operator.Logical;
 
 namespace SimpleStateMachine.StructuralSearch.Context;
 
-internal class ParsingContext : Dictionary<string, IPlaceholder>, IParsingContext
+internal class ParsingContext(IInput input, IReadOnlyCollection<ILogicalOperation> findRules)
+    : Dictionary<string, IPlaceholder>, IParsingContext
 {
-    public ParsingContext(IInput input, IReadOnlyCollection<ILogicalOperation> findRules)
-    {
-        Input = input;
-        FindRules = findRules;
-    }
-
-    public IInput Input { get; }
-    public IReadOnlyCollection<ILogicalOperation> FindRules { get; }
+    public IInput Input { get; } = input;
+    public IReadOnlyCollection<ILogicalOperation> FindRules { get; } = findRules;
 }

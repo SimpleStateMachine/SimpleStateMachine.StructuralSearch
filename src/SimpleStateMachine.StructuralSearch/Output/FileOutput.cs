@@ -5,15 +5,8 @@ using SimpleStateMachine.StructuralSearch.Input;
 
 namespace SimpleStateMachine.StructuralSearch.Output;
 
-internal class FileOutput : IOutput
+internal class FileOutput(FileInfo fileInfo) : IOutput
 {
-    private readonly FileInfo _fileInfo;
-    
-    public FileOutput(FileInfo fileInfo)
-    {
-        _fileInfo = fileInfo;
-    }
-    
     public void Replace(IInput input, IEnumerable<ReplaceMatch> replaceMatches)
     {
         throw new NotImplementedException();
@@ -24,7 +17,7 @@ internal class FileOutput : IOutput
         // File.WriteAllText(Path, text);
     }
     
-    public string Extension => _fileInfo.Extension;
-    public string Path => System.IO.Path.GetFullPath(_fileInfo.FullName);
-    public string Name => System.IO.Path.GetFileNameWithoutExtension(_fileInfo.Name);
+    public string Extension => fileInfo.Extension;
+    public string Path => System.IO.Path.GetFullPath(fileInfo.FullName);
+    public string Name => System.IO.Path.GetFileNameWithoutExtension(fileInfo.Name);
 }

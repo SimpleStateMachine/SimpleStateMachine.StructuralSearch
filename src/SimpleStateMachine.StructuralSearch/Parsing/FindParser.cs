@@ -9,14 +9,9 @@ using SimpleStateMachine.StructuralSearch.Operator.Logical;
 
 namespace SimpleStateMachine.StructuralSearch.Parsing;
 
-internal class FindParser : IFindParser
+internal class FindParser(FindTemplate parser) : IFindParser
 {
-    private FindTemplate Parser { get; }
-
-    public FindParser(FindTemplate parser)    
-    {
-        Parser = parser;
-    }
+    private FindTemplate Parser { get; } = parser;
 
     public List<FindParserResult> Parse(IInput input, params ILogicalOperation[] findRules)
     {

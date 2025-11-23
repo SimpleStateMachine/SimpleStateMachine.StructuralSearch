@@ -8,25 +8,16 @@ using SimpleStateMachine.StructuralSearch.Parsing;
 
 namespace SimpleStateMachine.StructuralSearch.Operator.Logical;
 
-internal class IsOperation : ILogicalOperation
+internal class IsOperation(IParameter parameter, ParameterType type) : ILogicalOperation
 {
-    private readonly IParameter _parameter;
-    private readonly ParameterType _type;
-
-    public IsOperation(IParameter parameter, ParameterType type)
-    {
-        _parameter = parameter;
-        _type = type;
-    }
-
     public bool IsApplicableForPlaceholder(string placeholderName)
-        => _parameter.IsApplicableForPlaceholder(placeholderName);
+        => parameter.IsApplicableForPlaceholder(placeholderName);
 
     public bool Execute(ref IParsingContext context)
     {
-        var value = _parameter.GetValue(ref context);
+        var value = parameter.GetValue(ref context);
 
-        return _type switch
+        return type switch
         {
             ParameterType.Var => Grammar.Identifier.Before(CommonParser.Eof).TryParse(value, out _),
             ParameterType.Int => int.TryParse(value, out _),
@@ -34,10 +25,10 @@ internal class IsOperation : ILogicalOperation
             ParameterType.DateTime => DateTime.TryParse(value, out _),
             ParameterType.Guid => Guid.TryParse(value, out _),
             ParameterType.Bool => bool.TryParse(value, out _),
-            _ => throw new ArgumentOutOfRangeException(nameof(_type).FormatPrivateVar(), _type, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(type).FormatPrivateVar(), type, null)
         };
     }
 
     public override string ToString()
-        => $"{_parameter}{Constant.Space}{Constant.Is}{Constant.Space}{_type}";
+        => $"{parameter}{Constant.Space}{Constant.Is}{Constant.Space}{type}";
 }

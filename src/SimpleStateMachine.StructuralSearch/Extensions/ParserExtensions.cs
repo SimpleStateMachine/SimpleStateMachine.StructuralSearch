@@ -12,8 +12,8 @@ internal static class ParserExtensions
     public static Parser<TToken, T> Lookahead<TToken, T>(this Parser<TToken, T> parser)
         => Parser.Lookahead(parser);
 
-    public static Parser<TToken, IEnumerable<T>> AtLeastOnceUntilNot<TToken, T, U>(this Parser<TToken, T> parser,
-        Parser<TToken, U> terminator) =>
+    public static Parser<TToken, IEnumerable<T>> AtLeastOnceUntilNot<TToken, T, TTerminator>(this Parser<TToken, T> parser,
+        Parser<TToken, TTerminator> terminator) =>
         parser != null
             ? parser.AtLeastOnceUntil(Parser.Not(terminator))
             : throw new ArgumentNullException(nameof(parser));

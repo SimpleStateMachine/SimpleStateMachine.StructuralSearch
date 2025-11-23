@@ -23,16 +23,9 @@ internal abstract class ParserWithLookahead<TToken, T> : Parser<TToken, T>
         => LookaheadParser.Value.TryParse(ref state, ref expected, out result!);
 }
 
-internal class LookaheadResult<TToken, T>
+internal class LookaheadResult<TToken, T>(Parser<TToken, T> parser, T result, int tokensCount)
 {
-    public T Result { get; }
-    public int TokensCount { get; }
-    public readonly Parser<TToken, T> Parser;
-        
-    public LookaheadResult(Parser<TToken, T> parser, T result, int tokensCount)
-    {
-        Parser = parser;
-        Result = result;
-        TokensCount = tokensCount;
-    }
+    public T Result { get; } = result;
+    public int TokensCount { get; } = tokensCount;
+    public readonly Parser<TToken, T> Parser = parser;
 }

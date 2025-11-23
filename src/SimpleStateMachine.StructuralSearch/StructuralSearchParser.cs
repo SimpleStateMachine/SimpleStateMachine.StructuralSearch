@@ -9,27 +9,12 @@ using SimpleStateMachine.StructuralSearch.Replace;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class StructuralSearchParser
+public class StructuralSearchParser(Configuration configuration)
 {
-    private readonly IFindParser _findParser;
-    private readonly ILogicalOperation[] _findRules;
-    private readonly IReplaceBuilder _replaceBuilder;
-    private readonly IReadOnlyList<IReplaceRule> _replaceRules;
-
-    public StructuralSearchParser(Configuration configuration)
-    {
-        _findRules = configuration.FindRules
-            .EmptyIfNull()
-            .Select(Parsing.StructuralSearch.ParseFindRule).ToArray();
-
-        _findParser = Parsing.StructuralSearch.ParseFindTemplate(configuration.FindTemplate);
-
-        _replaceBuilder = Parsing.StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
-
-        _replaceRules = configuration.ReplaceRules
-            .EmptyIfNull()
-            .Select(Parsing.StructuralSearch.ParseReplaceRule).ToList();
-    }
+    private readonly IFindParser _findParser = Parsing.StructuralSearch.ParseFindTemplate(configuration.FindTemplate);
+    private readonly ILogicalOperation[] _findRules = configuration.FindRules.EmptyIfNull().Select(Parsing.StructuralSearch.ParseFindRule).ToArray();
+    private readonly IReplaceBuilder _replaceBuilder = Parsing.StructuralSearch.ParseReplaceTemplate(configuration.ReplaceTemplate);
+    private readonly IReadOnlyList<IReplaceRule> _replaceRules = configuration.ReplaceRules.EmptyIfNull().Select(Parsing.StructuralSearch.ParseReplaceRule).ToList();
 
     public List<FindParserResult> StructuralSearch(IInput input)
         => _findParser.Parse(input, _findRules);

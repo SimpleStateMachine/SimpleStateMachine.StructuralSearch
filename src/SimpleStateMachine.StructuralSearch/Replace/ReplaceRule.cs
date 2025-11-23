@@ -4,27 +4,19 @@ using SimpleStateMachine.StructuralSearch.Context;
 
 namespace SimpleStateMachine.StructuralSearch.Replace;
 
-internal class ReplaceRule : IReplaceRule
+internal class ReplaceRule(IReplaceCondition condition, List<Assignment> assignments) : IReplaceRule
 {
     public static readonly EmptyReplaceRule Empty = new();
 
-    private readonly IReplaceCondition _condition;
-
-    public ReplaceRule(IReplaceCondition condition, List<Assignment> assignments)
-    {
-        _condition = condition;
-        Assignments = assignments;
-    }
-
-    public List<Assignment> Assignments { get; }
+    public List<Assignment> Assignments { get; } = assignments;
 
     public bool IsMatch(ref IParsingContext context)
-        => _condition.Execute(ref context);
+        => condition.Execute(ref context);
 
     public override string ToString()
     {
         var builder = new StringBuilder();
-        var conditionStr = _condition.ToString();
+        var conditionStr = condition.ToString();
 
         if (!string.IsNullOrEmpty(conditionStr))
             builder.Append(conditionStr).Append(Constant.Space);

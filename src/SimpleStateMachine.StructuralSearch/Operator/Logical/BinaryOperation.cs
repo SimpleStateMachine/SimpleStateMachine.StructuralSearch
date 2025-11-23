@@ -4,39 +4,33 @@ using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 
 namespace SimpleStateMachine.StructuralSearch.Operator.Logical;
 
-internal class BinaryOperation : ILogicalOperation
+internal class BinaryOperation(ILogicalOperation left, LogicalBinaryOperator type, ILogicalOperation right)
+    : ILogicalOperation
 {
-    private readonly LogicalBinaryOperator _type;
-    private readonly ILogicalOperation _left;
-    private readonly ILogicalOperation _right;
-
-    public BinaryOperation(ILogicalOperation left, LogicalBinaryOperator type, ILogicalOperation right)
-    {
-        _type = type;
-        _left = left;
-        _right = right;
-    }
-
     public bool IsApplicableForPlaceholder(string placeholderName)
-        => _left.IsApplicableForPlaceholder(placeholderName) || _right.IsApplicableForPlaceholder(placeholderName);
+    {
+        return left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
+    }
 
     public bool Execute(ref IParsingContext context)
     {
-        var left = _left.Execute(ref context);
-        var right = _right.Execute(ref context);
+        var leftResult = left.Execute(ref context);
+        var rightResult = right.Execute(ref context);
 
-        return _type switch
+        return type switch
         {
-            LogicalBinaryOperator.And => left && right,
-            LogicalBinaryOperator.Or => left || right,
-            LogicalBinaryOperator.NAND => !(left && right),
-            LogicalBinaryOperator.NOR => !(left || right),
-            LogicalBinaryOperator.XOR => left ^ right,
-            LogicalBinaryOperator.XNOR => left == right,
-            _ => throw new ArgumentOutOfRangeException(nameof(_type), _type, null)
+            LogicalBinaryOperator.And => leftResult && rightResult,
+            LogicalBinaryOperator.Or => leftResult || rightResult,
+            LogicalBinaryOperator.NAND => !(leftResult && rightResult),
+            LogicalBinaryOperator.NOR => !(leftResult || rightResult),
+            LogicalBinaryOperator.XOR => leftResult ^ rightResult,
+            LogicalBinaryOperator.XNOR => leftResult == rightResult,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 
     public override string ToString()
-        => $"{_left}{Constant.Space}{_type}{Constant.Space}{_right}";
+    {
+        return $"{left}{Constant.Space}{type}{Constant.Space}{right}";
+    }
 }

@@ -4,26 +4,17 @@ using SimpleStateMachine.StructuralSearch.Parameters;
 
 namespace SimpleStateMachine.StructuralSearch.Operator.Logical;
 
-internal class MatchOperation : ILogicalOperation
+internal class MatchOperation(IParameter stringParameter, string regex) : ILogicalOperation
 {
-    private readonly IParameter _stringParameter;
-    private readonly string _regex;
-
-    public MatchOperation(IParameter stringParameter, string regex)
-    {
-        _stringParameter = stringParameter;
-        _regex = regex;
-    }
-
     public bool IsApplicableForPlaceholder(string placeholderName)
-        => _stringParameter.IsApplicableForPlaceholder(placeholderName);
+        => stringParameter.IsApplicableForPlaceholder(placeholderName);
 
     public bool Execute(ref IParsingContext context)
     {
-        var value = _stringParameter.GetValue(ref context);
-        return Regex.IsMatch(input: value, pattern: _regex);
+        var value = stringParameter.GetValue(ref context);
+        return Regex.IsMatch(input: value, pattern: regex);
     }
 
     public override string ToString()
-        => $"{_stringParameter}{Constant.Space}{Constant.Match}{Constant.Space}{Constant.DoubleQuotes}{_regex}{Constant.DoubleQuotes}";
+        => $"{stringParameter}{Constant.Space}{Constant.Match}{Constant.Space}{Constant.DoubleQuotes}{regex}{Constant.DoubleQuotes}";
 }

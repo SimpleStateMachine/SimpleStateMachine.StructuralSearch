@@ -6,11 +6,14 @@ namespace SimpleStateMachine.StructuralSearch.Tests;
 public static class PlaceholderParserTests
 {
     [Theory]
-    // [InlineData("($test$):", "(value (test) );", "value (test) ")]
-    // [InlineData("$var$", "temp1 ?? temp2", "temp1 ?? temp2")]
-    // [InlineData("$var$;.", "temp1 ?? temp2;.", "temp1 ?? temp2")]
-    // [InlineData("$var$;", "temp1 ?? temp2;", "temp1 ?? temp2")]
-
+    [InlineData("$var$", "temp1 temp2", "temp1 temp2")]
+    [InlineData("$test$", "value (test)", "value (test)")]
+    [InlineData("$test$", "value (test) ", "value (test) ")]
+    [InlineData("$var$;.", "temp1 temp2;.", "temp1 temp2")]
+    [InlineData("$var$;", "temp1 temp2;", "temp1 temp2")]
+    [InlineData("$test$ ", "value (test) ", "value (test)")]
+    [InlineData("($test$):", "(value (test) ):", "value (test) ")]
+    [InlineData("($var$);", "(((test)));", "((test))")]
     [InlineData("($test$)", "(value )", "value ")]
     [InlineData("($test$ )", "(value )", "value")]
     [InlineData("($test$)", "(value (test))", "value (test)")]

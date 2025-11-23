@@ -1,0 +1,22 @@
+<Project>
+    <PropertyGroup>
+        <Authors>SimpleStateMachine</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageTags>structural structural-search structural-search-replace search-replace</PackageTags>
+        <RepositoryUrl>https://github.com/SimpleStateMachine/SimpleStateMachine.StructuralSearch</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/SimpleStateMachine/SimpleStateMachine.StructuralSearch</PackageProjectUrl>
+        <Description>Library for Structural Search and Replace</Description>
+        <PackageIcon>SimpleStateMachine.png</PackageIcon>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="SimpleStateMachine.png">
+            <Pack>True</Pack>
+        </None>
+    </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+</Project>

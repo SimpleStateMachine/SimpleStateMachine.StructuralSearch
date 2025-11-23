@@ -7,24 +7,17 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 
 namespace SimpleStateMachine.StructuralSearch.Parsing;
 
-internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDependent
+internal class PlaceholderParser(string name) : ParserWithLookahead<char, string>, IContextDependent
 {
-    internal static readonly IReadOnlySet<char> InvalidStringLiteralChars = new HashSet<char>(Constant.AllParenthesis)
+    private static readonly IReadOnlySet<char> InvalidStringLiteralChars = new HashSet<char>(Constant.AllParenthesis)
     {
         Constant.CarriageReturn,
-        Constant.LineFeed,
-        Constant.Space
+        Constant.LineFeed
     };
 
-    internal static readonly Parser<char, char> StringLiteralChar = Parser.AnyCharExcept(InvalidStringLiteralChars);
+    private static readonly Parser<char, char> StringLiteralChar = Parser.AnyCharExcept(InvalidStringLiteralChars);
 
-    private readonly string _name;
     private IParsingContext? _context;
-
-    public PlaceholderParser(string name)
-    {
-        _name = name;
-    }
 
     private IParsingContext Context => _context ?? throw new ArgumentNullException(nameof(_context));
 
@@ -59,74 +52,15 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
         }
         else
         {
-            lookahead = Parser.EndOfLine.Select(x => Unit.Value);
+            lookahead = Parser<char>.End.Select(x => Unit.Value);
         }
 
         return CreateParser(lookahead);
-
-
-        //parenthesised and tokens and whiteSpaces
-        // var prdsAndTokens = Parser.OneOf(parenthesised, token)
-        //     .AtLeastOnceUntil(lookahead)
-        //     .JoinToString()
-        //     .Try();
-
-        // var parser = prdsAndTokens.Or(anyString);
     }
 
-    // internal static Parser<char, string> GreedyUntil(Parser<char, Unit> terminator)
-    // {
-    //     var term = Parser.AnyCharExcept(Constant.AllParenthesis)
-    //         .AtLeastOnceAsStringUntil(terminator)
-    //         .WithDebug("term");
-    //
-    //     Parser<char, string>? parser = null;
-    //     
-    //     var bracketed = Parser.Rec(() => parser!)
-    //         .ManyString()
-    //         .BetweenAnyParentheses((l, inner, r) => $"{l}{inner}{r}")
-    //         .WithDebug("bracketed");
-    //     
-    //     parser = Parser.OneOf(bracketed.Try(), term);
-    //     
-    //     return parser.AtLeastOnceUntil(terminator).JoinToString();
-    //     
-    //     // var term = Parser.AnyCharExcept(Constant.AllParenthesis).Until(terminator)
-    //     //     .Select(x => new string(x.ToArray()));
-    //     //
-    //     // Parser<char, string>? parser = null;
-    //     //
-    //     // var bracketed = Parser.OneOf(Parser.Rec(() => parser!), term)
-    //     //     .ManyString()
-    //     //     .BetweenAnyParentheses((c1, s, c2) => $"{c1}{s}{c2}").WithDebug();
-    //     //
-    //     // parser = Parser.OneOf(bracketed.Try(), term);
-    //     // return parser.AtLeastOnceUntil(terminator).JoinToString();
-    // }
-    
-    // internal static Parser<char, string> GreedyUntil(Parser<char, Unit> terminator)
-    // {
-    //     var word = StringLiteralChar.AtLeastOnceString().WithDebug();
-    //     var whitespace = Parser.OneOf(Constant.WhitespaceChars).AtLeastOnceString().WithDebug();
-    //     
-    //     // var word = StringLiteralChar.AtLeastOnceAsStringUntil(terminator).WithDebug();
-    //     // var whitespace = Parser.OneOf(Constant.WhitespaceChars).AtLeastOnceAsStringUntil(terminator).WithDebug();
-    //     var term = Parser.OneOf(word.Try(), whitespace);
-    //
-    //     Parser<char, string>? parser = null;
-    //     
-    //     var bracketed = Parser.OneOf(Parser.Rec(() => parser!), term)
-    //         .ManyString()
-    //         .BetweenAnyParentheses((c1, s, c2) => $"{c1}{s}{c2}").WithDebug();
-    //
-    //     parser = Parser.OneOf(bracketed.Try(), term);
-    //     return parser.ManyString().Before(terminator.Try());
-    // }
-    
     internal static Parser<char, string> CreateParser(Parser<char, Unit> terminator)
     {
-        var anyString = StringLiteralChar
-            .AtLeastOnceAsStringUntil(terminator);
+        var anyString = StringLiteralChar.AtLeastOnceAsStringUntil(terminator);
 
         var simpleString = StringLiteralChar.AtLeastOnceString();
         var token = Parser.OneOf(simpleString, Grammar.WhiteSpaces).Try();
@@ -153,7 +87,7 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
         bool res;
 
         // No use look-ahead if placeholder is already defined
-        if (Context.TryGetValue(_name, out var placeholder))
+        if (Context.TryGetValue(name, out var placeholder))
         {
             res = Parser.String(placeholder.Value).TryParse(ref state, ref expected, out result!);
         }
@@ -165,18 +99,18 @@ internal class PlaceholderParser : ParserWithLookahead<char, string>, IContextDe
             {
                 var placeholderObj = new Placeholder.Placeholder
                 (
-                    name: _name,
+                    name: name,
                     match: match
                 );
 
-                Context[_name] = placeholderObj;
+                Context[name] = placeholderObj;
 
                 res = Context.FindRules
-                    .Where(r => r.IsApplicableForPlaceholder(_name))
+                    .Where(r => r.IsApplicableForPlaceholder(name))
                     .All(r => r.Execute(ref _context!));
 
                 if (!res)
-                    Context.Remove(_name);
+                    Context.Remove(name);
             }
         }
 

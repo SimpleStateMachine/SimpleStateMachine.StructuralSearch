@@ -3,18 +3,11 @@ using SimpleStateMachine.StructuralSearch.Parameters;
 
 namespace SimpleStateMachine.StructuralSearch.Replace;
 
-internal class ReplaceBuilder : IReplaceBuilder
+internal class ReplaceBuilder(IParameter parameter) : IReplaceBuilder
 {
-    private readonly IParameter _parameter;
-
-    public ReplaceBuilder(IParameter parameter)
-    {
-        _parameter = parameter;
-    }
-
     public string Build(ref IParsingContext context) 
-        => _parameter.GetValue(ref context);
+        => parameter.GetValue(ref context);
 
     public override string? ToString() 
-        => _parameter.ToString();
+        => parameter.ToString();
 }

@@ -2,16 +2,12 @@
 
 namespace SimpleStateMachine.StructuralSearch.Replace;
 
-public class ReplaceResult
+public class ReplaceResult(
+    FindParserResult findResult,
+    IReadOnlyDictionary<string, IPlaceholder> newPlaceholders,
+    string newValue)
 {
-    public ReplaceResult(FindParserResult findResult, IReadOnlyDictionary<string, IPlaceholder> newPlaceholders, string newValue)
-    {
-        FindResult = findResult;
-        NewPlaceholders = newPlaceholders;
-        Value = newValue;
-    }
-
-    public FindParserResult FindResult { get; }
-    public IReadOnlyDictionary<string, IPlaceholder> NewPlaceholders { get; }
-    public string Value { get; }
+    public FindParserResult FindResult { get; } = findResult;
+    public IReadOnlyDictionary<string, IPlaceholder> NewPlaceholders { get; } = newPlaceholders;
+    public string Value { get; } = newValue;
 }

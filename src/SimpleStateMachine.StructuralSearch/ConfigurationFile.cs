@@ -7,7 +7,7 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace SimpleStateMachine.StructuralSearch;
 
-public class ConfigurationFile : IEquatable<ConfigurationFile>
+public class ConfigurationFile(List<Configuration> configurations) : IEquatable<ConfigurationFile>
 {
     private static readonly IDeserializer Deserializer = new DeserializerBuilder()
         .WithNamingConvention(PascalCaseNamingConvention.Instance)
@@ -27,17 +27,11 @@ public class ConfigurationFile : IEquatable<ConfigurationFile>
     }
 
     // Use for deserialization
-    private ConfigurationFile()
+    private ConfigurationFile() : this([])
     {
-        Configurations = [];
     }
 
-    public ConfigurationFile(List<Configuration> configurations)
-    {
-        Configurations = configurations;
-    }
-
-    public List<Configuration> Configurations { get; init; }
+    public List<Configuration> Configurations { get; init; } = configurations;
 
     public bool Equals(ConfigurationFile? other)
         => other?.Configurations != null && Configurations.SequenceEqual(other.Configurations);

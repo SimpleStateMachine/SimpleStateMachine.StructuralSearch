@@ -5,29 +5,23 @@ using SimpleStateMachine.StructuralSearch.Parameters;
 
 namespace SimpleStateMachine.StructuralSearch.Operator.Logical;
 
-internal class InOperation : ILogicalOperation
+internal class InOperation(IParameter parameter, List<IParameter> arguments) : ILogicalOperation
 {
-    private readonly IParameter _parameter;
-    private readonly List<IParameter> _arguments;
-
-    public InOperation(IParameter parameter, List<IParameter> arguments)
-    {
-        _parameter = parameter;
-        _arguments = arguments;
-    }
-
     public bool IsApplicableForPlaceholder(string placeholderName)
-        => _parameter.IsApplicableForPlaceholder(placeholderName) || _arguments.Any(a => a.IsApplicableForPlaceholder(placeholderName));
+    {
+        return parameter.IsApplicableForPlaceholder(placeholderName) ||
+               arguments.Any(a => a.IsApplicableForPlaceholder(placeholderName));
+    }
 
     public bool Execute(ref IParsingContext context)
     {
-        var parameter = _parameter.GetValue(ref context);
+        var parameterValue = parameter.GetValue(ref context);
 
-        foreach (var argument in _arguments)
+        foreach (var argument in arguments)
         {
             var value = argument.GetValue(ref context);
 
-            if (Equals(parameter, value))
+            if (Equals(parameterValue, value))
                 return true;
         }
 
@@ -35,5 +29,7 @@ internal class InOperation : ILogicalOperation
     }
 
     public override string ToString()
-        => $"{_parameter}{Constant.Space}{Constant.In}{Constant.Space}{string.Join(Constant.Comma, _arguments)}";
+    {
+        return $"{parameter}{Constant.Space}{Constant.In}{Constant.Space}{string.Join(Constant.Comma, arguments)}";
+    }
 }
