@@ -10,23 +10,27 @@ internal class StringCompareOperation(IParameter left, StringCompareOperator @op
     : ILogicalOperation
 {
     public bool IsApplicableForPlaceholder(string placeholderName)
-        => left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
+    {
+        return left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
+    }
 
     public bool Execute(ref IParsingContext context)
     {
-        var left1 = left.GetValue(ref context);
-        var right1 = right.GetValue(ref context);
+        var leftResult = left.GetValue(ref context);
+        var rightResult = right.GetValue(ref context);
 
         return @operator switch
         {
-            StringCompareOperator.Equals => left1.Equals(right1),
-            StringCompareOperator.Contains => left1.Contains(right1),
-            StringCompareOperator.StartsWith => left1.StartsWith(right1),
-            StringCompareOperator.EndsWith => left1.EndsWith(right1),
+            StringCompareOperator.Equals => leftResult.Equals(rightResult),
+            StringCompareOperator.Contains => leftResult.Contains(rightResult),
+            StringCompareOperator.StartsWith => leftResult.StartsWith(rightResult),
+            StringCompareOperator.EndsWith => leftResult.EndsWith(rightResult),
             _ => throw new ArgumentOutOfRangeException(nameof(@operator).FormatPrivateVar(), @operator, null)
         };
     }
 
     public override string ToString()
-        => $"{left}{Constant.Space}{@operator}{Constant.Space}{right}";
+    {
+        return $"{left}{Constant.Space}{@operator}{Constant.Space}{right}";
+    }
 }

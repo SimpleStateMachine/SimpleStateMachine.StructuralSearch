@@ -8,25 +8,29 @@ internal class BinaryOperation(ILogicalOperation left, LogicalBinaryOperator typ
     : ILogicalOperation
 {
     public bool IsApplicableForPlaceholder(string placeholderName)
-        => left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
+    {
+        return left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
+    }
 
     public bool Execute(ref IParsingContext context)
     {
-        var left1 = left.Execute(ref context);
-        var right1 = right.Execute(ref context);
+        var leftResult = left.Execute(ref context);
+        var rightResult = right.Execute(ref context);
 
         return type switch
         {
-            LogicalBinaryOperator.And => left1 && right1,
-            LogicalBinaryOperator.Or => left1 || right1,
-            LogicalBinaryOperator.NAND => !(left1 && right1),
-            LogicalBinaryOperator.NOR => !(left1 || right1),
-            LogicalBinaryOperator.XOR => left1 ^ right1,
-            LogicalBinaryOperator.XNOR => left1 == right1,
+            LogicalBinaryOperator.And => leftResult && rightResult,
+            LogicalBinaryOperator.Or => leftResult || rightResult,
+            LogicalBinaryOperator.NAND => !(leftResult && rightResult),
+            LogicalBinaryOperator.NOR => !(leftResult || rightResult),
+            LogicalBinaryOperator.XOR => leftResult ^ rightResult,
+            LogicalBinaryOperator.XNOR => leftResult == rightResult,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 
     public override string ToString()
-        => $"{left}{Constant.Space}{type}{Constant.Space}{right}";
+    {
+        return $"{left}{Constant.Space}{type}{Constant.Space}{right}";
+    }
 }
