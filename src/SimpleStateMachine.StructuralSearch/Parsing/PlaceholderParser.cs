@@ -21,26 +21,29 @@ internal class PlaceholderParser(string name) : ParserWithLookahead<char, string
 
     private IParsingContext Context => _context ?? throw new ArgumentNullException(nameof(_context));
 
-    protected override Parser<char, string> BuildParser(Func<Parser<char, string>?> next, Func<Parser<char, string>?> nextNext)
+    public void SetContext(ref IParsingContext context)
+    {
+        _context = context;
+    }
+
+    protected override Parser<char, string> BuildParser(Func<Parser<char, string>?> next,
+        Func<Parser<char, string>?> nextNext)
     {
         var nextParser = next();
         var nextNextParser = nextNext();
 
         Parser<char, Unit> lookahead;
         if (nextNextParser is not null && nextParser is not null)
-        {
             lookahead = nextParser.Then(nextNextParser, (s1, s2) =>
             {
                 OnLookahead = () => new List<LookaheadResult<char, string>>
                 {
                     new(nextParser, s1, s1.Length),
-                    new(nextNextParser, s2, s2.Length),
+                    new(nextNextParser, s2, s2.Length)
                 };
                 return Unit.Value;
             }).Try().Lookahead();
-        }
         else if (nextParser is not null)
-        {
             lookahead = nextParser.Select(s =>
             {
                 OnLookahead = () => new List<LookaheadResult<char, string>>
@@ -49,11 +52,8 @@ internal class PlaceholderParser(string name) : ParserWithLookahead<char, string
                 };
                 return Unit.Value;
             }).Try().Lookahead();
-        }
         else
-        {
-            lookahead = Parser<char>.End.Select(x => Unit.Value);
-        }
+            lookahead = Parser<char>.End.Select(_ => Unit.Value);
 
         return CreateParser(lookahead);
     }
@@ -80,7 +80,7 @@ internal class PlaceholderParser(string name) : ParserWithLookahead<char, string
         var parser = prdsAndTokens.Or(anyString);
         return parser;
     }
-    
+
     public override bool TryParse(ref ParseState<char> state, ref PooledList<Expected<char>> expected,
         out string result)
     {
@@ -99,8 +99,8 @@ internal class PlaceholderParser(string name) : ParserWithLookahead<char, string
             {
                 var placeholderObj = new Placeholder.Placeholder
                 (
-                    name: name,
-                    match: match
+                    name,
+                    match
                 );
 
                 Context[name] = placeholderObj;
@@ -115,10 +115,5 @@ internal class PlaceholderParser(string name) : ParserWithLookahead<char, string
         }
 
         return res;
-    }
-
-    public void SetContext(ref IParsingContext context)
-    {
-        _context = context;
     }
 }

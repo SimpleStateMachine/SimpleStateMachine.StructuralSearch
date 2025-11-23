@@ -3,17 +3,10 @@ using System.IO;
 
 namespace SimpleStateMachine.StructuralSearch.Input;
 
-public class FileInput : IInput
+public class FileInput(FileInfo fileInfo) : IInput
 {
-    private readonly FileInfo _fileInfo;
-
-    public FileInput(FileInfo fileInfo)
-    {
-        _fileInfo = fileInfo;
-    }
-
     public TextReader ReadData()
-        => _fileInfo.OpenText();
+        => fileInfo.OpenText();
 
     public string GetProperty(string propertyName)
     {
@@ -21,10 +14,10 @@ public class FileInput : IInput
 
         return lower switch
         {
-            "path" => Path.GetFullPath(_fileInfo.FullName),
-            "extension" => _fileInfo.Extension,
-            "name" => _fileInfo.Name,
-            "length" => _fileInfo.Length.ToString(),
+            "path" => Path.GetFullPath(fileInfo.FullName),
+            "extension" => fileInfo.Extension,
+            "name" => fileInfo.Name,
+            "length" => fileInfo.Length.ToString(),
             _ => throw new ArgumentOutOfRangeException(propertyName)
         };
     }
