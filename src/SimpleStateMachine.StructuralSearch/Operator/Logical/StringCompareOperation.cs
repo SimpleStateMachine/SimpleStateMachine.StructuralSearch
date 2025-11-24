@@ -10,9 +10,7 @@ internal class StringCompareOperation(IParameter left, StringCompareOperator @op
     : ILogicalOperation
 {
     public bool IsApplicableForPlaceholder(string placeholderName)
-    {
-        return left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
-    }
+        => left.IsApplicableForPlaceholder(placeholderName) || right.IsApplicableForPlaceholder(placeholderName);
 
     public bool Execute(ref IParsingContext context)
     {
@@ -30,7 +28,5 @@ internal class StringCompareOperation(IParameter left, StringCompareOperator @op
     }
 
     public override string ToString()
-    {
-        return $"{left}{Constant.Space}{@operator}{Constant.Space}{right}";
-    }
+        => $"{left}{Constant.Space}{@operator}{Constant.Space}{right}";
 }

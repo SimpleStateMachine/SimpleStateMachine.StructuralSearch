@@ -1,4 +1,7 @@
 ﻿using System.IO;
+using SimpleStateMachine.StructuralSearch.Context;
+using SimpleStateMachine.StructuralSearch.Input;
+using SimpleStateMachine.StructuralSearch.Output;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
@@ -19,34 +22,29 @@ public static class StructuralSearchParserTests
         var matches = parser.StructuralSearch(input);
         Assert.Equal(matchesCount, matches.Count);
     }
-        
-    // [Theory]
-    // [InlineData("NullUnionOperator", 2)]
-    // [InlineData("TernaryOperator", 3)]
-    // public static void StructuralSearchShouldBe(string exampleName, int matchesCount)
-    // {
-    //     var config = ConfigurationMock.GetConfigurationFromFiles(exampleName);
-    //     var directory = Directory.GetCurrentDirectory();
-    //     var inputFilePath = Path.Combine(directory, $"ExamplesInput/{exampleName}.cs");
-    //     var resultFilePath = Path.Combine(directory, $"ExamplesOutput/{exampleName}.txt");
-    //     var outputFilePath = Path.Combine(directory, $"{exampleName}.cs");
-    //         
-    //     var parser = new StructuralSearchParser(config);
-    //
-    //     var inputFileInfo = new FileInfo(inputFilePath);
-    //     var input = Input.File(inputFileInfo);
-    //     IParsingContext context = new ParsingContext(input);
-    //     var matches = parser.Parse(input);
-    //     matches = parser.ApplyFindRule(ref context, matches);
-    //     matches = parser.ApplyReplaceRule(ref context, matches);
-    //     var replaceMatches = parser.GetReplaceMatches(ref context, matches);
-    //     var outputFileInfo = new FileInfo(outputFilePath);
-    //     var output = Output.File(outputFileInfo);
-    //     output.Replace(input, replaceMatches);
-    //
-    //     Assert.Equal(matches.Count(), matchesCount);
-    //     var resultStr = File.ReadAllText(resultFilePath);
-    //     var outputStr = File.ReadAllText(outputFilePath);
-    //     Assert.Equal(resultStr, outputStr);
-    // }
+
+    [Theory]
+    [InlineData("NullUnionOperator", 2)]
+    [InlineData("TernaryOperator", 3)]
+    public static void StructuralSearchShouldBe(string exampleName, int matchesCount)
+    {
+        var config = ConfigurationMock.GetConfigurationFromFiles(exampleName);
+        var directory = Directory.GetCurrentDirectory();
+        var inputFilePath = Path.Combine(directory, $"ExamplesInput/{exampleName}.txt");
+        var expectedResultFilePath = Path.Combine(directory, $"ExamplesOutput/{exampleName}.txt");
+        var resultFilePath = Path.GetTempFileName();
+        var parser = new StructuralSearchParser(config);
+
+        var input = new FileInput(new FileInfo(inputFilePath));
+        IParsingContext context = new ParsingContext(input, []);
+        var matches = parser.StructuralSearch(input);
+        var results = parser.Replace(input, matches);
+        var output = new FileOutput(new FileInfo(resultFilePath));
+        output.Replace(input, results);
+
+        Assert.Equal(matches.Count, matchesCount);
+        var expectedResultStr = File.ReadAllText(expectedResultFilePath);
+        var resultStr = File.ReadAllText(resultFilePath);
+        Assert.Equal(expectedResultStr, resultStr);
+    }
 }

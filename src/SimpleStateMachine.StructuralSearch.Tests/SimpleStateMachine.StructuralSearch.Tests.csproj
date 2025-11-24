@@ -10,7 +10,7 @@
         <ProjectReference Include="..\SimpleStateMachine.StructuralSearch\SimpleStateMachine.StructuralSearch.csproj"/>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <ItemGroup>
         <Content Include="ExamplesOutput\*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>

@@ -9,19 +9,19 @@ internal static class StringParserExtensions
 {
     public static Parser<char, TResult> BetweenAnyParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
     {
-        var parentheses= parser.BetweenParentheses(mapFunc);
-        var curlyParentheses= parser.BetweenCurlyParentheses(mapFunc);
-        var squareParentheses= parser.BetweenSquareParentheses(mapFunc);
+        var parentheses = parser.BetweenParentheses(mapFunc);
+        var curlyParentheses = parser.BetweenCurlyParentheses(mapFunc);
+        var squareParentheses = parser.BetweenSquareParentheses(mapFunc);
         return Parser.OneOf(parentheses, curlyParentheses, squareParentheses);
     }
 
     public static Parser<char, TResult> BetweenParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
         => Parser.Map(mapFunc, CommonParser.LeftParenthesis, parser, CommonParser.RightParenthesis);
 
-    public static Parser<char, TResult> BetweenCurlyParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
+    private static Parser<char, TResult> BetweenCurlyParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
         => Parser.Map(mapFunc, CommonParser.LeftCurlyParenthesis, parser, CommonParser.RightCurlyParenthesis);
 
-    public static Parser<char, TResult> BetweenSquareParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
+    private static Parser<char, TResult> BetweenSquareParentheses<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
         => Parser.Map(mapFunc, CommonParser.LeftSquareParenthesis, parser, CommonParser.RightSquareParenthesis);
 
     public static T ParseToEnd<T>(this Parser<char, T> parser, string str)

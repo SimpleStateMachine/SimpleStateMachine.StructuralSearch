@@ -6,8 +6,26 @@ using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
 
-public class StructuralSearchTests
+public static class StructuralSearchTests
 {
+    public static IEnumerable<object[]> TestCases
+        => new List<object[]>
+        {
+            new object[]
+            {
+                // Input text
+                "void MyMethodName(int value1, double value2)",
+                // Template
+                "void $methodName$($params$)",
+                // Result placeholders
+                new Dictionary<string, string>
+                {
+                    { "methodName", "MyMethodName" },
+                    { "params", "int value1, double value2" }
+                }
+            }
+        };
+
     [Theory]
     [MemberData(nameof(TestCases))]
     public static void StructuralSearchShouldBeSuccess(string inputText, string template, Dictionary<string, string> expectedResult)
@@ -17,27 +35,10 @@ public class StructuralSearchTests
         var parseResult = results.Single();
 
         Assert.Equal(expectedResult.Count, parseResult.Placeholders.Count);
-        
+
         foreach (var (key, value) in expectedResult)
             Assert.Equal(parseResult.Placeholders[key].Value, value);
     }
-    
-    public static IEnumerable<object[]> TestCases => new List<object[]>
-    {
-        new object[]
-        {
-            // Input text
-            "void MyMethodName(int value1, double value2)", 
-            // Template
-            "void $methodName$($params$)",
-            // Result placeholders
-            new Dictionary<string, string>
-            {
-                { "methodName", "MyMethodName" },
-                { "params", "int value1, double value2" }
-            }
-        }
-    };
 
 
     [Theory]
@@ -57,6 +58,6 @@ public class StructuralSearchTests
 
         var parser = new StructuralSearchParser(configuration);
         var results = parser.StructuralSearch(new FileInput(new FileInfo(filePath))).ToList();
-        // parser.ApplyFindRule(results);
+        Assert.Single(results);
     }
 }

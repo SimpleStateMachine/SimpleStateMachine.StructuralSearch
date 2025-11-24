@@ -3,17 +3,10 @@ using System.IO;
 
 namespace SimpleStateMachine.StructuralSearch.Input;
 
-public class StringInput : IInput
+public class StringInput(string str) : IInput
 {
-    private readonly string _str;
-
-    public StringInput(string str)
-    {
-        _str = str;
-    }
-
     public TextReader ReadData()
-        => new StringReader(_str);
+        => new StringReader(str);
 
     public string GetProperty(string propertyName)
     {
@@ -21,7 +14,7 @@ public class StringInput : IInput
 
         return lower switch
         {
-            "length" => _str.Length.ToString(),
+            "length" => str.Length.ToString(),
             _ => throw new ArgumentOutOfRangeException(propertyName)
         };
     }

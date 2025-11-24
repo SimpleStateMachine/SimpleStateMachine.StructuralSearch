@@ -9,9 +9,7 @@ namespace SimpleStateMachine.StructuralSearch.Operator.String;
 internal class StringUnaryParameter(IParameter parameter, StringUnaryOperator type) : IParameter
 {
     public bool IsApplicableForPlaceholder(string placeholderName)
-    {
-        return parameter.IsApplicableForPlaceholder(placeholderName);
-    }
+        => parameter.IsApplicableForPlaceholder(placeholderName);
 
     public string GetValue(ref IParsingContext context)
     {
@@ -29,7 +27,5 @@ internal class StringUnaryParameter(IParameter parameter, StringUnaryOperator ty
     }
 
     public override string ToString()
-    {
-        return $"{parameter}{Constant.Dote}{type}";
-    }
+        => $"{parameter}{Constant.Dote}{type}";
 }

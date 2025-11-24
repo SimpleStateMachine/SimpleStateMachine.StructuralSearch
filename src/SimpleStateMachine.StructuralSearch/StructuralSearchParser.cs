@@ -22,12 +22,18 @@ public class StructuralSearchParser(Configuration configuration)
     public List<ReplaceResult> StructuralSearchAndReplace(IInput input)
     {
         var results = StructuralSearch(input);
-        return results.Select(r => Replace(input, r)).ToList();
+        return Replace(input, results);
     }
+
+    public List<ReplaceResult> Replace(IInput input, List<FindParserResult> findResults)
+        => findResults.Select(r => Replace(input, r)).ToList();
 
     private ReplaceResult Replace(IInput input, FindParserResult findResult)
     {
         IParsingContext context = new ParsingContext(input, []);
+        // Collect replacements without applying them immediately,
+        // so rules work on the original context before updates.
+        Dictionary<string, IPlaceholder> assignments = [];
 
         foreach (var placeholder in findResult.Placeholders)
             context.Add(placeholder.Key, placeholder.Value);
@@ -41,9 +47,12 @@ public class StructuralSearchParser(Configuration configuration)
             {
                 var placeholder = assignment.GetPlaceholder(ref context);
                 var newValue = assignment.GetValue(ref context);
-                context[placeholder.Name] = new PlaceholderReplace(placeholder, newValue);
+                assignments[placeholder.Name] = new PlaceholderReplace(placeholder, newValue);
             }
         }
+
+        foreach (var (key, value) in assignments)
+            context[key] = value;
 
         var newPlaceholders = context.ToDictionary();
         var result = _replaceBuilder.Build(ref context);
