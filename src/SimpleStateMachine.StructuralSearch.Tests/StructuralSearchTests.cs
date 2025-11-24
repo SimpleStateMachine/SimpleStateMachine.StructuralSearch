@@ -6,7 +6,7 @@ using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
 
-public class StructuralSearchTests
+public static class StructuralSearchTests
 {
     public static IEnumerable<object[]> TestCases
         => new List<object[]>

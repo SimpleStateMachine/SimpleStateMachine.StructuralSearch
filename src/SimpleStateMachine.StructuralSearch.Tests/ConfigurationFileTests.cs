@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
@@ -20,19 +19,19 @@ public static class ConfigurationFileParserTests
 
     private static ConfigurationFile Mock()
     {
-        var names = new[] { "AssignmentNullUnionOperator", "NullUnionOperator", "TernaryOperator"};
+        var names = new[] { "AssignmentNullUnionOperator", "NullUnionOperator", "TernaryOperator" };
 
         var configurationFile = new ConfigurationFile
         (
-            configurations: []
+            []
         );
-            
+
         foreach (var name in names)
         {
             var config = ConfigurationMock.GetConfigurationFromFiles(name);
             configurationFile.Configurations.Add(config);
         }
-            
+
         return configurationFile;
     }
 }
