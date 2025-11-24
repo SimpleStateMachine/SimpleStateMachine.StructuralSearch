@@ -17,8 +17,8 @@ public static class ParametersParserTests
     public static void PlaceholderParsingShouldBeSuccess(string str)
     {
         var result = ParametersParser.PlaceholderParameter.ParseToEnd(str);
-        // result = EscapeHelper.Escape(result);
-        // Assert.Equal(result.ToLower(), str.ToLower());
+        var resultStr = result.ToString();
+        Assert.Equal(resultStr.ToLower(), str.ToLower());
     }
 
     [Theory]
@@ -39,10 +39,8 @@ public static class ParametersParserTests
     public static IEnumerable<string> PlaceholderPositionCases()
     {
         foreach (var position in Enum.GetNames<PlaceholderPositionType>())
-        {
-            foreach (var subProperty in Enum.GetNames<PlaceholderPositionSubProperty>())
-                yield return $"{position}.{subProperty}";
-        }
+        foreach (var subProperty in Enum.GetNames<PlaceholderPositionSubProperty>())
+            yield return $"{position}.{subProperty}";
     }
 
     [Theory]
@@ -74,7 +72,7 @@ public static class ParametersParserTests
 
         yield return string.Format(template, string.Join('.', names));
     }
-    
+
     [Theory]
     [StringMemberData(nameof(ChainableStringCases))]
     public static void ChainableStringParsingShouldBeSuccess(string str)
@@ -105,7 +103,7 @@ public static class ParametersParserTests
         var result = parameter.ToString()!;
         Assert.Equal(result.ToLower(), str.ToLower());
     }
-    
+
     [Theory]
     [InlineData("\"132\"")]
     [InlineData("(\"132\")")]

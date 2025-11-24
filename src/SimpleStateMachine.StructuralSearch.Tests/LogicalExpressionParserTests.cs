@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 using SimpleStateMachine.StructuralSearch.Parsing;
@@ -12,7 +15,6 @@ public static class LogicalExpressionParserTests
 {
     public static IEnumerable<string> StringCompareOperationCases()
     {
-        // var parameters = ["$var$", "\"123\"", "$var$.Len"]
         foreach (var @operator in Enum.GetNames<StringCompareOperator>())
         {
             yield return $"{@operator} $var$";
@@ -89,21 +91,6 @@ public static class LogicalExpressionParserTests
     {
         LogicalExpressionParser.BinaryOperation.ParseToEnd(input);
     }
-    
-    // public static IEnumerable<string> BinaryOperationCases()
-    // {
-    //     foreach (var access in ParametersParserTests.PropertyAccessCases())
-    //     {
-    //         foreach (var VARIABLE in COLLECTION)
-    //         {
-    //             
-    //         }
-    //         yield return $"{@operator} $var$ Equals $var$";
-    //         yield return $"{@operator}    $var$ Equals $var$";
-    //         yield return $"{@operator} $var$ Equals    $var$";
-    //         yield return $"{@operator}    $var$ Equals    $var$";
-    //     }
-    // }
 
     [Theory]
     [InlineData("$var$ equals $var$")]
@@ -131,42 +118,48 @@ public static class LogicalExpressionParserTests
         var result = operation.ToString()!;
         Assert.Equal(input.ToLower(), result.ToLower());
     }
-        
-    // [Theory]
-    // [InlineData("$var$ In \"Is\", \"==\", \"!=\", \"is not\"", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In (\"Is\", \"==\", \"!=\", \"is not\")", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In \"Is\",\"==\",\"!=\",\"is not\"", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In (\"Is\",\"==\",\"!=\",\"is not\")", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In(\"Is\",\"==\",\"!=\",\"is not\")", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In ( \"Is\",\"==\",\"!=\",\"is not\" ) ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In ( \"Is\",\"==\",\"!=\",\"is not\" )", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In ( \"Is\",\"==\",\"!=\",\"is not\") ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In (\"Is\",\"==\",\"!=\",\"is not\" ) ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In (\"Is\",\"==\",\"!=\",\"is not\" )", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In (\"Is\",\"==\",\"!=\",\"is not\") ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In( \"Is\",\"==\",\"!=\",\"is not\" ) ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In( \"Is\",\"==\",\"!=\",\"is not\" )", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("$var$ In( \"Is\",\"==\",\"!=\",\"is not\") ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("Not ($var$ equals $var$.Length and $var$ StartsWith \"123\")", "Not $var$ equals $var$.Length and $var$ StartsWith \"123\"")]
-    // [InlineData("Not ($var$ equals $var$.Length)", "Not $var$ equals $var$.Length")]
-    // public static void FindRuleExprParsingShouldBeEqualsCustomResult(string ruleStr, string customResult)
-    // {
-    //     var rule = LogicalExpressionParser.LogicalExpression.ParseOrThrow(ruleStr);
-    //     var ruleAsStr = rule.ToString()?.ToLower();
-    //     Assert.NotNull(rule);
-    //     Assert.Equal(ruleAsStr, customResult.ToLower());
-    // }
-    //
-    // [Theory]
-    // [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"")]
-    // [InlineData("FindRule/AssignmentNullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"")]
-    // public static void FindRuleParsingFromFileShouldBeSuccess(string filePath, params string[] customResult)
-    // {
-    //     var ruleStr = File.ReadAllText(filePath);
-    //     var rules = ruleStr.Split(Constant.LineFeed)
-    //         .Select(StructuralSearch.StructuralSearch.ParseFindRule);
-    //     var rulesAsStr = rules.Select(x => x.ToString()).ToArray();
-    //         
-    //     Assert.True(customResult.SequenceEqual(rulesAsStr));
-    // }
+
+    [Theory]
+    [InlineData("$var$ Is int", "$var$ Is int")]
+    [InlineData("$var$ In \"Is\", \"==\", \"!=\", \"is not\"", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In (\"Is\", \"==\", \"!=\", \"is not\")", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In \"Is\",\"==\",\"!=\",\"is not\"", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In \"Is\" , \"==\" , \"!=\" , \"is not\"", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In (\"Is\",\"==\",\"!=\",\"is not\")", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In(\"Is\",\"==\",\"!=\",\"is not\")", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In (\"Is\",\"==\",\"!=\",\"is not\") ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In ( \"Is\",\"==\",\"!=\",\"is not\" ) ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In ( \"Is\",\"==\",\"!=\",\"is not\" )", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In ( \"Is\",\"==\",\"!=\",\"is not\") ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In (\"Is\",\"==\",\"!=\",\"is not\" ) ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In (\"Is\",\"==\",\"!=\",\"is not\" )", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In( \"Is\",\"==\",\"!=\",\"is not\" ) ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In( \"Is\",\"==\",\"!=\",\"is not\" )", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("$var$ In( \"Is\",\"==\",\"!=\",\"is not\") ", "$var$ In \"Is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("Not $var$ Is int", "Not $var$ Is int")]
+    [InlineData("$var$ equals $var$.Length", "$var$ equals $var$.Length")]
+    [InlineData("$var$ equals (\"123\")", "$var$ equals (\"123\")")]
+    [InlineData("Not $var$ equals $var$.Length", "Not $var$ equals $var$.Length")]
+    [InlineData("Not ($var$ equals $var$.Length)", "Not ($var$ equals $var$.Length)")]
+    [InlineData("Not ($var$ equals $var$.Length and $var$ StartsWith \"123\")", "Not ($var$ equals $var$.Length and $var$ StartsWith \"123\")")]
+    public static void FindRuleExprParsingShouldBeEqualsCustomResult(string ruleStr, string customResult)
+    {
+        var rule = LogicalExpressionParser.LogicalExpression.ParseOrThrow(ruleStr);
+        var ruleAsStr = rule.ToString()?.ToLower();
+        Assert.NotNull(rule);
+        Assert.Equal(ruleAsStr, customResult.ToLower());
+    }
+
+    [Theory]
+    [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"")]
+    [InlineData("FindRule/AssignmentNullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"")]
+    public static void FindRuleParsingFromFileShouldBeSuccess(string filePath, params string[] customResult)
+    {
+        var ruleStr = File.ReadAllText(filePath);
+        var rules = ruleStr.Split(Constant.LineFeed)
+            .Select(Parsing.StructuralSearch.ParseFindRule);
+        var rulesAsStr = rules.Select(x => x.ToString()).ToArray();
+
+        Assert.True(customResult.SequenceEqual(rulesAsStr));
+    }
 }

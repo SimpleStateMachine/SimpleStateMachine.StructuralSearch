@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -12,6 +13,20 @@ public class ConfigurationFile(List<Configuration> configurations) : IEquatable<
         .WithNamingConvention(PascalCaseNamingConvention.Instance)
         .EnablePrivateConstructors()
         .Build();
+
+    // Use for deserialization
+    private ConfigurationFile() : this([])
+    {
+    }
+
+    public List<Configuration> Configurations { get; init; } = configurations;
+
+    public bool Equals(ConfigurationFile? other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Configurations.SequenceEqual(other.Configurations);
+    }
 
     public static ConfigurationFile ParseYaml(string input)
     {
@@ -25,20 +40,6 @@ public class ConfigurationFile(List<Configuration> configurations) : IEquatable<
         return cfg;
     }
 
-    // Use for deserialization
-    private ConfigurationFile() : this([])
-    {
-    }
-
-    public List<Configuration> Configurations { get; init; } = configurations;
-
-    public bool Equals(ConfigurationFile? other)
-    {
-        if (other is null) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return Configurations.Equals(other.Configurations);
-    }
-
     public override bool Equals(object? obj)
     {
         if (obj is null) return false;
@@ -48,7 +49,5 @@ public class ConfigurationFile(List<Configuration> configurations) : IEquatable<
     }
 
     public override int GetHashCode()
-    {
-        return Configurations.GetHashCode();
-    }
+        => Configurations.GetHashCode();
 }

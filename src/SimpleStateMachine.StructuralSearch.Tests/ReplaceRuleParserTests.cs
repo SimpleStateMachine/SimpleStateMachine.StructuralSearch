@@ -58,7 +58,7 @@ public static class ReplaceRuleParserTests
         var parsers = FindTemplateParser.Template.ParseToEnd(templateStr);
         Assert.NotEmpty(parsers);
     }
-    
+
     [Theory]
     [FilesData("ReplaceRule")]
     public static void ReplaceRuleFileParsingShouldBeSuccess(string filePath)

@@ -8,10 +8,8 @@ namespace SimpleStateMachine.StructuralSearch.Operator.Logical;
 internal class InOperation(IParameter parameter, List<IParameter> arguments) : ILogicalOperation
 {
     public bool IsApplicableForPlaceholder(string placeholderName)
-    {
-        return parameter.IsApplicableForPlaceholder(placeholderName) ||
-               arguments.Any(a => a.IsApplicableForPlaceholder(placeholderName));
-    }
+        => parameter.IsApplicableForPlaceholder(placeholderName) ||
+           arguments.Any(a => a.IsApplicableForPlaceholder(placeholderName));
 
     public bool Execute(ref IParsingContext context)
     {

@@ -11,23 +11,26 @@ namespace SimpleStateMachine.StructuralSearch.Parsing;
 
 internal static class LogicalExpressionParser
 {
+    private static readonly Parser<char, IParameter> StringExpression =
+        ParametersParser.StringExpression.TrimEnd(); // skip whitespaces
+
     // string_compare_operation = ('Equals' | 'Contains' | 'StartsWith' | 'EndsWith') string_expr
-    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> StringCompareOperation = 
+    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> StringCompareOperation =
         Parser.CIEnum<StringCompareOperator>()
             .TrimEnd() // Skip whitespaces
-            .Then(ParametersParser.StringExpression, (@operator, right) => (@operator, right))
-            .Select<Func<IParameter, ILogicalOperation>>(x => 
+            .Then(StringExpression, (@operator, right) => (@operator, right))
+            .Select<Func<IParameter, ILogicalOperation>>(x =>
                 left => new StringCompareOperation(left, x.@operator, x.right));
 
     // is_operation ='Is' ('Var' | 'Int' | 'Double' | 'DateTime' | 'Guid' | 'Bool')
-    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> IsOperation = 
+    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> IsOperation =
         CommonParser.Is
             .TrimEnd() // Skip whitespaces
             .Then(Parser.CIEnum<ParameterType>())
             .Select<Func<IParameter, ILogicalOperation>>(type => parameter => new IsOperation(parameter, type));
 
     // match_operation ='Match' '"' <regex> '"'
-    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> MatchOperation = 
+    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> MatchOperation =
         CommonParser.Match
             .TrimEnd() // Skip whitespaces
             .Then(Grammar.StringLiteral)
@@ -35,26 +38,26 @@ internal static class LogicalExpressionParser
 
     // string_expr { ',' string_expr }
     private static readonly Parser<char, IEnumerable<IParameter>> InOperationParameters =
-        ParametersParser.StringExpression.SeparatedAtLeastOnce(CommonParser.Comma.TrimEnd());
+        StringExpression.SeparatedAtLeastOnce(CommonParser.Comma.TrimEnd());
 
     // in_operation ='In' [ '(' ] string_expr { ',' string_expr } [ ')' ]
-    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> InOperation = 
+    internal static readonly Parser<char, Func<IParameter, ILogicalOperation>> InOperation =
         CommonParser.In
-            .TrimEnd()// Skip whitespaces
+            .TrimEnd() // Skip whitespaces
             // .Then(InOperationParameters)
-            .Then(Parser.OneOf(InOperationParameters.BetweenParentheses((_, parameters, _) => parameters), InOperationParameters))
-            .Select<Func<IParameter, ILogicalOperation>>(arguments => 
+            .Then(Parser.OneOf(InOperationParameters.BetweenParenthesesTrimEnd((_, parameters, _) => parameters), InOperationParameters))
+            .Select<Func<IParameter, ILogicalOperation>>(arguments =>
                 parameter => new InOperation(parameter, arguments.ToList()));
 
     // string_logic_operation = string_expr (string_compare_operation | is_operation | match_operation| in_operation )
-    private static readonly Parser<char, ILogicalOperation> StringLogicOperation = 
-        ParametersParser.StringExpression
+    private static readonly Parser<char, ILogicalOperation> StringLogicOperation =
+        StringExpression
             .TrimEnd() // skip whitespaces
-            .Then(Parser.OneOf(StringCompareOperation.Try(), IsOperation.Try(), MatchOperation.Try(), InOperation), 
-            (parameter, buildOperationFunc) => buildOperationFunc(parameter));
+            .Then(Parser.OneOf(StringCompareOperation.Try(), IsOperation.Try(), MatchOperation.Try(), InOperation.Try()),
+                (parameter, buildOperationFunc) => buildOperationFunc(parameter));
 
     // binary_operation = logic_expr ('And' | 'Or' | 'NAND' | 'NOR' | 'XOR' | 'XNOR') logic_expr
-    internal static readonly Parser<char, Func<ILogicalOperation, ILogicalOperation>> BinaryOperation = 
+    internal static readonly Parser<char, Func<ILogicalOperation, ILogicalOperation>> BinaryOperation =
         Parser.CIEnum<LogicalBinaryOperator>()
             .TrimEnd() // Skip whitespaces
             .Then(Parser.Rec(() => LogicalExpression ?? throw new ArgumentNullException(nameof(LogicalExpression))), (@operator, right) => (@operator, right))
@@ -63,7 +66,7 @@ internal static class LogicalExpressionParser
                 placeholder => funcList.Aggregate(placeholder, (parameter, func) => func(parameter)));
 
     // not_operation = 'Not' logic_expr
-    internal static readonly Parser<char, NotOperation> NotOperation = 
+    internal static readonly Parser<char, NotOperation> NotOperation =
         CommonParser.Not
             .TrimEnd() // Skip whitespaces
             .Then(Parser.Rec(() => LogicalExpression ?? throw new ArgumentNullException(nameof(LogicalExpression))))
@@ -74,10 +77,9 @@ internal static class LogicalExpressionParser
         Parser.OneOf
         (
             NotOperation.Cast<ILogicalOperation>(),
-            StringLogicOperation,
             Parser.Rec(() => LogicalExpression ?? throw new ArgumentNullException(nameof(LogicalExpression)))
-                .After(CommonParser.LeftParenthesis)
-                .Before(CommonParser.RightParenthesis)
+                .BetweenParenthesesTrimEnd(ILogicalOperation (_, operation, _) => new ParenthesisedOperation(operation)),
+            StringLogicOperation
         );
 
     // logic_expr = logic_term { binary_operation logic_term }
@@ -85,6 +87,9 @@ internal static class LogicalExpressionParser
         LogicalExpressionTerm
             .TrimEnd() // Skip whitespaces 
             .Then(BinaryOperation.Optional(),
-            (operation, optionalBinaryOperation) =>
-                optionalBinaryOperation.HasValue ? optionalBinaryOperation.Value(operation) : operation);
+                (operation, optionalBinaryOperation) =>
+                    optionalBinaryOperation.HasValue ? optionalBinaryOperation.Value(operation) : operation);
+
+    private static Parser<char, TResult> BetweenParenthesesTrimEnd<T, TResult>(this Parser<char, T> parser, Func<char, T, char, TResult> mapFunc)
+        => Parser.Map(mapFunc, CommonParser.LeftParenthesis.TrimEnd(), parser, CommonParser.RightParenthesis.TrimEnd());
 }

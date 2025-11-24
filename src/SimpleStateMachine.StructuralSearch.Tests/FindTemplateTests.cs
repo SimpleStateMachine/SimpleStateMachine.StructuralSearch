@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Parsing;
 using SimpleStateMachine.StructuralSearch.Tests.Attributes;
@@ -20,7 +21,7 @@ public static class FindTemplateTests
     [InlineData("if ($value$ $sign$ null)")]
     public static void FindTemplateParsingShouldBeSuccess(string templateStr)
     {
-        var template = FindTemplateParser.Template.ParseToEnd(templateStr);
+        FindTemplateParser.Template.ParseToEnd(templateStr);
     }
 
     [Theory]
@@ -32,23 +33,23 @@ public static class FindTemplateTests
         Assert.NotEmpty(parsers);
     }
 
-    // [Theory]
-    // [InlineData("FindTemplate/NullUnionOperator.txt", "Source/NullUnionOperator.txt")]
-    // [InlineData("FindTemplate/AssignmentNullUnionOperator.txt", "Source/AssignmentNullUnionOperator.txt")]
-    // [InlineData("FindTemplate/NestedParenthesised.txt", "Source/NestedParenthesised.txt")]
-    // [InlineData("FindTemplate/TernaryOperator.txt", "Source/TernaryOperator.txt")]
-    // public static void SourceParsingBeFindTemplateShouldBeSuccess(string templatePath, string sourcePath)
-    // {
-    //     var findTemplate = File.ReadAllText(templatePath);
-    //     var source = File.ReadAllText(sourcePath);
-    //     var input = Input.Input.String(source);
-    //     var findParser = StructuralSearch.StructuralSearch.ParseFindTemplate(findTemplate);
-    //     var matches = findParser.Parse(input);
-    //     Assert.Single(matches);
-    //
-    //     var match = matches.First();
-    //
-    //     Assert.NotNull(findParser);
-    //     Assert.Equal(match.Match.Length, source.Length);
-    // }
+    [Theory]
+    [InlineData("FindTemplate/NullUnionOperator.txt", "Source/NullUnionOperator.txt")]
+    [InlineData("FindTemplate/AssignmentNullUnionOperator.txt", "Source/AssignmentNullUnionOperator.txt")]
+    [InlineData("FindTemplate/NestedParenthesised.txt", "Source/NestedParenthesised.txt")]
+    [InlineData("FindTemplate/TernaryOperator.txt", "Source/TernaryOperator.txt")]
+    public static void SourceParsingBeFindTemplateShouldBeSuccess(string templatePath, string sourcePath)
+    {
+        var findTemplate = File.ReadAllText(templatePath);
+        var source = File.ReadAllText(sourcePath);
+        var input = Input.Input.String(source);
+        var findParser = Parsing.StructuralSearch.ParseFindTemplate(findTemplate);
+        var matches = findParser.Parse(input);
+        Assert.Single(matches);
+
+        var match = matches.First();
+
+        Assert.NotNull(findParser);
+        Assert.Equal(match.Match.Length, source.Length);
+    }
 }

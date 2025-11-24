@@ -6,7 +6,7 @@ using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests;
 
-public class FindRuleParserTests
+public static class FindRuleParserTests
 {
     [Theory]
     [InlineData("$sign$ In (\"is\", \"==\", \"!=\", \"is not\")")]
@@ -14,7 +14,7 @@ public class FindRuleParserTests
     {
         LogicalExpressionParser.LogicalExpression.ParseToEnd(ruleStr);
     }
-    
+
     [Theory]
     [FilesData("FindRule")]
     public static void FindRuleFileParsingShouldBeSuccess(string filePath)

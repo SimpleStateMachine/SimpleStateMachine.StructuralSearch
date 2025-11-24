@@ -24,7 +24,7 @@ public static class ConfigurationFileParserTests
 
         var configurationFile = new ConfigurationFile
         (
-            configurations: new List<Configuration>()
+            configurations: []
         );
             
         foreach (var name in names)
