@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests.Unit.StructuralSearch.FindTemplate;
@@ -13,8 +12,8 @@ public static class FindTemplateMatchTests
     [InlineData("FindTemplate/TernaryOperator.txt", "Source/TernaryOperator.txt")]
     public static void SourceParsingBeFindTemplateShouldBeSuccess(string templatePath, string sourcePath)
     {
-        var findTemplate = File.ReadAllText(templatePath);
-        var source = File.ReadAllText(sourcePath);
+        var findTemplate = DataHelper.ReadDataFileText(templatePath);
+        var source = DataHelper.ReadDataFileText(sourcePath);
         var input = Input.Input.String(source);
         var findParser = SimpleStateMachine.StructuralSearch.Parsing.StructuralSearch.ParseFindTemplate(findTemplate);
         var matches = findParser.Parse(input);

@@ -8,23 +8,23 @@ namespace SimpleStateMachine.StructuralSearch.Tests.Integration.StructuralSearch
 public static class StructuralSearchSearchExamplesTests
 {
     [Theory]
-    [InlineData("NullUnionOperator", "ExamplesInput/NullUnionOperator.txt", 2)]
-    [InlineData("TernaryOperator", "ExamplesInput/TernaryOperator.txt", 3)]
-    public static void StructuralSearchShouldBe(string exampleName, string exampleFilePath, int matchesCount)
+    [InlineData("NullUnionOperator", 2)]
+    [InlineData("TernaryOperator", 3)]
+    public static void StructuralSearchShouldBe(string exampleName, int matchesCount)
     {
         var config = ConfigurationMock.GetConfigurationFromFiles(exampleName);
         var parser = new StructuralSearchParser(config);
-
-        var fileInfo = new FileInfo(exampleFilePath);
+        var fileInfo = DataHelper.GetDataFileInfo(Path.Combine("ExamplesInput", $"{exampleName}.txt"));
         var input = Input.Input.File(fileInfo);
         var matches = parser.StructuralSearch(input);
         Assert.Equal(matchesCount, matches.Count);
     }
 
     [Theory]
-    [InlineData("ExamplesInput/Methods.txt")]
-    public static void StructuralSearchFileParsingShouldBeSuccess(string filePath)
+    [InlineData("Methods")]
+    public static void StructuralSearchFileParsingShouldBeSuccess(string exampleName)
     {
+        var fileInfo = DataHelper.GetDataFileInfo(Path.Combine("ExamplesInput", $"{exampleName}.txt"));
         var configuration = new Configuration
         {
             FindTemplate = "$Modificator$ $ReturnType$ $MethodName$($params$)",
@@ -37,7 +37,7 @@ public static class StructuralSearchSearchExamplesTests
         };
 
         var parser = new StructuralSearchParser(configuration);
-        var results = parser.StructuralSearch(new FileInput(new FileInfo(filePath)));
+        var results = parser.StructuralSearch(new FileInput(fileInfo));
         Assert.Single(results);
     }
 }
