@@ -58,7 +58,7 @@ internal class PlaceholderParser(string name) : ParserWithLookahead<char, string
         return CreateParser(lookahead);
     }
 
-    internal static Parser<char, string> CreateParser(Parser<char, Unit> terminator)
+    private static Parser<char, string> CreateParser(Parser<char, Unit> terminator)
     {
         var anyString = StringLiteralChar.AtLeastOnceAsStringUntil(terminator);
 

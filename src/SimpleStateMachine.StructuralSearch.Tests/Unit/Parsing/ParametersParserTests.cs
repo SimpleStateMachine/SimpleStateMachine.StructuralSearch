@@ -8,7 +8,7 @@ using SimpleStateMachine.StructuralSearch.Parsing;
 using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 
-namespace SimpleStateMachine.StructuralSearch.Tests;
+namespace SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing;
 
 public static class ParametersParserTests
 {

@@ -2,13 +2,14 @@
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
-namespace SimpleStateMachine.StructuralSearch.Tests;
+namespace SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing.Configuration;
 
 public static class ConfigurationFileParserTests
 {
     [Theory]
     [InlineData("ConfigurationFile/ShortConfig.yml")]
     [InlineData("ConfigurationFile/FullConfig.yml")]
+    [InlineData("ConfigurationFile/if.yml")]
     public static void ConfigurationFileParsingShouldBeSuccess(string filePath)
     {
         using var reader = new StreamReader(filePath);

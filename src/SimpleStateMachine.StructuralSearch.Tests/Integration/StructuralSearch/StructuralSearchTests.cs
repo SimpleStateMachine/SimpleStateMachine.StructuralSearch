@@ -5,28 +5,14 @@ using SimpleStateMachine.StructuralSearch.Output;
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
-namespace SimpleStateMachine.StructuralSearch.Tests;
+namespace SimpleStateMachine.StructuralSearch.Tests.Integration.StructuralSearch;
 
-public static class StructuralSearchParserTests
+public static class StructuralSearchTests
 {
-    [Theory]
-    [InlineData("NullUnionOperator", "ExamplesInput/NullUnionOperator.txt", 2)]
-    [InlineData("TernaryOperator", "ExamplesInput/TernaryOperator.txt", 3)]
-    public static void StructuralSearchShouldBeSuccess(string exampleName, string exampleFilePath, int matchesCount)
-    {
-        var config = ConfigurationMock.GetConfigurationFromFiles(exampleName);
-        var parser = new StructuralSearchParser(config);
-
-        var fileInfo = new FileInfo(exampleFilePath);
-        var input = Input.Input.File(fileInfo);
-        var matches = parser.StructuralSearch(input);
-        Assert.Equal(matchesCount, matches.Count);
-    }
-
     [Theory]
     [InlineData("NullUnionOperator", 2)]
     [InlineData("TernaryOperator", 3)]
-    public static void StructuralSearchShouldBe(string exampleName, int matchesCount)
+    public static void StructuralSearchAndReplaceShouldBe(string exampleName, int matchesCount)
     {
         var config = ConfigurationMock.GetConfigurationFromFiles(exampleName);
         var directory = Directory.GetCurrentDirectory();
