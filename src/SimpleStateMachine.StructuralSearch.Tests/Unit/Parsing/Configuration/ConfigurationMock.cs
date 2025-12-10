@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace SimpleStateMachine.StructuralSearch.Tests.Mock;
 
 public static class ConfigurationMock
 {
-    public static Configuration GetConfigurationFromFiles(string fileName)
+    public static Configuration GetConfigurationFromFiles(string fileName, [CallerFilePath] string? testFilePath = null)
     {
         fileName = $"{fileName}.txt";
         var findTemplate = FileOrNull("FindTemplate", fileName);
-        var fileRule = FileOrNull("FindRule", fileName) ;
+        var fileRule = FileOrNull("FindRule", fileName);
         var replaceTemplate = FileOrNull("ReplaceTemplate", fileName);
         var replaceRule = FileOrNull("ReplaceRule", fileName);
         var fileRules = fileRule is null ? null : new List<string>(fileRule.Split(Constant.LineFeed.ToString()));
@@ -21,12 +22,14 @@ public static class ConfigurationMock
             ReplaceTemplate = replaceTemplate,
             ReplaceRules = replaceRules
         };
-            
+
         return config;
-            
+
         string? FileOrNull(string folder, string name)
         {
-            var path = Path.Combine(folder, name);
+            var directory = Path.GetDirectoryName(testFilePath)!;
+            var path = Path.Combine(directory, "Data", folder, name);
+
             if (!File.Exists(path))
                 return null;
 

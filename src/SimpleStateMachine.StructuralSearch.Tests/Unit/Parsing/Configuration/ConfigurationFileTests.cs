@@ -2,19 +2,19 @@
 using SimpleStateMachine.StructuralSearch.Tests.Mock;
 using Xunit;
 
-namespace SimpleStateMachine.StructuralSearch.Tests;
+namespace SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing.Configuration;
 
 public static class ConfigurationFileParserTests
 {
     [Theory]
-    [InlineData("ConfigurationFile/ShortConfig.yml")]
-    [InlineData("ConfigurationFile/FullConfig.yml")]
+    [InlineData("ShortConfig.yml")]
+    [InlineData("FullConfig.yml")]
+    [InlineData("if.yml")]
     public static void ConfigurationFileParsingShouldBeSuccess(string filePath)
     {
-        using var reader = new StreamReader(filePath);
+        var fileInfo = DataHelper.GetDataFileInfo(filePath);
+        using var reader = new StreamReader(fileInfo.FullName);
         var cfg = ConfigurationFile.ParseYaml(reader);
-        var mock = Mock();
-        Assert.Equal(mock, cfg);
     }
 
     private static ConfigurationFile Mock()

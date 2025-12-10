@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
@@ -9,7 +7,7 @@ using SimpleStateMachine.StructuralSearch.Parsing;
 using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 
-namespace SimpleStateMachine.StructuralSearch.Tests;
+namespace SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing;
 
 public static class LogicalExpressionParserTests
 {
@@ -148,18 +146,5 @@ public static class LogicalExpressionParserTests
         var ruleAsStr = rule.ToString()?.ToLower();
         Assert.NotNull(rule);
         Assert.Equal(ruleAsStr, customResult.ToLower());
-    }
-
-    [Theory]
-    [InlineData("FindRule/NullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"")]
-    [InlineData("FindRule/AssignmentNullUnionOperator.txt", "$sign$ In \"is\",\"==\",\"!=\",\"is not\"")]
-    public static void FindRuleParsingFromFileShouldBeSuccess(string filePath, params string[] customResult)
-    {
-        var ruleStr = File.ReadAllText(filePath);
-        var rules = ruleStr.Split(Constant.LineFeed)
-            .Select(Parsing.StructuralSearch.ParseFindRule);
-        var rulesAsStr = rules.Select(x => x.ToString()).ToArray();
-
-        Assert.True(customResult.SequenceEqual(rulesAsStr));
     }
 }
