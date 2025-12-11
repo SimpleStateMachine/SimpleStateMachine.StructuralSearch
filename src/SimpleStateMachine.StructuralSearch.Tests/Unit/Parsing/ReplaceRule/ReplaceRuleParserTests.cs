@@ -19,15 +19,14 @@ public static class ReplaceRuleParserTests
     public static void ReplaceRuleParsingShouldBeSuccess(string replaceRuleStr)
     {
         var rule = ReplaceRuleParser.ReplaceRule.ParseToEnd(replaceRuleStr);
-        var result = rule.ToString().ToLower();
-        Assert.Equal(replaceRuleStr.ToLower(), result);
+        Assert.Equal(replaceRuleStr, rule.ToString(), true);
     }
 
     [Theory]
     [InlineData("if $sign$ In (\"!=\", \"is not\") then $value2$ => $value1$, $value1$ => $value2$", "if $sign$ In \"!=\",\"is not\" then $value2$ => $value1$,$value1$ => $value2$")]
-    public static void ReplaceRuleParsingSupportOptional(string replaceRuleStr, string resultStr)
+    public static void ReplaceRuleParsingSupportOptionalQuotas(string replaceRuleStr, string resultStr)
     {
         var rule = ReplaceRuleParser.ReplaceRule.ParseToEnd(replaceRuleStr);
-        Assert.Equal(rule.ToString().ToLower(), resultStr.ToLower());
+        Assert.Equal(resultStr, rule.ToString(), true);
     }
 }

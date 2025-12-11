@@ -17,8 +17,7 @@ public static class ParametersParserTests
     public static void PlaceholderParsingShouldBeSuccess(string str)
     {
         var result = ParametersParser.PlaceholderParameter.ParseToEnd(str);
-        var resultStr = result.ToString();
-        Assert.Equal(resultStr.ToLower(), str.ToLower());
+        Assert.Equal(str, result.ToString(), true);
     }
 
     [Theory]
@@ -100,8 +99,7 @@ public static class ParametersParserTests
     public static void PropertyAccessParsingShouldBeSuccess(string str)
     {
         var parameter = ParametersParser.PropertyAccess.ParseToEnd(str);
-        var result = parameter.ToString()!;
-        Assert.Equal(result.ToLower(), str.ToLower());
+        Assert.Equal(str, parameter.ToString(), true);
     }
 
     [Theory]
@@ -120,7 +118,6 @@ public static class ParametersParserTests
     public static void StringExpressionParsingShouldBeSuccess(string str)
     {
         var parameter = ParametersParser.StringExpression.ParseToEnd(str);
-        var result = parameter.ToString()!;
-        Assert.Equal(result.ToLower(), str.ToLower());
+        Assert.Equal(str.ToLower(), parameter.ToString(), true);
     }
 }

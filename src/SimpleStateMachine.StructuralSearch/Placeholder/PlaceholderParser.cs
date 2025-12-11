@@ -1,6 +1,6 @@
 ﻿namespace SimpleStateMachine.StructuralSearch.Placeholder;
 
-internal readonly struct Placeholder(string name, Match<string> match) : IPlaceholder
+internal readonly struct PlaceholderParser(string name, Match<string> match) : IPlaceholder
 {
     public string Name { get; } = name;
     public string Value => match.Value;
@@ -9,7 +9,7 @@ internal readonly struct Placeholder(string name, Match<string> match) : IPlaceh
     public ColumnPosition Column => match.Column;
     public OffsetPosition Offset => match.Offset;
 
-    public static Placeholder CreateEmpty(string name, string value)
+    public static PlaceholderParser CreateEmpty(string name, string value)
         => new
         (
             name: name,
