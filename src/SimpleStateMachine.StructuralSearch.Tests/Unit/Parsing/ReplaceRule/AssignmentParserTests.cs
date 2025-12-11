@@ -13,7 +13,6 @@ public static class AssignmentParserTests
     public static void AssignmentParsingShouldBeSuccess(string assignmentStr)
     {
         var assignment = ReplaceRuleParser.Assignment.ParseToEnd(assignmentStr);
-        var result = assignment.ToString().ToLower();
-        Assert.Equal(assignmentStr.ToLower(), result.ToLower());
+        Assert.Equal(assignmentStr, assignment.ToString(), true);
     }
 }

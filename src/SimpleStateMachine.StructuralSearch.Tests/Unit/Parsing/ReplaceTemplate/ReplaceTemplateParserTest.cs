@@ -35,7 +35,6 @@ public static class ReplaceTemplateParserTest
     public static void ReplaceTemplateParsingShouldBeSuccess(string templateStr)
     {
         var replaceBuilder = ReplaceTemplateParser.ReplaceTemplate.ParseToEnd(templateStr);
-        var replaceStr = replaceBuilder.ToString()?.ToLower();
-        Assert.Equal(replaceStr, templateStr.ToLower());
+        Assert.Equal(templateStr, replaceBuilder.ToString(), true);
     }
 }

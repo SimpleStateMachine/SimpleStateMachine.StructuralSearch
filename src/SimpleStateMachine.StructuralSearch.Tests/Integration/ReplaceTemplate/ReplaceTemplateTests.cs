@@ -1,4 +1,5 @@
 ﻿using SimpleStateMachine.StructuralSearch.Context;
+using SimpleStateMachine.StructuralSearch.Placeholder;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests.Integration.ReplaceTemplate;
@@ -21,7 +22,7 @@ public static class ReplaceTemplateTests
 
         IParsingContext parsingContext = new ParsingContext(Input.Input.Empty, []);
         for (var i = 0; i < keys.Length; i++)
-            parsingContext[keys[i]] = Placeholder.Placeholder.CreateEmpty(keys[i], values[i]);
+            parsingContext[keys[i]] = PlaceholderParser.CreateEmpty(keys[i], values[i]);
 
         var result = replaceBuilder.Build(ref parsingContext);
 

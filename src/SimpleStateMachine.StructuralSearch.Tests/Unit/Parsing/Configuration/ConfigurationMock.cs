@@ -2,11 +2,11 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace SimpleStateMachine.StructuralSearch.Tests.Mock;
+namespace SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing.Configuration;
 
 public static class ConfigurationMock
 {
-    public static Configuration GetConfigurationFromFiles(string fileName, [CallerFilePath] string? testFilePath = null)
+    public static SimpleStateMachine.StructuralSearch.Configuration GetConfigurationFromFiles(string fileName, [CallerFilePath] string? testFilePath = null)
     {
         fileName = $"{fileName}.txt";
         var findTemplate = FileOrNull("FindTemplate", fileName);
@@ -15,7 +15,7 @@ public static class ConfigurationMock
         var replaceRule = FileOrNull("ReplaceRule", fileName);
         var fileRules = fileRule is null ? null : new List<string>(fileRule.Split(Constant.LineFeed.ToString()));
         var replaceRules = replaceRule is null ? null : new List<string>(replaceRule.Split(Constant.LineFeed.ToString()));
-        var config = new Configuration
+        var config = new SimpleStateMachine.StructuralSearch.Configuration
         {
             FindTemplate = findTemplate,
             FindRules = fileRules,
