@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using Xunit;
 
-namespace SimpleStateMachine.StructuralSearch.Tests.Attributes;
+namespace SimpleStateMachine.StructuralSearch.Tests;
 
 public class StringMemberDataAttribute(string memberName, params object[] parameters)
     : MemberDataAttributeBase(memberName, parameters)
