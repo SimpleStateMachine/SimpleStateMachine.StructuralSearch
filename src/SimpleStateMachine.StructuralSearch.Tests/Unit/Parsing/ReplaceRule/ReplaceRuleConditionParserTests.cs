@@ -16,7 +16,6 @@ public static class ReplaceRuleConditionParserTests
     public static void ReplaceRuleConditionParsingShouldBeSuccess(string condition)
     {
         var logicalOperation = ReplaceRuleParser.ReplaceRuleCondition.ParseToEnd(condition);
-        var result = logicalOperation.ToString()!;
-        Assert.Equal(condition.ToLower(), result.ToLower());
+        Assert.Equal(condition, logicalOperation.ToString(), true);
     }
 }

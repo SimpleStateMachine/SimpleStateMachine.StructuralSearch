@@ -19,7 +19,8 @@ internal class PlaceholderParser(string name) : ParserWithLookahead<char, string
 
     private IParsingContext? _context;
 
-    private IParsingContext Context => _context ?? throw new ArgumentNullException(nameof(_context));
+    private IParsingContext Context
+        => _context ?? throw new ArgumentNullException(nameof(_context));
 
     public void SetContext(ref IParsingContext context)
     {
@@ -97,7 +98,7 @@ internal class PlaceholderParser(string name) : ParserWithLookahead<char, string
             result = match.Value;
             if (res)
             {
-                var placeholderObj = new Placeholder.Placeholder
+                var placeholderObj = new Placeholder.PlaceholderParser
                 (
                     name,
                     match

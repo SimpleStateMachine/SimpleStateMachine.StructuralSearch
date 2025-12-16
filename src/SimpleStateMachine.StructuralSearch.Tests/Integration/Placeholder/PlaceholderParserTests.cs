@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Xunit;
 
-namespace SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing;
+namespace SimpleStateMachine.StructuralSearch.Tests.Integration.Placeholder;
 
 public static class PlaceholderParserTests
 {
@@ -26,7 +26,7 @@ public static class PlaceholderParserTests
     public static void PlaceholderParsingShouldBeSuccess(string template, string source, string expectedResult)
     {
         var input = Input.Input.String(source);
-        var templateParser = SimpleStateMachine.StructuralSearch.Parsing.StructuralSearch.ParseFindTemplate(template);
+        var templateParser = Parsing.StructuralSearch.ParseFindTemplate(template);
         var matches = templateParser.Parse(input);
         Assert.Single(matches);
         var match = matches.First();

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using SimpleStateMachine.StructuralSearch.Input;
-using SimpleStateMachine.StructuralSearch.Tests.Mock;
+using SimpleStateMachine.StructuralSearch.Tests.Helper;
+using SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing.Configuration;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests.Integration.StructuralSearch;

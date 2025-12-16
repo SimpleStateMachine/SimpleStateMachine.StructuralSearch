@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using SimpleStateMachine.StructuralSearch.Tests.Mock;
+using SimpleStateMachine.StructuralSearch.Tests.Helper;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing.Configuration;
