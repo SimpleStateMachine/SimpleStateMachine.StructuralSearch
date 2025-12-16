@@ -4,7 +4,6 @@ using Pidgin;
 using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.Logical.Type;
 using SimpleStateMachine.StructuralSearch.Parsing;
-using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing;

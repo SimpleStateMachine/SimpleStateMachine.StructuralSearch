@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -36,5 +37,23 @@ public static class FindTemplateTests
 
         foreach (var (key, value) in expectedResult)
             Assert.Equal(parseResult.Placeholders[key].Value, value);
+    }
+
+    [Theory]
+    [InlineData("NullUnionOperator")]
+    [InlineData("AssignmentNullUnionOperator")]
+    [InlineData("NestedParenthesised")]
+    [InlineData("TernaryOperator")]
+    public static void SourceParsingBeFindTemplateShouldBeSuccess(string exampleName)
+    {
+        var findTemplate = DataHelper.ReadDataFileText(Path.Combine("FindTemplate", $"{exampleName}.txt"));
+        var source = DataHelper.ReadDataFileText(Path.Combine("Source", $"{exampleName}.txt"));
+        var input = Input.Input.String(source);
+        var findParser = Parsing.StructuralSearch.ParseFindTemplate(findTemplate);
+        var matches = findParser.Parse(input);
+        Assert.Single(matches);
+        var match = matches.First();
+        Assert.NotNull(findParser);
+        Assert.Equal(match.Match.Length, source.Length);
     }
 }

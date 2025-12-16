@@ -5,7 +5,6 @@ using SimpleStateMachine.StructuralSearch.Extensions;
 using SimpleStateMachine.StructuralSearch.Operator.String.Type;
 using SimpleStateMachine.StructuralSearch.Parameters.Types;
 using SimpleStateMachine.StructuralSearch.Parsing;
-using SimpleStateMachine.StructuralSearch.Tests.Attributes;
 using Xunit;
 
 namespace SimpleStateMachine.StructuralSearch.Tests.Unit.Parsing;
